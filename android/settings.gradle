@@ -1,0 +1,3 @@
+rootProject.name = 'The_Psalter_1912_2'
+
+include ':app'
