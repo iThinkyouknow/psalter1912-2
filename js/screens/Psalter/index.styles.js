@@ -2,13 +2,15 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {background_color_fn} from '../../common/common.styles';
+import {sizes} from '../../common/common.styles';
 
 
 
 export default styles = StyleSheet.create({
-    background: {
-        ...background_color_fn('ocean'),
-        // flex: 1,
+    standard_margin_horizontal: {
+        marginHorizontal: sizes.default
+    },
+    main_text_margin_top: {
+        marginVertical: sizes.default
     }
 });
