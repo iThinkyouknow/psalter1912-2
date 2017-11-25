@@ -1,27 +1,63 @@
 import React from 'react';
 import {
     View,
-    Text
+    FlatList
 } from 'react-native';
+import { connect } from 'react-redux';
 
-import styles, {colors} from './index.styles';
+import styles from './index.styles';
+import {colors} from '../../common/common.styles';
 
-export default function App(props) {
+import Text from '../../common/Text';
+import Default_bg from '../../common/Default-bg';
+
+export function App(props) {
     props.navigator.setStyle({
         navBarTransparent: true,
-        // navBarHidden: true,
-        // navBarTransparent: true,
+        navBarTextColor: colors.white,
         drawUnderNavBar: true,
         navBarBackgroundColor: colors.ocean,
         screenBackgroundColor: colors.ocean,
-
-
     });
 
 
+    const render_item = ({item}) => {
+        return (
+          <View style={{paddingHorizontal: 50}}>
+              <Text>{item}</Text>
+          </View>
+
+        )
+    };
+
+    const keyExtractor = (item, i) => i;
+    const {no, title, content, meter, psalm, score_ref, ref} = props.psalter;
+    const data = content;
+
+    const header = (
+      <View>
+          <Text>Psalter {no}</Text>
+          <Text>{title}</Text>
+          <Text>Psalm {psalm}</Text>
+          <Text>Meter: {meter}</Text>
+      </View>
+    );
+
     return (
-        <View style={[styles.background]}>
-            <Text >Hello World</Text>
-        </View>
+        <Default_bg>
+            <FlatList data={data}
+                      ListHeaderComponent={header}
+                      renderItem={render_item}
+                      keyExtractor={keyExtractor} />
+        </Default_bg>
     );
 };
+
+function mapStateToProps(state) {
+    return {
+        psalter: state.psalter
+    };
+}
+
+
+export default connect(mapStateToProps, null)(App);

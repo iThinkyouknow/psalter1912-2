@@ -2,15 +2,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-export const colors = {
-    ocean: 'rgb(0, 84, 147)'
-};
+import {background_color_fn} from '../../common/common.styles';
 
-const background_color_fn = (col) => {
-    return {
-        backgroundColor: colors[col] || col
-    }
-}
+
 
 export default styles = StyleSheet.create({
     background: {
