@@ -3,8 +3,12 @@ import { AppRegistry } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import { registerScreens } from './js/screens';
+import { Provider } from 'react-redux';
 
-registerScreens(); // this is where you register all of your app's screens
+import configureStore from './js/redux/configureStore';
+const store = configureStore();
+
+registerScreens(store, Provider); // this is where you register all of your app's screens
 
 // start the app
 Navigation.startTabBasedApp({
