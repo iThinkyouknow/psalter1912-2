@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    FlatList
+    FlatList,
+    PanResponder
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -10,6 +11,8 @@ import {colors, sizes} from '../../common/common.styles';
 
 import Text from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
+
+import {swipe} from '../../redux/actions/psalter-actions';
 
 export function App(props) {
     props.navigator.setStyle({
@@ -74,19 +77,37 @@ export function App(props) {
         )
     };
 
+    const swipe_left_action = (index) => (e, gestureState) => {
+        if (gestureState.dy !== 0) return;
+        if (gestureState.dx < 0) {
+            props.dispatch(swipe(index + 1));
+
+        } else if (gestureState.dx > 0) {
+            props.dispatch(swipe(index - 1));
+
+        }
+    };
+
+    const panResponder = (index) => PanResponder.create({
+        onMoveShouldSetPanResponder: (evt, gestureState) => true,
+        onPanResponderRelease: swipe_left_action(index)
+    });
+
     return (
         <Default_bg>
-            <FlatList data={data}
-                      ListHeaderComponent={header}
-                      renderItem={render_item}
-                      keyExtractor={keyExtractor} />
+                <FlatList data={data}
+                          ListHeaderComponent={header}
+                          renderItem={render_item}
+                          keyExtractor={keyExtractor}
+                          {...panResponder(props.index).panHandlers} />
         </Default_bg>
     );
 };
 
 function mapStateToProps(state) {
     return {
-        psalter: state.psalter
+        psalter: state.psalter.content,
+        index: state.psalter.index
     };
 }
 
