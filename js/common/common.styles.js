@@ -28,18 +28,13 @@ export const font_weight_fn = (weight) => {
 
     } else if (!isNaN(_weight)) {
       return _weight;
-
-    } else {
-      return _font_weights['normal'];
     }
   };
 
   return {
     fontWeight: font_weight(font_weights)(weight)
   }
-}
-
-
+};
 
 export const font_sizes = {
   x_small: 12,
@@ -52,13 +47,12 @@ export const font_sizes = {
 };
 
 export const font_size_fn = (size) => {
+
   const font_size = (_font_sizes) => (_size) => {
     if (_font_sizes[_size] !== undefined && _font_sizes[_size] !== null) {
       return _font_sizes[_size];
     } else if (!isNaN(_size)) {
       return _size;
-    } else {
-      return _font_sizes['default'];
     }
   };
 
@@ -67,15 +61,25 @@ export const font_size_fn = (size) => {
   };
 };
 
-export const line_height_fn = (multiplier = 1.3) => (font_size = 16) => {
-  if (isNaN(multiplier) || isNaN(font_size)) {
-    return {
-      lineHeight: Math.round(1.3 * 16)
+export const line_heights = {
+  default: 1.3
+};
+
+export const line_height_fn = (line_height) => (font_size) => {
+
+  const get_value = (presets) => (val) => {
+    if (!isNaN(val)) return val;
+    if (typeof val === 'string') {
+      return presets[val];
     }
-  }
-  return {
-    lineHeight: Math.round(multiplier * font_size)
-  }
+
+    return undefined;
+  };
+
+  const _line_height = get_value(line_heights)(line_height);
+  const _f_size = get_value(font_sizes)(font_size);
+
+  return (_line_height !== undefined && _f_size !== undefined) ? {lineHeight: _line_height * _f_size} : undefined;
 };
 
 export const text_align_fn = (alignment) => {
@@ -88,8 +92,7 @@ export const text_align_fn = (alignment) => {
     justify: 'justify'
   };
 
-  return {textAlign: text_align[alignment] || text_align['left']};
-
+  return {textAlign: text_align[alignment]};
 };
 
 

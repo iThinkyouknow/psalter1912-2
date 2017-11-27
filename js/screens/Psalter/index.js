@@ -25,14 +25,21 @@ export function App(props) {
     const {no, title, content, meter, psalm, score_ref, ref} = props.psalter;
     const data = content;
 
-    const composable_text = (alignment = 'left') => (font_weight = 'normal') => (font_size = 'default') => (line_height = 1.3) => (key) => (style) => (children = <View />) => {
+    const composable_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
+
+        const style_values = [
+            ['text_align', text_align],
+            ['font_weight', font_weight],
+            ['font_size', font_size],
+            ['line_height', line_height]
+        ].reduce((acc, [key, value]) => {
+            if (value !== undefined && value !== null) return {...acc, [key]: value};
+            return acc;
+        }, {});
 
         return (
-            <Text text_align={'center'}
-                  font_size={font_size}
-                  font_weight={font_weight}
-                  line_height={line_height}
-                  key={key}
+            <Text key={key}
+                  style_values={style_values}
                   style={style}>
               {children}
             </Text>
@@ -41,9 +48,9 @@ export function App(props) {
 
     const centered_text = composable_text('center');
     const bold_centered_text = centered_text('bold');
-    const main_title = bold_centered_text('x_large')(1.3)()();
-    const sub_title = bold_centered_text('large')(1.3)()();
-    const meter_text = centered_text('normal')('x_small')(1.3)()();
+    const main_title = bold_centered_text('x_large')()()();
+    const sub_title = bold_centered_text('large')()()();
+    const meter_text = centered_text()('x_small')()()();
 
     const header = (
         <View style={[styles.standard_margin_horizontal, styles.main_text_margin_top]}>
