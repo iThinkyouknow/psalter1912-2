@@ -30,19 +30,12 @@ export function App(props) {
 
     const composable_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
 
-        const style_values = [
-            ['text_align', text_align],
-            ['font_weight', font_weight],
-            ['font_size', font_size],
-            ['line_height', line_height]
-        ].reduce((acc, [key, value]) => {
-            if (value !== undefined && value !== null) return {...acc, [key]: value};
-            return acc;
-        }, {});
-
         return (
-            <Text key={key}
-                  style_values={style_values}
+            <Text text_align={text_align}
+                  font_weight={font_weight}
+                  font_size={font_size}
+                  line_height={line_height}
+                  key={key}
                   style={style}>
               {children}
             </Text>
