@@ -2,7 +2,8 @@ import React from 'react';
 import {
     View,
     FlatList,
-    PanResponder
+    PanResponder,
+    Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -14,6 +15,8 @@ import Default_bg from '../../common/Default-bg';
 
 import {swipe} from '../../redux/actions/psalter-actions';
 
+
+
 export function App(props) {
     props.navigator.setStyle({
         navBarTransparent: true,
@@ -24,25 +27,38 @@ export function App(props) {
     });
 
 
+    const fadeAnim = new Animated.Value(0);
+    const fade = (() => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 700
+        }).start();
+    })();
+
+
+
     const keyExtractor = (item, i) => i;
     const {no, title, content, meter, psalm, score_ref, ref} = props.psalter;
     const data = content;
 
-    const composable_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
+    const composable_text = (text_align) => (opacity) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
 
         return (
             <Text text_align={text_align}
-                  font_weight={font_weight}
-                  font_size={font_size}
-                  line_height={line_height}
-                  key={key}
-                  style={style}>
+                            font_weight={font_weight}
+                            font_size={font_size}
+                            line_height={line_height}
+                            key={key}
+                            opacity={opacity}
+                            style={style}>
               {children}
             </Text>
         )
     };
 
-    const centered_text = composable_text('center');
+
+
+    const centered_text = composable_text('center')(fadeAnim);
     const bold_centered_text = centered_text('bold');
     const main_title = bold_centered_text('x_large')()()();
     const sub_title = bold_centered_text('large')()()();
@@ -70,21 +86,21 @@ export function App(props) {
         )
     };
 
-    const swipe_left_action = (index) => (e, gestureState) => {
+    const swipe_action = (index) => (e, gestureState) => {
+
         if (gestureState.dy !== 0) return;
         if (gestureState.dx < 0) {
             props.dispatch(swipe(index + 1));
-
         } else if (gestureState.dx > 0) {
             props.dispatch(swipe(index - 1));
-
         }
     };
 
     const panResponder = (index) => PanResponder.create({
         onMoveShouldSetPanResponder: (evt, gestureState) => true,
-        onPanResponderRelease: swipe_left_action(index)
+        onPanResponderRelease: swipe_action(index)
     });
+
 
     return (
         <Default_bg>

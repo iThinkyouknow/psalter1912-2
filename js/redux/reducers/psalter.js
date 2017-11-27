@@ -12,5 +12,6 @@ export function psalter(state = {}, action = {}) {
     })(action.next_val);
     return {content: psalter_json[next_val] || {}, index: next_val};
   }
-  return {content: {}, index: -1};
+  // return {content: {}, index: -1};
+  return {content: psalter_json[0], index: 0};
 };

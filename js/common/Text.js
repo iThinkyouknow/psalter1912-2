@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Text,
-  StyleSheet
+  StyleSheet,
+    Animated
 } from 'react-native';
 
 import {
@@ -20,14 +21,16 @@ export default function Default_Text(props = {}) {
             font_weight,
             font_size,
             line_height,
+            opacity,
             style, text, children} = props;
 
   const extra_styles = [
-    font_size_fn(font_size),
-    text_align_fn(text_align),
-    font_weight_fn(font_weight),
-    line_height_fn(line_height)(font_size),
-    style
+        font_size_fn(font_size),
+        text_align_fn(text_align),
+        font_weight_fn(font_weight),
+        line_height_fn(line_height)(font_size),
+        {opacity},
+        style
   ].reduce((acc, item) => {
     if (item !== null && item !== undefined) return {...acc, ...item};
     return acc;
@@ -35,10 +38,10 @@ export default function Default_Text(props = {}) {
 
 
   return (
-    <Text style={[styles.default, extra_styles]}>
+    <Animated.Text style={[styles.default, extra_styles]} >
       {text}
       {children}
-    </Text>
+    </Animated.Text>
   )
 };
 
