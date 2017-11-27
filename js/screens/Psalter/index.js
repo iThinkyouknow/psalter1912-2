@@ -55,7 +55,7 @@ export function App(props) {
     const sub_title = bold_centered_text('large')()()();
     const meter_text = centered_text()('x_small')()()();
 
-    const header = (
+    const header = ((props.index >= 0) &&
         <View style={[styles.standard_margin_horizontal, styles.main_text_margin_top]}>
             {main_title(`Psalter ${no}`)}
             {sub_title(title)}
@@ -95,11 +95,11 @@ export function App(props) {
 
     return (
         <Default_bg>
-                <FlatList data={data}
-                          ListHeaderComponent={header}
-                          renderItem={render_item}
-                          keyExtractor={keyExtractor}
-                          {...panResponder(props.index).panHandlers} />
+            <FlatList data={data}
+                      ListHeaderComponent={header}
+                      renderItem={render_item}
+                      keyExtractor={keyExtractor}
+                      {...panResponder(props.index).panHandlers} />
         </Default_bg>
     );
 };
