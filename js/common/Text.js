@@ -15,13 +15,12 @@ import {
 } from './common.styles';
 
 export default function Default_Text(props = {}) {
-  const {style_values, style, text, children} = props;
   const {
-    text_align,
-    font_weight,
-    font_size,
-    line_height
-  } = style_values;
+            text_align,
+            font_weight,
+            font_size,
+            line_height,
+            style, text, children} = props;
 
   const extra_styles = [
     font_size_fn(font_size),
