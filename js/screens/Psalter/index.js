@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import styles from './index.styles';
 import {colors, sizes} from '../../common/common.styles';
 
-import Text from '../../common/Text';
+import {Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
 
 import {swipe} from '../../redux/actions/psalter-actions';
@@ -41,10 +41,10 @@ export function App(props) {
     const {no, title, content, meter, psalm, score_ref, ref} = props.psalter;
     const data = content;
 
-    const composable_text = (text_align) => (opacity) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
+    const composable_anim_text = (text_align) => (opacity) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
 
         return (
-            <Text text_align={text_align}
+            <Animated_Text text_align={text_align}
                             font_weight={font_weight}
                             font_size={font_size}
                             line_height={line_height}
@@ -52,13 +52,13 @@ export function App(props) {
                             opacity={opacity}
                             style={style}>
               {children}
-            </Text>
+            </Animated_Text>
         )
     };
 
 
 
-    const centered_text = composable_text('center')(fadeAnim);
+    const centered_text = composable_anim_text('center')(fadeAnim);
     const bold_centered_text = centered_text('bold');
     const main_title = bold_centered_text('x_large')()()();
     const sub_title = bold_centered_text('large')()()();
