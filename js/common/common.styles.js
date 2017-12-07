@@ -1,5 +1,13 @@
 'use strict';
 
+
+export const native_elements = {
+  status_bar: 20,
+  nav_bar_std: 44,
+  nav_bar_x: 96,
+  tab_bar: 49
+};
+
 export const colors = {
   white: 'rgb(255, 255, 255)',
   ocean: 'rgb(0, 84, 147)'
@@ -8,9 +16,18 @@ export const colors = {
 export const sizes = {
     small: 5,
     default: 8,
-    medium: 10,
-    large: 15
+    medium: 12,
+    large: 16
 };
+
+export const border_radii = {
+  small: 2.5,
+  default: 5,
+  large: 7.5,
+  x_large: 10,
+  xx_large: 12.5,
+  xxx_large: 15
+}
 
 export const font_weights = {
   normal: 'normal',

@@ -3312,6 +3312,10 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-keyboard-manager@^4.0.13-4:
+  version "4.0.13-4"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-manager/-/react-native-keyboard-manager-4.0.13-4.tgz#00ec1ab0b1960737a85be614c3fe175c0581cdd8"
+
 react-native-navigation@^1.1.295:
   version "1.1.295"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.295.tgz#3ee6b2fc4f94671246498ed285f3592355c063d3"
