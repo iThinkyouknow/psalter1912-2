@@ -23,18 +23,17 @@ import Default_bg from '../../common/Default-bg';
 import {swipe} from '../../redux/actions/psalter-actions';
 import {psalter_text_input} from '../../redux/actions/state-actions';
 
-
-
-const fadeAnim = new Animated.Value(0);
-
-const fade = () => {
+const fade_opacity = () => {
+    const fadeAnim = new Animated.Value(0);
     Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1000
+        duration: 500
     }).start();
+
+    return fadeAnim;
 };
 
-const composable_anim_text = (text_align) => (opacity) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (children) => {
+const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
 
     return (
         <Animated_Text text_align={text_align}
@@ -49,30 +48,30 @@ const composable_anim_text = (text_align) => (opacity) => (font_weight) => (font
     );
 };
 
-const centered_text = composable_anim_text('center')(fadeAnim);
+const centered_text = composable_anim_text('center');
 const bold_centered_text = centered_text('bold');
 const main_title = bold_centered_text('x_large')()()();
 const sub_title = bold_centered_text('large')()()();
 const meter_text = centered_text()('x_small')()()();
 
-const header = (psalter) => (index) => {
+const header = (fade_anim) => (psalter) => (index) => {
 
     const {no, title, content, meter, psalm, score_ref, ref} = psalter;
 
     return (((index >= 0) &&
         <View style={[styles.standard_margin_horizontal, styles.main_text_margin_top]}>
-            {main_title(`Psalter ${no}`)}
-            {sub_title(title)}
-            {sub_title(`Psalm ${psalm}`)}
-            {meter_text(`Meter: ${meter}`)}
+            {main_title(fade_anim)(`Psalter ${no}`)}
+            {sub_title(fade_anim)(title)}
+            {sub_title(fade_anim)(`Psalm ${psalm}`)}
+            {meter_text(fade_anim)(`Meter: ${meter}`)}
         </View>
     ));
 };
 
-const render_item = ({item, index}) => {
+const render_item = (fade_anim) => ({item, index}) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
-        return centered_text('normal')('default')(1.3)(`line-${i}`)()(line_to_render);
+        return centered_text('normal')('default')(1.3)(`line-${i}`)()(fade_anim)(line_to_render);
     }) : item;
 
     return (
@@ -195,8 +194,6 @@ class App extends Component {
         super(props);
     }
 
-
-
     static navigatorStyle = {
         navBarTransparent: true,
         navBarTextColor: colors.white,
@@ -212,13 +209,15 @@ class App extends Component {
 
     //<KeyboardAvoidingView behavior={'position'}
     //keyboardVerticalOffset={64} >
+
+
     render() {
-        fade();
+
         return (
             <Default_bg>
                 <FlatList data={this.props.psalter.content}
-                          ListHeaderComponent={header(this.props.psalter)(this.props.index)}
-                          renderItem={render_item}
+                          ListHeaderComponent={header(fade_opacity())(this.props.psalter)(this.props.index)}
+                          renderItem={render_item(fade_opacity())}
                           keyExtractor={keyExtractor}
                           style={{marginBottom: 50}}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
