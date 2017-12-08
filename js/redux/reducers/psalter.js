@@ -2,8 +2,8 @@
 import psalter_json from '../../../data/PsalterJSON.json';
 import {PSALTER_ACTIONS} from '../actions/psalter-actions';
 
-export function psalter(state = [], action = {}) {
-  if (action.type === PSALTER_ACTIONS.SWIPE) {
+export function psalter(state = {}, action = {}) {
+  if (action.type === PSALTER_ACTIONS.LOCK_IN) {
     if (isNaN(action.next_val)) return state;
 
     const next_val = ((_next_val) => {

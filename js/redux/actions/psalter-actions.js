@@ -1,11 +1,11 @@
 
 export const PSALTER_ACTIONS = {
-    SWIPE: 'SWIPE',
+    LOCK_IN: 'LOCK_IN'
 };
 
-export const swipe = (next_val) => {
+export const lock_in = (next_val) => {
     return {
-        type: PSALTER_ACTIONS.SWIPE,
+        type: PSALTER_ACTIONS.LOCK_IN,
         next_val
     }
 };

@@ -20,8 +20,11 @@ import {colors, sizes} from '../../common/common.styles';
 import {Default_Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
 
-import {swipe} from '../../redux/actions/psalter-actions';
-import {psalter_text_input} from '../../redux/actions/state-actions';
+import {lock_in} from '../../redux/actions/psalter-actions';
+import {
+    psalter_text_input,
+    toggle_text_as_valid
+} from '../../redux/actions/state-actions';
 
 const fade_opacity = () => {
     const fadeAnim = new Animated.Value(0);
@@ -85,9 +88,9 @@ const swipe_action = (dispatch) => (index) => (e, gestureState) => {
 
     if (gestureState.dy !== 0) return;
     if (gestureState.dx < 0) {
-        dispatch(swipe(index + 1));
+        dispatch(lock_in(index + 1));
     } else if (gestureState.dx > 0) {
-        dispatch(swipe(index - 1));
+        dispatch(lock_in(index - 1));
     }
 };
 
@@ -136,21 +139,46 @@ const wrong_number_error_alert = (max_val) => {
 
 const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => {
     const _value = value.trim();
-    set_text_input_value(dispatch)(_value);
 
     const value_int = parseInt(_value);
-    if (_value !== "" && isNaN(value_int)) {
-        string_input_error_alert();
-    } else if (value_int > max_val || value_int < 1) {
-        set_text_input_value(dispatch)('434');
+    const last_char_int = parseInt(_value.slice(-1));
 
+    if (_value !== "" && isNaN(last_char_int)) {
+        set_text_input_value(dispatch)(_value.slice(0, -1));
+        dispatch(toggle_text_as_valid(false));
+        string_input_error_alert();
+
+    } else if (value_int > max_val || value_int < 1) {
+        set_text_input_value(dispatch)(_value.slice(0, -1));
+        dispatch(toggle_text_as_valid(false));
         wrong_number_error_alert(max_val);
+        setTimeout(() => {
+            dispatch(toggle_text_as_valid(true));
+        }, 200);
+
+    } else if (value_int < 1) {
+        set_text_input_value(dispatch)('');
+        dispatch(toggle_text_as_valid(false));
+        wrong_number_error_alert(max_val);
+
+    } else if (_value === "") {
+        dispatch(toggle_text_as_valid(false));
+        set_text_input_value(dispatch)(_value);
+
+    } else {
+        dispatch(toggle_text_as_valid(true));
+        set_text_input_value(dispatch)(_value);
     }
 };
 
-const submit_text_input = (x, y) => {
-    x;
+const end_text_input = (dispatch) => (text_is_valid) => (event) => {
+    if (text_is_valid) {
+        const input_int = parseInt(event.nativeEvent.text) - 1;
+        dispatch(lock_in(input_int));
+        set_text_input_value(dispatch)('');
+    }
 };
+
 
 const Text_input = (props) => {
     const {width, height} = Dimensions.get('window');
@@ -170,16 +198,18 @@ const Text_input = (props) => {
     };
 
     const keyboard_type = (Platform.OS === 'ios') ? 'number-pad' : 'numeric';
-    const {psalters_count, value, dispatch} = props;
+    const {psalters_count, value, dispatch, valid_text_input} = props;
 
     return (
         <TextInput keyboardType={keyboard_type}
                    placeholder={`Psalter # (1 - ${psalters_count})`}
-                   onEndEditing={submit_text_input}
+                   onEndEditing={end_text_input(dispatch)(valid_text_input)}
                    maxLength={`${psalters_count}`.length}
                    onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
                    value={value}
-                   style={add_style} />
+                   style={add_style}
+                   autoCorrect={false}
+                   {...props} />
     );
 };
 
@@ -222,7 +252,10 @@ class App extends Component {
                           style={{marginBottom: 50}}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
 
-                <Text_input psalters_count={this.props.psalters_count} value={this.props.psalter_text_input} dispatch={this.props.dispatch} />
+                <Text_input psalters_count={this.props.psalters_count}
+                            value={this.props.psalter_text_input}
+                            dispatch={this.props.dispatch}
+                            valid_text_input={this.props.valid_text_input} />
             </Default_bg>
         );
     }
@@ -234,7 +267,8 @@ function mapStateToProps(state) {
         index: state.psalter.index,
         psalters_count: state.psalters_count,
         should_display_go_forth_bar: state.should_display_go_forth_bar,
-        psalter_text_input: state.psalter_text_input
+        psalter_text_input: state.psalter_text_input,
+        valid_text_input: state.valid_text_input
     };
 }
 

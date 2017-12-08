@@ -7,3 +7,10 @@ export function psalter_text_input(state = "", action = {}) {
 
     return state;
 }
+
+export function valid_text_input(state = "", action = {}) {
+    if (action.type === STATE_ACTIONS.TOGGLE_TEXT_INPUT_VALID) {
+        return action.is_valid
+    }
+    return state;
+}
