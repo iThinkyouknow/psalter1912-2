@@ -18,10 +18,6 @@ export function psalter(state = {}, action = {}) {
     };
   }
   return {content: state.content || [] , index: state.index || -1};
-  // return {
-  //   content: psalter_json[0],
-  //   index: 0
-  // };
 };
 
 export function psalters_count(state = 0, action = {}) {

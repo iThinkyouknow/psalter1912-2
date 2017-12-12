@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import KeyboardManager from 'react-native-keyboard-manager'
+import RNShakeEvent from 'react-native-shake-event';
 
 import styles from './index.styles';
 import {colors, sizes} from '../../common/common.styles';
@@ -26,15 +27,24 @@ import {
     toggle_text_as_valid
 } from '../../redux/actions/state-actions';
 
-const fade_opacity = () => {
-    const fadeAnim = new Animated.Value(0);
-    Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 500
-    }).start();
+const fade_w_cache = () => {
+    let prev_index;
+    const fade_opacity = (curr_index) => {
+        if (curr_index !== prev_index) {
+            const fadeAnim =  new Animated.Value(0);
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500
+            }).start();
+            prev_index = curr_index;
+            return fadeAnim;
+        }
+    };
 
-    return fadeAnim;
+    return fade_opacity;
 };
+
+const get_fade_opacity = fade_w_cache();
 
 const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
 
@@ -213,15 +223,25 @@ const Text_input = (props) => {
     );
 };
 
+
+
+const shake = (dispatch) => (count) => () => {
+    const random = Math.floor(Math.random() * count);
+    dispatch(lock_in(random));
+};
+
 KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
 KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
 KeyboardManager.setShouldShowTextFieldPlaceholder(false);
+
+
 
 const keyExtractor = (item, i) => i;
 
 class App extends Component {
     constructor(props) {
         super(props);
+        RNShakeEvent.addEventListener('shake', shake(props.dispatch)(props.psalters_count));
     }
 
     static navigatorStyle = {
@@ -241,13 +261,16 @@ class App extends Component {
     //keyboardVerticalOffset={64} >
 
 
+
     render() {
+
+        const fade_opacity = get_fade_opacity(this.props.index);
 
         return (
             <Default_bg>
                 <FlatList data={this.props.psalter.content}
-                          ListHeaderComponent={header(fade_opacity())(this.props.psalter)(this.props.index)}
-                          renderItem={render_item(fade_opacity())}
+                          ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
+                          renderItem={render_item(fade_opacity)}
                           keyExtractor={keyExtractor}
                           style={{marginBottom: 50}}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
