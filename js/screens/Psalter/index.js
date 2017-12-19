@@ -3,13 +3,15 @@ import {
     Alert,
     View,
     FlatList,
+    SectionList,
     PanResponder,
     Animated,
     TextInput,
     Dimensions,
     KeyboardAvoidingView,
     Keyboard,
-    Platform
+    Platform,
+    Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import KeyboardManager from 'react-native-keyboard-manager'
@@ -45,6 +47,34 @@ const fade_w_cache = () => {
 };
 
 const get_fade_opacity = fade_w_cache();
+
+const slide_position = new Animated.Value(0);
+
+const slide = (should_slide_down) => {
+    const {height, width} = Dimensions.get('window');
+
+    Animated.timing(slide_position, {
+        toValue: (should_slide_down) ? (height + 49) : 0,
+        duration: 500,
+        useNativeDriver: true
+    }).start();
+};
+
+const toggle_tab_nav_bar = (navigator) => (should_show) => {
+    navigator.setStyle({
+        navBarHidden: !should_show,
+        tabBarHidden: !should_show
+    });
+};
+
+const on_navigator_event = (navigator) => (event) => { // this is the onPress handler for the two buttons together
+    if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
+        if (event.id === 'more-stuff') { // this is the same id field from the static navigatorButtons definition
+            slide(true);
+            toggle_tab_nav_bar(navigator)(false);
+        }
+    }
+};
 
 const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
 
@@ -181,6 +211,7 @@ const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => 
     }
 };
 
+
 const end_text_input = (dispatch) => (text_is_valid) => (event) => {
     if (text_is_valid) {
         const input_int = parseInt(event.nativeEvent.text) - 1;
@@ -195,7 +226,7 @@ const Text_input = (props) => {
     const add_style = {
         position: 'absolute',
         bottom: 0,
-        zIndex: 9999,
+        zIndex: 100,
         marginHorizontal: 16,
         marginRight: 32,
         marginVertical: 8,
@@ -224,7 +255,6 @@ const Text_input = (props) => {
 };
 
 
-
 const shake = (dispatch) => (count) => () => {
     const random = Math.floor(Math.random() * count);
     dispatch(lock_in(random));
@@ -234,14 +264,61 @@ KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
 KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
 KeyboardManager.setShouldShowTextFieldPlaceholder(false);
 
-
-
 const keyExtractor = (item, i) => i;
+
+const More_Stuff_Section_List = (props) => {
+    const {width, height} = Dimensions.get('window');
+    const slide_down_view_style = {
+        width,
+        height,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        position: 'absolute',
+        bottom: height,
+        left: 0,
+        zIndex: 99999999,
+        transform: [
+            {
+                translateY: props.slide_position
+            }
+        ]
+    };
+
+    const List_Header = (props) => {
+        return (
+            <Image height={16} source={require('../../../images/icons/icon-cancel-50.png')} />
+        );
+    }
+
+
+
+    const Animated_Section_List = Animated.createAnimatedComponent(SectionList);
+    const keyExtractor = (item, index) => `more-info-section-${index}`;
+
+    const sections = [
+        {
+            data: [''],
+            renderItem: ({item, index}) => <Default_Text key={`more-stuff-item-${index}`}>Bye</Default_Text>,
+            keyExtractor: keyExtractor
+        }
+    ];
+
+    return (
+        <Animated_Section_List sections={sections}
+                               ListHeaderComponent={<List_Header />}
+                               style={slide_down_view_style} />
+    );
+};
+
+
+
+
+
 
 class App extends Component {
     constructor(props) {
         super(props);
         RNShakeEvent.addEventListener('shake', shake(props.dispatch)(props.psalters_count));
+        props.navigator.setOnNavigatorEvent(on_navigator_event(props.navigator));
     }
 
     static navigatorStyle = {
@@ -252,6 +329,17 @@ class App extends Component {
         screenBackgroundColor: colors.ocean,
         statusBarTextColorSchemeSingleScreen: 'light'
     }
+
+    static navigatorButtons = {
+        rightButtons: [
+            {
+                icon: require('../../../images/icons/icon-info-32.png'),
+                id: 'more-stuff'
+            }
+        ]
+    }
+
+
 
 
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
@@ -266,8 +354,10 @@ class App extends Component {
 
         const fade_opacity = get_fade_opacity(this.props.index);
 
+
         return (
             <Default_bg>
+                <More_Stuff_Section_List slide_position={slide_position} />
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_item(fade_opacity)}
