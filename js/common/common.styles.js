@@ -90,7 +90,7 @@ export const line_height_fn = (line_height) => (font_size) => {
       return presets[val];
     }
 
-    return undefined;
+    return presets['default'];
   };
 
   const _line_height = get_value(line_heights)(line_height);

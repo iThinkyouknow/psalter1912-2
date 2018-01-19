@@ -11,6 +11,7 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Platform,
+    TouchableHighlight,
     Image
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -50,7 +51,7 @@ const get_fade_opacity = fade_w_cache();
 
 const slide_position = new Animated.Value(0);
 
-const slide = (should_slide_down) => {
+const slide = (should_slide_down) => (slide_position) => () => {
     const {height, width} = Dimensions.get('window');
 
     Animated.timing(slide_position, {
@@ -60,7 +61,7 @@ const slide = (should_slide_down) => {
     }).start();
 };
 
-const toggle_tab_nav_bar = (navigator) => (should_show) => {
+const toggle_tab_nav_bar = (navigator) => (should_show) => () => {
     navigator.setStyle({
         navBarHidden: !should_show,
         tabBarHidden: !should_show
@@ -70,8 +71,8 @@ const toggle_tab_nav_bar = (navigator) => (should_show) => {
 const on_navigator_event = (navigator) => (event) => { // this is the onPress handler for the two buttons together
     if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
         if (event.id === 'more-stuff') { // this is the same id field from the static navigatorButtons definition
-            slide(true);
-            toggle_tab_nav_bar(navigator)(false);
+            slide(true)(slide_position)();
+            toggle_tab_nav_bar(navigator)(false)();
         }
     }
 };
@@ -284,8 +285,39 @@ const More_Stuff_Section_List = (props) => {
     };
 
     const List_Header = (props) => {
+        const slide_up_action = () => {
+            slide(false)(slide_position)();
+            setTimeout(() => {
+                toggle_tab_nav_bar(props.navigator)(true)();
+            }, 300);
+        };
+
+        const style = {
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            // backgroundColor: 'red'
+        }
+
+        const cross_style = {
+            position: 'absolute',
+            top: 16,
+            right: 0,
+            height: 64,
+            width: 64,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // backgroundColor: 'red'
+        };
+
         return (
-            <Image height={16} source={require('../../../images/icons/icon-cancel-50.png')} />
+            <View style={style}>
+                <Default_Text  font_size={32}>Settings</Default_Text>
+                <TouchableHighlight style={cross_style} onPress={slide_up_action}>
+                    <Image style={{width: 32, height:32}} source={require('../../../images/icons/icon-cancel-50.png')} />
+                </TouchableHighlight>
+            </View>
+
         );
     }
 
@@ -304,7 +336,7 @@ const More_Stuff_Section_List = (props) => {
 
     return (
         <Animated_Section_List sections={sections}
-                               ListHeaderComponent={<List_Header />}
+                               ListHeaderComponent={<List_Header navigator={props.navigator} />}
                                style={slide_down_view_style} />
     );
 };
@@ -357,7 +389,7 @@ class App extends Component {
 
         return (
             <Default_bg>
-                <More_Stuff_Section_List slide_position={slide_position} />
+                <More_Stuff_Section_List navigator={this.props.navigator} slide_position={slide_position} />
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_item(fade_opacity)}
