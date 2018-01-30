@@ -12,7 +12,9 @@ import {
     Keyboard,
     Platform,
     TouchableHighlight,
-    Image
+    Image,
+    StyleSheet,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import KeyboardManager from 'react-native-keyboard-manager'
@@ -24,7 +26,12 @@ import {colors, sizes} from '../../common/common.styles';
 import {Default_Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
 
-import {lock_in} from '../../redux/actions/psalter-actions';
+import {
+    lock_in,
+    set_sung_count_all,
+    get_sung_count,
+    set_sung_count
+} from '../../redux/actions/psalter-actions';
 import {
     psalter_text_input,
     toggle_text_as_valid
@@ -63,8 +70,9 @@ const slide = (should_slide_down) => (slide_position) => () => {
 
 const toggle_tab_nav_bar = (navigator) => (should_show) => () => {
     navigator.setStyle({
-        navBarHidden: !should_show,
-        tabBarHidden: !should_show
+        tabBarHidden: !should_show,
+        navBarHidden: !should_show
+
     });
 };
 
@@ -97,6 +105,7 @@ const bold_centered_text = centered_text('bold');
 const main_title = bold_centered_text('x_large')()()();
 const sub_title = bold_centered_text('large')()()();
 const meter_text = centered_text()('x_small')()()();
+const normal_text = centered_text('normal')('default')(1.3);
 
 const header = (fade_anim) => (psalter) => (index) => {
 
@@ -115,7 +124,7 @@ const header = (fade_anim) => (psalter) => (index) => {
 const render_item = (fade_anim) => ({item, index}) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
-        return centered_text('normal')('default')(1.3)(`line-${i}`)()(fade_anim)(line_to_render);
+        return normal_text(`line-${i}`)()(fade_anim)(line_to_render);
     }) : item;
 
     return (
@@ -224,19 +233,9 @@ const end_text_input = (dispatch) => (text_is_valid) => (event) => {
 
 const Text_input = (props) => {
     const {width, height} = Dimensions.get('window');
-    const add_style = {
-        position: 'absolute',
-        bottom: 0,
-        zIndex: 100,
-        marginHorizontal: 16,
-        marginRight: 32,
-        marginVertical: 8,
-        padding: 8,
-        lineHeight: 21,
-        width: width - 64,
-        borderRadius: 5,
-        fontSize: 16,
-        backgroundColor: 'white'
+
+    const text_input_width = {
+        width: width - sizes.x_large * 2,
     };
 
     const keyboard_type = (Platform.OS === 'ios') ? 'number-pad' : 'numeric';
@@ -249,7 +248,7 @@ const Text_input = (props) => {
                    maxLength={`${psalters_count}`.length}
                    onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
                    value={value}
-                   style={add_style}
+                   style={[styles.text_input_style, text_input_width, props.style]}
                    autoCorrect={false}
                    {...props} />
     );
@@ -267,16 +266,97 @@ KeyboardManager.setShouldShowTextFieldPlaceholder(false);
 
 const keyExtractor = (item, i) => i;
 
+const List_Header = (props) => {
+    const slide_up_action = () => {
+        slide(false)(slide_position)();
+        setTimeout(() => {
+            toggle_tab_nav_bar(props.navigator)(true)();
+        }, 300);
+    };
+
+    return (
+        <View style={styles.more_stuff_header_style}>
+
+            <TouchableHighlight style={styles.cancel_more_stuff_menu_cross_style} onPress={slide_up_action}>
+                <Image style={{width: 32, height:32}} source={require('../../../images/icons/icon-cancel-50.png')} />
+            </TouchableHighlight>
+        </View>
+
+    );
+};
+
 const More_Stuff_Section_List = (props) => {
+
+    const keyExtractor = (item, index) => `more-info-section-${item.title}-${index}`;
+
+    const ref_text_comp = (psalm) => ({v, refs}, i) => {
+        return (
+            <TouchableHighlight key={`ref-line-${i}`}>
+                <View>
+                    <Default_Text >
+                        {`${i + 1}. ${psalm}:${v} - ${refs}`}
+                    </Default_Text>
+                </View>
+            </TouchableHighlight>
+        );
+    };
+
+    const psalter_refs_section = ({item, index}) => {
+        const {title, text_array, psalm} = item;
+        if (!text_array) return null;
+
+        const texts = Array.isArray(item.text_array)
+            ? item.text_array.map(ref_text_comp(psalm))
+            : normal_text(`ref-line-${index}`)()(1)(`${psalm} - ${item.text_array}`);
+
+        return (
+            <View>
+                {main_title(1)(item.title)}
+                <View style={styles.ref_text_container}>
+                    {texts}
+                </View>
+            </View>
+        );
+
+    };
+    const count_section = ({item, index}) => {
+        const {title} = item;
+        if (typeof title !== 'string' || (typeof title === 'string' && title.length < 1)) return null;
+        return (
+            <View style={styles.more_info_section_container}>
+                {main_title(1)(item.title)}
+            </View>
+        );
+    };
+
+    const sections = [
+        {
+            data: [
+                {
+                    title: 'Cross References',
+                    text_array: props.psalter_refs,
+                    psalm: props.psalm
+                }
+            ],
+            renderItem: psalter_refs_section,
+            keyExtractor: keyExtractor
+        },
+        {
+            data: [
+                {
+                    title: (props.sung_count !== undefined && props.sung_count !== null) ? `Count: ${props.sung_count}` : ''
+                }
+            ],
+            renderItem: count_section,
+            keyExtractor: keyExtractor
+        }
+    ];
+
     const {width, height} = Dimensions.get('window');
-    const slide_down_view_style = {
+    const slide_down_view_dynamic_style = {
         width,
         height,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        position: 'absolute',
         bottom: height,
-        left: 0,
-        zIndex: 99999999,
         transform: [
             {
                 translateY: props.slide_position
@@ -284,65 +364,41 @@ const More_Stuff_Section_List = (props) => {
         ]
     };
 
-    const List_Header = (props) => {
-        const slide_up_action = () => {
-            slide(false)(slide_position)();
-            setTimeout(() => {
-                toggle_tab_nav_bar(props.navigator)(true)();
-            }, 300);
-        };
-
-        const style = {
-            marginTop: 20,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            // backgroundColor: 'red'
-        }
-
-        const cross_style = {
-            position: 'absolute',
-            top: 16,
-            right: 0,
-            height: 64,
-            width: 64,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red'
-        };
-
-        return (
-            <View style={style}>
-                <Default_Text  font_size={32}>Settings</Default_Text>
-                <TouchableHighlight style={cross_style} onPress={slide_up_action}>
-                    <Image style={{width: 32, height:32}} source={require('../../../images/icons/icon-cancel-50.png')} />
-                </TouchableHighlight>
-            </View>
-
-        );
-    }
-
-
-
-    const Animated_Section_List = Animated.createAnimatedComponent(SectionList);
-    const keyExtractor = (item, index) => `more-info-section-${index}`;
-
-    const sections = [
-        {
-            data: [''],
-            renderItem: ({item, index}) => <Default_Text key={`more-stuff-item-${index}`}>Bye</Default_Text>,
-            keyExtractor: keyExtractor
-        }
-    ];
-
     return (
-        <Animated_Section_List sections={sections}
-                               ListHeaderComponent={<List_Header navigator={props.navigator} />}
-                               style={slide_down_view_style} />
+        <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
+            <List_Header navigator={props.navigator} />
+            <SectionList sections={sections}
+
+                                    />
+        </Animated.View>
+
     );
 };
 
 
+const count_fn = () => {
+    let current_no = 0;
+    let timeout;
 
+    return add_count = (dispatch) => (psalter_no) => (current_count) => {
+        if (psalter_no !== null && psalter_no !== undefined && psalter_no !== current_no) {
+            if (!isNaN(timeout)) clearTimeout(timeout);
+            current_no = psalter_no;
+            timeout = setTimeout(() => {
+                // add count and set count
+                AsyncStorage.setItem(`psalter-${psalter_no}`, `${current_count + 1}`).then((err) => {
+                    if (!err) {
+                        dispatch(set_sung_count(psalter_no));
+                    }
+                });
+
+                clearTimeout(timeout);
+            }, 14 * 1000);
+        }
+    };
+};
+
+const add_count = count_fn();
 
 
 
@@ -351,6 +407,17 @@ class App extends Component {
         super(props);
         RNShakeEvent.addEventListener('shake', shake(props.dispatch)(props.psalters_count));
         props.navigator.setOnNavigatorEvent(on_navigator_event(props.navigator));
+        const count_all_keys_array = Array.from(Array(props.psalters_count).keys()).map((item) => `psalter-${item + 1}`);
+        AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
+            const arr_w_value = arr.filter(([key, value]) => (value !== undefined && value !== null));
+            props.dispatch(set_sung_count_all(arr_w_value || []));
+        });
+    }
+
+    componentDidMount() {
+        AsyncStorage.getAllKeys((err, keys) => {
+            keys;
+        });
     }
 
     static navigatorStyle = {
@@ -385,16 +452,16 @@ class App extends Component {
     render() {
 
         const fade_opacity = get_fade_opacity(this.props.index);
-
-
+        add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
+        //this.props.dispatch(get_sung_count(this.props.psalter.no));
         return (
             <Default_bg>
-                <More_Stuff_Section_List navigator={this.props.navigator} slide_position={slide_position} />
+                <More_Stuff_Section_List navigator={this.props.navigator} slide_position={slide_position} psalter_refs={this.props.psalter.ref} psalm={this.props.psalter.psalm} sung_count={this.props.sung_count} />
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_item(fade_opacity)}
                           keyExtractor={keyExtractor}
-                          style={{marginBottom: 50}}
+                          style={styles.psalter_text_flat_list}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
 
                 <Text_input psalters_count={this.props.psalters_count}
@@ -413,7 +480,9 @@ function mapStateToProps(state) {
         psalters_count: state.psalters_count,
         should_display_go_forth_bar: state.should_display_go_forth_bar,
         psalter_text_input: state.psalter_text_input,
-        valid_text_input: state.valid_text_input
+        valid_text_input: state.valid_text_input,
+        sung_count: state.psalter.current_sung_count,
+        sung_count_all: state.psalter.all_sung_count
     };
 }
 

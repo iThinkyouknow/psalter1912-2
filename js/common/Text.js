@@ -67,6 +67,7 @@ export function Animated_Text(props = {}) {
 const styles = StyleSheet.create({
     default: {
         color: colors.white,
+        opacity: 1,
         ...font_size_fn('default'),
         ...text_align_fn('left'),
         ...font_weight_fn('normal'),

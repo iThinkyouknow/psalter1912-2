@@ -10,14 +10,16 @@ export const native_elements = {
 
 export const colors = {
   white: 'rgb(255, 255, 255)',
-  ocean: 'rgb(0, 84, 147)'
+  ocean: 'rgb(0, 84, 147)',
+    black: 'rgb(0, 0, 0)'
 };
 
 export const sizes = {
     small: 5,
     default: 8,
     medium: 12,
-    large: 16
+    large: 16,
+    x_large: 32
 };
 
 export const border_radii = {
@@ -96,7 +98,7 @@ export const line_height_fn = (line_height) => (font_size) => {
   const _line_height = get_value(line_heights)(line_height);
   const _f_size = get_value(font_sizes)(font_size);
 
-  return (_line_height !== undefined && _f_size !== undefined) ? {lineHeight: _line_height * _f_size} : undefined;
+  return (_line_height !== undefined && _f_size !== undefined) ? {lineHeight: Math.round(_line_height * _f_size)} : undefined;
 };
 
 export const text_align_fn = (alignment) => {
@@ -112,10 +114,20 @@ export const text_align_fn = (alignment) => {
   return {textAlign: text_align[alignment]};
 };
 
-
-
 export const background_color_fn = (col) => {
   return {
     backgroundColor: colors[col] || col
   };
+};
+
+export const zIndex = {
+  behind: -1,
+  default: 0,
+  max: 9999,
+  small: 100,
+  medium: 500,
+  large: 1000,
+  x_large: 1500,
+  xx_large: 2000,
+  xxx_large: 2500
 };

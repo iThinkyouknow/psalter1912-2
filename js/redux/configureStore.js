@@ -3,7 +3,7 @@ import rootReducer from './reducers/index';
 
 let middleware = [];
 
-if (__DEV__) {
+if (true || __DEV__) {
 	const reduxImmutableStateInvariant = require('redux-immutable-state-invariant').default();
 	const createLogger = require('redux-logger').createLogger;
 
