@@ -40,6 +40,8 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		DB09B6EA202097FA000E5F1D /* libReactNativeAudioToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB09B6E6202097E6000E5F1D /* libReactNativeAudioToolkit.a */; };
+		DBC01D0C2021497D00367EC6 /* Psalter 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBC01D0B2021497D00367EC6 /* Psalter 1.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -267,6 +269,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		DB09B6E5202097E6000E5F1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB09B6BE202097E6000E5F1D /* ReactNativeAudioToolkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5E8FD9831D269F5D00CF68CC;
+			remoteInfo = ReactNativeAudioToolkit;
+		};
 		DB5E0CDD1FD1808800C617E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -356,6 +365,8 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		C2BC4AE31B2F4EC2AB14F83B /* ReactNativeKeyboardManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeKeyboardManager.xcodeproj; path = "../node_modules/react-native-keyboard-manager/ios/ReactNativeKeyboardManager.xcodeproj"; sourceTree = "<group>"; };
+		DB09B6BE202097E6000E5F1D /* ReactNativeAudioToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAudioToolkit.xcodeproj; path = "../node_modules/react-native-audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit.xcodeproj"; sourceTree = "<group>"; };
+		DBC01D0B2021497D00367EC6 /* Psalter 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Psalter 1.mp3"; path = "/Users/notforyoutouse/psalter1912-2/ios/../Music-Files/Psalter 1.mp3"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,6 +382,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB09B6EA202097FA000E5F1D /* libReactNativeAudioToolkit.a in Frameworks */,
 				00CDE5971FC80B180076F178 /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -512,6 +524,7 @@
 		13B07FAE1A68108700A75B9A /* The_Psalter_1912_2 */ = {
 			isa = PBXGroup;
 			children = (
+				DBC01D0A2021496500367EC6 /* Music-Files */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -565,6 +578,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DB09B6BE202097E6000E5F1D /* ReactNativeAudioToolkit.xcodeproj */,
 				00CDE5901FC80AB90076F178 /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -628,6 +642,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DB09B6BF202097E6000E5F1D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DB09B6E6202097E6000E5F1D /* libReactNativeAudioToolkit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DB5E0CF71FD1A01500C617E7 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +665,14 @@
 				DB5E0D201FD1A01700C617E7 /* libReactNativeKeyboardManager.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DBC01D0A2021496500367EC6 /* Music-Files */ = {
+			isa = PBXGroup;
+			children = (
+				DBC01D0B2021497D00367EC6 /* Psalter 1.mp3 */,
+			);
+			path = "Music-Files";
 			sourceTree = "<group>";
 		};
 		DBD750931FDFCB56008DD6E2 /* Products */ = {
@@ -811,6 +841,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = DB09B6BF202097E6000E5F1D /* Products */;
+					ProjectRef = DB09B6BE202097E6000E5F1D /* ReactNativeAudioToolkit.xcodeproj */;
 				},
 				{
 					ProductGroup = DB5E0D1C1FD1A01600C617E7 /* Products */;
@@ -1046,6 +1080,13 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		DB09B6E6202097E6000E5F1D /* libReactNativeAudioToolkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeAudioToolkit.a;
+			remoteRef = DB09B6E5202097E6000E5F1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DB5E0CDE1FD1808800C617E7 /* libthird-party.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1117,6 +1158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				DBC01D0C2021497D00367EC6 /* Psalter 1.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

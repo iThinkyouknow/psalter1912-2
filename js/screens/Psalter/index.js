@@ -1,3 +1,4 @@
+//todo: search
 import React, { Component } from 'react';
 import {
     Alert,
@@ -14,7 +15,8 @@ import {
     TouchableHighlight,
     Image,
     StyleSheet,
-    AsyncStorage
+    AsyncStorage,
+    Slider
 } from 'react-native';
 import { connect } from 'react-redux';
 import KeyboardManager from 'react-native-keyboard-manager'
@@ -29,13 +31,20 @@ import Default_bg from '../../common/Default-bg';
 import {
     lock_in,
     set_sung_count_all,
-    get_sung_count,
     set_sung_count
 } from '../../redux/actions/psalter-actions';
 import {
     psalter_text_input,
-    toggle_text_as_valid
+    toggle_text_as_valid,
+    set_max_music_timer,
+    set_music_timer
 } from '../../redux/actions/state-actions';
+
+import {
+    Player,
+    Recorder,
+    MediaStates
+} from 'react-native-audio-toolkit';
 
 const fade_w_cache = () => {
     let prev_index;
@@ -285,6 +294,72 @@ const List_Header = (props) => {
     );
 };
 
+const clear_and_update_music_timer = (dispatch) => (interval) => (music_player) => {
+    clearInterval(interval);
+    interval = setInterval(() => {
+        dispatch(set_music_timer(music_player.currentTime));
+        if (music_player.currentTime >= music_player.duration || music_player.currentTime === -1) clearInterval(interval);
+    }, 1000 * 1);
+};
+
+const music_player_fn = (Player) => {
+    let current_psalter_music_file = '';
+    let music_player;
+    let interval = 0;
+    return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => () => {
+        if (in_render && psalter_music_file !== current_psalter_music_file) {
+            current_psalter_music_file = psalter_music_file;
+
+            if (music_player && music_player.isPlaying) {
+                music_player.stop();
+                music_player = new Player(`${psalter_music_file}`);
+                music_player.play(() => {
+                    dispatch(set_max_music_timer(music_player.duration));
+                    clear_and_update_music_timer(dispatch)(interval)(music_player);
+                });
+
+            } else {
+                music_player = new Player(`${psalter_music_file}`);
+                music_player.prepare();
+            }
+
+        } else if (!in_render && psalter_music_file === current_psalter_music_file) {
+            current_psalter_music_file = psalter_music_file;
+            const paused_pressed = !play_pressed;
+
+            const create_new_player_and_play = () => {
+                music_player = new Player(psalter_music_file);
+                music_player.play(() => {
+                    dispatch(set_max_music_timer(music_player.duration));
+                    clear_and_update_music_timer(dispatch)(interval)(music_player);
+                });
+            };
+
+            if (play_pressed) {
+                if (music_player) {
+                    if (music_player.isStopped) {
+                        create_new_player_and_play();
+
+                    } else if (music_player.isPaused) {
+                        music_player.play();
+                    }
+
+                } else if (!music_player) {
+                    create_new_player_and_play();
+                }
+
+
+            } else if (paused_pressed && music_player) {
+                if (music_player.isPlaying) music_player.pause();
+                if (music_player.isPaused) music_player.stop();
+            }
+
+        }
+    };
+};
+
+const play_music = music_player_fn(Player);
+
 const More_Stuff_Section_List = (props) => {
 
     const keyExtractor = (item, index) => `more-info-section-${item.title}-${index}`;
@@ -310,7 +385,7 @@ const More_Stuff_Section_List = (props) => {
             : normal_text(`ref-line-${index}`)()(1)(`${psalm} - ${item.text_array}`);
 
         return (
-            <View>
+            <View style={styles.more_info_section_container} >
                 {main_title(1)(item.title)}
                 <View style={styles.ref_text_container}>
                     {texts}
@@ -329,7 +404,74 @@ const More_Stuff_Section_List = (props) => {
         );
     };
 
+    const music_section = ({item, index}) => {
+        if (!Array.isArray(item.sources)) return null;
+        const music_slider_array = item.sources.map((file_name, index) => {
+            const style = {
+                marginHorizontal: sizes.large,
+                flexDirection: 'row'
+
+            };
+
+            const music_slider_style = {
+                flex: 1,
+                marginLeft: sizes.default
+            };
+
+            const play_music_of_psalter = play_music(props.dispatch)(false)(file_name);
+
+            const time = (time_in_ms) => {
+                if (time_in_ms === undefined || time_in_ms === null || isNaN(time_in_ms) || time_in_ms === -1) return `00:00`;
+                const date = new Date (time_in_ms);
+                const minutes = (`${date.getUTCMinutes()}`.length === 2) ? `${date.getUTCMinutes()}` : `0${date.getUTCMinutes()}`;
+                const seconds = (`${date.getUTCSeconds()}`.length === 2) ? `${date.getUTCSeconds()}` : `0${date.getUTCSeconds()}`;
+                return `${minutes}:${seconds}`;
+            };
+
+            return (
+                <View style={style}>
+                    <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, backgroundColor: 'red'}}
+                                        onPress={play_music_of_psalter(true)}>
+                        <View />
+                    </TouchableHighlight>
+                    <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, marginLeft: sizes.default, backgroundColor: 'red'}}
+                                        onPress={play_music_of_psalter(false)}>
+                        <View />
+                    </TouchableHighlight>
+
+                    <Default_Text style={{marginLeft: sizes.large}}>{time(props.current_music_timer)}</Default_Text>
+                    <Slider style={music_slider_style}
+                            key={`${file_name}-${index}`}
+                            step={2000}
+                            maximumValue={props.max_music_timer}
+                            value={props.current_music_timer}
+                            onValueChange={() => {}} />
+                    <Default_Text style={{marginLeft: sizes.default}}>{time(props.max_music_timer)}</Default_Text>
+                </View>
+
+            );
+            //todo: link to ios
+
+        });
+        return (
+            <View >
+                {main_title(1)(item.title)}
+                {music_slider_array}
+            </View>
+        );
+    };
+
     const sections = [
+        {
+            data: [
+                {
+                    title: 'Music',
+                    sources: [`Psalter ${props.psalter_no}.mp3`],
+                }
+            ],
+            renderItem: music_section,
+            keyExtractor: keyExtractor
+        },
         {
             data: [
                 {
@@ -454,9 +596,21 @@ class App extends Component {
         const fade_opacity = get_fade_opacity(this.props.index);
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
         //this.props.dispatch(get_sung_count(this.props.psalter.no));
+        play_music(this.props.dispatch)(true)(`Psalter ${this.props.psalter.no}.mp3`)(false)();
+
         return (
             <Default_bg>
-                <More_Stuff_Section_List navigator={this.props.navigator} slide_position={slide_position} psalter_refs={this.props.psalter.ref} psalm={this.props.psalter.psalm} sung_count={this.props.sung_count} />
+                <More_Stuff_Section_List
+                    dispatch={this.props.dispatch}
+                    navigator={this.props.navigator}
+                    slide_position={slide_position}
+                    psalter_refs={this.props.psalter.ref}
+                    psalm={this.props.psalter.psalm}
+                    psalter_no={this.props.psalter.no}
+                    sung_count={this.props.sung_count}
+                    current_music_timer={this.props.current_music_timer}
+                    max_music_timer={this.props.max_music_timer} />
+
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_item(fade_opacity)}
@@ -468,6 +622,7 @@ class App extends Component {
                             value={this.props.psalter_text_input}
                             dispatch={this.props.dispatch}
                             valid_text_input={this.props.valid_text_input} />
+
             </Default_bg>
         );
     }
@@ -482,7 +637,9 @@ function mapStateToProps(state) {
         psalter_text_input: state.psalter_text_input,
         valid_text_input: state.valid_text_input,
         sung_count: state.psalter.current_sung_count,
-        sung_count_all: state.psalter.all_sung_count
+        sung_count_all: state.psalter.all_sung_count,
+        current_music_timer: state.music_timer.current,
+        max_music_timer: state.music_timer.max
     };
 }
 

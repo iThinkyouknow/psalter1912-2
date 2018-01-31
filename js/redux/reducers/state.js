@@ -14,3 +14,23 @@ export function valid_text_input(state = "", action = {}) {
     }
     return state;
 }
+
+export function music_timer(state = {current: 0, max: 0}, action = {}) {
+    if (action.type === STATE_ACTIONS.SET_MUSIC_TIMER) {
+        if (action.time === null || action.time === undefined || isNaN(action.time)) return state;
+        return {
+            ...state,
+            current: action.time
+        };
+
+    } else if (action.type === STATE_ACTIONS.SET_MAX_MUSIC_TIMER) {
+        if (action.time === null || action.time === undefined || isNaN(action.time)) return state;
+
+        return {
+            ...state,
+            max: action.time
+        };
+    }
+
+    return state;
+}

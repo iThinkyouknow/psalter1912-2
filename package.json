@@ -9,6 +9,7 @@
 	"dependencies": {
 		"react": "16.0.0",
 		"react-native": "0.50.3",
+		"react-native-audio-toolkit": "^1.0.6",
 		"react-native-keyboard-manager": "^4.0.13-4",
 		"react-native-navigation": "^1.1.295",
 		"react-native-shake-event": "^4.0.1",
