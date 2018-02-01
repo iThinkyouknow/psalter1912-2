@@ -307,11 +307,11 @@ const music_player_fn = (Player) => {
     let current_psalter_music_file = '';
     let music_player;
     let interval = 0;
-    let seek_time = 0;
+
     return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => (current_time) => (time_seek) => () => {
         if (in_render && psalter_music_file !== current_psalter_music_file) {
             current_psalter_music_file = psalter_music_file;
-            seek_time = 0;
+
 
             if (music_player && music_player.isPlaying) {
                 music_player.stop();
@@ -370,19 +370,18 @@ const music_player_fn = (Player) => {
             }
         } else if (time_seek !== -1 && time_seek !== null && time_seek !== undefined && !isNaN(time_seek)) {
             clearInterval(interval);
-            seek_time = time_seek;
             if (music_player) {
                 if (music_player.isPlaying) {
 
                     music_player.pause();
-                    dispatch(set_music_timer(seek_time));
-                    music_player.seek(seek_time);
+                    dispatch(set_music_timer(time_seek));
+                    music_player.seek(time_seek);
                     music_player.play(() => {
                         interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
                     });
 
                 } else {
-                    dispatch(set_music_timer(seek_time));
+                    dispatch(set_music_timer(time_seek));
                 }
             }
         }
