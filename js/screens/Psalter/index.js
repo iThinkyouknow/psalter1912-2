@@ -296,10 +296,11 @@ const List_Header = (props) => {
 
 const clear_and_update_music_timer = (dispatch) => (interval) => (music_player) => {
     clearInterval(interval);
-    interval = setInterval(() => {
+    const new_interval = setInterval(() => {
         dispatch(set_music_timer(music_player.currentTime));
-        if (music_player.currentTime >= music_player.duration || music_player.currentTime === -1) clearInterval(interval);
+        if (music_player.currentTime >= music_player.duration || music_player.currentTime === -1) clearInterval(new_interval);
     }, 1000 * 1);
+    return new_interval;
 };
 
 const music_player_fn = (Player) => {
@@ -307,18 +308,19 @@ const music_player_fn = (Player) => {
     let music_player;
     let interval = 0;
     let seek_time = 0;
-    return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => (time_seek) => () => {
+    return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => (current_time) => (time_seek) => () => {
         if (in_render && psalter_music_file !== current_psalter_music_file) {
             current_psalter_music_file = psalter_music_file;
             seek_time = 0;
 
             if (music_player && music_player.isPlaying) {
                 music_player.stop();
+                clearInterval(interval);
                 music_player = new Player(`${psalter_music_file}`);
                 music_player.looping = true;
                 music_player.play(() => {
                     dispatch(set_max_music_timer(music_player.duration));
-                    clear_and_update_music_timer(dispatch)(interval)(music_player);
+                    interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
                 });
 
             } else {
@@ -330,14 +332,14 @@ const music_player_fn = (Player) => {
             current_psalter_music_file = psalter_music_file;
             const paused_pressed = !play_pressed;
 
-            const create_new_player_and_play = () => {
+            const create_new_player_and_play = (_current_time) => {
+                clearInterval(interval);
                 music_player = new Player(psalter_music_file);
-
                 music_player.looping = true;
                 music_player.play(() => {
-                    music_player.seek(seek_time);
                     dispatch(set_max_music_timer(music_player.duration));
-                    clear_and_update_music_timer(dispatch)(interval)(music_player);
+                    if (_current_time) music_player.seek(current_time);
+                    interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
                 });
             };
 
@@ -347,8 +349,9 @@ const music_player_fn = (Player) => {
                         create_new_player_and_play();
 
                     } else if (music_player.isPaused) {
-                        music_player.seek(seek_time);
-                        music_player.play();
+                        clearInterval(interval);
+                        music_player.stop();
+                        create_new_player_and_play(current_time);
                     }
 
                 } else if (!music_player) {
@@ -356,24 +359,30 @@ const music_player_fn = (Player) => {
                 }
 
             } else if (paused_pressed && music_player) {
-                if (music_player.isPlaying) music_player.pause();
-                if (music_player.isPaused) {
+                clearInterval(interval);
+                if (music_player.isPlaying) {
+                    music_player.pause();
+                } else if (music_player.isPaused) {
                     music_player.stop();
-                    seek_time = 0;
-                    clearInterval(interval);
+
+                    dispatch(set_music_timer(0));
                 }
             }
-        } else if (time_seek !== undefined && time_seek !== null && time_seek !== -1 && !isNaN(time_seek)) {
+        } else if (time_seek !== -1 && time_seek !== null && time_seek !== undefined && !isNaN(time_seek)) {
+            clearInterval(interval);
             seek_time = time_seek;
             if (music_player) {
                 if (music_player.isPlaying) {
-                    clearInterval(interval);
+
                     music_player.pause();
+                    dispatch(set_music_timer(seek_time));
                     music_player.seek(seek_time);
-                    music_player.play();
-                    clear_and_update_music_timer(dispatch)(interval)(music_player);
+                    music_player.play(() => {
+                        interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
+                    });
+
                 } else {
-                    music_player.seek(seek_time);
+                    dispatch(set_music_timer(seek_time));
                 }
             }
         }
@@ -455,24 +464,32 @@ const More_Stuff_Section_List = (props) => {
 
             return (
                 <View style={style}>
-                    <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, backgroundColor: 'red'}}
-                                        onPress={play_music_of_psalter(true)()}>
-                        <View />
-                    </TouchableHighlight>
-                    <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, marginLeft: sizes.default, backgroundColor: 'red'}}
-                                        onPress={play_music_of_psalter(false)()}>
-                        <View />
-                    </TouchableHighlight>
 
+                    <Default_Text>
+                        {time(props.current_music_timer)}
+                    </Default_Text>
+                    <Slider style={music_slider_style}
+                            key={`${file_name}-${index}`}
+                            step={Math.floor(props.max_music_timer/1000)}
+                            maximumValue={props.max_music_timer}
+                            value={props.current_music_timer}
+                            onSlidingComplete={(play_at_time) => {
+                                play_music_of_psalter(false)(props.current_music_timer)(play_at_time)();
+                            }} />
+                    <Default_Text style={{marginLeft: sizes.default}}>
+                        {time(props.max_music_timer)}
+                    </Default_Text>
 
-                        <Default_Text style={{marginLeft: sizes.large}}>{time(props.current_music_timer)}</Default_Text>
-                        <Slider style={music_slider_style}
-                                key={`${file_name}-${index}`}
-                                step={Math.floor(props.max_music_timer/1000)}
-                                maximumValue={props.max_music_timer}
-                                value={props.current_music_timer}
-                                onSlidingComplete={(play_at_time) => play_music_of_psalter(false)(play_at_time)()} />
-                        <Default_Text style={{marginLeft: sizes.default}}>{time(props.max_music_timer)}</Default_Text>
+                    <TouchableHighlight style={{marginLeft: sizes.medium, width: sizes.x_large, height: sizes.x_large, justifyContent: 'center'}}
+                                        onPress={play_music_of_psalter(true)(props.current_music_timer)()}>
+                        <Image style={{width: 28, height: 28}}
+                               source={require('../../../images/icons/icon-play.png')} />
+                    </TouchableHighlight>
+                    <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, justifyContent: 'center'}}
+                                        onPress={play_music_of_psalter(false)(props.current_music_timer)()}>
+                        <Image style={{width: sizes.x_large, height: sizes.x_large}}
+                               source={require('../../../images/icons/icons-pause.png')} />
+                    </TouchableHighlight>
 
 
                 </View>
@@ -628,7 +645,7 @@ class App extends Component {
         const fade_opacity = get_fade_opacity(this.props.index);
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
         //this.props.dispatch(get_sung_count(this.props.psalter.no));
-        play_music(this.props.dispatch)(true)(`Psalter ${this.props.psalter.no}.mp3`)(false)()();
+        play_music(this.props.dispatch)(true)(`Psalter ${this.props.psalter.no}.mp3`)(false)(this.props.current_music_timer)()();
 
         return (
             <Default_bg>
