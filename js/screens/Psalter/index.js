@@ -23,7 +23,7 @@ import KeyboardManager from 'react-native-keyboard-manager'
 import RNShakeEvent from 'react-native-shake-event';
 
 import styles from './index.styles';
-import {colors, sizes} from '../../common/common.styles';
+import {colors, sizes, font_sizes} from '../../common/common.styles';
 
 import {Default_Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
@@ -306,13 +306,16 @@ const music_player_fn = (Player) => {
     let current_psalter_music_file = '';
     let music_player;
     let interval = 0;
-    return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => () => {
+    let seek_time = 0;
+    return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => (time_seek) => () => {
         if (in_render && psalter_music_file !== current_psalter_music_file) {
             current_psalter_music_file = psalter_music_file;
+            seek_time = 0;
 
             if (music_player && music_player.isPlaying) {
                 music_player.stop();
                 music_player = new Player(`${psalter_music_file}`);
+                music_player.looping = true;
                 music_player.play(() => {
                     dispatch(set_max_music_timer(music_player.duration));
                     clear_and_update_music_timer(dispatch)(interval)(music_player);
@@ -323,13 +326,16 @@ const music_player_fn = (Player) => {
                 music_player.prepare();
             }
 
-        } else if (!in_render && psalter_music_file === current_psalter_music_file) {
+        } else if (!in_render && psalter_music_file === current_psalter_music_file && (time_seek === undefined || time_seek === null)) {
             current_psalter_music_file = psalter_music_file;
             const paused_pressed = !play_pressed;
 
             const create_new_player_and_play = () => {
                 music_player = new Player(psalter_music_file);
+
+                music_player.looping = true;
                 music_player.play(() => {
+                    music_player.seek(seek_time);
                     dispatch(set_max_music_timer(music_player.duration));
                     clear_and_update_music_timer(dispatch)(interval)(music_player);
                 });
@@ -341,6 +347,7 @@ const music_player_fn = (Player) => {
                         create_new_player_and_play();
 
                     } else if (music_player.isPaused) {
+                        music_player.seek(seek_time);
                         music_player.play();
                     }
 
@@ -348,12 +355,27 @@ const music_player_fn = (Player) => {
                     create_new_player_and_play();
                 }
 
-
             } else if (paused_pressed && music_player) {
                 if (music_player.isPlaying) music_player.pause();
-                if (music_player.isPaused) music_player.stop();
+                if (music_player.isPaused) {
+                    music_player.stop();
+                    seek_time = 0;
+                    clearInterval(interval);
+                }
             }
-
+        } else if (time_seek !== undefined && time_seek !== null && time_seek !== -1 && !isNaN(time_seek)) {
+            seek_time = time_seek;
+            if (music_player) {
+                if (music_player.isPlaying) {
+                    clearInterval(interval);
+                    music_player.pause();
+                    music_player.seek(seek_time);
+                    music_player.play();
+                    clear_and_update_music_timer(dispatch)(interval)(music_player);
+                } else {
+                    music_player.seek(seek_time);
+                }
+            }
         }
     };
 };
@@ -406,10 +428,13 @@ const More_Stuff_Section_List = (props) => {
 
     const music_section = ({item, index}) => {
         if (!Array.isArray(item.sources)) return null;
+        if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
+
         const music_slider_array = item.sources.map((file_name, index) => {
             const style = {
                 marginHorizontal: sizes.large,
-                flexDirection: 'row'
+                flexDirection: 'row',
+                alignItems: 'center'
 
             };
 
@@ -431,22 +456,25 @@ const More_Stuff_Section_List = (props) => {
             return (
                 <View style={style}>
                     <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, backgroundColor: 'red'}}
-                                        onPress={play_music_of_psalter(true)}>
+                                        onPress={play_music_of_psalter(true)()}>
                         <View />
                     </TouchableHighlight>
                     <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, marginLeft: sizes.default, backgroundColor: 'red'}}
-                                        onPress={play_music_of_psalter(false)}>
+                                        onPress={play_music_of_psalter(false)()}>
                         <View />
                     </TouchableHighlight>
 
-                    <Default_Text style={{marginLeft: sizes.large}}>{time(props.current_music_timer)}</Default_Text>
-                    <Slider style={music_slider_style}
-                            key={`${file_name}-${index}`}
-                            step={2000}
-                            maximumValue={props.max_music_timer}
-                            value={props.current_music_timer}
-                            onValueChange={() => {}} />
-                    <Default_Text style={{marginLeft: sizes.default}}>{time(props.max_music_timer)}</Default_Text>
+
+                        <Default_Text style={{marginLeft: sizes.large}}>{time(props.current_music_timer)}</Default_Text>
+                        <Slider style={music_slider_style}
+                                key={`${file_name}-${index}`}
+                                step={Math.floor(props.max_music_timer/1000)}
+                                maximumValue={props.max_music_timer}
+                                value={props.current_music_timer}
+                                onSlidingComplete={(play_at_time) => play_music_of_psalter(false)(play_at_time)()} />
+                        <Default_Text style={{marginLeft: sizes.default}}>{time(props.max_music_timer)}</Default_Text>
+
+
                 </View>
 
             );
@@ -461,12 +489,16 @@ const More_Stuff_Section_List = (props) => {
         );
     };
 
+    const psalter_music_source = (props.psalter_no !== -1 && props.psalter_no !== 0 && props.psalter_no !== undefined && props.psalter_no !== null)
+        ? `Psalter ${props.psalter_no}.mp3`
+        : ``;
+
     const sections = [
         {
             data: [
                 {
                     title: 'Music',
-                    sources: [`Psalter ${props.psalter_no}.mp3`],
+                    sources: [psalter_music_source],
                 }
             ],
             renderItem: music_section,
@@ -596,7 +628,7 @@ class App extends Component {
         const fade_opacity = get_fade_opacity(this.props.index);
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
         //this.props.dispatch(get_sung_count(this.props.psalter.no));
-        play_music(this.props.dispatch)(true)(`Psalter ${this.props.psalter.no}.mp3`)(false)();
+        play_music(this.props.dispatch)(true)(`Psalter ${this.props.psalter.no}.mp3`)(false)()();
 
         return (
             <Default_bg>

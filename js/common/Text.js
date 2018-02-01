@@ -33,7 +33,8 @@ const extra_styles_fn = (props) => {
         {opacity},
         style
     ].reduce((acc, item) => {
-        if (item !== null && item !== undefined) return {...acc, ...item};
+        const value = (typeof item === 'object') ? Object.values(item)[0] : undefined;
+        if (value !== null && value !== undefined) return {...acc, ...item};
         return acc;
     }, {});
 
