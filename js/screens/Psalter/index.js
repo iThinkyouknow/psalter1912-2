@@ -294,102 +294,6 @@ const List_Header = (props) => {
     );
 };
 
-const clear_and_update_music_timer = (dispatch) => (interval) => (music_player) => {
-    clearInterval(interval);
-    const new_interval = setInterval(() => {
-        dispatch(set_music_timer(music_player.currentTime));
-        if (music_player.currentTime >= music_player.duration || music_player.currentTime === -1) clearInterval(new_interval);
-    }, 1000 * 1);
-    return new_interval;
-};
-
-const music_player_fn = (Player) => {
-    let current_psalter_music_file = '';
-    let music_player;
-    let interval = 0;
-
-    return (dispatch) => (in_render) => (psalter_music_file) => (play_pressed) => (current_time) => (time_seek) => () => {
-        if (in_render && psalter_music_file !== current_psalter_music_file) {
-            current_psalter_music_file = psalter_music_file;
-
-
-            if (music_player && music_player.isPlaying) {
-                music_player.stop();
-                clearInterval(interval);
-                music_player = new Player(`${psalter_music_file}`);
-                music_player.looping = true;
-                music_player.play(() => {
-                    dispatch(set_max_music_timer(music_player.duration));
-                    interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
-                });
-
-            } else {
-                music_player = new Player(`${psalter_music_file}`);
-                music_player.prepare();
-            }
-
-        } else if (!in_render && psalter_music_file === current_psalter_music_file && (time_seek === undefined || time_seek === null)) {
-            current_psalter_music_file = psalter_music_file;
-            const paused_pressed = !play_pressed;
-
-            const create_new_player_and_play = (_current_time) => {
-                clearInterval(interval);
-                music_player = new Player(psalter_music_file);
-                music_player.looping = true;
-                music_player.play(() => {
-                    dispatch(set_max_music_timer(music_player.duration));
-                    if (_current_time) music_player.seek(current_time);
-                    interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
-                });
-            };
-
-            if (play_pressed) {
-                if (music_player) {
-                    if (music_player.isStopped) {
-                        create_new_player_and_play();
-
-                    } else if (music_player.isPaused) {
-                        clearInterval(interval);
-                        music_player.stop();
-                        create_new_player_and_play(current_time);
-                    }
-
-                } else if (!music_player) {
-                    create_new_player_and_play();
-                }
-
-            } else if (paused_pressed && music_player) {
-                clearInterval(interval);
-                if (music_player.isPlaying) {
-                    music_player.pause();
-                } else if (music_player.isPaused) {
-                    music_player.stop();
-
-                    dispatch(set_music_timer(0));
-                }
-            }
-        } else if (time_seek !== -1 && time_seek !== null && time_seek !== undefined && !isNaN(time_seek)) {
-            clearInterval(interval);
-            if (music_player) {
-                if (music_player.isPlaying) {
-
-                    music_player.pause();
-                    dispatch(set_music_timer(time_seek));
-                    music_player.seek(time_seek);
-                    music_player.play(() => {
-                        interval = clear_and_update_music_timer(dispatch)(interval)(music_player);
-                    });
-
-                } else {
-                    dispatch(set_music_timer(time_seek));
-                }
-            }
-        }
-    };
-};
-
-// const play_music = music_player_fn(Player);
-
 
 const _music_player_fn = (Player) => {
   // state machine
@@ -421,6 +325,18 @@ const _music_player_fn = (Player) => {
         }, 1000);
     };
 
+    // play
+    const play = (dispatch) => (music_file_name) => (current_time) => () => {
+        clearInterval(interval);
+        if (music_player) music_player.stop();
+        if (music_file_name !== current_music_file_name) {
+            current_music_file_name = music_file_name;
+            reset_timer(dispatch)(interval);
+        }
+        music_player = create_new_player(Player)(current_music_file_name);
+        const actual_current_time = (current_time < 0) ? 0 : current_time;
+        music_player.play(play_callback(dispatch)(actual_current_time));
+    };
 
     // in render function
     const when_psalter_change = (dispatch) => (file_name) => {
@@ -429,9 +345,7 @@ const _music_player_fn = (Player) => {
             reset_timer(dispatch)(interval);
 
             if (music_player && music_player.isPlaying) {
-                music_player.stop();
-                music_player = create_new_player(Player)(current_music_file_name);
-                music_player.play(play_callback(dispatch)(0));
+                play(dispatch)(current_music_file_name)(0)();
 
             } else {
                 if (music_player) {
@@ -444,19 +358,6 @@ const _music_player_fn = (Player) => {
                 });
             }
         }
-    };
-    // play
-    const play = (dispatch) => (music_file_name) => (current_time) => () => {
-        clearInterval(interval);
-        if (music_player) music_player.stop();
-        if (music_file_name !== current_music_file_name) {
-            current_music_file_name = music_file_name;
-            reset_timer(dispatch)(interval);
-        }
-        music_player = create_new_player(Player)(current_music_file_name);
-        const actual_current_time = (current_time < 0) ? 0 : current_time;
-        // music_player.seek(actual_current_time);
-        music_player.play(play_callback(dispatch)(actual_current_time));
     };
 
     // pause
@@ -480,8 +381,11 @@ const _music_player_fn = (Player) => {
         if (music_player && music_player.isPlaying) {
             music_player.stop();
             play(dispatch)(current_music_file_name)(new_time)();
-
         }
+    };
+
+    const stopTimer = () => {
+        clearInterval(interval);
     };
 
     //return
@@ -489,7 +393,8 @@ const _music_player_fn = (Player) => {
         when_psalter_change,
         play,
         pause_or_stop,
-        change_timing
+        change_timing,
+        stopTimer
     };
 };
 
@@ -556,7 +461,6 @@ const More_Stuff_Section_List = (props) => {
                 marginLeft: sizes.default
             };
 
-            // const play_music_of_psalter = play_music(props.dispatch)(false)(file_name);
 
             const time = (time_in_ms) => {
                 if (time_in_ms === undefined || time_in_ms === null || isNaN(time_in_ms) || time_in_ms === -1) return `00:00`;
@@ -564,6 +468,13 @@ const More_Stuff_Section_List = (props) => {
                 const minutes = (`${date.getUTCMinutes()}`.length === 2) ? `${date.getUTCMinutes()}` : `0${date.getUTCMinutes()}`;
                 const seconds = (`${date.getUTCSeconds()}`.length === 2) ? `${date.getUTCSeconds()}` : `0${date.getUTCSeconds()}`;
                 return `${minutes}:${seconds}`;
+            };
+
+            const value_change = (should_stop_timer) => () => {
+                if (should_stop_timer) {
+                    play_music.stopTimer();
+                    should_stop_timer = false;
+                }
             };
 
             return (
@@ -577,6 +488,7 @@ const More_Stuff_Section_List = (props) => {
                             step={Math.floor(props.max_music_timer/1000)}
                             maximumValue={props.max_music_timer}
                             value={props.current_music_timer}
+                            onValueChange={value_change(true)}
                             onSlidingComplete={(play_at_time) => {
                                 //play_music_of_psalter(false)(props.current_music_timer)(play_at_time)();
                                 play_music.change_timing(props.dispatch)(play_at_time);
