@@ -21,12 +21,7 @@ export default styles = StyleSheet.create({
         marginVertical: sizes.default
     },
     text_input_style: {
-        position: 'absolute',
-        bottom: 0,
-        zIndex: zIndex.small,
-        marginHorizontal: sizes.large,
-        marginRight: sizes.x_large,
-        marginVertical: sizes.default,
+        flex: 1,
         padding: sizes.default,
         ...line_height_fn('default')(font_sizes.default),
         borderRadius: border_radii.default,

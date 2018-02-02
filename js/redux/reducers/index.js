@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {psalter, psalters_count} from './psalter';
-import {psalter_text_input, valid_text_input, music_timer} from './state';
+import {psalter_text_input, valid_text_input, music_timer, text_input_as_search} from './state';
 
 
 const rootReducer = combineReducers({
@@ -8,7 +8,9 @@ const rootReducer = combineReducers({
     psalters_count,
     psalter_text_input,
     valid_text_input,
-    music_timer
+    music_timer,
+    text_input_as_search,
+    ...require('./search')
 });
 
 export default rootReducer;

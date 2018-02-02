@@ -34,3 +34,12 @@ export function music_timer(state = {current: 0, max: 0}, action = {}) {
 
     return state;
 }
+
+export function text_input_as_search(state = false, action) {
+    if (action.type === STATE_ACTIONS.SET_INPUT_AS_SEARCH) {
+        if (typeof action.should_search !== "boolean") return state;
+        return action.should_search;
+    }
+
+    return state;
+}

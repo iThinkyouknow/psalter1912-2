@@ -23,7 +23,7 @@ import KeyboardManager from 'react-native-keyboard-manager'
 import RNShakeEvent from 'react-native-shake-event';
 
 import styles from './index.styles';
-import {colors, sizes, font_sizes} from '../../common/common.styles';
+import {colors, sizes, font_sizes, zIndex} from '../../common/common.styles';
 
 import {Default_Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
@@ -37,8 +37,12 @@ import {
     psalter_text_input,
     toggle_text_as_valid,
     set_max_music_timer,
-    set_music_timer
+    set_music_timer,
+    set_input_as_search
 } from '../../redux/actions/state-actions';
+import {
+    search_psalter
+} from '../../redux/actions/search-actions';
 
 import {
     Player,
@@ -196,6 +200,23 @@ const wrong_number_error_alert = (max_val) => {
     )
 };
 
+const not_enough_characters_search_alert = (min_length) => {
+    Alert.alert(
+        `Too Many Search Results`,
+        `Come On! \ 
+Don't waste my time producing unfruitful search results! \ 
+Search with at least ${min_length} characters & \ 
+Apologize Now! 😡`,
+        [
+            {
+                text: `I'm Sorry! 😳`,
+                onPress: () => {}, style: 'cancel'
+            }
+        ],
+        { cancelable: true }
+    )
+};
+
 const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => {
     const _value = value.trim();
 
@@ -239,13 +260,7 @@ const end_text_input = (dispatch) => (text_is_valid) => (event) => {
     }
 };
 
-
-const Text_input = (props) => {
-    const {width, height} = Dimensions.get('window');
-
-    const text_input_width = {
-        width: width - sizes.x_large * 2,
-    };
+const Number_input = (props) => {
 
     const keyboard_type = (Platform.OS === 'ios') ? 'number-pad' : 'numeric';
     const {psalters_count, value, dispatch, valid_text_input} = props;
@@ -257,7 +272,6 @@ const Text_input = (props) => {
                    maxLength={`${psalters_count}`.length}
                    onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
                    value={value}
-                   style={[styles.text_input_style, text_input_width, props.style]}
                    autoCorrect={false}
                    {...props} />
     );
@@ -269,9 +283,21 @@ const shake = (dispatch) => (count) => () => {
     dispatch(lock_in(random));
 };
 
-KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
-KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
-KeyboardManager.setShouldShowTextFieldPlaceholder(false);
+const set_keyboard_style = (is_psalter_input) => {
+
+    if (is_psalter_input) {
+        KeyboardManager.setEnableAutoToolbar(true);
+        KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
+        KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
+        KeyboardManager.setShouldShowTextFieldPlaceholder(false);
+
+    } else {
+        KeyboardManager.setEnableAutoToolbar(false);
+
+    }
+
+};
+
 
 const keyExtractor = (item, i) => i;
 
@@ -490,7 +516,6 @@ const More_Stuff_Section_List = (props) => {
                             value={props.current_music_timer}
                             onValueChange={value_change(true)}
                             onSlidingComplete={(play_at_time) => {
-                                //play_music_of_psalter(false)(props.current_music_timer)(play_at_time)();
                                 play_music.change_timing(props.dispatch)(play_at_time);
                             }} />
                     <Default_Text style={{marginLeft: sizes.default}}>
@@ -512,8 +537,6 @@ const More_Stuff_Section_List = (props) => {
                 </View>
 
             );
-            //todo: link to ios
-
         });
         return (
             <View >
@@ -610,6 +633,56 @@ const add_count = count_fn();
 
 
 
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ * **/
+
+const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
+    if (typeof text_input_as_search !== "boolean") return;
+    dispatch(set_input_as_search(!text_input_as_search));
+};
+const search_fn = (dispatch) => (event) => {
+    const text = event.nativeEvent.text.trim();
+
+    if (text.length < 3) {
+        not_enough_characters_search_alert(3);
+    } else {
+        dispatch(search_psalter(text));
+    }
+
+};
+
+
+const Text_input_search = (props) => {
+    return (
+        <TextInput placeholder={`SEARCH with at least 3 characters`}
+                   onEndEditing={search_fn(props.dispatch)}
+                   onChangeText={() => {}}
+                   autoCorrect={false}
+                   returnKeyType={'search'}
+                   selectTextOnFocus={true}
+                   {...props} />
+    );
+};
+
+
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ * **/
+
+
+
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -658,12 +731,11 @@ class App extends Component {
 
 
     render() {
-
         const fade_opacity = get_fade_opacity(this.props.index);
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
-        //this.props.dispatch(get_sung_count(this.props.psalter.no));
-        // play_music(this.props.dispatch)(true)(`Psalter ${this.props.psalter.no}.mp3`)(false)(this.props.current_music_timer)()();
         play_music.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
+        set_keyboard_style(!this.props.text_input_as_search);
+
         return (
             <Default_bg>
                 <More_Stuff_Section_List
@@ -684,10 +756,27 @@ class App extends Component {
                           style={styles.psalter_text_flat_list}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
 
-                <Text_input psalters_count={this.props.psalters_count}
-                            value={this.props.psalter_text_input}
-                            dispatch={this.props.dispatch}
-                            valid_text_input={this.props.valid_text_input} />
+                <View style={{position: 'absolute', bottom: 0,
+                    zIndex: zIndex.small, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: sizes.large,
+                    paddingVertical: sizes.default,}}>
+                    {!this.props.text_input_as_search &&
+                        <Number_input psalters_count={this.props.psalters_count}
+                                      value={this.props.psalter_text_input}
+                                      dispatch={this.props.dispatch}
+                                      style={[styles.text_input_style]}
+                                      valid_text_input={this.props.valid_text_input} />
+                    }
+                    {this.props.text_input_as_search &&
+                        <Text_input_search dispatch={this.props.dispatch}
+                                           style={[styles.text_input_style]}
+                                           valid_text_input={true} />
+                    }
+
+                    <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'center', alignItems: 'center'}} onPress={set_text_input_as_search(this.props.dispatch)(this.props.text_input_as_search)}>
+                        <View style={{width: 32, height: 32, backgroundColor: 'red'}} />
+                    </TouchableHighlight>
+                </View>
+
 
             </Default_bg>
         );
@@ -705,7 +794,8 @@ function mapStateToProps(state) {
         sung_count: state.psalter.current_sung_count,
         sung_count_all: state.psalter.all_sung_count,
         current_music_timer: state.music_timer.current,
-        max_music_timer: state.music_timer.max
+        max_music_timer: state.music_timer.max,
+        text_input_as_search: state.text_input_as_search
     };
 }
 
