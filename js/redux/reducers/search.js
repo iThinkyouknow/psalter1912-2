@@ -23,13 +23,13 @@ export function psalter_search_results(state = [], action = {}) {
             if (!Array.isArray(result_array)) return acc;
             const search_text = result_array[0];
             const start_index = (result_array.index < 20) ? 0 : result_array.index - 20;
-            const end_index = ((result_array.input.length - start_index) < 194) ? result_array.input.length : start_index + 114;
+            const end_index = ((result_array.input.length - start_index) < 114) ? result_array.input.length : start_index + 114;
 
             const result_context_str = result_array.input.slice(start_index, end_index);
 
             const exact_search_string_regex = new RegExp(search_text, 'ig');
             const search_string_result_wi_context = exact_search_string_regex.exec(result_context_str);
-            const exact_string_start_range = 20;
+            const exact_string_start_range = (search_string_result_wi_context !== null) ? search_string_result_wi_context.index : 20;
             const exact_string_end_range = exact_string_start_range +  search_text.length;
 
             const result_string_with_format = [
