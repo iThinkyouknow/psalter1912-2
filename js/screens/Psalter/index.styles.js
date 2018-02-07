@@ -59,5 +59,13 @@ export default styles = StyleSheet.create({
     },
     more_info_section_container: {
         marginTop: sizes.default
-    }
+    },
+    search_results_view: {
+        backgroundColor: colors.black,
+        opacity: 0.8,
+        position: 'absolute',
+        left: sizes.large,
+        zIndex: zIndex.max,
+        borderRadius: border_radii.large
+    },
 });

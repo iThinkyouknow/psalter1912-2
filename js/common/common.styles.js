@@ -11,7 +11,7 @@ export const native_elements = {
 export const colors = {
   white: 'rgb(255, 255, 255)',
   ocean: 'rgb(0, 84, 147)',
-    black: 'rgb(0, 0, 0)'
+  black: 'rgb(0, 0, 0)'
 };
 
 export const sizes = {

@@ -23,7 +23,7 @@ import KeyboardManager from 'react-native-keyboard-manager'
 import RNShakeEvent from 'react-native-shake-event';
 
 import styles from './index.styles';
-import {colors, sizes, font_sizes, zIndex} from '../../common/common.styles';
+import {colors, sizes, font_sizes, zIndex, native_elements} from '../../common/common.styles';
 
 import {Default_Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
@@ -75,7 +75,7 @@ const slide = (should_slide_down) => (slide_position) => () => {
     const {height, width} = Dimensions.get('window');
 
     Animated.timing(slide_position, {
-        toValue: (should_slide_down) ? (height + 49) : 0,
+        toValue: (should_slide_down) ? (height + native_elements.tab_bar) : 0,
         duration: 500,
         useNativeDriver: true
     }).start();
@@ -598,11 +598,8 @@ const More_Stuff_Section_List = (props) => {
     return (
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
             <List_Header navigator={props.navigator} />
-            <SectionList sections={sections}
-
-                                    />
+            <SectionList sections={sections} />
         </Animated.View>
-
     );
 };
 
@@ -641,11 +638,40 @@ const add_count = count_fn();
  *
  *
  * **/
+const slide_right_pos = new Animated.Value(-375);
+
+const slide_right = () => {
+    let should_slide_right = false;
+    return (slide_position) => () => {
+        const {height, width} = Dimensions.get('window');
+
+        Animated.spring(slide_position, {
+            toValue: (!should_slide_right) ? 0 : -width,
+            duration: 100,
+            bounciness: 18,
+            useNativeDriver: true
+        }).start();
+
+        should_slide_right = !should_slide_right;
+    };
+};
+
+const slide_right_w_cache = slide_right();
+
+
 
 const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     if (typeof text_input_as_search !== "boolean") return;
     dispatch(set_input_as_search(!text_input_as_search));
 };
+
+const on_search_button_press =  (dispatch) => (text_input_as_search) => (slide_right_pos) => () => {
+        set_text_input_as_search(dispatch)(text_input_as_search)();
+        slide_right_w_cache(slide_right_pos)();
+};
+
+
+
 const search_fn = (dispatch) => (event) => {
     const text = event.nativeEvent.text.trim();
 
@@ -659,6 +685,7 @@ const search_fn = (dispatch) => (event) => {
 
 
 const Text_input_search = (props) => {
+    const should_autofocus = !(Array.isArray(props.psalter_search_results) && props.psalter_search_results.length > 0);
     return (
         <TextInput placeholder={`SEARCH with at least 3 characters`}
                    onEndEditing={search_fn(props.dispatch)}
@@ -666,9 +693,74 @@ const Text_input_search = (props) => {
                    autoCorrect={false}
                    returnKeyType={'search'}
                    selectTextOnFocus={true}
+                   autoFocus={should_autofocus}
+                   autoCapitalize={'none'}
                    {...props} />
     );
 };
+
+const get_psalter = (dispatch) => (input_int) => () => {
+    dispatch(lock_in(input_int));
+    slide_right_w_cache(slide_right_pos)()
+};
+
+const Search_result_view = (props) => {
+    const {width, height} = Dimensions.get('window');
+    const search_results_view_dynamic_style = {
+        width: width - sizes.large * 2,
+        height: height - native_elements.status_bar - native_elements.tab_bar - sizes.default * 2 - 37,
+        bottom: 37 + sizes.default * 2,
+        transform: [
+            {
+                translateX: slide_right_pos
+            }
+        ]
+
+    };
+
+    const Search_r_view_header = (props) => {
+        const search_results_count = (Array.isArray(props.search_results) && props.search_results.length > 0) ? `${props.search_results.length} ` : '';
+        return (
+            <View style={{marginTop: sizes.medium}}>
+                {main_title(1)(`${search_results_count} Search Results`)}
+            </View>
+        );
+    };
+
+    const search_result = (dispatch) => ({item, index}) => {
+        const text = item.search_result.map(({text, style}, i) => {
+            const key = `search-result-${index}-${i}`;
+            const font_weight = (style === 'bold') ? 'bold' : 'normal';
+            return <Default_Text key={key} font_weight={font_weight}>{text}</Default_Text>;
+        });
+
+
+
+        return (
+            <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}} onPress={get_psalter(dispatch)(item.index)}>
+                <View >
+                    <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
+                    <Default_Text>
+                        {text}
+                    </Default_Text>
+                </View>
+            </TouchableHighlight>
+        );
+    };
+
+    const search_results_key_extractor = (item, index) => `search-results-${index}`;
+    const search_results_separator = (width) => ({highlighter}) => <View style={{alignSelf: 'center', width: Math.floor(width * 0.5), height: 1, backgroundColor: colors.ocean}}/>;
+
+    return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
+        <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results} />}
+                  data={props.search_results}
+                  renderItem={search_result(props.dispatch)}
+                  keyExtractor={search_results_key_extractor}
+                  ItemSeparatorComponent={search_results_separator(width)} />
+
+
+    </Animated.View>)
+}
 
 
 /**
@@ -707,7 +799,8 @@ class App extends Component {
         drawUnderNavBar: true,
         navBarBackgroundColor: colors.ocean,
         screenBackgroundColor: colors.ocean,
-        statusBarTextColorSchemeSingleScreen: 'light'
+        statusBarTextColorSchemeSingleScreen: 'light',
+        navBarHidden: true
     }
 
     static navigatorButtons = {
@@ -749,6 +842,8 @@ class App extends Component {
                     current_music_timer={this.props.current_music_timer}
                     max_music_timer={this.props.max_music_timer} />
 
+                <Search_result_view search_results={this.props.psalter_search_results} dispatch={this.props.dispatch} />
+
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_item(fade_opacity)}
@@ -769,10 +864,13 @@ class App extends Component {
                     {this.props.text_input_as_search &&
                         <Text_input_search dispatch={this.props.dispatch}
                                            style={[styles.text_input_style]}
-                                           valid_text_input={true} />
+                                           valid_text_input={true} psalter_search_results={this.props.psalter_search_results} />
                     }
 
-                    <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'center', alignItems: 'center'}} onPress={set_text_input_as_search(this.props.dispatch)(this.props.text_input_as_search)}>
+                    <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'center', alignItems: 'center'}}
+                                        onPress={on_search_button_press(this.props.dispatch)(this.props.text_input_as_search)(slide_right_pos)}
+
+                    >
                         <View style={{width: 32, height: 32, backgroundColor: 'red'}} />
                     </TouchableHighlight>
                 </View>
@@ -795,7 +893,8 @@ function mapStateToProps(state) {
         sung_count_all: state.psalter.all_sung_count,
         current_music_timer: state.music_timer.current,
         max_music_timer: state.music_timer.max,
-        text_input_as_search: state.text_input_as_search
+        text_input_as_search: state.text_input_as_search,
+        psalter_search_results: state.psalter_search_results
     };
 }
 
