@@ -85,7 +85,6 @@ const toggle_tab_nav_bar = (navigator) => (should_show) => () => {
     navigator.setStyle({
         tabBarHidden: !should_show,
         navBarHidden: !should_show
-
     });
 };
 
@@ -95,7 +94,7 @@ const on_navigator_event = (navigator) => (event) => { // this is the onPress ha
             slide(true)(slide_position)();
             toggle_tab_nav_bar(navigator)(false)();
         }
-    }
+    };
 };
 
 const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
@@ -638,7 +637,7 @@ const add_count = count_fn();
  *
  *
  * **/
-const slide_right_pos = new Animated.Value(-375);
+const slide_right_pos = new Animated.Value(-1000);
 
 const slide_right = () => {
     let should_slide_right = false;
@@ -646,7 +645,7 @@ const slide_right = () => {
         const {height, width} = Dimensions.get('window');
 
         Animated.spring(slide_position, {
-            toValue: (!should_slide_right) ? 0 : -width,
+            toValue: (!should_slide_right) ? 0 : -width * 1.2,
             duration: 100,
             bounciness: 18,
             useNativeDriver: true
@@ -658,16 +657,28 @@ const slide_right = () => {
 
 const slide_right_w_cache = slide_right();
 
+const toggle_nav_bar_for_search = () => {
+    let should_show = false;
+    return (navigator) => () => {
+        navigator.setStyle({
+            navBarHidden: !should_show
+        });
+        should_show = !should_show;
+    };
+};
 
+const toggle_nav_bar_for_search_w_should_search_cache = toggle_nav_bar_for_search();
 
 const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     if (typeof text_input_as_search !== "boolean") return;
     dispatch(set_input_as_search(!text_input_as_search));
 };
 
-const on_search_button_press =  (dispatch) => (text_input_as_search) => (slide_right_pos) => () => {
+const on_search_button_press =  (dispatch) => (navigator) => (text_input_as_search) => (slide_right_pos) => () => {
         set_text_input_as_search(dispatch)(text_input_as_search)();
+        toggle_nav_bar_for_search_w_should_search_cache(navigator)();
         slide_right_w_cache(slide_right_pos)();
+
 };
 
 
@@ -699,9 +710,11 @@ const Text_input_search = (props) => {
     );
 };
 
-const get_psalter = (dispatch) => (input_int) => () => {
+const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
     dispatch(lock_in(input_int));
-    slide_right_w_cache(slide_right_pos)()
+    slide_right_w_cache(slide_right_pos)();
+    toggle_nav_bar_for_search_w_should_search_cache(navigator)();
+
 };
 
 const Search_result_view = (props) => {
@@ -727,17 +740,21 @@ const Search_result_view = (props) => {
         );
     };
 
-    const search_result = (dispatch) => ({item, index}) => {
+    const search_result = (dispatch) => (navigator) => ({item, index}) => {
         const text = item.search_result.map(({text, style}, i) => {
             const key = `search-result-${index}-${i}`;
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
-            return <Default_Text key={key} font_weight={font_weight}>{text}</Default_Text>;
+            const color = (style === 'bold') ? {
+                color: colors.blue
+            } : undefined;
+            return <Default_Text style={color} key={key} font_weight={font_weight}>{text}</Default_Text>;
         });
 
 
 
         return (
-            <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}} onPress={get_psalter(dispatch)(item.index)}>
+            <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}}
+                                onPress={get_psalter_for_search(dispatch)(navigator)(item.index)}>
                 <View >
                     <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
                     <Default_Text>
@@ -754,7 +771,7 @@ const Search_result_view = (props) => {
     return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
         <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results} />}
                   data={props.search_results}
-                  renderItem={search_result(props.dispatch)}
+                  renderItem={search_result(props.dispatch)(props.navigator)}
                   keyExtractor={search_results_key_extractor}
                   ItemSeparatorComponent={search_results_separator(width)} />
 
@@ -800,7 +817,7 @@ class App extends Component {
         navBarBackgroundColor: colors.ocean,
         screenBackgroundColor: colors.ocean,
         statusBarTextColorSchemeSingleScreen: 'light',
-        navBarHidden: true
+        // navBarHidden: true
     }
 
     static navigatorButtons = {
@@ -842,7 +859,9 @@ class App extends Component {
                     current_music_timer={this.props.current_music_timer}
                     max_music_timer={this.props.max_music_timer} />
 
-                <Search_result_view search_results={this.props.psalter_search_results} dispatch={this.props.dispatch} />
+                <Search_result_view search_results={this.props.psalter_search_results}
+                                    dispatch={this.props.dispatch}
+                                    navigator={this.props.navigator} />
 
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
@@ -867,11 +886,12 @@ class App extends Component {
                                            valid_text_input={true} psalter_search_results={this.props.psalter_search_results} />
                     }
 
-                    <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'center', alignItems: 'center'}}
-                                        onPress={on_search_button_press(this.props.dispatch)(this.props.text_input_as_search)(slide_right_pos)}
+                    <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'flex-start', alignItems: 'center'}}
+                                        onPress={on_search_button_press(this.props.dispatch)(this.props.navigator)(this.props.text_input_as_search)(slide_right_pos)}
 
                     >
-                        <View style={{width: 32, height: 32, backgroundColor: 'red'}} />
+                        <Image style={{width: 32, height: 32}} source={require('../../../images/icons/icon-search.png')} />
+
                     </TouchableHighlight>
                 </View>
 

@@ -8,8 +8,8 @@ export function psalter_search_results(state = [], action = {}) {
 
         if (typeof action.search_text !== 'string') return state;
 
-        // const regex = new RegExp(action.search_text.split('').join('(\\w|\\s|\\d)*'), 'ig');
-        const regex = new RegExp(action.search_text, 'ig');
+        const regex = new RegExp(action.search_text.split('').join('(\\w|\\s|\\d|,)*'), 'ig');
+        // const regex = new RegExp(action.search_text, 'ig');
 
         const cache_key = regex.toString().toLowerCase();
 
