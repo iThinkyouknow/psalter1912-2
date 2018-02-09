@@ -36,19 +36,13 @@ import {
 import {
     psalter_text_input,
     toggle_text_as_valid,
-    set_max_music_timer,
-    set_music_timer,
     set_input_as_search
 } from '../../redux/actions/state-actions';
 import {
     search_psalter
 } from '../../redux/actions/search-actions';
 
-import {
-    Player,
-    Recorder,
-    MediaStates
-} from 'react-native-audio-toolkit';
+import music_player from '../../utils/music-player';
 
 const fade_w_cache = () => {
     let prev_index;
@@ -85,6 +79,13 @@ const toggle_tab_nav_bar = (navigator) => (should_show) => () => {
     navigator.setStyle({
         tabBarHidden: !should_show,
         navBarHidden: !should_show
+    });
+};
+
+const set_nav_bar_title = (navigator) => (psalter_no) => () => {
+    const invalid_psalter =  (psalter_no === undefined || psalter_no === null || isNaN(parseInt(psalter_no)));
+    navigator.setTitle({
+        title: invalid_psalter ? `Psalter` : `Psalter ${psalter_no}`
     });
 };
 
@@ -181,7 +182,6 @@ const string_input_error_alert = () => {
 const set_text_input_value = (dispatch) => (value) => {
     dispatch(psalter_text_input(value));
 };
-
 
 const wrong_number_error_alert = (max_val) => {
     Alert.alert(
@@ -292,11 +292,8 @@ const set_keyboard_style = (is_psalter_input) => {
 
     } else {
         KeyboardManager.setEnableAutoToolbar(false);
-
     }
-
 };
-
 
 const keyExtractor = (item, i) => i;
 
@@ -319,111 +316,6 @@ const List_Header = (props) => {
     );
 };
 
-
-const _music_player_fn = (Player) => {
-  // state machine
-    let current_music_file_name = '';
-    let music_player;
-    let interval = 0;
-
-    //helper fn
-    const create_new_player = (Player_class) => (new_file_name) => {
-        const new_music_player = new Player_class(new_file_name);
-        new_music_player.looping = true;
-
-        return new_music_player;
-    };
-
-    const reset_timer = (dispatch) => (_interval) => {
-        clearInterval(_interval);
-        dispatch(set_music_timer(0));
-    };
-
-    const play_callback = (dispatch) => (play_time) => () => {
-        dispatch(set_max_music_timer(music_player.duration));
-        music_player.seek(play_time);
-        interval = setInterval(() => {
-            dispatch(set_music_timer(music_player.currentTime));
-            if (music_player.currentTime >= music_player.duration || music_player.currentTime === -1) {
-                clearInterval(interval);
-            }
-        }, 1000);
-    };
-
-    // play
-    const play = (dispatch) => (music_file_name) => (current_time) => () => {
-        clearInterval(interval);
-        if (music_player) music_player.stop();
-        if (music_file_name !== current_music_file_name) {
-            current_music_file_name = music_file_name;
-            reset_timer(dispatch)(interval);
-        }
-        music_player = create_new_player(Player)(current_music_file_name);
-        const actual_current_time = (current_time < 0) ? 0 : current_time;
-        music_player.play(play_callback(dispatch)(actual_current_time));
-    };
-
-    // in render function
-    const when_psalter_change = (dispatch) => (file_name) => {
-        if (file_name !== current_music_file_name) {
-            current_music_file_name = file_name;
-            reset_timer(dispatch)(interval);
-
-            if (music_player && music_player.isPlaying) {
-                play(dispatch)(current_music_file_name)(0)();
-
-            } else {
-                if (music_player) {
-                    music_player.stop();
-                }
-                music_player = create_new_player(Player)(current_music_file_name);
-                music_player.play(() => {
-                    dispatch(set_max_music_timer(music_player.duration));
-                    music_player.stop();
-                });
-            }
-        }
-    };
-
-    // pause
-    const pause_or_stop = (dispatch) => () => {
-        if (music_player) {
-            if (music_player.isPlaying) { //pause
-                clearInterval(interval);
-                dispatch(set_music_timer(music_player.currentTime));
-                music_player.stop();
-                music_player = undefined;
-            }
-        } else if (!music_player) { //stop
-            music_player = undefined;
-            reset_timer(dispatch)(interval);
-        }
-    };
-    // slide
-    const change_timing = (dispatch) => (new_time) => {
-        clearInterval(interval);
-        dispatch(set_music_timer(new_time));
-        if (music_player && music_player.isPlaying) {
-            music_player.stop();
-            play(dispatch)(current_music_file_name)(new_time)();
-        }
-    };
-
-    const stopTimer = () => {
-        clearInterval(interval);
-    };
-
-    //return
-    return {
-        when_psalter_change,
-        play,
-        pause_or_stop,
-        change_timing,
-        stopTimer
-    };
-};
-
-const play_music = _music_player_fn(Player);
 
 const More_Stuff_Section_List = (props) => {
 
@@ -497,7 +389,7 @@ const More_Stuff_Section_List = (props) => {
 
             const value_change = (should_stop_timer) => () => {
                 if (should_stop_timer) {
-                    play_music.stopTimer();
+                    music_player.stopTimer();
                     should_stop_timer = false;
                 }
             };
@@ -515,19 +407,19 @@ const More_Stuff_Section_List = (props) => {
                             value={props.current_music_timer}
                             onValueChange={value_change(true)}
                             onSlidingComplete={(play_at_time) => {
-                                play_music.change_timing(props.dispatch)(play_at_time);
+                                music_player.change_timing(props.dispatch)(play_at_time);
                             }} />
                     <Default_Text style={{marginLeft: sizes.default}}>
                         {time(props.max_music_timer)}
                     </Default_Text>
 
                     <TouchableHighlight style={{marginLeft: sizes.medium, width: sizes.x_large, height: sizes.x_large, justifyContent: 'center'}}
-                                        onPress={play_music.play(props.dispatch)(file_name)(props.current_music_timer)}>
+                                        onPress={music_player.play(props.dispatch)(file_name)(props.current_music_timer)}>
                         <Image style={{width: 28, height: 28}}
                                source={require('../../../images/icons/icon-play.png')} />
                     </TouchableHighlight>
                     <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, justifyContent: 'center'}}
-                                        onPress={play_music.pause_or_stop(props.dispatch)}>
+                                        onPress={music_player.pause_or_stop(props.dispatch)}>
                         <Image style={{width: sizes.x_large, height: sizes.x_large}}
                                source={require('../../../images/icons/icons-pause.png')} />
                     </TouchableHighlight>
@@ -678,28 +570,27 @@ const on_search_button_press =  (dispatch) => (navigator) => (text_input_as_sear
         set_text_input_as_search(dispatch)(text_input_as_search)();
         toggle_nav_bar_for_search_w_should_search_cache(navigator)();
         slide_right_w_cache(slide_right_pos)();
-
 };
 
 
 
-const search_fn = (dispatch) => (event) => {
+const search_fn = (dispatch) => (search_action) => (event) => {
     const text = event.nativeEvent.text.trim();
 
     if (text.length < 3) {
         not_enough_characters_search_alert(3);
     } else {
-        dispatch(search_psalter(text));
+        dispatch(search_action(text));
     }
 
 };
 
 
 const Text_input_search = (props) => {
-    const should_autofocus = !(Array.isArray(props.psalter_search_results) && props.psalter_search_results.length > 0);
+    const should_autofocus = !(Array.isArray(props.search_results) && props.search_results.length > 0);
     return (
         <TextInput placeholder={`SEARCH with at least 3 characters`}
-                   onEndEditing={search_fn(props.dispatch)}
+                   onEndEditing={search_fn(props.dispatch)(search_psalter)}
                    onChangeText={() => {}}
                    autoCorrect={false}
                    returnKeyType={'search'}
@@ -843,8 +734,9 @@ class App extends Component {
     render() {
         const fade_opacity = get_fade_opacity(this.props.index);
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
-        play_music.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
+        music_player.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
         set_keyboard_style(!this.props.text_input_as_search);
+        set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
         return (
             <Default_bg>
@@ -883,7 +775,8 @@ class App extends Component {
                     {this.props.text_input_as_search &&
                         <Text_input_search dispatch={this.props.dispatch}
                                            style={[styles.text_input_style]}
-                                           valid_text_input={true} psalter_search_results={this.props.psalter_search_results} />
+                                           valid_text_input={true}
+                                           search_results={this.props.psalter_search_results} />
                     }
 
                     <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'flex-start', alignItems: 'center'}}
