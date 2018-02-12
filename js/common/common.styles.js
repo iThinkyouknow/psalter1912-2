@@ -132,3 +132,14 @@ export const zIndex = {
   xx_large: 2000,
   xxx_large: 2500
 };
+
+export const buttons = {
+    small: 24,
+    medium: 28,
+    default: 32,
+    large: 36,
+    x_large: 40,
+    xx_large: 44,
+    xxx_large: 48,
+    xxxx_large: 52
+};

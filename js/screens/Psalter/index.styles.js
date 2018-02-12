@@ -9,7 +9,8 @@ import {
     border_radii,
     font_sizes,
     colors,
-    line_height_fn
+    line_height_fn,
+    buttons
 } from '../../common/common.styles';
 
 
@@ -68,4 +69,44 @@ export default styles = StyleSheet.create({
         zIndex: zIndex.max,
         borderRadius: border_radii.large
     },
+    music_slider_container: {
+        marginHorizontal: sizes.large,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    music_slider: {
+        flex: 1,
+        marginLeft: sizes.default
+    },
+    search_button_container: {
+        marginLeft: sizes.default,
+        width: buttons.large,
+        height: buttons.large,
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    pause_button_container: {
+        width: sizes.x_large,
+        height: sizes.x_large,
+        justifyContent: 'center'
+    },
+    play_button_container: {
+        marginLeft: sizes.medium,
+        width: sizes.x_large,
+        height: sizes.x_large,
+        justifyContent: 'center'
+    },
+    play_button: {
+        width: buttons.medium,
+        height: buttons.medium
+    },
+    search_results_separator: {
+        alignSelf: 'center',
+        height: 1,
+        backgroundColor: colors.ocean},
+    button_std: {
+        width: buttons.default,
+        height: buttons.default
+    }
+
 });

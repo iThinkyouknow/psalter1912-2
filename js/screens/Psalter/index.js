@@ -23,7 +23,7 @@ import KeyboardManager from 'react-native-keyboard-manager'
 import RNShakeEvent from 'react-native-shake-event';
 
 import styles from './index.styles';
-import {colors, sizes, font_sizes, zIndex, native_elements} from '../../common/common.styles';
+import {colors, sizes, font_sizes, zIndex, native_elements, buttons} from '../../common/common.styles';
 
 import {Default_Text, Animated_Text} from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
@@ -79,6 +79,8 @@ const on_navigator_event = (navigator) => (event) => { // this is the onPress ha
     };
 };
 
+
+
 const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
 
     return (
@@ -130,15 +132,21 @@ const render_psalter_text = (fade_anim) => ({item, index}) => {
     )
 };
 
+const on_psalter_change = (dispatch) => (next_val) => () => {
+    dispatch(lock_in(next_val));
+    psalter_text_fade_anim.fade_in();
+    set_keyboard_style(true);
+};
+
 const swipe_action = (dispatch) => (index) => (e, gestureState) => {
     // insert fade animation here
+    const change_psalter = on_psalter_change(dispatch);
     if (gestureState.dy !== 0) return;
     if (gestureState.dx < 0) {
-        dispatch(lock_in(index + 1));
+        change_psalter(index + 1)();
     } else if (gestureState.dx > 0) {
-        dispatch(lock_in(index - 1));
+        change_psalter(index - 1)();
     }
-    psalter_text_fade_anim.fade_in();
 };
 
 
@@ -191,9 +199,9 @@ const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => 
 const end_text_input = (dispatch) => (text_is_valid) => (event) => {
     if (text_is_valid) {
         const input_int = parseInt(event.nativeEvent.text) - 1;
-        dispatch(lock_in(input_int));
+        on_psalter_change(dispatch)(input_int)();
         set_text_input_value(dispatch)('');
-        psalter_text_fade_anim.fade_in();
+
     }
 };
 
@@ -217,8 +225,7 @@ const Number_input = (props) => {
 
 const get_random_psalter = (dispatch) => (count) => () => {
     const random = Math.floor(Math.random() * count);
-    dispatch(lock_in(random));
-    psalter_text_fade_anim.fade_in();
+    on_psalter_change(dispatch)(random)();
 };
 
 const set_keyboard_style = (is_psalter_input) => {
@@ -248,7 +255,7 @@ const List_Header = (props) => {
         <View style={styles.more_stuff_header_style}>
 
             <TouchableHighlight style={styles.cancel_more_stuff_menu_cross_style} onPress={slide_up_action}>
-                <Image style={{width: 32, height:32}} source={require('../../../images/icons/icon-cancel-50.png')} />
+                <Image style={styles.button_std} source={require('../../../images/icons/icon-cancel-50.png')} />
             </TouchableHighlight>
         </View>
 
@@ -305,19 +312,6 @@ const More_Stuff_Section_List = (props) => {
         if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
 
         const music_slider_array = item.sources.map((file_name, j) => {
-            const style = {
-                marginHorizontal: sizes.large,
-                flexDirection: 'row',
-                alignItems: 'center'
-
-            };
-
-            const music_slider_style = {
-                flex: 1,
-                marginLeft: sizes.default
-            };
-
-
             const time = (time_in_ms) => {
                 if (time_in_ms === undefined || time_in_ms === null || isNaN(time_in_ms) || time_in_ms === -1) return `00:00`;
                 const date = new Date (time_in_ms);
@@ -334,12 +328,12 @@ const More_Stuff_Section_List = (props) => {
             };
 
             return (
-                <View key={`music-player-${file_name}-${j}`} style={style}>
+                <View key={`music-player-${file_name}-${j}`} style={styles.music_slider_container}>
 
                     <Default_Text>
                         {time(props.current_music_timer)}
                     </Default_Text>
-                    <Slider style={music_slider_style}
+                    <Slider style={styles.music_slider}
                             key={`${file_name}-${index}`}
                             step={Math.floor(props.max_music_timer/1000)}
                             maximumValue={props.max_music_timer}
@@ -352,14 +346,14 @@ const More_Stuff_Section_List = (props) => {
                         {time(props.max_music_timer)}
                     </Default_Text>
 
-                    <TouchableHighlight style={{marginLeft: sizes.medium, width: sizes.x_large, height: sizes.x_large, justifyContent: 'center'}}
+                    <TouchableHighlight style={styles.play_button_container}
                                         onPress={music_player.play(props.dispatch)(file_name)(props.current_music_timer)}>
-                        <Image style={{width: 28, height: 28}}
+                        <Image style={styles.play_button}
                                source={require('../../../images/icons/icon-play.png')} />
                     </TouchableHighlight>
-                    <TouchableHighlight style={{width: sizes.x_large, height: sizes.x_large, justifyContent: 'center'}}
+                    <TouchableHighlight style={styles.pause_button_container}
                                         onPress={music_player.pause_or_stop(props.dispatch)}>
-                        <Image style={{width: sizes.x_large, height: sizes.x_large}}
+                        <Image style={styles.button_std}
                                source={require('../../../images/icons/icons-pause.png')} />
                     </TouchableHighlight>
 
@@ -493,13 +487,13 @@ const on_search_button_press =  (dispatch) => (navigator) => (text_input_as_sear
         set_text_input_as_search(dispatch)(text_input_as_search)();
         toggle_nav_bar_for_search_w_should_search_cache(navigator)();
         search_results_animation.slide();
+        set_keyboard_style(text_input_as_search);
+
 };
 
 const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
-    dispatch(lock_in(input_int));
     on_search_button_press(dispatch)(navigator)(true)(slide_right_pos)();
-    psalter_text_fade_anim.fade_in();
-
+    on_psalter_change(dispatch)(input_int)();
 };
 
 
@@ -511,7 +505,6 @@ const search_fn = (dispatch) => (search_action) => (event) => {
     } else {
         dispatch(search_action(text));
     }
-
 };
 
 
@@ -531,7 +524,6 @@ const Text_input_search = (props) => {
 };
 
 
-
 const Search_result_view = (props) => {
     const {width, height} = Dimensions.get('window');
     const search_results_view_dynamic_style = {
@@ -547,7 +539,10 @@ const Search_result_view = (props) => {
     };
 
     const Search_r_view_header = (props) => {
-        const search_results_count = (Array.isArray(props.search_results) && props.search_results.length > 0) ? `${props.search_results.length} ` : '';
+        const search_results_count = (Array.isArray(props.search_results) && props.search_results.length > 0)
+            ? `${props.search_results.length} `
+            : '';
+
         return (
             <View style={{marginTop: sizes.medium}}>
                 {main_title(1)(`${search_results_count} Search Results`)}
@@ -565,8 +560,6 @@ const Search_result_view = (props) => {
             return <Default_Text style={color} key={key} font_weight={font_weight}>{text}</Default_Text>;
         });
 
-
-
         return (
             <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}}
                                 onPress={get_psalter_for_search(dispatch)(navigator)(item.index)}>
@@ -581,7 +574,7 @@ const Search_result_view = (props) => {
     };
 
     const search_results_key_extractor = (item, index) => `search-results-${index}`;
-    const search_results_separator = (width) => ({highlighter}) => <View style={{alignSelf: 'center', width: Math.floor(width * 0.5), height: 1, backgroundColor: colors.ocean}}/>;
+    const search_results_separator = (width) => ({highlighter}) => <View style={[styles.search_results_separator, {width: Math.floor(width * 0.5)}]}/>;
 
     return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
         <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results} />}
@@ -604,9 +597,6 @@ const Search_result_view = (props) => {
  *
  * **/
 
-
-
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -617,6 +607,7 @@ class App extends Component {
             const arr_w_value = arr.filter(([key, value]) => (value !== undefined && value !== null));
             props.dispatch(set_sung_count_all(arr_w_value || []));
         });
+        set_keyboard_style(true);
     }
 
     componentDidMount() {
@@ -657,7 +648,6 @@ class App extends Component {
     render() {
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
         music_player.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
-        set_keyboard_style(!this.props.text_input_as_search);
         set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
         return (
@@ -701,11 +691,12 @@ class App extends Component {
                                            search_results={this.props.psalter_search_results} />
                     }
 
-                    <TouchableHighlight style={{marginLeft: sizes.default, width: 36, height: 36, justifyContent: 'flex-start', alignItems: 'center'}}
+                    <TouchableHighlight style={styles.search_button_container}
                                         onPress={on_search_button_press(this.props.dispatch)(this.props.navigator)(this.props.text_input_as_search)(slide_right_pos)}
+                                        underlayColor={colors.ocean}
 
                     >
-                        <Image style={{width: 32, height: 32}} source={require('../../../images/icons/icon-search.png')} />
+                        <Image style={styles.button_std} source={require('../../../images/icons/icon-search.png')} />
 
                     </TouchableHighlight>
                 </View>
