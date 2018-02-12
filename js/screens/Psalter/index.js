@@ -43,37 +43,15 @@ import {
 } from '../../redux/actions/search-actions';
 
 import music_player from '../../utils/music-player';
+import {slide_down_animation, fade_animation} from '../../utils/animation';
 
-const fade_w_cache = () => {
-    let prev_index;
-    const fade_opacity = (curr_index) => {
-        if (curr_index !== prev_index) {
-            const fadeAnim =  new Animated.Value(0);
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 500
-            }).start();
-            prev_index = curr_index;
-            return fadeAnim;
-        }
-    };
+const psalter_text_fade_anim = fade_animation(500)(0);
+const get_fade_opacity = psalter_text_fade_anim.fade_opacity;
 
-    return fade_opacity;
-};
 
-const get_fade_opacity = fade_w_cache();
-
-const slide_position = new Animated.Value(0);
-
-const slide = (should_slide_down) => (slide_position) => () => {
-    const {height, width} = Dimensions.get('window');
-
-    Animated.timing(slide_position, {
-        toValue: (should_slide_down) ? (height + native_elements.tab_bar) : 0,
-        duration: 500,
-        useNativeDriver: true
-    }).start();
-};
+const more_section_slide_animation = slide_down_animation(500)(0);
+const more_section_slide_position = more_section_slide_animation.animated_value;
+const more_section_slide = more_section_slide_animation.slide;
 
 const toggle_tab_nav_bar = (navigator) => (should_show) => () => {
     navigator.setStyle({
@@ -92,7 +70,7 @@ const set_nav_bar_title = (navigator) => (psalter_no) => () => {
 const on_navigator_event = (navigator) => (event) => { // this is the onPress handler for the two buttons together
     if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
         if (event.id === 'more-stuff') { // this is the same id field from the static navigatorButtons definition
-            slide(true)(slide_position)();
+            more_section_slide();
             toggle_tab_nav_bar(navigator)(false)();
         }
     };
@@ -134,7 +112,9 @@ const header = (fade_anim) => (psalter) => (index) => {
     ));
 };
 
-const render_item = (fade_anim) => ({item, index}) => {
+const psalter_key_extractor = (item, i) => `psalter-text-${i}`;
+
+const render_psalter_text = (fade_anim) => ({item, index}) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
         return normal_text(`line-${i}`)()(fade_anim)(line_to_render);
@@ -148,13 +128,14 @@ const render_item = (fade_anim) => ({item, index}) => {
 };
 
 const swipe_action = (dispatch) => (index) => (e, gestureState) => {
-
+    // insert fade animation here
     if (gestureState.dy !== 0) return;
     if (gestureState.dx < 0) {
         dispatch(lock_in(index + 1));
     } else if (gestureState.dx > 0) {
         dispatch(lock_in(index - 1));
     }
+    psalter_text_fade_anim.fade_in();
 };
 
 const panResponder = (dispatch) => (index) => PanResponder.create({
@@ -256,6 +237,7 @@ const end_text_input = (dispatch) => (text_is_valid) => (event) => {
         const input_int = parseInt(event.nativeEvent.text) - 1;
         dispatch(lock_in(input_int));
         set_text_input_value(dispatch)('');
+        psalter_text_fade_anim.fade_in();
     }
 };
 
@@ -295,11 +277,11 @@ const set_keyboard_style = (is_psalter_input) => {
     }
 };
 
-const keyExtractor = (item, i) => i;
+
 
 const List_Header = (props) => {
     const slide_up_action = () => {
-        slide(false)(slide_position)();
+        more_section_slide();
         setTimeout(() => {
             toggle_tab_nav_bar(props.navigator)(true)();
         }, 300);
@@ -365,7 +347,7 @@ const More_Stuff_Section_List = (props) => {
         if (!Array.isArray(item.sources)) return null;
         if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
 
-        const music_slider_array = item.sources.map((file_name, index) => {
+        const music_slider_array = item.sources.map((file_name, j) => {
             const style = {
                 marginHorizontal: sizes.large,
                 flexDirection: 'row',
@@ -395,7 +377,7 @@ const More_Stuff_Section_List = (props) => {
             };
 
             return (
-                <View style={style}>
+                <View key={`music-player-${file_name}-${j}`} style={style}>
 
                     <Default_Text>
                         {time(props.current_music_timer)}
@@ -481,7 +463,7 @@ const More_Stuff_Section_List = (props) => {
         bottom: height,
         transform: [
             {
-                translateY: props.slide_position
+                translateY: props.more_section_slide_position
             }
         ]
     };
@@ -707,8 +689,7 @@ class App extends Component {
         drawUnderNavBar: true,
         navBarBackgroundColor: colors.ocean,
         screenBackgroundColor: colors.ocean,
-        statusBarTextColorSchemeSingleScreen: 'light',
-        // navBarHidden: true
+        statusBarTextColorSchemeSingleScreen: 'light'
     }
 
     static navigatorButtons = {
@@ -732,7 +713,7 @@ class App extends Component {
 
 
     render() {
-        const fade_opacity = get_fade_opacity(this.props.index);
+        const fade_opacity = get_fade_opacity;
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
         music_player.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
         set_keyboard_style(!this.props.text_input_as_search);
@@ -743,7 +724,7 @@ class App extends Component {
                 <More_Stuff_Section_List
                     dispatch={this.props.dispatch}
                     navigator={this.props.navigator}
-                    slide_position={slide_position}
+                    more_section_slide_position={more_section_slide_position}
                     psalter_refs={this.props.psalter.ref}
                     psalm={this.props.psalter.psalm}
                     psalter_no={this.props.psalter.no}
@@ -757,8 +738,8 @@ class App extends Component {
 
                 <FlatList data={this.props.psalter.content}
                           ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
-                          renderItem={render_item(fade_opacity)}
-                          keyExtractor={keyExtractor}
+                          renderItem={render_psalter_text(fade_opacity)}
+                          keyExtractor={psalter_key_extractor}
                           style={styles.psalter_text_flat_list}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
 
@@ -787,7 +768,6 @@ class App extends Component {
 
                     </TouchableHighlight>
                 </View>
-
 
             </Default_bg>
         );
