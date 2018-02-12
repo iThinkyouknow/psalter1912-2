@@ -11,7 +11,7 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
     let should_slide_down = true;
     return {
         animated_value,
-        slide_down: () => {
+        slide: () => {
             const {height} = Dimensions.get('window');
 
             Animated.spring(animated_value, {
@@ -24,6 +24,27 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
             should_slide_down = !should_slide_down;
         }
     };
+};
+
+export const slide_side_animation = (duration = 100) => (bounciness = 18) => (initial_val = Dimensions.get('window').width * -1.2) => {
+    const animated_value = new Animated.Value(initial_val);
+    let should_slide = true;
+
+    const slide = () => {
+        Animated.spring(animated_value, {
+            toValue: (should_slide) ? 0 : initial_val,
+            duration,
+            bounciness,
+            useNativeDriver: true
+        }).start();
+
+        should_slide = !should_slide;
+    };
+
+    return {
+        animated_value,
+        slide
+    }
 };
 
 export const fade_animation = (duration) => (initial_val) => {

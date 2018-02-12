@@ -43,11 +43,14 @@ import {
 } from '../../redux/actions/search-actions';
 
 import music_player from '../../utils/music-player';
-import {slide_down_animation, fade_animation} from '../../utils/animation';
+import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
+import {
+    string_input_error_alert,
+    wrong_number_error_alert,
+    not_enough_characters_search_alert
+} from '../../utils/alert';
 
 const psalter_text_fade_anim = fade_animation(500)(0);
-const get_fade_opacity = psalter_text_fade_anim.fade_opacity;
-
 
 const more_section_slide_animation = slide_down_animation(500)(0);
 const more_section_slide_position = more_section_slide_animation.animated_value;
@@ -138,64 +141,17 @@ const swipe_action = (dispatch) => (index) => (e, gestureState) => {
     psalter_text_fade_anim.fade_in();
 };
 
+
 const panResponder = (dispatch) => (index) => PanResponder.create({
     onMoveShouldSetPanResponder: (evt, gestureState) => true,
     onPanResponderRelease: swipe_action(dispatch)(index)
 });
 
-const string_input_error_alert = () => {
-    const emojis = [`😳`, `🤔`, `😖`, `😑`, `😩`];
-    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-    Alert.alert(
-        `Are you sure about this? ${emoji}`,
-        `Ummm... I don't think you wanna be keying in "four hundred and five" \
-                How about keying in numbers instead?`,
-        [
-            {
-                text: `Yea, you are right... 😳`,
-                onPress: () => {}, style: 'cancel'
-            }
-        ],
-        { cancelable: true }
-    )
-};
 
 const set_text_input_value = (dispatch) => (value) => {
     dispatch(psalter_text_input(value));
 };
 
-const wrong_number_error_alert = (max_val) => {
-    Alert.alert(
-        `Psalter Not Available`,
-        `Come On! \ 
-            Don't you know that there are only Psalters 1 - ${max_val} available? \
-            Apologize Now! 😡`,
-        [
-            {
-                text: `I'm Sorry! 😳`,
-                onPress: () => {}, style: 'cancel'
-            }
-        ],
-        { cancelable: true }
-    )
-};
-
-const not_enough_characters_search_alert = (min_length) => {
-    Alert.alert(
-        `Too Many Search Results`,
-        `Come On! \ 
-Don't waste my time producing unfruitful search results! \ 
-Search with at least ${min_length} characters & \ 
-Apologize Now! 😡`,
-        [
-            {
-                text: `I'm Sorry! 😳`,
-                onPress: () => {}, style: 'cancel'
-            }
-        ],
-        { cancelable: true }
-    )
-};
 
 const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => {
     const _value = value.trim();
@@ -259,9 +215,10 @@ const Number_input = (props) => {
 };
 
 
-const shake = (dispatch) => (count) => () => {
+const get_random_psalter = (dispatch) => (count) => () => {
     const random = Math.floor(Math.random() * count);
     dispatch(lock_in(random));
+    psalter_text_fade_anim.fade_in();
 };
 
 const set_keyboard_style = (is_psalter_input) => {
@@ -511,25 +468,9 @@ const add_count = count_fn();
  *
  *
  * **/
-const slide_right_pos = new Animated.Value(-1000);
 
-const slide_right = () => {
-    let should_slide_right = false;
-    return (slide_position) => () => {
-        const {height, width} = Dimensions.get('window');
-
-        Animated.spring(slide_position, {
-            toValue: (!should_slide_right) ? 0 : -width * 1.2,
-            duration: 100,
-            bounciness: 18,
-            useNativeDriver: true
-        }).start();
-
-        should_slide_right = !should_slide_right;
-    };
-};
-
-const slide_right_w_cache = slide_right();
+const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
+const slide_right_pos = search_results_animation.animated_value;
 
 const toggle_nav_bar_for_search = () => {
     let should_show = false;
@@ -551,9 +492,15 @@ const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
 const on_search_button_press =  (dispatch) => (navigator) => (text_input_as_search) => (slide_right_pos) => () => {
         set_text_input_as_search(dispatch)(text_input_as_search)();
         toggle_nav_bar_for_search_w_should_search_cache(navigator)();
-        slide_right_w_cache(slide_right_pos)();
+        search_results_animation.slide();
 };
 
+const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
+    dispatch(lock_in(input_int));
+    on_search_button_press(dispatch)(navigator)(true)(slide_right_pos)();
+    psalter_text_fade_anim.fade_in();
+
+};
 
 
 const search_fn = (dispatch) => (search_action) => (event) => {
@@ -583,12 +530,7 @@ const Text_input_search = (props) => {
     );
 };
 
-const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
-    dispatch(lock_in(input_int));
-    slide_right_w_cache(slide_right_pos)();
-    toggle_nav_bar_for_search_w_should_search_cache(navigator)();
 
-};
 
 const Search_result_view = (props) => {
     const {width, height} = Dimensions.get('window');
@@ -668,7 +610,7 @@ const Search_result_view = (props) => {
 class App extends Component {
     constructor(props) {
         super(props);
-        RNShakeEvent.addEventListener('shake', shake(props.dispatch)(props.psalters_count));
+        RNShakeEvent.addEventListener('shake', get_random_psalter(props.dispatch)(props.psalters_count));
         props.navigator.setOnNavigatorEvent(on_navigator_event(props.navigator));
         const count_all_keys_array = Array.from(Array(props.psalters_count).keys()).map((item) => `psalter-${item + 1}`);
         AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
@@ -713,7 +655,6 @@ class App extends Component {
 
 
     render() {
-        const fade_opacity = get_fade_opacity;
         add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
         music_player.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
         set_keyboard_style(!this.props.text_input_as_search);
@@ -737,8 +678,8 @@ class App extends Component {
                                     navigator={this.props.navigator} />
 
                 <FlatList data={this.props.psalter.content}
-                          ListHeaderComponent={header(fade_opacity)(this.props.psalter)(this.props.index)}
-                          renderItem={render_psalter_text(fade_opacity)}
+                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(this.props.psalter)(this.props.index)}
+                          renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
                           keyExtractor={psalter_key_extractor}
                           style={styles.psalter_text_flat_list}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
