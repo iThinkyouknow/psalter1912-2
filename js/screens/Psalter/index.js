@@ -535,7 +535,6 @@ const Search_result_view = (props) => {
                 translateX: slide_right_pos
             }
         ]
-
     };
 
     const Search_r_view_header = (props) => {
@@ -582,7 +581,6 @@ const Search_result_view = (props) => {
                   renderItem={search_result(props.dispatch)(props.navigator)}
                   keyExtractor={search_results_key_extractor}
                   ItemSeparatorComponent={search_results_separator(width)} />
-
 
     </Animated.View>)
 }
@@ -633,8 +631,6 @@ class App extends Component {
             }
         ]
     }
-
-
 
 
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);

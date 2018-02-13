@@ -7,9 +7,12 @@ export function psalter_search_results(state = [], action = {}) {
     if (action.type === SEARCH_ACTIONS.SEARCH_PSALTER) {
 
         if (typeof action.search_text !== 'string') return state;
+        const search_text = action.search_text
+            .split('')
+            .map(char => char.replace(/\.|\,|\*|\{|\}|\(|\)|\[|\]|\+|\-/ig, (matched) => `\\${matched}`))
+            .join('(\\w|\\s|\\d|,)*');
 
-        const regex = new RegExp(action.search_text.split('').join('(\\w|\\s|\\d|,)*'), 'ig');
-        // const regex = new RegExp(action.search_text, 'ig');
+        const regex = new RegExp(search_text, 'ig');
 
         const cache_key = regex.toString().toLowerCase();
 
@@ -56,8 +59,6 @@ export function psalter_search_results(state = [], action = {}) {
 
         psalter_search_result_cache[cache_key] = search_result;
 
-
-        console.log(JSON.stringify(Object.keys(psalter_search_result_cache), null, 4));
         return search_result;
     }
 
