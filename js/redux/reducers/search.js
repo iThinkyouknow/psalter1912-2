@@ -9,7 +9,10 @@ export function psalter_search_results(state = [], action = {}) {
         if (typeof action.search_text !== 'string') return state;
         const search_text = action.search_text
             .split('')
-            .map(char => char.replace(/\.|\,|\*|\{|\}|\(|\)|\[|\]|\+|\-/ig, (matched) => `\\${matched}`))
+            .map(char => {
+                const code = char.charCodeAt(0);
+                return (code >= 33 && code <= 47 || code >= 58 && code <= 64 || code >= 91 && code <= 96 || code >= 123 && code <= 126 ) ? `\\${char}` : char;
+            })
             .join('(\\w|\\s|\\d|,)*');
 
         const regex = new RegExp(search_text, 'ig');
