@@ -1,4 +1,4 @@
-//todo: search
+
 import React, { Component } from 'react';
 import {
     Alert,
@@ -49,6 +49,8 @@ import {
     wrong_number_error_alert,
     not_enough_characters_search_alert
 } from '../../utils/alert';
+
+
 
 const psalter_text_fade_anim = fade_animation(500)(0);
 
@@ -614,14 +616,6 @@ class App extends Component {
         });
     }
 
-    static navigatorStyle = {
-        navBarTransparent: true,
-        navBarTextColor: colors.white,
-        drawUnderNavBar: true,
-        navBarBackgroundColor: colors.ocean,
-        screenBackgroundColor: colors.ocean,
-        statusBarTextColorSchemeSingleScreen: 'light'
-    }
 
     static navigatorButtons = {
         rightButtons: [
