@@ -1,5 +1,5 @@
 {
-    "title": "\bThe Heidelberg Catechism",
+    "title": "The Heidelberg Catechism",
     "type": "Creeds",
     "content": [
         {
@@ -10,7 +10,7 @@
                     "content": [
                         [
                             {
-                                "is_bold": true
+                                "is_bold": true,
                                 "text": "Introduction to the Heidelberg Catechism"
                             }
                         ],

@@ -1,4 +1,4 @@
-const psalterJSON_array = require('./PsalterJSON.json');
+const psalterJSON_array = require('./../PsalterJSON.json');
 const fs = require('fs');
 const t0 = Date.now();
 const searchJSON_array = psalterJSON_array.map((psalter, index) => {

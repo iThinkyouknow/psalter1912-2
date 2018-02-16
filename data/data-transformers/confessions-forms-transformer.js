@@ -6,7 +6,8 @@ const j = (text) => {
     return JSON.stringify(text, null, 4);
 }
 
-const hc = require('/Users/notforyoutouse/psalter1912-2/data/_The-Heidelberg-Catechism.json');
+// const hc = require('../_The-Heidelberg-Catechism.json');
+const hc = require('../_The-Apostles-Creed.json');
 /**
  * {
  *      title,
@@ -15,17 +16,19 @@ const hc = require('/Users/notforyoutouse/psalter1912-2/data/_The-Heidelberg-Cat
  *
 *              {
 *                  header: 'Lord's Day 1',
-*                  body: [
-*                       [ //Q1
-*                           {style, text} //question
-*                           {style, text} //question
-*                           {style, text} //question
-*                       ],
-*                       [ //Q2
-*                           {style, text} //question
-*                           {style, text} //question
-*                           {style, text} //question
-*                       ],
+*                  content: [
+*                       {
+*                           id: int
+*                           content: [
+*                               style,
+*                               text
+*                           ],
+*                           [...answer...],
+*                           [...proof...]
+*                       },
+*                       {
+*                       ...
+*                       }
 *
 *                  ]
 *              }
@@ -38,7 +41,7 @@ const hc = require('/Users/notforyoutouse/psalter1912-2/data/_The-Heidelberg-Cat
 
  * **/
 
-const content_array = Object.entries(hc[1].content);
+const content_array = Object.entries(hc.content);
 
 const t0 = Date.now()
 const text_attributor = text => {
@@ -91,7 +94,7 @@ const new_content = content_array.map(([key, {header, body, chapter, proof}]) =>
         .split(regex)
         .filter(line_is_valid)
         .map(text_attributor);
-//end of new_header
+    //end of new_header
 
     const new_body = body
         .split(regex)
@@ -122,7 +125,7 @@ const new_content = content_array.map(([key, {header, body, chapter, proof}]) =>
 // log(j(new_content));
 
 const sort_by_LD = (content_array, i, return_array) => {
-    if (i > 129) return return_array;
+    if (i >= content_array.length) return return_array;
     const new_i = i + 1;
     if (return_array.length === 0 || content_array[i].header !== return_array.slice(-1)[0].header) {
         const new_return_array = [...return_array, {
@@ -161,17 +164,19 @@ const sort_by_LD = (content_array, i, return_array) => {
 
 const content_sorted_by_LD = sort_by_LD(new_content, 0, []);
 
-// log(j(content_sorted_by_LD.slice(48)));
+log(j(content_sorted_by_LD.slice(0, 2)));
 
 const new_hc = {
-    title: hc[1].title,
-    type: hc[1].type,
+    title: hc.title,
+    type: hc.type,
     content: content_sorted_by_LD
 };
 
+
+log(content_sorted_by_LD.length);
 const json_new_hc = JSON.stringify(new_hc, null, 4);
 
-console.log(Date.now() - t0);
 
-fs.writeFile('/Users/notforyoutouse/psalter1912-2/data/The-Heidelberg-Catechism(by-LD).json', json_new_hc);
+
+// fs.writeFile('/Users/notforyoutouse/psalter1912-2/data/The-Apostles-Creed.json', json_new_hc);
 

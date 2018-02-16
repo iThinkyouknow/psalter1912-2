@@ -1,5 +1,5 @@
 
-const psalterSearchJson = require('/Users/notforyoutouse/psalter1912-2/data/PsalterSearchJSON.json');
+const psalterSearchJson = require('/data/PsalterSearchJSON.json');
 const {log} = console;
 
 const test_str = 'ss 1:'
