@@ -3,7 +3,8 @@ export const STATE_ACTIONS = {
     TOGGLE_TEXT_INPUT_VALID: "TOGGLE_TEXT_INPUT_INVALID",
     SET_MUSIC_TIMER: 'SET_MUSIC_TIMER',
     SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER',
-    SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH'
+    SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH',
+    SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
 };
 
 export const psalter_text_input = (val) => {
@@ -32,11 +33,18 @@ export const set_max_music_timer = (time) => {
         type: STATE_ACTIONS.SET_MAX_MUSIC_TIMER,
         time
     }
-}
+};
 
 export const set_input_as_search = (should_search) => {
     return {
         type: STATE_ACTIONS.SET_INPUT_AS_SEARCH,
         should_search
     }
-}
+};
+
+export const select_creeds_or_forms = (index) => {
+    return {
+        type: STATE_ACTIONS.SELECT_LIBRARY_TYPE,
+        index
+    }
+};

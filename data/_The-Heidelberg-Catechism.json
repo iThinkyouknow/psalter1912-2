@@ -1,0 +1,787 @@
+{
+    "1": {
+        "title": "\bThe Heidelberg Catechism",
+        "type": "Creeds",
+        "content": {
+            "introduction": {
+                "header": "Introduction to the Heidelberg Catechism",
+                "body": "The Heidelberg Catechism, the second of our Three Forms of Unity, received its name from the place of its origin, Heidelberg, the capital of the German Electorate of the Palatinate. There, in order that the Reformed faith might be maintained in his domain, Elector Frederick III commissioned Zacharias Ursinus, professor at Heidelberg University, and Caspar Olevianus, the court preacher, to prepare a manual for catechetical instruction. Out of this initiative came the Catechism, which was approved by the Elector himself and by the Synod of Heidelberg and first published in 1563.\n\nWith its comfort motif and its warm, personal style, the Catechism soon won the love of the people of God, as is evident from the fact that more editions of the Catechism had to be printed that same year. While the first edition had 128 questions and answers, in the second and third editions, at the behest of the Elector, the eightieth question and answer, which refers to the popish mass as an accursed idolatry, was added. In the third edition the 129 questions and answers were divided into 52 Lord's Days with a view to the Catechism's being explained in one of the services on the Lord's Day. That salutary practice is still maintained today, in harmony with the prescription of the Church Order of Dordrecht. In the Netherlands the Heidelberg Catechism was translated into the Dutch language as early as 1566, and it soon became widely loved and used in the churches there. It was adopted by several national synods during the later sixteenth century, and finally included by the Synod of Dordrecht, 1618-1619, among our three forms of unity, a place which it has to this day.",
+                "chapter": "Introduction to the H.C."
+            },
+            "1": {
+                "header": "Q. 1.  What is thy only comfort in life and death?",
+                "body": "A.  That I with body and soul#1#, both in life and death, am not my own#2#, but belong unto my faithful Savior Jesus Christ#3#; who, with His precious blood#4#, hath fully satisfied for all my sins#5#, and delivered me from all the power of the devil#6#; and so preserves me#7# that without the will of my heavenly Father, not a hair can fall from my head#8#; yea, that all things must be subservient to my salvation#9#, and therefore, by His Holy Spirit, He also assures me of eternal life#10#, and makes me sincerely willing and ready, henceforth, to live unto Him.#11#",
+                "chapter": "Lord's Day 1",
+                "proof": "1. 1 Cor. 6:19, 20. 2. Rom. 14:7-9. 3. 1 Cor. 3:23. 4. 1 Pet. 1:18, 19. 5. 1 John 1:7. 6. 1 John 3:8. Heb. 2:14, 15. 7. John 6:39. John 10:28, 29. 8. Luke 21:18. Matt. 10:30. 9. Rom. 8:28. 10. 2 Cor. 1:22. 2 Cor. 5:5. 11. Rom. 8:14. Rom. 7:22."
+            },
+            "2": {
+                "header": "Q. 2.  How many things are necessary for thee to know, that thou, enjoying this comfort, mayest live and die happily?",
+                "body": "A.  Three:#12# the first, how great my sins and miseries are;#13# the second, how I may be delivered from all my sins and miseries;#14# the third, how I shall express my gratitude to God for such deliverance.#15#",
+                "chapter": "Lord's Day 1",
+                "proof": "12. Luke 24:47. 13. 1 Cor. 6:10, 14. John 9:41. Rom. 3:10, 19. 14. John 17:3. 15. Eph. 5:8-10."
+            },
+            "3": {
+                "header": "Q. 3.  Whence knowest thou thy misery?",
+                "body": "A.  Out of the law of God.#1#",
+                "chapter": "Lord's Day 2",
+                "proof": "1. Rom. 3:20."
+            },
+            "4": {
+                "header": "Q. 4.  What doth the law of God require of us?",
+                "body": "A.  Christ teaches us that briefly, Matt. 22:37-40, <i>Thou shalt love the Lord thy God with all thy heart, with all thy soul, and with all thy mind, and with all thy strength. This is the first and the great commandment; and the second is like unto it, Thou shalt love thy neighbor as thyself. On these two commandments hang all the law and the prophets.</i>#2#",
+                "chapter": "Lord's Day 2",
+                "proof": "2. Luke 10:27."
+            },
+            "5": {
+                "header": "Q. 5.  Canst thou keep all these things perfectly?",
+                "body": "A.  In no wise;#3# for I am prone by nature to hate God and my neighbor.#4#",
+                "chapter": "Lord's Day 2",
+                "proof": "3. Rom. 3:10. 1 John 1:8. 4. Rom. 8:7. Tit. 3:3."
+            },
+            "6": {
+                "header": "Q. 6.  Did God then create man so wicked and perverse?",
+                "body": "A.  By no means; but God created man good,#1# and after His own image,#2# in true righteousness and holiness, that he might rightly know God his Creator, heartily love Him, and live with Him in eternal happiness to glorify and praise Him.#3#",
+                "chapter": "Lord's Day 3",
+                "proof": "1. Gen. 1:31. 2. Gen. 1:26, 27. Col. 3:10. Eph. 4:24. 3. Eph. 1:6. 1 Cor. 6:20."
+            },
+            "7": {
+                "header": "Q. 7.  Whence then proceeds this depravity of human nature?",
+                "body": "A.  From the fall and disobedience of our first parents, Adam and Eve, in Paradise;#4# hence our nature is become so corrupt, that we are all conceived and born in sin.#5#",
+                "chapter": "Lord's Day 3",
+                "proof": "4. Gen. 3:6. Rom. 5:12, 18, 19. 5. Psa. 51:5. Gen. 5:3."
+            },
+            "8": {
+                "header": "Q. 8. Are we then so corrupt that we are wholly incapable of doing any good, and inclined to all wickedness?",
+                "body": "A. Indeed we are,#6# except we are regenerated by the Spirit of God.#7#",
+                "chapter": "Lord's Day 3",
+                "proof": "6. Gen. 6:5. Job 14:4. Job 15:14, 16. 7. John 3:5. Eph. 2:5."
+            },
+            "9": {
+                "header": "Q. 9. Doth not God then do injustice to man, by requiring from him in His law that which he cannot perform?",
+                "body": "A. Not at all; for God made man capable of performing it;#1# but man, by the instigation of the devil,#2# and his own wilful disobedience, deprived himself and all his posterity of those divine gifts.#3#",
+                "chapter": "Lord's Day 4",
+                "proof": "1. Eccl. 7:29. 2. John 8:44. 2 Cor. 11:3. Gen. 3:4, 13. 3. Rom. 5:12."
+            },
+            "10": {
+                "header": "Q. 10. Will God suffer such disobedience and rebellion to go unpunished?",
+                "body": "A. By no means; but is terribly displeased#4# with our original as well as actual sins; and will punish them#5# in His just judgment temporally and eternally, as He hath declared, <i>Cursed is every one that continueth not in all things which are written in the book of the law to do them.</i>#6#",
+                "chapter": "Lord's Day 4",
+                "proof": "4. Psa. 5:5. 5. Rom. 1:18. Deut. 28:15. Heb. 9:27. 6. Deut. 27:26. Gal. 3:10."
+            },
+            "11": {
+                "header": "Q. 11. Is not God then also merciful?",
+                "body": "A. God is indeed merciful,#7# but also just;#8# therefore His justice requires that sin which is committed against the most high majesty of God be also punished#9# with extreme, that is, with everlasting punishment#10# of body and soul.",
+                "chapter": "Lord's Day 4",
+                "proof": "7. Ex. 34:6. 8. Ex. 20:5. Job 34:10, 11. 9. Psa. 5:5, 6. 10. Gen. 2:17. Rom. 6:23."
+            },
+            "12": {
+                "header": "Q. 12. Since then, by the righteous judgment of God, we deserve temporal and eternal punishment, is there no way by which we may escape that punishment and be again received into favor?",
+                "body": "A. God will have His justice satisfied;#1# and therefore we must make this full satisfaction, either by ourselves or by another.#2#",
+                "chapter": "Lord's Day 5",
+                "proof": "1. Ex. 20:5. 2. Deut. 24:16. 2 Cor. 5:14, 15."
+            },
+            "13": {
+                "header": "Q. 13. Can we ourselves then make this satisfaction?",
+                "body": "A. By no means;#3# but on the contrary we daily increase our debt.#4#",
+                "chapter": "Lord's Day 5",
+                "proof": "3. Job 9:2, 3. Job 15:14- 16. 4. Mat. 6:12. Isa. 64:6."
+            },
+            "14": {
+                "header": "Q. 14. Can there be found anywhere one who is a mere creature, able to satisfy for us?",
+                "body": "A. None; for, first, God will not punish any other creature for the sin which man hath committed;#5# and further, no mere creature can sustain the burden of God's eternal wrath against sin, so as to deliver others from it.#6#",
+                "chapter": "Lord's Day 5",
+                "proof": "5. Ezek. 18:20. 6. Rev. 5:3. Psa. 49:7, 8."
+            },
+            "15": {
+                "header": "Q. 15. What sort of a mediator and deliverer then must we seek for?",
+                "body": "A. For one who is very man,#7# and perfectly righteous; and yet more powerful than all creatures; that is, one who is also very God.#8#",
+                "chapter": "Lord's Day 5",
+                "proof": "7. 1 Cor. 15:21. Rom. 8:3. 8. Rom. 9:5. Isa. 7:14."
+            },
+            "16": {
+                "header": "Q. 16. Why must He be very man, and also perfectly righteous?",
+                "body": "A. Because the justice of God requires that the same human nature which hath sinned should likewise make satisfaction for sin;#1# and one who is himself a sinner cannot satisfy for others.#2#",
+                "chapter": "Lord's Day 6",
+                "proof": "1. Rom. 5:12, 15. 2. 1 Pet. 3:18. Isa. 53:11."
+            },
+            "17": {
+                "header": "Q. 17. Why must He in one person be also very God?",
+                "body": "A.  That He might, by the power of His Godhead, sustain in His human nature the burden of God's wrath;#3# and might obtain for, and restore to us, righteousness and life.#4#",
+                "chapter": "Lord's Day 6",
+                "proof": "3. 1 Pet. 3:18. Acts 2:24. Isa. 53:8. 4. 1 John 1:2. Jer. 23:6. 2 Tim. 1:10. John 6:51."
+            },
+            "18": {
+                "header": "Q. 18.  Who then is that Mediator, who is in one person both very God and a real righteous man?",
+                "body": "A.  Our Lord Jesus Christ,#5# who of God is made unto us wisdom, and righteousness, and sanctification, and redemption.#6#",
+                "chapter": "Lord's Day 6",
+                "proof": "5. Mat. 1:23. 1 Tim. 3:16. Luke 2:11. 6. 1 Cor. 1:30."
+            },
+            "19": {
+                "header": "Q. 19.  Whence knowest thou this?",
+                "body": "A.  From the holy gospel, which God Himself first revealed in Paradise;#7# and afterwards published by the patriarchs and prophets,#8# and represented by the sacrifices#9# and other ceremonies of the law; and, lastly, has fulfilled it by His only begotten Son.#10#",
+                "chapter": "Lord's Day 6",
+                "proof": "7. Gen. 3:15. 8. Gen. 22:17, 18. Gen. 28:14. Rom. 1:2. Heb. 1:1. John 5:46. 9. Heb. 10:7, 8. 10. Rom. 10:4. Heb. 13:8."
+            },
+            "20": {
+                "header": "Q. 20.  Are all men then, as they perished in Adam, saved by Christ?",
+                "body": "A.  No,#1# only those who are ingrafted into Him, and receive all His benefits, by a true faith.#2#",
+                "chapter": "Lord's Day 7",
+                "proof": "1. Mat. 1:21. Isa. 53:11. 2. John 1:12, 13. Rom. 11:20. Heb. 10:39."
+            },
+            "21": {
+                "header": "Q. 21.  What is true faith?",
+                "body": "A.  True faith is not only a certain knowledge,#3# whereby I hold for truth all that God has revealed to us in His Word, but also an assured confidence,#4# which the Holy Ghost#5# works by the gospel in my heart;#6# that not only to others, but to me also, remission of sin,#7# everlasting righteousness, and salvation#8# are freely given by God, merely of grace, only for the sake of Christ's merits.#9#",
+                "chapter": "Lord's Day 7",
+                "proof": "3. John 6:69. John 17:3. Heb. 11:3, 6. 4. Eph. 3:12. Rom. 4:16, 20, 21. Heb. 11:1. 5. Acts 16:14. Mat. 16:17. John 3:5. 6. Rom. 10:14, 17. Rom. 1:16. 1 Cor. 1:21. 7. Rom. 5:1. Mat. 9:2. 8. Gal. 2:20. 9. Rom. 3:24-26."
+            },
+            "22": {
+                "header": "Q. 22.  What is then necessary for a Christian to believe?",
+                "body": "A.  All things promised us in the gospel,#10# which the articles of our catholic undoubted Christian faith briefly teach us.",
+                "chapter": "Lord's Day 7",
+                "proof": "10. John 20:31. Mat. 28:19, 20."
+            },
+            "23": {
+                "header": "Q. 23.  What are these articles?",
+                "body": "<i>A. I. I believe in God the Father, Almighty, Maker of heaven and earth;\nII. And in Jesus Christ, His only begotten Son, our Lord;\nIII. Who was conceived by the Holy Ghost, born of the Virgin Mary;\nIV. Suffered under Pontius Pilate; was crucified, dead, and buried; He descended into hell;\nV. The third day He rose again from the dead;\nVI. He ascended into heaven, and sitteth at the right hand of God the Father Almighty;\nVII. From thence He shall come to judge the quick and the dead.\nVIII. I believe in the Holy Ghost.\nIX. I believe an holy catholic church; the communion of saints;\nX. The forgiveness of sins;\nXI. The resurrection of the body;\nXII. And the life everlasting. Amen.</i>",
+                "chapter": "Lord's Day 7",
+                "proof": ""
+            },
+            "24": {
+                "header": "Q. 24.  How are these articles divided?",
+                "body": "A.  Into three parts: the first is of God the Father and our creation;#1# the second, of God the Son and our redemption;#2# the third, of God the Holy Ghost and our sanctification.#3#",
+                "chapter": "Lord's Day 8",
+                "proof": "1. Gen. 1. 2. 1 Pet. 1:18, 19. 3. 1 Pet. 1:21, 22."
+            },
+            "25": {
+                "header": "Q. 25.  Since there is but one only divine essence,#4# why speakest thou of Father, Son, and Holy Ghost?",
+                "body": "A.  Because God hath so revealed Himself in His Word,#5# that these three distinct persons are the one only true and eternal God.",
+                "chapter": "Lord's Day 8",
+                "proof": "4. Deut. 6:4. 5. Gen. 1:26. Isa. 61:1. John 14:16, 17. 1 John 5:7. John 1:14. Mat. 28:19. 2 Cor. 13:14."
+            },
+            "26": {
+                "header": "Q. 26.  What believest thou when thou sayest, \"I believe in God the Father, Almighty, Maker of heaven and earth\"?",
+                "body": "A.  That the eternal Father of our Lord Jesus Christ (who of nothing made heaven and earth, with all that is in them;#1# who likewise upholds and governs the same by His eternal counsel and providence#2#) is, for the sake of Christ His Son, my God and my Father;#3# on whom I rely so entirely, that I have no doubt but He will provide me with all things necessary for soul and body;#4# and further, that He will make whatever evils He sends upon me, in this valley of tears, turn out to my advantage;#5# for He is able to do it, being Almighty God,#6# and willing, being a faithful Father.#7#",
+                "chapter": "Lord's Day 9",
+                "proof": "1. Gen. 1, 2. Psa. 33:6. 2. Psa. 115:3. Mat. 10:29. Heb. 1:3. John 5:17. 3. John 1:12. Rom. 8:15, 16. Gal. 4:5, 6. Eph. 1:5. 1 John 3:1. 4. Psa. 55:22. Mat. 6:26. John 1:16. 5. Rom. 8:28. 6. Rom. 4:21. 7. Rom. 10:12. Mat. 6:26. Mat. 7:9-11."
+            },
+            "27": {
+                "header": "Q. 27.  What dost thou mean by the providence of God?",
+                "body": "A.  The almighty and everywhere present power of God,#1# whereby, as it were by His hand, He upholds and governs heaven, earth, and all creatures;#2# so that herbs and grass, rain and drought,#3# fruitful and barren years, meat and drink,#4# health and sickness,#5# riches and poverty,#6# yea, and all things come, not by chance, but by His fatherly hand.#7#",
+                "chapter": "Lord's Day 10",
+                "proof": "1. Acts 17:25-28. 2. Heb. 1:3. 3. Jer. 5:24. 4. Acts 14:17. 5. John 9:3. 6. Prov. 22:2. Job 1:21. 7. Mat. 10:29, 30. Eph. 1:11."
+            },
+            "28": {
+                "header": "Q. 28.  What advantage is it to us to know that God has created, and by His providence doth still uphold all things?",
+                "body": "A.  That we may be patient in adversity;#8# thankful in prosperity;#9# and that in all things which may hereafter befall us, we place our firm trust in our faithful God and Father,#10# that nothing shall separate us from His love;#11# since all creatures are so in His hand, that without His will they cannot so much as move.#12#",
+                "chapter": "Lord's Day 10",
+                "proof": "8. Rom. 5:3. Psa. 39:9. 9. Deut. 8:10. 1 Thes. 5:18. 10. Rom. 5:3-6. 11. Rom. 8:38, 39. 12. Job 1:12. Job 2:6. Mat. 8:31. Isa. 10:15."
+            },
+            "29": {
+                "header": "Q. 29.  Why is the Son of God called Jesus, that is, a Savior?",
+                "body": "A.  Because He saveth us, and delivereth us from our sins;#1# and likewise, because we ought not to seek, neither can find salvation in any other.#2#",
+                "chapter": "Lord's Day 11",
+                "proof": "1. Mat. 1:21. 2. Acts 4:12."
+            },
+            "30": {
+                "header": "Q. 30.  Do such then believe in Jesus the only Savior, who seek their salvation and welfare of saints, of themselves, or anywhere else?",
+                "body": "A.  They do not; for though they boast of Him in words, yet in deeds they deny Jesus the only deliverer and Savior;#3# for one of these two things must be true, either that Jesus is not a complete Savior, or that they who by a true faith receive this Savior must find all things in Him necessary to their salvation.#4#",
+                "chapter": "Lord's Day 11",
+                "proof": "3. 1 Cor. 1:13, 31. Gal. 5:4. 4. Col. 2:10. Isa. 9:6, 7. Col. 1:19, 20."
+            },
+            "31": {
+                "header": "Q. 31.  Why is He called Christ, that is, anointed?",
+                "body": "A.  Because He is ordained of God the Father, and anointed with the Holy Ghost,#1# to be our chief Prophet and Teacher,#2# who has fully revealed to us the secret counsel and will of God concerning our redemption; and to be our only High Priest,#3# who by the one sacrifice of His body has redeemed us, and makes continual intercession with the Father for us;#4# and also to be our eternal King,#5# who governs us by His Word and Spirit, and who defends and preserves us#6# in (the enjoyment of) that salvation He has purchased for us.",
+                "chapter": "Lord's Day 12",
+                "proof": "1. Heb. 1:9. 2. Deut. 18:18. Acts 3:22. John 1:18. John 15:15. Mat. 11:27. 3. Psa. 110:4. Heb. 7:21. Heb. 10:14. 4. Rom. 8:34. 5. Psa. 2:6. Luke 1:33. 6. Mat. 28:18. John 10:28."
+            },
+            "32": {
+                "header": "Q. 32.  But why art thou called a Christian?",
+                "body": "A.  Because I am a member of Christ by faith,#7# and thus am partaker of His anointing;#8# that so I may confess His name,#9# and present myself a living sacrifice of thankfulness to Him;#10# and also that with a free and good conscience I may fight against sin and Satan in this life,#11# and afterwards reign with Him eternally over all creatures.#12#",
+                "chapter": "Lord's Day 12",
+                "proof": "7. 1 Cor. 6:15. 8. 1 John 2:27. Joel 2:28. 9. Mat. 10:32. 10. Rom. 12:1. 11. Eph. 6:11, 12. 1 Tim. 1:18, 19. 12. 2 Tim. 2:12."
+            },
+            "33": {
+                "header": "Q. 33.  Why is Christ called the only begotten Son of God, since we are also the children of God?",
+                "body": "A.  Because Christ alone is the eternal and natural Son of God;#1# but we are children adopted of God, by grace, for His sake.#2#",
+                "chapter": "Lord's Day 13",
+                "proof": "1. John 1:1. Heb. 1:2. 2. Rom. 8:15-17. Eph. 1:5, 6."
+            },
+            "34": {
+                "header": "Q. 34.  Wherefore callest thou Him our Lord?",
+                "body": "A.  Because He hath redeemed us, both soul and body, from all our sins, not with gold or silver, but with His precious blood,#3# and hath delivered us from all the power of the devil; and thus hath made us His own property.",
+                "chapter": "Lord's Day 13",
+                "proof": "3. 1 Pet. 1:18, 19. 1 Cor. 6:20."
+            },
+            "35": {
+                "header": "Q. 35.  What is the meaning of these words — \"He was conceived by the Holy Ghost, born of the Virgin Mary\"?",
+                "body": "A.  That God's eternal Son, who is and continueth true and eternal God,#1# took upon Him the very nature of man, of the flesh and blood of the Virgin Mary,#2# by the operation of the Holy Ghost;#3# that He might also be the true seed of David,#4# like unto His brethren in all things, sin excepted.#5#",
+                "chapter": "Lord's Day 14",
+                "proof": "1. John 1:1. Col. 1:15. Psa. 2:7. Rom. 9:5. 1 John 5:20. 2. John 1:14. Gal. 4:4. 3. Mat. 1:18. Luke 1:35. 4. Psa. 132:11. Acts 2:30. Rom. 1:3. 5. Phil. 2:7. Heb. 4:15."
+            },
+            "36": {
+                "header": "Q. 36.  What profit dost thou receive by Christ's holy conception and nativity?",
+                "body": "A.  That He is our Mediator,#6# and, with His innocence and perfect holiness, covers in the sight of God my sins,#7# wherein I was conceived and brought forth.",
+                "chapter": "Lord's Day 14",
+                "proof": "6. Heb. 2:16, 17. 7. Psa. 32:1. 1 Cor. 1:30. Rom. 8:34."
+            },
+            "37": {
+                "header": "Q. 37.  What dost thou understand by the words, \"He suffered\"?",
+                "body": "A.  That He, all the time that He lived on earth, but especially at the end of His life, sustained in body and soul the wrath of God against the sins of all mankind;#1# that so by His passion, as the only propitiatory sacrifice,#2# He might redeem our body and soul from everlasting damnation, and obtain for us the favor of God, righteousness and eternal life.",
+                "chapter": "Lord's Day 15",
+                "proof": "1. 1 Pet. 2:24. Isa. 53:12. 2. 1 John 2:2. Rom. 3:25."
+            },
+            "38": {
+                "header": "Q. 38.  Why did He suffer under Pontius Pilate as judge?",
+                "body": "A.  That He, being innocent, and yet condemned by a temporal judge,#3# might thereby free us from the severe judgment of God to which we were exposed.#4#",
+                "chapter": "Lord's Day 15",
+                "proof": "4. Luke 23:14. John 19:4. Psa. 69:4. 4. Gal. 3:13, 14."
+            },
+            "39": {
+                "header": "Q. 39.  Is there anything more in His being crucified than if He had died some other death?",
+                "body": "A.  Yes [there is]; for thereby I am assured that He took on Him the curse which lay upon me; for the death of the cross was accursed of God.#5#",
+                "chapter": "Lord's Day 15",
+                "proof": "5. Deut. 21:23. Gal. 3:13."
+            },
+            "40": {
+                "header": "Q. 40.  Why was it necessary for Christ to humble Himself even unto death?",
+                "body": "A.  Because, with respect to the justice and truth of God,#1# satisfaction for our sins could be made no otherwise than by the death of the Son of God.#2#",
+                "chapter": "Lord's Day 16",
+                "proof": "1. Gen. 2:17. 2. Heb. 2:9, 10. Phil. 2:8."
+            },
+            "41": {
+                "header": "Q. 41.  Why was He also \"buried\"?",
+                "body": "A.  Thereby to prove that He was really dead.#3#",
+                "chapter": "Lord's Day 16",
+                "proof": "3. Acts 13:29. Mark 15:43,46."
+            },
+            "42": {
+                "header": "Q. 42.  Since then Christ died for us, why must we also die?",
+                "body": "A.  Our death is not a satisfaction for our sins, but only an abolishing of sin, and a passage into eternal life.#4#",
+                "chapter": "Lord's Day 16",
+                "proof": "4. John 5:24. Phil. 1:23."
+            },
+            "43": {
+                "header": "Q. 43.  What further benefit do we receive from the sacrifice and death of Christ on the cross?",
+                "body": "A.  That by virtue thereof our old man is crucified, dead, and buried with Him;#5# that so the corrupt inclinations of the flesh may no more reign in us;#6# but that we may offer ourselves unto Him a sacrifice of thanksgiving.#7#",
+                "chapter": "Lord's Day 16",
+                "proof": "5. Rom. 6:6, 7ff. 6.  Rom. 6:12. 7. Rom. 12:1."
+            },
+            "44": {
+                "header": "Q. 44.  Why is there added, \"He descended into hell\"?",
+                "body": "A.  That in my greatest temptations, I may be assured, and wholly comfort myself in this, that my Lord Jesus Christ, by His inexpressible anguish, pains, terrors, and hellish agonies, in which He was plunged during all His sufferings, but especially on the cross, hath delivered me from the anguish and torments of hell.#8#",
+                "chapter": "Lord's Day 16",
+                "proof": "8. Isa. 53:10. Mat. 27:46."
+            },
+            "45": {
+                "header": "Q. 45.  What doth the resurrection of Christ profit us?",
+                "body": "A.  First, by His resurrection He has overcome death, that He might make us partakers of that righteousness which He had purchased for us by His death;#1# secondly, we are also by His power raised up to a new life;#2# and lastly, the resurrection of Christ is a sure pledge of our blessed resurrection.#3#",
+                "chapter": "Lord's Day 17",
+                "proof": "1. 1 Cor. 15:16. 2. Rom. 6:4. Col. 3:1ff. 3. 1 Cor. 15. Rom. 8:11."
+            },
+            "46": {
+                "header": "Q. 46.  How dost thou understand these words, \"He ascended into heaven\"?",
+                "body": "A.  That Christ, in sight of His disciples, was taken up from earth into heaven;#1# and that He continues there for our interest,#2# until He comes again to judge the quick and the dead.",
+                "chapter": "Lord's Day 18",
+                "proof": "1. Acts 1:9. Mark 16:19. 2. Heb. 4:14. Rom. 8:34. Eph. 4:10."
+            },
+            "47": {
+                "header": "Q. 47.  Is not Christ then with us even to the end of the world, as He hath promised?",
+                "body": "A.  Christ is very man and very God; with respect to His human nature, He is no more on earth;#3# but with respect to His Godhead, majesty, grace, and spirit, He is at no time absent from us.#4#",
+                "chapter": "Lord's Day 18",
+                "proof": "3. Acts 3:21. John 3:13. John 16:28. 4. Mat. 28:20."
+            },
+            "48": {
+                "header": "Q. 48.  But if His human nature is not present wherever His Godhead is, are not then these two natures in Christ separated from one another?",
+                "body": "A.  Not at all, for since the Godhead is illimitable and omnipresent,#5# it must necessarily follow that the same is beyond the limits of the human nature He assumed,#6# and yet is nevertheless in this human nature and remains personally united to it.",
+                "chapter": "Lord's Day 18",
+                "proof": "5. Acts 7:49. Jer. 23:24. 6. Mat. 28:20. John 16:28. John 17:11. John 3:13."
+            },
+            "49": {
+                "header": "Q. 49.  Of what advantage to us is Christ's ascension into heaven?",
+                "body": "A.  First, that He is our advocate in the presence of His Father in heaven;#7# secondly, that we have our flesh in heaven as a sure pledge that He, as the Head, will also take up to Himself, us, His members;#8# thirdly, that He sends us His Spirit as an earnest,#9# by whose power we seek the things which are above, where Christ sitteth on the right hand of God, and not things on earth.#10#",
+                "chapter": "Lord's Day 18",
+                "proof": "7. Heb. 9:24. 1 John 2:1. Rom. 8:34. 8. John 14:2-3. Eph. 2:6. 9. John 14:16. 2 Cor. 1:22. 2 Cor. 5:5. 10. Col. 3:1. Phil. 3:20."
+            },
+            "50": {
+                "header": "Q. 50.  Why is it added, \"and sitteth at the right hand of God\"?",
+                "body": "A.  Because Christ is ascended into heaven for this end, that He might appear as Head of His church,#1# by whom the Father governs all things.#2#",
+                "chapter": "Lord's Day 19",
+                "proof": "1. Eph. 1:20-22. Col. 1:18. 2. Mat. 28:18. John 5:22."
+            },
+            "51": {
+                "header": "Q. 51.  What profit is this glory of Christ, our Head, unto us?",
+                "body": "A.  First, that by His Holy Spirit He pours out heavenly graces upon us His members;#3# and then that by His power He defends and preserves us against all enemies.#4#",
+                "chapter": "Lord's Day 19",
+                "proof": "3. Eph. 4:8. 4. Psa. 2:9. John 10:28."
+            },
+            "52": {
+                "header": "Q. 52.  What comfort is it to thee that \"Christ shall come again to judge the quick and the dead\"?",
+                "body": "A.  That in all my sorrows and persecutions, with uplifted head I look for the very same person who before offered Himself for my sake to the tribunal of God, and has removed all curse from me, to come as judge from heaven;#5# who shall cast all His and my enemies into everlasting condemnation,#6# but shall translate me with all His chosen ones to Himself, into heavenly joys and glory.#7#",
+                "chapter": "Lord's Day 19",
+                "proof": "5. Luke 21:28. Rom. 8:23, 24. 1 Thes. 4:16. 6. 2 Thes. 1:6-9. Mat. 25:41. 7. Ps. 2:9. John 10:28."
+            },
+            "53": {
+                "header": "Q. 53.  What dost thou believe concerning the Holy Ghost?",
+                "body": "A.  First, that He is true and co-eternal God with the Father and the Son;#1# secondly, that He is also given me,#2# to make me, by a true faith, partaker of Christ and all His benefits,#3# that He may comfort me#4# and abide with me for ever.#5#",
+                "chapter": "Lord's Day 20",
+                "proof": "1. Gen. 1:2.  Isa. 48:16. 1 Cor. 3:16. 2. Mat. 28:19. 2 Cor. 1:22. 3. Gal. 3:14. 1 Pet. 1:2. 4. Acts 9:31. 5. John 14:16. 1 Pet. 4:14."
+            },
+            "54": {
+                "header": "Q. 54.  What believest thou concerning the \"holy catholic church\" of Christ?",
+                "body": "A.  That the Son of God, from the beginning to the end of the world,#1# gathers,#2# defends, and preserves to Himself#3# by His Spirit and Word,#4# out of the whole human race,#5# a church chosen to everlasting life,#6# agreeing in true faith; and that I am, and for ever shall remain, a living member thereof.#7#",
+                "chapter": "Lord's Day 21",
+                "proof": "1. John 10:11. Gen. 26:4. 2. Rom. 9:24. Eph. 1:10. 3. John 10:16. 4. Isa. 59:21. 5. Deut. 10:14, 15. 6. Acts 13:48. 7. 1 Cor. 1:8, 9. Rom. 8:35ff."
+            },
+            "55": {
+                "header": "Q. 55.  What do you understand by \"the communion of saints\"?",
+                "body": "A.  First, that all and every one who believes, being members of Christ, are, in common, partakers of Him and of all His riches and gifts;#8# secondly, that every one must know it to be his duty, readily and cheerfully to employ his gifts, for the advantage and salvation of other members.#9#",
+                "chapter": "Lord's Day 21",
+                "proof": "8. 1 John 1:3, 4. Rom. 8:32. 1 Cor. 12:13. 9. 1 Cor. 13:5. Phil. 2:4-8."
+            },
+            "56": {
+                "header": "Q. 56.  What believest thou concerning \"the forgiveness of sins\"?",
+                "body": "A.  That God, for the sake of Christ's satisfaction,#10# will no more remember my sins,#11# neither my corrupt nature, against which I have to struggle all my life long; but will graciously impute to me the righteousness of Christ, that I may never be condemned before the tribunal of God.#12#",
+                "chapter": "Lord's Day 21",
+                "proof": "10. 1 John 2:2. 2 Cor. 5:19,21. 11. Jer. 31:34. Psa. 103:3, 4, 10, 11. Rom. 8:1-3. 12. John 3:18."
+            },
+            "57": {
+                "header": "Q. 57.  What comfort doth the \"resurrection of the body\" afford thee?",
+                "body": "A.  That not only my soul after this life shall be immediately taken up to Christ its Head;#1# but also, that this my body, being raised by the power of Christ, shall be reunited with my soul, and made like unto the glorious body of Christ.#2#",
+                "chapter": "Lord's Day 22",
+                "proof": "1. Luke 23:43. Phil. 1:23. 2. 1 Cor. 15:53. Job 19:25, 26."
+            },
+            "58": {
+                "header": "Q. 58.  What comfort takest thou from the article of \"life everlasting\"?",
+                "body": "A.  That since I now feel in my heart the beginning of eternal joy,#3# after this life I shall inherit perfect salvation, which eye hath not seen, nor ear heard, neither hath it entered into the heart of man to conceive,#4# and that, to praise God therein for ever.",
+                "chapter": "Lord's Day 22",
+                "proof": "3. 2 Cor. 5:2, 3, 6. Rom. 14:17. 4. 1 Cor. 2:9."
+            },
+            "59": {
+                "header": "Q. 59.  But what doth it profit thee now that thou believest all this?",
+                "body": "A.  That I am righteous in Christ, before God, and an heir of eternal life.#1#",
+                "chapter": "Lord's Day 23",
+                "proof": "1. Rom. 5:1. Rom. 1:17. John 3:36."
+            },
+            "60": {
+                "header": "Q. 60.  How art thou righteous before God?",
+                "body": "A.  Only by a true faith in Jesus Christ;#2# so that, though my conscience accuse me that I have grossly transgressed all the commandments of God, and kept none of them,#3# and am still inclined to all evil;#4# notwithstanding, God, without any merit of mine,#5# but only of mere grace,#6# grants#7# and imputes to me#8# the perfect satisfaction, righteousness, and holiness of Christ;#9# even so, as if I never had had nor committed any sin: yea, as if I had fully accomplished all that obedience which Christ has accomplished for me;#10# inasmuch as I embrace such benefit with a believing heart.#11#",
+                "chapter": "Lord's Day 23",
+                "proof": "2. Rom. 3:22ff. Gal. 2:16. Eph. 2:8, 9. 3. Rom. 3:9ff. 4. Rom. 7:23. 5. Rom. 3:24. 6. Tit. 3:5. Eph. 2:8, 9. 7. Rom. 4:4, 5. 2 Cor. 5:19. 8. Rom. 4:4. 9. Rom. 3:24, 25. 10. 2 Cor. 5:21. 11. Rom. 3:28. John 3:18."
+            },
+            "61": {
+                "header": "Q. 61.  Why sayest thou that thou art righteous by faith only?",
+                "body": "A.  Not that I am acceptable to God on account of the worthiness of my faith,#12# but because only the satisfaction, righteousness, and holiness of Christ is my righteousness before God;#13# and that I cannot receive and apply the same to myself any other way than by faith only.#14#",
+                "chapter": "Lord's Day 23",
+                "proof": "12. Psa. 16:2. Eph. 2:8, 9. 13. 1 Cor. 1:30. 1 Cor. 2:2. 14. 1 John 5:10."
+            },
+            "62": {
+                "header": "Q. 62.  But why cannot our good works be the whole or part of our righteousness before God?",
+                "body": "A.  Because that the righteousness which can be approved of before the tribunal of God must be absolutely perfect, and in all respects conformable to the divine law;#1# and also, that our best works in this life are all imperfect and defiled with sin.#2#",
+                "chapter": "Lord's Day 24",
+                "proof": "1. Gal. 3:10. Deut. 27:26. 2. Isa. 64:6."
+            },
+            "63": {
+                "header": "Q. 63.  What! Do not our good works merit, which yet God will reward in this and in a future life?",
+                "body": "A.  This reward is not of merit, but of grace.#3#",
+                "chapter": "Lord's Day 24",
+                "proof": "3. Luke 17:10."
+            },
+            "64": {
+                "header": "Q. 64.  But doth not this doctrine make men careless and profane?",
+                "body": "A.  By no means; for it is impossible that those who are implanted into Christ by a true faith should not bring forth fruits of thankfulness.#4#",
+                "chapter": "Lord's Day 24",
+                "proof": "4. Mat. 7:17, 18. John 15:5."
+            },
+            "65": {
+                "header": "Q. 65.  Since then we are made partakers of Christ and all His benefits by faith only, whence doth this faith proceed?",
+                "body": "A.  From the Holy Ghost, who works faith in our hearts#1# by the preaching of the gospel, and confirms it by the use of the sacraments.#2#",
+                "chapter": "Lord's Day 25",
+                "proof": "1. Eph. 2:8. Eph. 6:23. Phil. 1:29. 2. Mat. 28:19. Rom. 4:11."
+            },
+            "66": {
+                "header": "Q. 66.  What are the sacraments?",
+                "body": "A.  The sacraments are holy, visible signs and seals, appointed of God for this end, that by the use thereof He may the more fully declare and seal to us the promise of the gospel, namely, that He grants us freely the remission of sin and life eternal, for the sake of that one sacrifice of Christ accomplished on the cross.#3#",
+                "chapter": "Lord's Day 25",
+                "proof": "3. Gen. 17:11. Rom. 4:11. Ex. 12. Lev. 6:25. Acts 22:16. Acts 2:38. Mat. 26:28."
+            },
+            "67": {
+                "header": "Q. 67.  Are both Word and sacraments, then, ordained and appointed for this end, that they may direct our faith to the sacrifice of Jesus Christ on the cross as the only ground of our salvation?",
+                "body": "A.  Yes, indeed; for the Holy Ghost teaches us in the gospel, and assures us by the sacraments, that the whole of our salvation depends upon that one sacrifice of Christ which He offered for us on the cross.#4#",
+                "chapter": "Lord's Day 25",
+                "proof": "4. Rom. 6:3. Gal. 3:27."
+            },
+            "68": {
+                "header": "Q. 68.  How many sacraments has Christ instituted in the new covenant, or testament?",
+                "body": "A.  Two, namely, holy baptism and the holy supper.#5#",
+                "chapter": "Lord's Day 25",
+                "proof": "5. Matt. 28:19. 1 Cor. 11:23-25."
+            },
+            "69": {
+                "header": "Q. 69. How art thou admonished and assured by holy baptism that the one sacrifice of Christ upon the cross is of real advantage to thee?",
+                "body": "A.  Thus: That Christ appointed this external washing with water,#1# adding thereto this promise,#2# that I am as certainly washed by His blood and Spirit from all the pollution of my soul, that is, from all my sins,#3# as I am washed externally with water, by which the filthiness of the body is commonly washed away.",
+                "chapter": "Lord's Day 26",
+                "proof": "1. Mat. 28:19. Acts 2:38. 2. Mark 16:16. Mat. 3:11. Rom. 6:3. 3. Mark 1:4. Luke 3:3."
+            },
+            "70": {
+                "header": "Q. 70.  What is it to be washed with the blood and Spirit of Christ?",
+                "body": "A.  It is to receive of God the remission of sins freely, for the sake of Christ's blood, which He shed for us by His sacrifice upon the cross;#4# and also to be renewed by the Holy Ghost, and sanctified to be members of Christ, that so we may more and more die unto sin and lead holy and unblamable lives.#5#",
+                "chapter": "Lord's Day 26",
+                "proof": "4. Heb. 12:24. 1 Pet. 1:2. 5. John 1:33. Rom. 6:4. Col. 2:11."
+            },
+            "71": {
+                "header": "Q. 71.  Where has Christ promised us that He will as certainly wash us by His blood and Spirit as we are washed with the water of baptism?",
+                "body": "A.  In the institution of baptism, which is thus expressed: Go ye, therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost.#6# He that believeth, and is baptized, shall be saved; but he that believeth not, shall be damned.#7# This promise is also repeated where the scripture calls baptism the washing of regeneration#8# and the washing away of sins.#9#",
+                "chapter": "Lord's Day 26",
+                "proof": "6. Mat. 28:19. 7. Mark 16:16. 8. Tit. 3:5. 9. Acts 22:16."
+            },
+            "72": {
+                "header": "Q. 72.  Is then the external baptism with water the washing away of sin itself?",
+                "body": "A.  Not at all; for the blood of Jesus Christ only, and the Holy Ghost, cleanse us from all sin.#1#",
+                "chapter": "Lord's Day 27",
+                "proof": "1. Mat. 3:11. 1 Pet. 3:21. 1 John 1:7. 1 Cor. 6:11."
+            },
+            "73": {
+                "header": "Q. 73.  Why then doth the Holy Ghost call baptism \"the washing of regeneration,\" and \"the washing away of sins\"?",
+                "body": "A.  God speaks thus not without great cause, to wit, not only thereby to teach us that, as the filth of the body is purged away by water, so our sins are removed by the blood and Spirit of Jesus Christ;#2# but especially that by this divine pledge and sign He may assure us that we are spiritually cleansed from our sins as really as we are externally washed with water.#3# ",
+                "chapter": "Lord's Day 27",
+                "proof": "2. Rev. 1:5. 1 Cor. 6:11. 3. Mark 16:16. Gal. 3:27."
+            },
+            "74": {
+                "header": "Q. 74.  Are infants also to be baptized?",
+                "body": "A.  Yes; for since they, as well as the adult, are included in the covenant#4# and church of God;#5# and since redemption from sin by the blood of Christ, and the Holy Ghost, the author of faith, is promised to them#6# no less than to the adult; they must therefore by baptism, as a sign of the covenant, be also admitted into the Christian church, and be distinguished from the children of unbelievers#7# as was done in the old covenant or testament by circumcision,#8# instead of which baptism is instituted in the new covenant.#9#",
+                "chapter": "Lord's Day 27",
+                "proof": "4. Gen. 17:7. Acts. 2:39. 5. 1 Cor. 7:14. Joel 2:16. Mat. 19:14. 6. Luke 1:14, 15. Psa. 22:9, 10. Acts 2:39. 7. Acts 10:47. 1 Cor. 12:13. 1 Cor. 7:14. 8. Gen. 17:14. 9. Col. 2:11-13."
+            },
+            "75": {
+                "header": "Q. 75.  How art thou admonished and assured in the Lord's Supper that thou art a partaker of that one sacrifice of Christ, accomplished on the cross, and of all His benefits?",
+                "body": "A.  Thus: That Christ has commanded me and all believers to eat of this broken bread and to drink of this cup in remembrance of Him, adding these promises: first, that His body was offered and broken on the cross for me, and His blood shed for me, as certainly as I see with my eyes the bread of the Lord broken for me and the cup communicated to me; and further, that He feeds and nourishes my soul to everlasting life, with His crucified body and shed blood, as assuredly as I receive from the hands of the minister, and taste with my mouth the bread and cup of the Lord, as certain signs of the body and blood of Christ.#1#",
+                "chapter": "Lord's Day 28",
+                "proof": "1. Mat. 26:26-28. Mark 14:22-24. Luke 22:19, 20. 1 Cor. 10:16,17. 1 Cor. 11:23-25."
+            },
+            "76": {
+                "header": "Q. 76.  What is it then to eat the crucified body and drink the shed blood of Christ?",
+                "body": "A.  It is not only to embrace with a believing heart all the sufferings and death of Christ, and thereby to obtain the pardon of sin and life eternal;#2# but also, besides that, to become more and more united to His sacred body by the Holy Ghost, who dwells both in Christ and in us;#3# so that we, though Christ is in heaven and we on earth,#4# are notwithstanding flesh of his flesh, and bone of his bone;#5# and that we live and are governed forever by one Spirit, as members of the same body are by one soul.#6#",
+                "chapter": "Lord's Day 28",
+                "proof": "2. John 6:35, 40, 47, 48, 50, 51, 53, 54. 3. John 6:55, 56. 4. Acts 3:21. Acts 1:9-11. 1 Cor. 11:26. 5. Eph. 5:29-32. 1 Cor. 6:15, 17, 19. 1 John 3:24. 6. John 6:56-58. Eph. 4:15, 16."
+            },
+            "77": {
+                "header": "Q. 77.  Where has Christ promised that He will as certainly feed and nourish believers with His body and blood, as they eat of this broken bread and drink of this cup?",
+                "body": "A. In the institution of the supper, which is thus expressed:#7# <i>The Lord Jesus, the same night in which he was betrayed, took bread, and when he had given thanks, he brake it, and said: Take, eat, this is my body, which is broken for you; this do in remembrance of me. After the same manner also he took the cup, when he had supped, saying: this cup is the new testament in my blood;#8# this do ye, as often as ye drink it, in remembrance of me. For, as often as ye eat this bread, and drink this cup, ye do show the Lord's death till he come.#9#</i>\n\nThis promise is repeated by the holy apostle Paul, where he says: <i>The cup of blessing which we bless, is it not the communion of the blood of Christ? The bread which we break, is it not the communion of the body of Christ?  For we, being many, are one bread and one body; because we are all partakers of that one bread.#10#</i>",
+                "chapter": "Lord's Day 28",
+                "proof": "7. 1 Cor. 11:23ff. Mat. 26:26ff. Mark 14:22ff. Luke 22:19ff.8. Ex. 24:8. Heb. 9:20. 9. Ex. 13:9. 1 Cor. 11:26. 10. 1 Cor. 10:16, 17."
+            },
+            "78": {
+                "header": "Q. 78.  Do then the bread and wine become the very body and blood of Christ?",
+                "body": "A.  Not at all; but as the water in baptism is not changed into the blood of Christ, neither is the washing away of sin itself, being only the sign and confirmation thereof appointed of God;#1# so the bread in the Lord's Supper is not changed into the very body of Christ,#2# though agreeably to the nature and properties of sacraments,#3# it is called the body of Christ Jesus.",
+                "chapter": "Lord's Day 29",
+                "proof": "1. 1 Cor. 10:1-4. 1 Pet. 3:21. John 6:35, 62,63. 2. 1 Cor. 10:16ff. 1 Cor. 11:20ff. 3. Gen. 17:10, 11,14. Ex. 12:26, 27,43, 48. Acts 7:8. Mat. 26:26. Mark 14:24."
+            },
+            "79": {
+                "header": "Q. 79.  Why then doth Christ call the bread His body, and the cup His blood, or the new covenant in His blood; and Paul, the \"communion of the body and blood of Christ\"?",
+                "body": "A.  Christ speaks thus not without great reason, namely, not only thereby to teach us that as bread and wine support this temporal life, so His crucified body and shed blood are the true meat and drink whereby our souls are fed to eternal life;#4# but more especially by these visible signs and pledges to assure us that we are as really partakers of His true body and blood (by the operation of the Holy Ghost) as we receive by the mouths of our bodies these holy signs in remembrance of Him;#5# and that all His sufferings and obedience are as certainly ours as if we had in our own persons suffered and made satisfaction for our sins to God.#6#",
+                "chapter": "Lord's Day 29",
+                "proof": "4. John 6:51, 55,56. 5. 1 Cor. 10:16, 17. 1 Cor. 11:26-28. Eph. 5:30. 6. Rom. 5:9, 18, 19. Rom. 8:4."
+            },
+            "80": {
+                "header": "Q. 80.  What difference is there between the Lord's Supper and the popish mass?",
+                "body": "A.  The Lord's Supper testifies to us that we have a full pardon of all sin by the only sacrifice of Jesus Christ, which He Himself has once accomplished on the cross;#1# and that we by the Holy Ghost are ingrafted into Christ,#2# who according to His human nature is now not on earth, but in heaven at the right hand of God His Father,#3# and will there be worshiped by us#4#—but the mass teaches that the living and dead have not the pardon of sins through the sufferings of Christ, unless Christ is also daily offered for them by the priests; and further, that Christ is bodily under the form of bread and wine, and therefore is to be worshiped in them; so that the mass, at bottom, is nothing else than a denial of the one sacrifice and sufferings of Jesus Christ, and an accursed idolatry.#5#",
+                "chapter": "Lord's Day 30",
+                "proof": "1. Heb. 7:27. Heb. 9:12, 26. Mat. 26:28. Luke 22:19, 20. 2 Cor. 5:21. 2. 1 Cor. 6:17. 1 Cor. 12:13. 3. Heb. 1:3. Heb. 8:1ff. 4. John 4:21-23. Col. 3:1. Phil. 3:20. Luke 24:51-53. Acts 7:55. 5. Isa. 1:11, 14. Mat. 15:9. Col. 2:22, 23. Jer. 2:13. Heb. 10:12, 14."
+            },
+            "81": {
+                "header": "Q. 81.  For whom is the Lord's Supper instituted?",
+                "body": "A.  For those who are truly sorrowful for their sins,#6# and yet trust that these are forgiven them for the sake of Christ, and that their remaining infirmities are covered by His passion and death;#7# and who also earnestly desire to have their faith more and more strengthened, and their lives more holy;#8# but hypocrites, and such as turn not to God with sincere hearts, eat and drink judgment to themselves.#9# ",
+                "chapter": "Lord's Day 30",
+                "proof": "6. Mat. 5:3, 6. Luke 7:37, 38. Luke 15:18, 19. 7. Psa. 103:3. 8. Psa. 116:12-14. 1 Pet. 2:11, 12. 9. 1 Cor. 10:20ff. 1 Cor. 11:28ff. Tit. 1:16. Psa. 50:15, 16."
+            },
+            "82": {
+                "header": "Q. 82.  Are they also to be admitted to this supper, who, by confession and life, declare themselves unbelieving and ungodly?",
+                "body": "A.  No; for by this the covenant of God would be profaned, and His wrath kindled against the whole congregation;#10# therefore it is the duty of the Christian church, according to the appointment of Christ and His apostles, to exclude such persons,#11# by the keys of the kingdom of heaven, till they show amendment of life.",
+                "chapter": "Lord's Day 30",
+                "proof": "10. 1 Cor. 10:21. 1 Cor. 11:30,31. Isa. 1:11, 13. Jer. 7:21. Psa. 50:16, 22. 11. Mat. 18:17, 18."
+            },
+            "83": {
+                "header": "Q. 83.  What are the keys of the kingdom of heaven?#1#",
+                "body": "A.  The preaching of the holy gospel, and Christian discipline,#2# or excommunication out of the Christian church;#3# by these two, the kingdom of heaven is opened to believers, and shut against unbelievers.",
+                "chapter": "Lord's Day 31",
+                "proof": "1. Mat. 16:19. 2. John 20:23. 3. Mat. 18:15-18."
+            },
+            "84": {
+                "header": "Q. 84.  How is the kingdom of heaven opened and shut by the preaching of the holy gospel?",
+                "body": "A.  Thus: when according to the command of Christ#4# it is declared and publicly testified to all and every believer, that, whenever they receive the promise of the gospel by a true faith, all their sins are really forgiven them of God, for the sake of Christ's merits;#5# and on the contrary, when it is declared and testified to all unbelievers, and such as do not sincerely repent, that they stand exposed to the wrath of God and eternal condemnation, so long as they are unconverted;#6# according to which testimony of the gospel God will judge them, both in this and in the life to come.",
+                "chapter": "Lord's Day 31",
+                "proof": "4. Mat. 28:19. 5. John 3:18, 36. Mark 16:16. 6. 2 Thes. 1:7-9. John 20:21-23. Mat. 16:19. Rom. 2:2, 13-17."
+            },
+            "85": {
+                "header": "Q. 85.  How is the kingdom of heaven shut and opened by Christian discipline?",
+                "body": "A.  Thus: when according to the command of Christ,#7# those who under the name of Christians maintain doctrines, or practices inconsistent therewith,#8# and will not, after having been often brotherly admonished, renounce their errors and wicked course of life, are complained of to the church,#9# or to those who are thereunto appointed by the church;#10# and if they despise their admonition, are by them forbidden the use of the sacraments;#11# whereby they are excluded from the Christian church, and by God Himself from the kingdom of Christ; and when they promise and show real amendment, are again received as members of Christ and His church.#12#",
+                "chapter": "Lord's Day 31",
+                "proof": "7. Mat. 18:15. 8. 1 Cor. 5:11, 12. 9. Mat. 18:15-18. 10. Rom. 12:7-9. 1 Cor. 12:28. 1 Tim. 5:17. 2 Thes. 3:14. 11. Mat. 18:17. 1 Cor. 5:3-5. 12. 2 Cor. 2:6-8, 10,11. Luke 15:18."
+            },
+            "86": {
+                "header": "Q. 86.  Since then we are delivered from our misery merely of grace, through Christ, without any merit of ours, why must we still do good works?",
+                "body": "A.  Because Christ, having redeemed and delivered us by His blood, also renews us by His Holy Spirit after His own image; that so we may testify by the whole of our conduct our gratitude to God for His blessings,#1# and that He may be praised by us;#2# also, that every one may be assured in himself of his faith by the fruits thereof;#3# and that by our godly conversation others may be gained to Christ.#4#",
+                "chapter": "Lord's Day 32",
+                "proof": "1. 1 Cor. 6:19, 20. Rom. 6:13. Rom. 12:1, 2. 1 Pet. 2:5, 9,10. 2. Mat. 5:16. 1 Pet. 2:12. 3. 2 Pet. 1:10. Gal. 5:6, 24. 4. 1 Pet. 3:1, 2. Mat. 5:16. Rom. 14:19."
+            },
+            "87": {
+                "header": "Q. 87.  Cannot they then be saved, who, continuing in their wicked and ungrateful lives, are not converted to God?",
+                "body": "A.  By no means; for the Holy Scripture declares that no unchaste person, idolator, adulterer, thief, covetous man, drunkard, slanderer, robber, or any such like, shall inherit the kingdom of God.#5#",
+                "chapter": "Lord's Day 32",
+                "proof": "5. 1 Cor. 6:9, 10. Eph. 5:5, 6. 1 John 3:14,15. Gal. 5:19-21."
+            },
+            "88": {
+                "header": "Q. 88.  Of how many parts doth the true conversion of man consist?",
+                "body": "A.  Of two parts: of the mortification of the old, and the quickening of the new man.#1#",
+                "chapter": "Lord's Day 33",
+                "proof": "1. Rom 6:4-6. Eph. 4:22-24. Col. 3:5. 1 Cor. 5:7."
+            },
+            "89": {
+                "header": "Q. 89.  What is the mortification of the old man?",
+                "body": "A.  It is a sincere sorrow of heart that we have provoked God by our sins, and more and more to hate and flee from them.#2#",
+                "chapter": "Lord's Day 33",
+                "proof": "2. Psa. 51:3, 4, 17. Luke 15:18. Rom. 8:13. Joel 1:12, 13.Joel 2:12, 13."
+            },
+            "90": {
+                "header": "Q. 90.  What is the quickening of the new man?",
+                "body": "A.  It is a sincere joy of heart in God, through Christ,#3# and with love and delight to live according to the will of God in all good works.#4#",
+                "chapter": "Lord's Day 33",
+                "proof": "3. Rom 5:1, 2. Rom. 14:17. Isa. 57:15. 4. Rom 5:1, 2. Rom. 14:17. Isa. 57:15."
+            },
+            "91": {
+                "header": "Q. 91.  But what are good works?",
+                "body": "A.  Only those which proceed from a true faith,#5# are performed according to the law of God,#6# and to His glory;#7# and not such as are founded on our imaginations or the institutions of men.#8#",
+                "chapter": "Lord's Day 33",
+                "proof": "5. Rom. 14:23. 6. 1 Sam. 15:22. Lev. 18:4. Eph. 2:10. 7. 1 Cor. 10:31. 8.Deut. 12:32. Ezek. 20:18. Mat. 15:9."
+            },
+            "92": {
+                "header": "Q. 92.  What is the law of God?",
+                "body": "A.  God spake all these words, Exodus 20, Deuteronomy 5, saying: <i>I am the Lord thy God, which have brought thee out of the land of Egypt, out of the house of bondage.\nI. Thou shalt have no other gods before me.\nII. Thou shalt not make unto thee any graven image, or any likeness of any thing that is in heaven above, or that is in the earth beneath, or that is in the water under the earth: thou shalt not bow down thyself to them, nor serve them: for I the Lord thy God am a jealous God, visiting the iniquity of the fathers upon the children unto the third and fourth generation of them that hate me; and showing mercy unto thousands of them that love me, and keep my commandments.\nIII. Thou shalt not take the name of the Lord thy God in vain: for the Lord will not hold him guiltless that taketh his name in vain.\nIV. Remember the sabbath day, to keep it holy. Six days shalt thou labor, and do all thy work: but the seventh day is the sabbath of the Lord thy God: in it thou shalt not do any work, thou, nor thy son, nor thy daughter, thy manservant, nor thy maidservant, nor thy cattle, nor thy stranger that is within thy gates: for in six days the Lord made heaven and earth, the sea, and all that in them is, and rested the seventh day: wherefore the Lord blessed the sabbath day, and hallowed it.\nV. Honor thy father and thy mother: that thy days may be long upon the land which the Lord thy God giveth thee.\nVI. Thou shalt not kill.\nVII. Thou shalt not commit adultery.\nVIII. Thou shalt not steal.\nIX. Thou shalt not bear false witness against thy neighbor.\nX. Thou shalt not covet thy neighbor's house, thou shalt not covet thy neighbor's wife, nor his manservant, nor his maid-servant, nor his ox, nor his ass, nor any thing that is thy neighbor's.</i>",
+                "chapter": "Lord's Day 34",
+                "proof": ""
+            },
+            "93": {
+                "header": "Q. 93.  How are these commandments divided?",
+                "body": "A.  Into two tables:#1# the first of which teaches us how we must behave towards God; the second, what duties we owe to our neighbor.#2#",
+                "chapter": "Lord's Day 34",
+                "proof": "1. Ex. 34:28, 29. Deut. 4:13. Deut. 10:3, 4. 2. Mat. 22:37-40."
+            },
+            "94": {
+                "header": "Q. 94.  What doth God enjoin in the first commandment?",
+                "body": "A.  That I, as sincerely as I desire the salvation of my own soul, avoid and flee from all idolatry,#3# sorcery, soothsaying, superstition,#4# invocation of saints, or any other creatures;#5# and learn rightly to know the only true God;#6# trust in Him alone,#7# with humility and patience#8# submit to Him;#9# expect all good things from Him only;#10# love,#11# fear,#12# and glorify#13# Him with my whole heart; so that I renounce and forsake all creatures,#14# rather than commit even the least thing contrary to His will.#15#",
+                "chapter": "Lord's Day 34",
+                "proof": "3. 1 Cor. 6:9, 10. 1 Cor. 10:7,14. 4. Lev. 18:21. Deut. 18:10-12. 5. Mat. 4:10. Rev. 19:10. 6. John 17:3. 7. Jer. 17:5, 7. 8. Heb. 10:36. Col. 1:11. Rom. 5:3, 4. Phil. 2:14. 9. 1 Pet. 5:5, 6. 10. Psa. 104:27. Isa. 45:7. James 1:17. 11. Deut. 6:5. 12. Mat. 22:37. 12. Deut. 6:5. Mat. 10:28. 13. Mat. 4:10. 14. Mat. 5:29, 30. Acts 5:29. Mat. 10:37. 15. Mat. 5:19."
+            },
+            "95": {
+                "header": "Q. 95.  What is idolatry?",
+                "body": "A.  Idolatry is, instead of, or besides that one true God who has manifested Himself in His Word, to contrive or have any other object in which men place their trust.#16#",
+                "chapter": "Lord's Day 34",
+                "proof": "16. 2 Chron. 16:12. Phil. 3:18, 19. Gal. 4:8. Eph. 2:12."
+            },
+            "96": {
+                "header": "Q. 96.  What doth God require in the second commandment?",
+                "body": "A.  That we in no wise represent God by images,#1# nor worship Him in any other way than He has commanded in His Word.#2#",
+                "chapter": "Lord's Day 35",
+                "proof": "1. Deut. 4:15. Isa. 40:18. Rom. 1:23ff. Acts 17:29. 2. 1 Sam. 15:23. Deut. 12:30."
+            },
+            "97": {
+                "header": "Q. 97.  Are images then not at all to be made?",
+                "body": "A.  God neither can nor may be represented by any means.#3# But as to creatures, though they may be represented, yet God forbids to make or have any resemblance of them either in order to worship them or to serve God by them.#4#",
+                "chapter": "Lord's Day 35",
+                "proof": "3. Deut. 4:15, 16. Isa. 46:5. Rom. 1:23. 4. Ex. 23:24. Ex. 34:13, 14. Num. 33:52. Deut. 7:5."
+            },
+            "98": {
+                "header": "Q. 98.  But may not images be tolerated in the churches as books to the laity?",
+                "body": "A.  No; for we must not pretend to be wiser than God, who will have His people taught, not by dumb images,#5# but by the lively preaching of His Word.#6#",
+                "chapter": "Lord's Day 35",
+                "proof": "5. Jer. 10:1ff. Hab. 2:18, 19. 6. 2 Tim. 3:16. 2 Pet. 1:19."
+            },
+            "99": {
+                "header": "Q. 99.  What is required in the third commandment?",
+                "body": "A.  That we, not only by cursing#1# or perjury,#2# but also by rash swearing,#3# must not profane or abuse the name of God; nor by silence or connivance be partakers of these horrible sins in others; and, briefly, that we use the holy name of God no otherwise than with fear and reverence;#4# so that He may be rightly confessed and worshiped by us,#5# and be glorified in all our words and works.#6#",
+                "chapter": "Lord's Day 36",
+                "proof": "1. Lev. 24:11ff. 2. Lev. 19:12. 3. Mat. 5:37. Lev. 5:4. 4. Isa. 45:23, 24. Mat. 10:32. 5. 1 Tim. 2:8. 6. Col. 3:16, 17."
+            },
+            "100": {
+                "header": "Q. 100.  Is then the profaning of God's name by swearing and cursing so heinous a sin that His wrath is kindled against those who do not endeavor, as much as in them lies, to prevent and forbid such cursing and swearing?",
+                "body": "A.  It undoubtedly is, for there is no sin greater or more provoking to God than the profaning of His name;#7# and therefore He has commanded this sin to be punished with death.#8#",
+                "chapter": "Lord's Day 36",
+                "proof": "7. Lev. 5:1. 8. Lev. 24:15, 16."
+            },
+            "101": {
+                "header": "Q. 101.  May we then swear religiously by the name of God?",
+                "body": "A.  Yes; either when the magistrates demand it of the subjects, or when necessity requires us thereby to confirm fidelity and truth to the glory of God and the safety of our neighbor;#1# for such an oath is founded on God's Word,#2# and therefore was justly used by the saints both in the Old and New Testament.#3#",
+                "chapter": "Lord's Day 37",
+                "proof": "1. Ex. 22:11. Neh. 13:25. 2. Deut. 6:13. Heb. 6:16. 3. Gen. 21:24. Josh. 9:15, 19. 1 Sam. 24:22. 2 Cor. 1:23. Rom. 1:9."
+            },
+            "102": {
+                "header": "Q. 102.  May we also swear by saints or any other creatures?",
+                "body": "A.  No; for a lawful oath is calling upon God, as the only one who knows the heart, that He will bear witness to the truth, and punish me if I swear falsely;#4# which honor is due to no creature.#5#",
+                "chapter": "Lord's Day 37",
+                "proof": "4. 2 Cor. 1:23. 5. Mat. 5:34, 35."
+            },
+            "103": {
+                "header": "Q. 103.  What doth God require in the fourth commandment?",
+                "body": "A.  First, that the ministry of the gospel and the schools be maintained;#1# and that I, especially on the sabbath, that is, on the day of rest,#2# diligently frequent the church of God,#3# to hear His word, to use the sacraments, publicly to call upon the Lord,#4# and contribute to the relief of the poor,#5# as becomes a Christian. Secondly, that all the days of my life I cease from my evil works, and yield myself to the Lord, to work by His Holy Spirit in me; and thus begin in this life the eternal sabbath.#6#",
+                "chapter": "Lord's Day 38",
+                "proof": "1. Deut. 12:19. Tit. 1:5. 1 Tim. 3:14,15. 1 Cor. 9:11. 2 Tim. 2:2. 1 Tim. 3:15. 2. Lev. 23:3. 3. Acts 2:42, 46. 1 Cor. 14:19, 29, 31. 1 Cor. 11:33. 4. 1 Tim. 2:1. 5. 1 Cor. 16:2. 6. Isa. 66:23."
+            },
+            "104": {
+                "header": "Q. 104.  What doth God require in the fifth commandment?",
+                "body": "A.  That I show all honor, love, and fidelity to my father and mother and all in authority over me, and submit myself to their good instruction and correction with due obedience;#1# and also patiently bear with their weaknesses and infirmities,#2# since it pleases God to govern us by their hand.#3#",
+                "chapter": "Lord's Day 39",
+                "proof": "1. Eph. 6:1, 2ff. Col. 3:18, 20. Eph. 5:22. Rom. 13:1. 2. Prov. 23:22. 3. Eph. 6:5, 6. Col. 3:20, 22. Rom. 13:1-8. Mat. 22:21."
+            },
+            "105": {
+                "header": "Q. 105.  What doth God require in the sixth commandment?",
+                "body": "A.  That neither in thoughts, nor words, nor gestures, much less in deeds, I dishonor, hate, wound, or kill my neighbor, by myself or by another;#1# but that I lay aside all desire of revenge;#2# also, that I hurt not myself, nor willfully expose myself to any danger.#3# Wherefore also the magistrate is armed with the sword to prevent murder.#4#",
+                "chapter": "Lord's Day 40",
+                "proof": "1. Mat. 5:21, 22. Prov. 12:18. Mat. 26:52. 2. Eph. 4:26. Rom. 12:19. Mat. 5:39, 40. 3. Mat. 4:5-7. Col. 2:23. 4. Gen. 9:6. Mat. 26:52. Rom. 13:4."
+            },
+            "106": {
+                "header": "Q. 106.  But this commandment seems only to speak of murder?",
+                "body": "A.  In forbidding murder, God teaches us that He abhors the causes thereof, such as envy, hatred, anger, and desire of revenge;#5# and that He accounts all these as murder.#6#",
+                "chapter": "Lord's Day 40",
+                "proof": "5. James 1:20. Gal. 5:20. Rom. 1:29. 1 John 2:9. 6. 1 John 3:15."
+            },
+            "107": {
+                "header": "Q. 107.  But is it enough that we do not kill any man in the manner mentioned above?",
+                "body": "A.  No; for when God forbids envy, hatred, and anger, He commands us to love our neighbor as ourselves;#7# to show patience, peace, meekness, mercy, and all kindness towards him,#8# and prevent his hurt as much as in us lies; and that we do good, even to our enemies.#9#",
+                "chapter": "Lord's Day 40",
+                "proof": "7. Mat. 22:39. Mat. 7:12. 8. Rom. 12:10. Eph. 4:2. Gal. 6:1, 2. Mat. 5:5. Rom. 12:18. Ex. 23:5. 9. Mat. 5:45. Rom. 12:20."
+            },
+            "108": {
+                "header": "Q. 108.  What doth the seventh commandment teach us?",
+                "body": "A.  That all uncleanness is accursed of God;#1# and that therefore we must with all our hearts detest the same,#2# and live chastely and temperately,#3# whether in holy wedlock or in single life.#4#",
+                "chapter": "Lord's Day 41",
+                "proof": "1. Lev. 18:27. 2. Deut. 29:20-23. 3. 1 Thes. 4:3, 4. 4. Heb. 13:4. 1 Cor. 7:4-9."
+            },
+            "109": {
+                "header": "Q. 109.  Doth God forbid in this commandment only adultery and such like gross sins?",
+                "body": "A.  Since both our body and soul are temples of the Holy Ghost, He commands us to preserve them pure and holy; therefore He forbids all unchaste actions,#5# gestures, words, thoughts, desires,#6# and whatever can entice men thereto.#7#",
+                "chapter": "Lord's Day 41",
+                "proof": "5. Eph. 5:3. 1 Cor. 6:18. 6. Mat. 5:28. 7. Eph. 5:18. 1 Cor. 15:33."
+            },
+            "110": {
+                "header": "Q. 110.  What doth God forbid in the eighth commandment?",
+                "body": "A.  God forbids not only those thefts#1# and robberies#2# which are punishable by the magistrate; but He comprehends under the name of theft all wicked tricks and devices whereby we design to appropriate to ourselves the goods which belong to our neighbor,#3# whether it be by force, or under the appearance of right, as by unjust weights,#4# ells, measures,#5# fraudulent merchandise, false coins, usury,#6# or by any other way forbidden by God; as also all covetousness,#7# all abuse and waste of His gifts.",
+                "chapter": "Lord's Day 42",
+                "proof": "1. 1 Cor. 6:10. 2. 1 Cor. 5:10. 3. Luke 3:14. 1 Thes. 4:6. 4. Prov. 11:1. 5. Ezek. 45:9-11. Deut. 25:13. 6. Psa. 15:5. Luke 6:35. 7. 1 Cor. 6:10."
+            },
+            "111": {
+                "header": "Q. 111.  But what doth God require in this commandment?",
+                "body": "A.  That I promote the advantage of my neighbor in every instance I can or may, and deal with him as I desire to be dealt with by others;#8# further also that I faithfully labor, so that I may be able to relieve the needy.#9#",
+                "chapter": "Lord's Day 42",
+                "proof": "8. Mat. 7:12. 9. Prov. 5:16. Eph. 4:28."
+            },
+            "112": {
+                "header": "Q. 112.  What is required in the ninth commandment?",
+                "body": "A.  That I bear false witness against no man,#1# nor falsify any man's words;#2# that I be no backbiter, nor slanderer;#3# that I do not judge, nor join in condemning any man rashly or unheard;#4# but that I avoid all sorts of lies and deceit#5# as the proper works of the devil, unless I would bring down upon me the heavy wrath of God;#6# likewise, that in judgment and all other dealings I love the truth, speak it uprightly, and confess it;#7# also that I defend and promote, as much as I am able, the honor and good character of my neighbor.#8#",
+                "chapter": "Lord's Day 43",
+                "proof": "1. Prov. 19:5, 9. Prov. 21:28. 2. Psa. 15:3. 3. Rom. 1:29, 30. 4. Mat. 7:1ff. Luke 6:37. 5. Lev. 19:11. 6. Prov. 12:22. Prov. 13:5. 7. 1 Cor. 13:6. Eph. 4:25. 8. 1 Pet. 4:8."
+            },
+            "113": {
+                "header": "Q. 113.  What doth the tenth commandment require of us?",
+                "body": "A.  That even the smallest inclination or thought contrary to any of God's commandments never rise in our hearts; but that at all times we hate all sin with our whole heart, and delight in all righteousness.#1#",
+                "chapter": "Lord's Day 44",
+                "proof": "1. Rom. 7:7ff."
+            },
+            "114": {
+                "header": "Q. 114.  But can those who are converted to God perfectly keep these commandments?",
+                "body": "A.  No; but even the holiest men, while in this life, have only a small beginning of this obedience;#2# yet so, that with a sincere resolution they begin to live not only according to some, but all the commandments of God.#3# ",
+                "chapter": "Lord's Day 44",
+                "proof": "2. Rom. 7:14. 3. Rom. 7:22, 15ff. James 3:2."
+            },
+            "115": {
+                "header": "Q. 115.  Why will God then have the ten commandments so strictly preached, since no man in this life can keep them?",
+                "body": "A.  First, that all our lifetime we may learn more and more to know our sinful nature,#4# and thus become the more earnest in seeking the remission of sin and righteousness in Christ;#5# likewise, that we constantly endeavor, and pray to God for the grace of the Holy Spirit, that we may become more and more conformable to the image of God, till we arrive at the perfection proposed to us in a life to come.#6#",
+                "chapter": "Lord's Day 44",
+                "proof": "4. 1 John 1:9. Rom. 3:20. Rom. 5:13. Rom. 7:7. 5. Rom. 7:24. 6. 1 Cor. 9:24. Phil. 3:12-14."
+            },
+            "116": {
+                "header": "Q. 116.  Why is prayer necessary for Christians?",
+                "body": "A.  Because it is the chief part of thankfulness which God requires of us;#1# and also, because God will give His grace and Holy Spirit to those only who with sincere desires continually ask them of Him, and are thankful for them.#2#",
+                "chapter": "Lord's Day 45",
+                "proof": "1. Psa. 50:14, 15. 2. Mat. 7:7, 8. Luke 11:9, 13. Mat. 13:12. Psa. 50:15."
+            },
+            "117": {
+                "header": "Q. 117.  What are the requisites of that prayer which is acceptable to God and which He will hear?",
+                "body": "A.  First, that we from the heart pray to the one true God only, who hath manifested Himself in His Word,#3# for all things He hath commanded us to ask of Him;#4# secondly, that we rightly and thoroughly know our need and misery, that so we may deeply humble ourselves in the presence of His divine majesty;#5# thirdly, that we be fully persuaded that He, notwithstanding that we are unworthy of it,#6# will, for the sake of Christ our Lord, certainly hear our prayer,#7# as He has promised us in His Word.#8#",
+                "chapter": "Lord's Day 45",
+                "proof": "3. John 4:22-24. 4. Rom. 8:26. 1 John 5:14. 5. John 4:23, 24. Psa. 2:11. Psa. 145:18. Psa. 34:18, 19. Isa. 66:2. 6. 2 Chron. 20:12. 7. Dan. 9:17, 18. Psa. 143:1. James 1:5ff. 8. Rom. 10:13. Rom. 8:15, 16. John 14:13. Mat. 7:8."
+            },
+            "118": {
+                "header": "Q. 118.  What hath God commanded us to ask of Him?",
+                "body": "A.  All things necessary for soul and body,#9# which Christ our Lord has comprised in that prayer He Himself has taught us.#10#",
+                "chapter": "Lord's Day 45",
+                "proof": "9. James 1:17. Mat. 6:33. 10. Mat. 6:9, 10ff. Luke 11:2ff."
+            },
+            "119": {
+                "header": "Q. 119.  What are the words of that prayer?",
+                "body": "A.  <i>Our Father which art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done in earth, as it is in heaven. Give us this day our daily bread. And forgive us our debts, as we forgive our debtors. And lead us not into temptation, but deliver us from evil. For Thine is the kingdom, and the power, and the glory, for ever. Amen.</i>",
+                "chapter": "Lord's Day 45",
+                "proof": ""
+            },
+            "120": {
+                "header": "Q. 120.  Why hath Christ commanded us to address God thus: \"Our Father\"?",
+                "body": "A.  That immediately, in the very beginning of our prayer, He might excite in us a childlike reverence for and confidence in God, which are the foundation of our prayer, namely, that God is become our Father in Christ,#1# and will much less deny us what we ask of Him in true faith than our parents will refuse us earthly things.#2# ",
+                "chapter": "Lord's Day 46",
+                "proof": "1. Mat. 6:9. 2. Mat. 7:9-11. Luke 11:11. Isa. 49:15."
+            },
+            "121": {
+                "header": "Q. 121.  Why is it here added, \"Which art in heaven\"?",
+                "body": "A.  Lest we should form any earthly conceptions of God's heavenly majesty,#3# and that we may expect from His almighty power all things necessary for soul and body.#4#",
+                "chapter": "Lord's Day 46",
+                "proof": "3. Jer. 23:24. Acts 17:24. 4. Acts 17:25. Rom. 10:12."
+            },
+            "122": {
+                "header": "Q. 122.  Which is the first petition?",
+                "body": "A.  Hallowed be Thy name;#1# that is, grant us, first, rightly to know Thee,#2# and to sanctify, glorify, and praise Thee in all Thy works, in which Thy power, wisdom, goodness, justice, mercy, and truth are clearly displayed;#3# and further also, that we may so order and direct our whole lives, our thoughts, words, and actions, that Thy name may never be blasphemed, but rather honored and praised on our account.#4#",
+                "chapter": "Lord's Day 47",
+                "proof": "1. Mat. 6:9. 2. John 17:3. Jer. 9:23, 24. Mat. 16:17. James 1:5. 3. Psa. 119:137, 138. Luke 1:46. Psa. 145:8, 9. 4. Psa. 115:1. Psa. 71:8."
+            },
+            "123": {
+                "header": "Q. 123.  Which is the second petition?",
+                "body": "A.  Thy kingdom come;#1# that is, rule us so by Thy Word and Spirit, that we may submit ourselves more and more to Thee;#2# preserve and increase Thy church;#3# destroy the works of the devil#4# and all violence which would exalt itself against Thee; and also, all wicked counsels devised against Thy holy Word; till the full perfection of Thy kingdom take place,#5# wherein Thou shalt be all in all.#6#",
+                "chapter": "Lord's Day 48",
+                "proof": "1. Mat. 6:10. 2. Psa. 119:5. 3. Psa. 51:18. 4. 1 John 3:8. Rom. 16:20. 5. Rev. 22:17, 20. 6. 1 Cor. 15:24-28."
+            },
+            "124": {
+                "header": "Q. 124.  Which is the third petition?",
+                "body": "A. Thy will be done in earth, as it is in heaven;#1# that is, grant that we and all men may renounce our own will,#2# and without murmuring obey Thy will,#3# which is only good; that so every one may attend to and perform the duties of his station and calling#4# as willingly and faithfully as the angels do in heaven.#5#",
+                "chapter": "Lord's Day 49",
+                "proof": "1. Mat. 6:10. 2. Mat. 16:24. Tit. 2:12. 3. Luke 22:42. 4. 1 Cor. 7:24. Eph. 4:1. 5. Psa. 103:20, 21."
+            },
+            "125": {
+                "header": "Q. 125.  Which is the fourth petition?",
+                "body": "A.  Give us this day our daily bread;#1# that is, be pleased to provide us with all things necessary for the body,#2# that we may thereby acknowledge Thee to be the only fountain of all good,#3# and that neither our care nor industry, nor even Thy gifts, can profit us without Thy blessing;#4# and therefore that we may withdraw our trust from all creatures and place it alone in Thee.#5#",
+                "chapter": "Lord's Day 50",
+                "proof": "1. Mat. 6:11. 2. Psa. 145:15.  Mat. 6:25ff. 3. Acts 17:25. Acts 14:17. 4. 1 Cor. 15:58. Deut. 8:3. Psa. 127:1, 2. 5. Psa. 62:10, 11. Psa. 55:22."
+            },
+            "126": {
+                "header": "Q. 126.  Which is the fifth petition?",
+                "body": "A.  And forgive us our debts, as we forgive our debtors;#1# that is, be pleased for the sake of Christ's blood, not to impute to us poor sinners our transgressions, nor that depravity which always cleaves to us;#2# even as we feel this evidence of Thy grace in us, that it is our firm resolution from the heart to forgive our neighbor.#3#",
+                "chapter": "Lord's Day 51",
+                "proof": "1. Mat. 6:12. 2. Psa. 51:1. 1 John 2:1, 2. 3. Mat. 6:14, 15."
+            },
+            "127": {
+                "header": "Q. 127.  Which is the sixth petition?",
+                "body": "A.  And lead us not into temptation, but deliver us from evil;#1# that is, since we are so weak in ourselves that we cannot stand a moment;#2# and besides this, since our mortal enemies, the devil,#3# the world,#4# and our own flesh#5# cease not to assault us, do Thou therefore preserve and strengthen us by the power of Thy Holy Spirit, that we may not be overcome in this spiritual warfare, but constantly and strenuously may resist our foes,#6# till at last we obtain a complete victory.#7#",
+                "chapter": "Lord's Day 52",
+                "proof": "1. Mat. 6:13. 2. Rom. 8:26. Psa. 103:14. 3. 1 Pet. 5:8 4. Eph. 6:12. John 15:19. 5. Rom. 7:23. Gal. 5:17. 6. Mat. 26:41. Mark 13:33. 7. 1 Thes. 3:13. 1 Thes. 5:23."
+            },
+            "128": {
+                "header": "Q. 128.  How dost thou conclude thy prayer?",
+                "body": "A.  For Thine is the kingdom, and the power, and the glory, for ever;#8# that is, all these we ask of Thee, because Thou, being our King and almighty, art willing and able to give us all good;#9# and all this we pray for, that thereby not we, but Thy holy name, may be glorified for ever.#10#",
+                "chapter": "Lord's Day 52",
+                "proof": "8. Mat. 6:13. 9. Rom. 10:12. 2 Pet. 2:9. 10.John 14:13. Psa. 115:1. Phil. 4:20."
+            },
+            "129": {
+                "header": "Q. 129.  What doth the word Amen signify?",
+                "body": "A. Amen signifies, it shall truly and certainly be; for my prayer is more assuredly heard of God than I feel in my heart that I desire these things of Him.#11#",
+                "chapter": "Lord's Day 52",
+                "proof": "11. 2 Cor. 1:20. 2 Tim. 2:13."
+            }
+        }
+    }
+}

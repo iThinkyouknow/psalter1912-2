@@ -42,61 +42,214 @@ import {
 
 } from '../../utils/alert';
 
-const list_header_component = () => {
+import {
+    bounce_animation
+} from '../../utils/animation';
+
+import {
+    select_creeds_or_forms
+} from '../../redux/actions/state-actions';
+
+//
+
+
+
+const list_header_component_wo_animated_val = (book_animated_value) => (selected_index) => {
     const {height, width} = Dimensions.get('window');
     //import fonts
     //get images
     //animate images
 
-    const images_array = [
-        require('../../../images/The-synod-of-dordt.jpg'),
-        require('../../../images/Belgic-Confession.jpg'),
-        require('../../../images/Heidelberg-Catechism.jpg')
-    ];
-    const image = images_array[Math.floor(Math.random() * images_array.length)];
+    const container_style = {height: height / 3.2, width, backgroundColor: colors.ocean, flexDirection: 'row'};
 
     const image_style = {
         width: width,
         height: height / 3.2,
         position: 'absolute',
     };
-    return (
-        <View style={{height: height / 3.2, width, backgroundColor: colors.ocean, flexDirection: 'row'}}>
-            <Image source={image} style={image_style} resizeMode={'cover'}></Image>
-            <View style={{position: 'absolute', width, height: height / 3.2, backgroundColor: 'rgb(0, 0, 0)', opacity: 0.5}}></View>
-            <View style={{marginLeft: sizes.x_large, marginTop: 32, justifyContent: 'center', backgroundColor: 'transparent', flex: 1, maxWidth: width * (2/3) - sizes.x_large}}>
-                <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                <Default_Text font_size={font_sizes.xx_large + 2} font_weight={'bold'}>CONFESSIONS</Default_Text>
+
+    const book_style = {
+        backgroundColor: 'green',
+        width: 75,
+        height: 75 * 1.4,
+        marginBottom: 0,
+
+    };
+
+    if (selected_index === 0) {
+        const images_array = [
+            require('../../../images/The-synod-of-dordt.jpg'),
+            require('../../../images/Belgic-Confession.jpg'),
+            require('../../../images/Heidelberg-Catechism.jpg')
+        ];
+        const image = images_array[Math.floor(Math.random() * images_array.length)];
+
+        const creeds_book_style = {
+            ...book_style,
+            transform: [
+                {rotate: '-25deg'},
+                {translateX: -8},
+                {translateY: book_animated_value}
+            ]
+        };
+
+        return (
+            <View style={container_style}>
+                <Image source={image} style={image_style} resizeMode={'cover'} />
+                <View style={{position: 'absolute', width, height: height / 3.2, backgroundColor: 'rgb(0, 0, 0)', opacity: 0.5}} />
+                <View style={{marginLeft: sizes.x_large, marginTop: 32, justifyContent: 'center', backgroundColor: 'transparent', flex: 1, maxWidth: width * (2/3) - sizes.x_large}}>
+                    <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
+                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>REFORMED</Default_Text>
+                    <Default_Text font_size={font_sizes.xx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
+                </View>
+                <View style={{justifyContent: 'center', flex: 0}}>
+                    <Animated.View style={creeds_book_style}></Animated.View>
+                </View>
             </View>
-            <View style={{justifyContent: 'center', flex: 0}}>
-                <View style={{backgroundColor: 'green', width: 75, height: 75 * 1.4, marginBottom: 0, transform: [{rotate: '-25deg'}, {translateX: -8}]}}></View>
+        );
+
+    } else if (selected_index === 1) {
+        const images_array = [
+            require('../../../images/green-mountain.jpg'),
+            require('../../../images/green-plains.jpg'),
+            require('../../../images/houses-with-mountains.jpg'),
+            require('../../../images/mountain-valley.jpg')
+        ];
+
+        const forms_book_style = {
+            ...book_style,
+            marginTop: 24,
+            transform: [
+                {rotate: '-25deg'},
+                {translateX: 16},
+                {translateY: book_animated_value}
+            ]
+        };
+
+        const image = images_array[Math.floor(Math.random() * images_array.length)];
+        return (
+            <View style={container_style}>
+                <Image source={image} style={image_style} resizeMode={'cover'} />
+                <View style={{position: 'absolute', width, height: height / 3.2, backgroundColor: 'rgb(0, 0, 0)', opacity: 0.5}} />
+
+                <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+                    <Animated.View style={forms_book_style} />
+                </View>
+
+                <View style={{marginLeft: sizes.x_large + 16, marginTop: 32, justifyContent: 'center', backgroundColor: 'transparent', flex: 2 }}>
+                    <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
+                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>REFORMED</Default_Text>
+                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>FORMS</Default_Text>
+                </View>
             </View>
-
-
-
-        </View>
-    );
+        );
+    }
 };
 
-const creeds_menu_flatlist = () => () => {
+const book_image_bounce_animation = bounce_animation(1000)(3)(25)(-48);
+const book_img_animated_value = book_image_bounce_animation.animated_value;
+const list_header_component = list_header_component_wo_animated_val(book_img_animated_value);
+
+const creeds_menu_flatlist = (library_type_index) => () => {
 
     const render_item = ({item, index}) => {
         const {height, width} = Dimensions.get('window');
         const should_margin_left = (index % 2 > 0);
-        return (
-            <View style={{width: width / 2 - sizes.x_large, height: width / 2 - sizes.x_large, borderRadius: border_radii.default, backgroundColor: 'red', marginLeft: (should_margin_left) ? sizes.large : 0}}>
 
-            </View>
+
+
+        const get_image = (library_type_index) => (i) => {
+            const static_images_array = [
+                require('../../../images/Heidelberg-Catechism.jpg'),
+                require('../../../images/Belgic-Confession.jpg'),
+                require('../../../images/The-synod-of-dordt.jpg')
+            ];
+
+            const random_images_array = [
+                require('../../../images/bethel-prc.jpg'),
+                require('../../../images/byron-center-prc.jpg'),
+                require('../../../images/calvary-prc.png'),
+                require('../../../images/cerc-sanctuary.jpg'),
+                require('../../../images/cornerstone-prc.jpg'),
+                require('../../../images/covenant-of-grace-prc.jpg'),
+                require('../../../images/crete-prc.png'),
+                require('../../../images/doon-prc.png'),
+                require('../../../images/faith-prc.jpg'),
+                require('../../../images/first-prc.png'),
+                require('../../../images/georgetown-prc.jpg'),
+                require('../../../images/grandville-prc.jpg'),
+                require('../../../images/green-mountain.jpg'),
+                require('../../../images/green-plains.jpg'),
+                require('../../../images/heritage-prc.jpg'),
+                require('../../../images/Holland-prc.jpg'),
+                require('../../../images/hope-prc-ca.jpg'),
+                require('../../../images/hope-prc-mi.jpg'),
+                require('../../../images/houses-with-mountains.jpg'),
+                require('../../../images/hudsonville-prc.jpg'),
+                require('../../../images/hull-prc.jpg'),
+                require('../../../images/kalamazoo-prc.jpg'),
+                require('../../../images/loveland-prc.jpg'),
+                require('../../../images/lynden-prc.jpg'),
+                require('../../../images/mountain-valley.jpg'),
+                require('../../../images/peace-prc.jpg'),
+                require('../../../images/pittsburgh-prc.jpg'),
+                require('../../../images/randolph-prc.jpg'),
+                require('../../../images/southeast-prc.jpg'),
+                require('../../../images/southwest-prc.jpg'),
+                require('../../../images/trinity-prc.jpg'),
+                require('../../../images/wingham-prc.png')
+            ];
+
+            if (library_type_index === 0) {
+                if (i === 0 || i === 1 || i === 2) {
+                    return static_images_array[i];
+                }
+            }
+
+            return random_images_array[Math.floor(Math.random() * random_images_array.length)];
+        };
+
+        const image = get_image(library_type_index)(index);
+
+        const library_selection_image_style = {
+            width: width / 2 - sizes.x_large,
+            height: width / 2 - sizes.x_large,
+            borderRadius: border_radii.default,
+        };
+
+        const library_selection_style = {
+            ...library_selection_image_style,
+            marginLeft: (should_margin_left) ? sizes.large : 0,
+            overflow: 'hidden'
+        };
+
+        const library_selection_mask_style = {
+            ...library_selection_image_style,
+            backgroundColor: colors.black,
+            opacity: 0.5,
+            position: 'absolute'
+        }
+
+
+
+
+        return (
+            <TouchableHighlight style={library_selection_style}>
+                <View>
+                    <Image source={image} style={[library_selection_image_style]} />
+                    <View style={library_selection_mask_style} />
+                </View>
+
+            </TouchableHighlight>
+
         )
     };
 
     const creeds_menu_key_ext = (item, index) => `creeds-menu-${item.title}-${index}`;
 
-
-
     return (
         <FlatList
-                  data={[1,2,3,4, 5, 6]}
+                  data={Array(45).fill(1)}
                   renderItem={render_item}
                   numColumns={2}
                   keyExtractor={creeds_menu_key_ext}
@@ -107,7 +260,12 @@ const creeds_menu_flatlist = () => () => {
     );
 };
 
-const creeds_or_forms_chooser = () => {
+const select_tab = (dispatch) => (index) => () => {
+    dispatch(select_creeds_or_forms(index));
+    book_image_bounce_animation.bounce();
+};
+
+const creeds_or_forms_chooser = (dispatch) => (library_type_index) =>  {
     const {width, height} = Dimensions.get('window');
     const creeds_chooser_style = {
         position: 'absolute',
@@ -122,36 +280,53 @@ const creeds_or_forms_chooser = () => {
         alignItems: 'center',
         overflow: 'hidden'
     };
-    return (
-        <View style={creeds_chooser_style}>
-            <TouchableHighlight style={{backgroundColor: colors.blue, flex: 1}}>
+
+    const button_renderer = (dispatch) => (_library_type_index) =>  (text, index) => {
+        const is_selected = (index === _library_type_index);
+        const bg_color_obj = {backgroundColor: (is_selected) ? colors.blue : 'transparent'};
+        const underlay_color = (is_selected) ? colors.ocean : 'transparent';
+        const key = `library-chooser-${text}-${index}`;
+        return (
+            <TouchableHighlight key={key}
+                                style={[{flex: 1}, bg_color_obj]}
+                                underlayColor={underlay_color}
+                                onPress={select_tab(dispatch)(index)}>
                 <View>
                     <Default_Text line_height={2} text_align={'center'} >
-                        Confessions
+                        {text}
                     </Default_Text>
                 </View>
             </TouchableHighlight>
-            <TouchableHighlight style={{flex: 1, backgroundColor: 'transparent'}}>
-                <View>
-                    <Default_Text line_height={2} text_align={'center'}>
-                        Forms
-                    </Default_Text>
-                </View>
+        );
+    };
 
-            </TouchableHighlight>
+    const buttons = [
+        'Confessions',
+        'Forms'
+    ].map(button_renderer(dispatch)(library_type_index));
 
+    return (
+        <View style={creeds_chooser_style}>
+            {buttons}
         </View>
     );
 
 };
 
 class Creeds extends Component {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        book_image_bounce_animation.bounce();
+    }
+
     render() {
         return (
             <Default_bg style={{alignItems: 'center'}}>
-                {list_header_component()}
-                {creeds_menu_flatlist()()}
-                {creeds_or_forms_chooser()}
+                {list_header_component(this.props.library_type_index)}
+                {creeds_menu_flatlist(this.props.library_type_index)()}
+                {creeds_or_forms_chooser(this.props.dispatch)(this.props.library_type_index)}
             </Default_bg>
         );
     }
@@ -160,7 +335,7 @@ class Creeds extends Component {
 
 function mapStateToProps(state) {
     return {
-
+        library_type_index: state.creeds_library_type_index
     };
 }
 

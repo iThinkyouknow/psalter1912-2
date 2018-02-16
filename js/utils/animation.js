@@ -77,3 +77,24 @@ export const fade_animation = (duration) => (initial_val) => {
         fade_opacity
     };
 };
+
+
+export const bounce_animation = (duration = 1000) =>(speed = 3) => (bounciness = 25) => (initial_val = -64) => {
+    const animated_value = new Animated.Value(initial_val);
+    const bounce = () => {
+        animated_value.setValue(initial_val);
+        Animated.spring(animated_value, {
+            toValue: 1,
+            duration,
+            speed,
+            useNativeDriver: true,
+            bounciness
+        }).start();
+    };
+
+    return {
+        animated_value,
+        bounce
+    }
+
+};

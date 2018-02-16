@@ -43,3 +43,10 @@ export function text_input_as_search(state = false, action) {
 
     return state;
 }
+
+export function creeds_library_type_index(state = 0, action) {
+    if (action.type === STATE_ACTIONS.SELECT_LIBRARY_TYPE) {
+        return action.index;
+    }
+    return state;
+};
