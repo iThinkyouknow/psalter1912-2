@@ -1,35 +1,7 @@
 {
-    "title": "The Heidelberg Catechism",
+    "title": "\bThe Heidelberg Catechism",
     "type": "Creeds",
     "content": [
-        {
-            "header": "Introduction to the Heidelberg Catechism",
-            "content": [
-                {
-                    "id": 0,
-                    "content": [
-                        [
-                            {
-                                "is_bold": true,
-                                "text": "Introduction to the Heidelberg Catechism"
-                            }
-                        ],
-                        [
-                            {
-                                "text": "The Heidelberg Catechism, the second of our Three Forms of Unity, received its name from the place of its origin, Heidelberg, the capital of the German Electorate of the Palatinate. There, in order that the Reformed faith might be maintained in his domain, Elector Frederick III commissioned Zacharias Ursinus, professor at Heidelberg University, and Caspar Olevianus, the court preacher, to prepare a manual for catechetical instruction. Out of this initiative came the Catechism, which was approved by the Elector himself and by the Synod of Heidelberg and first published in 1563."
-                            },
-                            {
-                                "text": "\n\n"
-                            },
-                            {
-                                "text": "With its comfort motif and its warm, personal style, the Catechism soon won the love of the people of God, as is evident from the fact that more editions of the Catechism had to be printed that same year. While the first edition had 128 questions and answers, in the second and third editions, at the behest of the Elector, the eightieth question and answer, which refers to the popish mass as an accursed idolatry, was added. In the third edition the 129 questions and answers were divided into 52 Lord's Days with a view to the Catechism's being explained in one of the services on the Lord's Day. That salutary practice is still maintained today, in harmony with the prescription of the Church Order of Dordrecht. In the Netherlands the Heidelberg Catechism was translated into the Dutch language as early as 1566, and it soon became widely loved and used in the churches there. It was adopted by several national synods during the later sixteenth century, and finally included by the Synod of Dordrecht, 1618-1619, among our three forms of unity, a place which it has to this day."
-                            }
-                        ],
-                        []
-                    ]
-                }
-            ]
-        },
         {
             "header": "Lord's Day 1",
             "content": [
@@ -55,66 +27,77 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": ", both in life and death, am not my own"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": ", but belong unto my faithful Savior Jesus Christ"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "; who, with His precious blood"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": ", hath fully satisfied for all my sins"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": ", and delivered me from all the power of the devil"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "; and so preserves me"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "that without the will of my heavenly Father, not a hair can fall from my head"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "; yea, that all things must be subservient to my salvation"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": ", and therefore, by His Holy Spirit, He also assures me of eternal life#10#, and makes me sincerely willing and ready, henceforth, to live unto Him.#11#"
+                                "text": ", and therefore, by His Holy Spirit, He also assures me of eternal life"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": ", and makes me sincerely willing and ready, henceforth, to live unto Him."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
                             }
                         ],
                         [
@@ -202,7 +185,32 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "Three:#12# the first, how great my sins and miseries are;#13# the second, how I may be delivered from all my sins and miseries;#14# the third, how I shall express my gratitude to God for such deliverance.#15#"
+                                "text": "Three:"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
+                            },
+                            {
+                                "text": "the first, how great my sins and miseries are;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "13"
+                            },
+                            {
+                                "text": "the second, how I may be delivered from all my sins and miseries;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "14"
+                            },
+                            {
+                                "text": "the third, how I shall express my gratitude to God for such deliverance."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "15"
                             }
                         ],
                         [
@@ -257,7 +265,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -293,7 +301,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -325,14 +333,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "for I am prone by nature to hate God and my neighbor."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -375,21 +383,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and after His own image,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "in true righteousness and holiness, that he might rightly know God his Creator, heartily love Him, and live with Him in eternal happiness to glorify and praise Him."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -433,14 +441,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "hence our nature is become so corrupt, that we are all conceived and born in sin."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -478,14 +486,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "except we are regenerated by the Spirit of God."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -528,21 +536,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "but man, by the instigation of the devil,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and his own wilful disobedience, deprived himself and all his posterity of those divine gifts."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -586,14 +594,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "with our original as well as actual sins; and will punish them"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "in His just judgment temporally and eternally, as He hath declared,"
@@ -604,7 +612,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -648,24 +656,31 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "but also just;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "therefore His justice requires that sin which is committed against the most high majesty of God be also punished"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "with extreme, that is, with everlasting punishment#10# of body and soul."
+                                "text": "with extreme, that is, with everlasting punishment"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "of body and soul."
                             }
                         ],
                         [
@@ -720,14 +735,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and therefore we must make this full satisfaction, either by ourselves or by another."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -765,14 +780,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "but on the contrary we daily increase our debt."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -810,14 +825,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and further, no mere creature can sustain the burden of God's eternal wrath against sin, so as to deliver others from it."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -855,14 +870,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and perfectly righteous; and yet more powerful than all creatures; that is, one who is also very God."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             }
                         ],
                         [
@@ -905,14 +920,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and one who is himself a sinner cannot satisfy for others."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -950,14 +965,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and might obtain for, and restore to us, righteousness and life."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -995,14 +1010,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "who of God is made unto us wisdom, and righteousness, and sanctification, and redemption."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -1040,24 +1055,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and afterwards published by the patriarchs and prophets,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "and represented by the sacrifices"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "and other ceremonies of the law; and, lastly, has fulfilled it by His only begotten Son.#10#"
+                                "text": "and other ceremonies of the law; and, lastly, has fulfilled it by His only begotten Son."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
                             }
                         ],
                         [
@@ -1112,14 +1131,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "only those who are ingrafted into Him, and receive all His benefits, by a true faith."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -1157,49 +1176,49 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "whereby I hold for truth all that God has revealed to us in His Word, but also an assured confidence,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "which the Holy Ghost"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "works by the gospel in my heart;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "that not only to others, but to me also, remission of sin,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "everlasting righteousness, and salvation"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "are freely given by God, merely of grace, only for the sake of Christ's merits."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -1263,7 +1282,14 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "All things promised us in the gospel,#10# which the articles of our catholic undoubted Christian faith briefly teach us."
+                                "text": "All things promised us in the gospel,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "which the articles of our catholic undoubted Christian faith briefly teach us."
                             }
                         ],
                         [
@@ -1393,21 +1419,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "the second, of God the Son and our redemption;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "the third, of God the Holy Ghost and our sanctification."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -1442,7 +1468,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "why speakest thou of Father, Son, and Holy Ghost?"
@@ -1458,7 +1484,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "that these three distinct persons are the one only true and eternal God."
@@ -1504,49 +1530,49 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "who likewise upholds and governs the same by His eternal counsel and providence"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": ") is, for the sake of Christ His Son, my God and my Father;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "on whom I rely so entirely, that I have no doubt but He will provide me with all things necessary for soul and body;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and further, that He will make whatever evils He sends upon me, in this valley of tears, turn out to my advantage;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "for He is able to do it, being Almighty God,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "and willing, being a faithful Father."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -1619,49 +1645,49 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "whereby, as it were by His hand, He upholds and governs heaven, earth, and all creatures;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "so that herbs and grass, rain and drought,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "fruitful and barren years, meat and drink,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "health and sickness,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "riches and poverty,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "yea, and all things come, not by chance, but by His fatherly hand."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -1729,17 +1755,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "thankful in prosperity;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "and that in all things which may hereafter befall us, we place our firm trust in our faithful God and Father,#10# that nothing shall separate us from His love;#11# since all creatures are so in His hand, that without His will they cannot so much as move.#12#"
+                                "text": "and that in all things which may hereafter befall us, we place our firm trust in our faithful God and Father,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "that nothing shall separate us from His love;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
+                            },
+                            {
+                                "text": "since all creatures are so in His hand, that without His will they cannot so much as move."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
                             }
                         ],
                         [
@@ -1800,14 +1844,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and likewise, because we ought not to seek, neither can find salvation in any other."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -1845,14 +1889,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "for one of these two things must be true, either that Jesus is not a complete Savior, or that they who by a true faith receive this Savior must find all things in Him necessary to their salvation."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -1895,42 +1939,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "to be our chief Prophet and Teacher,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "who has fully revealed to us the secret counsel and will of God concerning our redemption; and to be our only High Priest,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "who by the one sacrifice of His body has redeemed us, and makes continual intercession with the Father for us;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and also to be our eternal King,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "who governs us by His Word and Spirit, and who defends and preserves us"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "in (the enjoyment of) that salvation He has purchased for us."
@@ -1995,24 +2039,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and thus am partaker of His anointing;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "that so I may confess His name,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "and present myself a living sacrifice of thankfulness to Him;#10# and also that with a free and good conscience I may fight against sin and Satan in this life,#11# and afterwards reign with Him eternally over all creatures.#12#"
+                                "text": "and present myself a living sacrifice of thankfulness to Him;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "and also that with a free and good conscience I may fight against sin and Satan in this life,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
+                            },
+                            {
+                                "text": "and afterwards reign with Him eternally over all creatures."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
                             }
                         ],
                         [
@@ -2079,14 +2141,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "but we are children adopted of God, by grace, for His sake."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -2124,7 +2186,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and hath delivered us from all the power of the devil; and thus hath made us His own property."
@@ -2164,35 +2226,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "took upon Him the very nature of man, of the flesh and blood of the Virgin Mary,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "by the operation of the Holy Ghost;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "that He might also be the true seed of David,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "like unto His brethren in all things, sin excepted."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -2248,14 +2310,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "and, with His innocence and perfect holiness, covers in the sight of God my sins,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "wherein I was conceived and brought forth."
@@ -2301,14 +2363,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that so by His passion, as the only propitiatory sacrifice,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "He might redeem our body and soul from everlasting damnation, and obtain for us the favor of God, righteousness and eternal life."
@@ -2349,14 +2411,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "might thereby free us from the severe judgment of God to which we were exposed."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -2394,7 +2456,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -2431,14 +2493,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "satisfaction for our sins could be made no otherwise than by the death of the Son of God."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -2476,7 +2538,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -2508,7 +2570,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -2540,21 +2602,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "that so the corrupt inclinations of the flesh may no more reign in us;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "but that we may offer ourselves unto Him a sacrifice of thanksgiving."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -2592,7 +2654,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             }
                         ],
                         [
@@ -2629,21 +2691,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "secondly, we are also by His power raised up to a new life;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and lastly, the resurrection of Christ is a sure pledge of our blessed resurrection."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -2686,14 +2748,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and that He continues there for our interest,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "until He comes again to judge the quick and the dead."
@@ -2734,14 +2796,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "but with respect to His Godhead, majesty, grace, and spirit, He is at no time absent from us."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -2779,14 +2841,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "it must necessarily follow that the same is beyond the limits of the human nature He assumed,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "and yet is nevertheless in this human nature and remains personally united to it."
@@ -2827,24 +2889,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "secondly, that we have our flesh in heaven as a sure pledge that He, as the Head, will also take up to Himself, us, His members;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "thirdly, that He sends us His Spirit as an earnest,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "by whose power we seek the things which are above, where Christ sitteth on the right hand of God, and not things on earth.#10#"
+                                "text": "by whose power we seek the things which are above, where Christ sitteth on the right hand of God, and not things on earth."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
                             }
                         ],
                         [
@@ -2899,14 +2965,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "by whom the Father governs all things."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -2944,14 +3010,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and then that by His power He defends and preserves us against all enemies."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -2989,21 +3055,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "who shall cast all His and my enemies into everlasting condemnation,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "but shall translate me with all His chosen ones to Himself, into heavenly joys and glory."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -3052,35 +3118,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "secondly, that He is also given me,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "to make me, by a true faith, partaker of Christ and all His benefits,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "that He may comfort me"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and abide with me for ever."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -3141,49 +3207,49 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "gathers,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "defends, and preserves to Himself"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "by His Spirit and Word,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "out of the whole human race,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "a church chosen to everlasting life,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "agreeing in true faith; and that I am, and for ever shall remain, a living member thereof."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -3251,14 +3317,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "secondly, that every one must know it to be his duty, readily and cheerfully to employ his gifts, for the advantage and salvation of other members."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -3292,7 +3358,25 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "That God, for the sake of Christ's satisfaction,#10# will no more remember my sins,#11# neither my corrupt nature, against which I have to struggle all my life long; but will graciously impute to me the righteousness of Christ, that I may never be condemned before the tribunal of God.#12#"
+                                "text": "That God, for the sake of Christ's satisfaction,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "will no more remember my sins,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
+                            },
+                            {
+                                "text": "neither my corrupt nature, against which I have to struggle all my life long; but will graciously impute to me the righteousness of Christ, that I may never be condemned before the tribunal of God."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
                             }
                         ],
                         [
@@ -3341,14 +3425,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "but also, that this my body, being raised by the power of Christ, shall be reunited with my soul, and made like unto the glorious body of Christ."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -3386,14 +3470,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "after this life I shall inherit perfect salvation, which eye hath not seen, nor ear heard, neither hath it entered into the heart of man to conceive,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and that, to praise God therein for ever."
@@ -3439,7 +3523,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -3471,59 +3555,70 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "so that, though my conscience accuse me that I have grossly transgressed all the commandments of God, and kept none of them,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and am still inclined to all evil;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "notwithstanding, God, without any merit of mine,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "but only of mere grace,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "grants"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and imputes to me"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "the perfect satisfaction, righteousness, and holiness of Christ;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "even so, as if I never had had nor committed any sin: yea, as if I had fully accomplished all that obedience which Christ has accomplished for me;#10# inasmuch as I embrace such benefit with a believing heart.#11#"
+                                "text": "even so, as if I never had had nor committed any sin: yea, as if I had fully accomplished all that obedience which Christ has accomplished for me;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "inasmuch as I embrace such benefit with a believing heart."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
                             }
                         ],
                         [
@@ -3599,7 +3694,25 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "Not that I am acceptable to God on account of the worthiness of my faith,#12# but because only the satisfaction, righteousness, and holiness of Christ is my righteousness before God;#13# and that I cannot receive and apply the same to myself any other way than by faith only.#14#"
+                                "text": "Not that I am acceptable to God on account of the worthiness of my faith,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
+                            },
+                            {
+                                "text": "but because only the satisfaction, righteousness, and holiness of Christ is my righteousness before God;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "13"
+                            },
+                            {
+                                "text": "and that I cannot receive and apply the same to myself any other way than by faith only."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "14"
                             }
                         ],
                         [
@@ -3648,14 +3761,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and also, that our best works in this life are all imperfect and defiled with sin."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -3693,7 +3806,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -3725,7 +3838,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -3762,14 +3875,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "by the preaching of the gospel, and confirms it by the use of the sacraments."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -3807,7 +3920,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -3839,7 +3952,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -3871,7 +3984,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -3908,21 +4021,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "adding thereto this promise,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "that I am as certainly washed by His blood and Spirit from all the pollution of my soul, that is, from all my sins,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "as I am washed externally with water, by which the filthiness of the body is commonly washed away."
@@ -3969,14 +4082,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and also to be renewed by the Holy Ghost, and sanctified to be members of Christ, that so we may more and more die unto sin and lead holy and unblamable lives."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -4014,28 +4127,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "He that believeth, and is baptized, shall be saved; but he that believeth not, shall be damned."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "This promise is also repeated where the scripture calls baptism the washing of regeneration"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "and the washing away of sins."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -4090,7 +4203,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -4122,14 +4235,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "but especially that by this divine pledge and sign He may assure us that we are spiritually cleansed from our sins as really as we are externally washed with water."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -4167,42 +4280,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and church of God;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and since redemption from sin by the blood of Christ, and the Holy Ghost, the author of faith, is promised to them"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "no less than to the adult; they must therefore by baptism, as a sign of the covenant, be also admitted into the Christian church, and be distinguished from the children of unbelievers"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "as was done in the old covenant or testament by circumcision,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "instead of which baptism is instituted in the new covenant."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -4269,7 +4382,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -4301,35 +4414,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "but also, besides that, to become more and more united to His sacred body by the Holy Ghost, who dwells both in Christ and in us;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "so that we, though Christ is in heaven and we on earth,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "are notwithstanding flesh of his flesh, and bone of his bone;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and that we live and are governed forever by one Spirit, as members of the same body are by one soul."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -4385,11 +4498,11 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "<i>The Lord Jesus, the same night in which he was betrayed, took bread, and when he had given thanks, he brake it, and said: Take, eat, this is my body, which is broken for you; this do in remembrance of me. After the same manner also he took the cup, when he had supped, saying: this cup is the new testament in my blood;#8# this do ye, as often as ye drink it, in remembrance of me. For, as often as ye eat this bread, and drink this cup, ye do show the Lord's death till he come.#9#</i>"
+                                "text": "<i>The Lord Jesus, the same night in which he was betrayed, took bread, and when he had given thanks, he brake it, and said: Take, eat, this is my body, which is broken for you; this do in remembrance of me. After the same manner also he took the cup, when he had supped, saying: this cup is the new testament in my blood;8 this do ye, as often as ye drink it, in remembrance of me. For, as often as ye eat this bread, and drink this cup, ye do show the Lord's death till he come.#9#</i>"
                             },
                             {
                                 "text": "\n\n"
@@ -4398,8 +4511,8 @@
                                 "text": "This promise is repeated by the holy apostle Paul, where he says:"
                             },
                             {
-                                "is_italics": true,
-                                "text": "The cup of blessing which we bless, is it not the communion of the blood of Christ? The bread which we break, is it not the communion of the body of Christ?  For we, being many, are one bread and one body; because we are all partakers of that one bread.#10#"
+                                "is_superscript": true,
+                                "text": "<i>The cup of blessing which we bless, is it not the communion of the blood of Christ? The bread which we break, is it not the communion of the body of Christ?  For we, being many, are one bread and one body; because we are all partakers of that one bread.10</i>"
                             }
                         ],
                         [
@@ -4448,21 +4561,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "so the bread in the Lord's Supper is not changed into the very body of Christ,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "though agreeably to the nature and properties of sacraments,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "it is called the body of Christ Jesus."
@@ -4503,21 +4616,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "but more especially by these visible signs and pledges to assure us that we are as really partakers of His true body and blood (by the operation of the Holy Ghost) as we receive by the mouths of our bodies these holy signs in remembrance of Him;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and that all His sufferings and obedience are as certainly ours as if we had in our own persons suffered and made satisfaction for our sins to God."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -4566,35 +4679,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and that we by the Holy Ghost are ingrafted into Christ,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "who according to His human nature is now not on earth, but in heaven at the right hand of God His Father,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and will there be worshiped by us"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "—but the mass teaches that the living and dead have not the pardon of sins through the sufferings of Christ, unless Christ is also daily offered for them by the priests; and further, that Christ is bodily under the form of bread and wine, and therefore is to be worshiped in them; so that the mass, at bottom, is nothing else than a denial of the one sacrifice and sufferings of Jesus Christ, and an accursed idolatry."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -4644,28 +4757,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "and yet trust that these are forgiven them for the sake of Christ, and that their remaining infirmities are covered by His passion and death;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and who also earnestly desire to have their faith more and more strengthened, and their lives more holy;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "but hypocrites, and such as turn not to God with sincere hearts, eat and drink judgment to themselves."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -4711,7 +4824,21 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "No; for by this the covenant of God would be profaned, and His wrath kindled against the whole congregation;#10# therefore it is the duty of the Christian church, according to the appointment of Christ and His apostles, to exclude such persons,#11# by the keys of the kingdom of heaven, till they show amendment of life."
+                                "text": "No; for by this the covenant of God would be profaned, and His wrath kindled against the whole congregation;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "therefore it is the duty of the Christian church, according to the appointment of Christ and His apostles, to exclude such persons,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
+                            },
+                            {
+                                "text": "by the keys of the kingdom of heaven, till they show amendment of life."
                             }
                         ],
                         [
@@ -4745,7 +4872,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -4758,14 +4885,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "or excommunication out of the Christian church;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "by these two, the kingdom of heaven is opened to believers, and shut against unbelievers."
@@ -4812,21 +4939,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "it is declared and publicly testified to all and every believer, that, whenever they receive the promise of the gospel by a true faith, all their sins are really forgiven them of God, for the sake of Christ's merits;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and on the contrary, when it is declared and testified to all unbelievers, and such as do not sincerely repent, that they stand exposed to the wrath of God and eternal condemnation, so long as they are unconverted;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "according to which testimony of the gospel God will judge them, both in this and in the life to come."
@@ -4873,24 +5000,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "those who under the name of Christians maintain doctrines, or practices inconsistent therewith,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "and will not, after having been often brotherly admonished, renounce their errors and wicked course of life, are complained of to the church,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "or to those who are thereunto appointed by the church;#10# and if they despise their admonition, are by them forbidden the use of the sacraments;#11# whereby they are excluded from the Christian church, and by God Himself from the kingdom of Christ; and when they promise and show real amendment, are again received as members of Christ and His church.#12#"
+                                "text": "or to those who are thereunto appointed by the church;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "and if they despise their admonition, are by them forbidden the use of the sacraments;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
+                            },
+                            {
+                                "text": "whereby they are excluded from the Christian church, and by God Himself from the kingdom of Christ; and when they promise and show real amendment, are again received as members of Christ and His church."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
                             }
                         ],
                         [
@@ -4957,28 +5102,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and that He may be praised by us;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "also, that every one may be assured in himself of his faith by the fruits thereof;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and that by our godly conversation others may be gained to Christ."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -5028,7 +5173,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -5065,7 +5210,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -5097,7 +5242,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -5129,14 +5274,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and with love and delight to live according to the will of God in all good works."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -5174,28 +5319,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "are performed according to the law of God,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "and to His glory;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and not such as are founded on our imaginations or the institutions of men."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             }
                         ],
                         [
@@ -5334,14 +5479,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "the first of which teaches us how we must behave towards God; the second, what duties we owe to our neighbor."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -5379,52 +5524,91 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "sorcery, soothsaying, superstition,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "invocation of saints, or any other creatures;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and learn rightly to know the only true God;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "trust in Him alone,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "with humility and patience"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "submit to Him;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "expect all good things from Him only;#10# love,#11# fear,#12# and glorify#13# Him with my whole heart; so that I renounce and forsake all creatures,#14# rather than commit even the least thing contrary to His will.#15#"
+                                "text": "expect all good things from Him only;"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
+                            },
+                            {
+                                "text": "love,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
+                            },
+                            {
+                                "text": "fear,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "12"
+                            },
+                            {
+                                "text": "and glorify"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "13"
+                            },
+                            {
+                                "text": "Him with my whole heart; so that I renounce and forsake all creatures,"
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "14"
+                            },
+                            {
+                                "text": "rather than commit even the least thing contrary to His will."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "15"
                             }
                         ],
                         [
@@ -5530,7 +5714,11 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "Idolatry is, instead of, or besides that one true God who has manifested Himself in His Word, to contrive or have any other object in which men place their trust.#16#"
+                                "text": "Idolatry is, instead of, or besides that one true God who has manifested Himself in His Word, to contrive or have any other object in which men place their trust."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "16"
                             }
                         ],
                         [
@@ -5567,14 +5755,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "nor worship Him in any other way than He has commanded in His Word."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -5612,14 +5800,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "But as to creatures, though they may be represented, yet God forbids to make or have any resemblance of them either in order to worship them or to serve God by them."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -5657,14 +5845,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "but by the lively preaching of His Word."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -5707,42 +5895,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "or perjury,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "but also by rash swearing,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "must not profane or abuse the name of God; nor by silence or connivance be partakers of these horrible sins in others; and, briefly, that we use the holy name of God no otherwise than with fear and reverence;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "so that He may be rightly confessed and worshiped by us,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and be glorified in all our words and works."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -5798,14 +5986,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "and therefore He has commanded this sin to be punished with death."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             }
                         ],
                         [
@@ -5848,21 +6036,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "for such an oath is founded on God's Word,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and therefore was justly used by the saints both in the Old and New Testament."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -5906,14 +6094,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "which honor is due to no creature."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -5956,42 +6144,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and that I, especially on the sabbath, that is, on the day of rest,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "diligently frequent the church of God,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "to hear His word, to use the sacraments, publicly to call upon the Lord,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and contribute to the relief of the poor,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "as becomes a Christian. Secondly, that all the days of my life I cease from my evil works, and yield myself to the Lord, to work by His Holy Spirit in me; and thus begin in this life the eternal sabbath."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -6058,21 +6246,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and also patiently bear with their weaknesses and infirmities,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "since it pleases God to govern us by their hand."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -6121,28 +6309,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "but that I lay aside all desire of revenge;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "also, that I hurt not myself, nor willfully expose myself to any danger."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "Wherefore also the magistrate is armed with the sword to prevent murder."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -6192,14 +6380,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "and that He accounts all these as murder."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -6237,21 +6425,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "to show patience, peace, meekness, mercy, and all kindness towards him,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "and prevent his hurt as much as in us lies; and that we do good, even to our enemies."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -6300,28 +6488,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and that therefore we must with all our hearts detest the same,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and live chastely and temperately,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "whether in holy wedlock or in single life."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -6371,21 +6559,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "gestures, words, thoughts, desires,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "and whatever can entice men thereto."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -6434,49 +6622,49 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and robberies"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "which are punishable by the magistrate; but He comprehends under the name of theft all wicked tricks and devices whereby we design to appropriate to ourselves the goods which belong to our neighbor,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "whether it be by force, or under the appearance of right, as by unjust weights,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "ells, measures,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "fraudulent merchandise, false coins, usury,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "or by any other way forbidden by God; as also all covetousness,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "all abuse and waste of His gifts."
@@ -6547,14 +6735,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "further also that I faithfully labor, so that I may be able to relieve the needy."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             }
                         ],
                         [
@@ -6597,56 +6785,56 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "nor falsify any man's words;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "that I be no backbiter, nor slanderer;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "that I do not judge, nor join in condemning any man rashly or unheard;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "but that I avoid all sorts of lies and deceit"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "as the proper works of the devil, unless I would bring down upon me the heavy wrath of God;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "likewise, that in judgment and all other dealings I love the truth, speak it uprightly, and confess it;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "also that I defend and promote, as much as I am able, the honor and good character of my neighbor."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             }
                         ],
                         [
@@ -6725,7 +6913,7 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             }
                         ],
                         [
@@ -6757,14 +6945,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "yet so, that with a sincere resolution they begin to live not only according to some, but all the commandments of God."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -6802,21 +6990,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and thus become the more earnest in seeking the remission of sin and righteousness in Christ;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "likewise, that we constantly endeavor, and pray to God for the grace of the Holy Spirit, that we may become more and more conformable to the image of God, till we arrive at the perfection proposed to us in a life to come."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -6865,14 +7053,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and also, because God will give His grace and Holy Spirit to those only who with sincere desires continually ask them of Him, and are thankful for them."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -6910,42 +7098,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "for all things He hath commanded us to ask of Him;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "secondly, that we rightly and thoroughly know our need and misery, that so we may deeply humble ourselves in the presence of His divine majesty;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "thirdly, that we be fully persuaded that He, notwithstanding that we are unworthy of it,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "will, for the sake of Christ our Lord, certainly hear our prayer,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             },
                             {
                                 "text": "as He has promised us in His Word."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             }
                         ],
                         [
@@ -7001,10 +7189,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "which Christ our Lord has comprised in that prayer He Himself has taught us.#10#"
+                                "text": "which Christ our Lord has comprised in that prayer He Himself has taught us."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
                             }
                         ],
                         [
@@ -7072,14 +7264,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "and will much less deny us what we ask of Him in true faith than our parents will refuse us earthly things."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             }
                         ],
                         [
@@ -7117,14 +7309,14 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and that we may expect from His almighty power all things necessary for soul and body."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -7167,28 +7359,28 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that is, grant us, first, rightly to know Thee,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and to sanctify, glorify, and praise Thee in all Thy works, in which Thy power, wisdom, goodness, justice, mercy, and truth are clearly displayed;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and further also, that we may so order and direct our whole lives, our thoughts, words, and actions, that Thy name may never be blasphemed, but rather honored and praised on our account."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             }
                         ],
                         [
@@ -7243,42 +7435,42 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that is, rule us so by Thy Word and Spirit, that we may submit ourselves more and more to Thee;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "preserve and increase Thy church;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "destroy the works of the devil"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and all violence which would exalt itself against Thee; and also, all wicked counsels devised against Thy holy Word; till the full perfection of Thy kingdom take place,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "wherein Thou shalt be all in all."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             }
                         ],
                         [
@@ -7345,35 +7537,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that is, grant that we and all men may renounce our own will,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and without murmuring obey Thy will,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "which is only good; that so every one may attend to and perform the duties of his station and calling"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "as willingly and faithfully as the angels do in heaven."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -7434,35 +7626,35 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that is, be pleased to provide us with all things necessary for the body,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "that we may thereby acknowledge Thee to be the only fountain of all good,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "and that neither our care nor industry, nor even Thy gifts, can profit us without Thy blessing;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and therefore that we may withdraw our trust from all creatures and place it alone in Thee."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             }
                         ],
                         [
@@ -7517,21 +7709,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that is, be pleased for the sake of Christ's blood, not to impute to us poor sinners our transgressions, nor that depravity which always cleaves to us;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "even as we feel this evidence of Thy grace in us, that it is our firm resolution from the heart to forgive our neighbor."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             }
                         ],
                         [
@@ -7580,49 +7772,49 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#1#"
+                                "text": "1"
                             },
                             {
                                 "text": "that is, since we are so weak in ourselves that we cannot stand a moment;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#2#"
+                                "text": "2"
                             },
                             {
                                 "text": "and besides this, since our mortal enemies, the devil,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#3#"
+                                "text": "3"
                             },
                             {
                                 "text": "the world,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#4#"
+                                "text": "4"
                             },
                             {
                                 "text": "and our own flesh"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#5#"
+                                "text": "5"
                             },
                             {
                                 "text": "cease not to assault us, do Thou therefore preserve and strengthen us by the power of Thy Holy Spirit, that we may not be overcome in this spiritual warfare, but constantly and strenuously may resist our foes,"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#6#"
+                                "text": "6"
                             },
                             {
                                 "text": "till at last we obtain a complete victory."
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#7#"
+                                "text": "7"
                             }
                         ],
                         [
@@ -7684,17 +7876,21 @@
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#8#"
+                                "text": "8"
                             },
                             {
                                 "text": "that is, all these we ask of Thee, because Thou, being our King and almighty, art willing and able to give us all good;"
                             },
                             {
                                 "is_superscript": true,
-                                "text": "#9#"
+                                "text": "9"
                             },
                             {
-                                "text": "and all this we pray for, that thereby not we, but Thy holy name, may be glorified for ever.#10#"
+                                "text": "and all this we pray for, that thereby not we, but Thy holy name, may be glorified for ever."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "10"
                             }
                         ],
                         [
@@ -7734,7 +7930,11 @@
                                 "text": "Answer:"
                             },
                             {
-                                "text": "Amen signifies, it shall truly and certainly be; for my prayer is more assuredly heard of God than I feel in my heart that I desire these things of Him.#11#"
+                                "text": "Amen signifies, it shall truly and certainly be; for my prayer is more assuredly heard of God than I feel in my heart that I desire these things of Him."
+                            },
+                            {
+                                "is_superscript": true,
+                                "text": "11"
                             }
                         ],
                         [
@@ -7742,6 +7942,33 @@
                                 "text": "11. 2 Cor. 1:20. 2 Tim. 2:13."
                             }
                         ]
+                    ]
+                }
+            ]
+        },
+        {
+            "header": "Introduction to the Heidelberg Catechism",
+            "content": [
+                {
+                    "id": null,
+                    "content": [
+                        [
+                            {
+                                "text": "Introduction to the Heidelberg Catechism"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "The Heidelberg Catechism, the second of our Three Forms of Unity, received its name from the place of its origin, Heidelberg, the capital of the German Electorate of the Palatinate. There, in order that the Reformed faith might be maintained in his domain, Elector Frederick III commissioned Zacharias Ursinus, professor at Heidelberg University, and Caspar Olevianus, the court preacher, to prepare a manual for catechetical instruction. Out of this initiative came the Catechism, which was approved by the Elector himself and by the Synod of Heidelberg and first published in 1563."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "With its comfort motif and its warm, personal style, the Catechism soon won the love of the people of God, as is evident from the fact that more editions of the Catechism had to be printed that same year. While the first edition had 128 questions and answers, in the second and third editions, at the behest of the Elector, the eightieth question and answer, which refers to the popish mass as an accursed idolatry, was added. In the third edition the 129 questions and answers were divided into 52 Lord's Days with a view to the Catechism's being explained in one of the services on the Lord's Day. That salutary practice is still maintained today, in harmony with the prescription of the Church Order of Dordrecht. In the Netherlands the Heidelberg Catechism was translated into the Dutch language as early as 1566, and it soon became widely loved and used in the churches there. It was adopted by several national synods during the later sixteenth century, and finally included by the Synod of Dordrecht, 1618-1619, among our three forms of unity, a place which it has to this day."
+                            }
+                        ],
+                        []
                     ]
                 }
             ]

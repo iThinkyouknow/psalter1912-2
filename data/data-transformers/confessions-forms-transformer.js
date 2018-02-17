@@ -6,8 +6,8 @@ const j = (text) => {
     return JSON.stringify(text, null, 4);
 }
 
-// const hc = require('../_The-Heidelberg-Catechism.json');
-const hc = require('../_The-Apostles-Creed.json');
+const common = require('./common');
+
 /**
  * {
  *      title,
@@ -41,142 +41,144 @@ const hc = require('../_The-Apostles-Creed.json');
 
  * **/
 
-const content_array = Object.entries(hc.content);
 
-const t0 = Date.now()
+
 const text_attributor = text => {
-    // log('-------')
-    // log(JSON.stringify(text));
-    const trimmed_text = text.replace(/^( |\v|\t)*|( |\v|\t)*$/g, '');
 
-    if (/#\d#/g.test(trimmed_text)) {
+    const trimmed_text = text.replace(common.space_remove_regex, '');
+
+    if (common.proof_super_s_regex.test(trimmed_text)) {
         return {
             is_superscript: true,
-            text: trimmed_text
+            text: trimmed_text.replace(common.proof_super_s_regex, common.proof_replace_by)
         };
 
-    } else if (/A\./g.test(trimmed_text)) {
+    } else if (common.ans_regex.test(trimmed_text)) {
         return {
             is_bold: true,
-            text: `Answer:`
+            text: common.ans_replace_by
         };
-    } else if (/Q\. *\d+\.+/g.test(trimmed_text)) {
+    } else if (common.q_regex.test(trimmed_text)) {
         return {
             is_bold: true,
             text: trimmed_text
-                .replace(/Q\. *(\d+)\.+/g, (match, p1) => `Question ${p1}:`)
+                .replace(common.q_regex, common.q_replace_by)
         };
-    } else if (/<(i)[^>]*>.*?<\/\1>/ig.test(trimmed_text)) {
+    } else if (common.italics_regex.test(trimmed_text)) {
         return {
             is_italics: true,
-            text: trimmed_text.replace(/<([\w]+)[^>]*>(.*?)<\/\1>/ig, (match, p1, p2) => p2)
+            text: trimmed_text.replace(common.italics_regex, common.italics_n_bold_replace_by)
         }
-    } else if (/<(b)[^>]*>.*?<\/\1>/ig.test(trimmed_text)) {
+    } else if (common.bold_regex.test(trimmed_text)) {
         return {
             is_italics: true,
-            text: trimmed_text.replace(/<([\w]+)[^>]*>(.*?)<\/\1>/ig, (match, p1, p2) => p2)
+            text: trimmed_text.replace(common.bold_regex, common.italics_n_bold_replace_by)
         }
     }
-
 
     return {
         text: trimmed_text
     };
 };
 
-const line_is_valid = split_lines => (split_lines !== undefined && !/^( |\t\v)*$/.test(split_lines) && split_lines !== 'i' && split_lines !== 'b');
+// const line_is_valid = split_lines => (split_lines !== undefined && !/^( |\t\v)*$/.test(split_lines) && split_lines !== 'i' && split_lines !== 'b');
 
-const regex = /(\n\n)|(\n)|(#\d#)|(A\.)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)/g;
+const regex = /(\n\n)|(\n)|(#\d+#)|(A\.)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)/g;
 
-const new_content = content_array.map(([key, {header, body, chapter, proof}]) => {
+[
+    [require('../_The-Heidelberg-Catechism.json'), 'The-Heidelberg-Catechism(by-LD)']
+].forEach(([file, output_name]) => {
+    const content_array = Object.entries(file.content);
 
-    const new_header = header
-        .split(regex)
-        .filter(line_is_valid)
-        .map(text_attributor);
-    //end of new_header
+    const new_content = content_array.map(([key, {header, body, chapter, proof}]) => {
 
-    const new_body = body
-        .split(regex)
-        .filter(line_is_valid)
-        .map(text_attributor);
-    //end of new_body
+        const new_header = header
+            .split(regex)
+            .filter(common.line_is_valid)
+            .map(text_attributor);
+        //end of new_header
 
-    const proof_regex = /(\d\.) +(\d+\.+)/ig
+        const new_body = body
+            .split(regex)
+            .filter(common.line_is_valid)
+            .map(text_attributor);
+        //end of new_body
 
-    const new_proof = (proof || '')
-        .replace(proof_regex, (m, p1, p2) => `${p1}\n${p2}`)
-        .split(regex)
-        .filter(line_is_valid)
-        .map(text_attributor);
+        const proof_regex = /(\d\.) +(\d+\.+)/ig;
 
-    const new_content = [new_header, new_body, new_proof];
+        const new_proof = (proof || '')
+            .replace(proof_regex, (m, p1, p2) => `${p1}\n${p2}`)
+            .split(regex)
+            .filter(common.line_is_valid)
+            .map(text_attributor);
 
-    const key_int = parseInt(key);
+        const new_content = [new_header, new_body, new_proof];
+
+        const key_int = parseInt(key);
 
 
-    return {
-        header: (key.toLowerCase() === 'introduction') ? header : chapter,
-        content: new_content,
-        id: isNaN(key_int) ? key : key_int
+        return {
+            header: (key.toLowerCase() === 'introduction') ? header : chapter,
+            content: new_content,
+            id: (typeof key_int === 'number') ? key_int : key
     }
-});
+    });
 
 // log(j(new_content));
 
-const sort_by_LD = (content_array, i, return_array) => {
-    if (i >= content_array.length) return return_array;
-    const new_i = i + 1;
-    if (return_array.length === 0 || content_array[i].header !== return_array.slice(-1)[0].header) {
-        const new_return_array = [...return_array, {
-            header: content_array[i].header,
-            content: [
-                    {
-                        id: content_array[i].id,
-                        content: content_array[i].content
-                    }
-                ]
-            }
-        ];
-
-        return sort_by_LD(content_array, new_i, new_return_array);
-
-    } else if (content_array[i].header === return_array.slice(-1)[0].header) {
-        const new_return_array = [
-            ...return_array.slice(0, -1),
-            {
-                ...return_array.slice(-1)[0],
+    const sort_by_chapter = (content_array, i, return_array) => {
+        if (i >= content_array.length) return return_array;
+        const new_i = i + 1;
+        if (return_array.length === 0 || content_array[i].header !== return_array.slice(-1)[0].header) {
+            const new_return_array = [...return_array, {
+                header: content_array[i].header,
                 content: [
-                    ...return_array.slice(-1)[0].content,
                     {
                         id: content_array[i].id,
                         content: content_array[i].content
                     }
                 ]
             }
-        ];
-        return sort_by_LD(content_array, new_i, new_return_array);
+            ];
+
+            return sort_by_chapter(content_array, new_i, new_return_array);
+
+        } else if (content_array[i].header === return_array.slice(-1)[0].header) {
+            const new_return_array = [
+                ...return_array.slice(0, -1),
+                {
+                    ...return_array.slice(-1)[0],
+                    content: [
+                        ...return_array.slice(-1)[0].content,
+                        {
+                            id: content_array[i].id,
+                            content: content_array[i].content
+                        }
+                    ]
+                }
+            ];
+            return sort_by_chapter(content_array, new_i, new_return_array);
+        };
+    };
+
+    const content_sorted_by_ch = sort_by_chapter(new_content, 0, []);
+
+    log(j(content_sorted_by_ch.slice(0, 2)));
+
+    const new_creed = {
+        title: file.title,
+        type: file.type,
+        content: content_sorted_by_ch
     };
 
 
-
-};
-
-const content_sorted_by_LD = sort_by_LD(new_content, 0, []);
-
-log(j(content_sorted_by_LD.slice(0, 2)));
-
-const new_hc = {
-    title: hc.title,
-    type: hc.type,
-    content: content_sorted_by_LD
-};
-
-
-log(content_sorted_by_LD.length);
-const json_new_hc = JSON.stringify(new_hc, null, 4);
+    log(content_sorted_by_ch.length);
+    const json_new_creed = JSON.stringify(new_creed, null, 4);
 
 
 
-// fs.writeFile('/Users/notforyoutouse/psalter1912-2/data/The-Apostles-Creed.json', json_new_hc);
+    fs.writeFileSync(`/Users/notforyoutouse/psalter1912-2/data/${output_name}.json`, json_new_creed);
+
+});
+
 

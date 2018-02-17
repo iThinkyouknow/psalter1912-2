@@ -7,6 +7,8 @@ const j = (text) => {
     return JSON.stringify(text, null, 4);
 }
 
+const common = require('./common');
+
 // const hc = require('../_The-Heidelberg-Catechism.json');
 /**
  * {
@@ -45,62 +47,71 @@ const j = (text) => {
 // const creed = require('../_The-Apostles-Creed.json');
 
 const creeds_array = [
-    [require('../_The-Apostles-Creed.json'), 'The-Apostles-Creed'],
-    [require('../_The-Nicene-Creed.json'), 'The-Nicene-Creed'],
-    [require('../_The-Athanasian-Creed.json'), 'The-Athanasian-Creed'],
-    [require('../_The-Creed-of-Chalcedon.json'), 'The-Creed-of-Chalcedon'],
+    // [require('../_The-Belgic-Confession.json'), 'The-Belgic-Confession'],
+    // [require('../_The-Apostles-Creed.json'), 'The-Apostles-Creed'],
+    // [require('../_The-Nicene-Creed.json'), 'The-Nicene-Creed'],
+    // [require('../_The-Athanasian-Creed.json'), 'The-Athanasian-Creed'],
+    // [require('../_The-Creed-of-Chalcedon.json'), 'The-Creed-of-Chalcedon'],
+    // [require('../_The-Form-for-the-Administration-of-Baptism.json'), 'The-Form-for-the-Administration-of-Baptism']
+    [require('../_Form-for-Excommunication.json'), 'Form-for-Excommunication'],
+    [require('../_Form-for-Public-Confession-of-Faith.json'), 'Form-for-Public-Confession-of-Faith'],
+    [require('../_Form-for-Readmitting-Excommunicated-Persons.json'), 'Form-for-Readmitting-Excommunicated-Persons'],
+    [require('../_Form-for-the-Administration-of-the-Lord\'s-Supper.json'), 'Form-for-the-Administration-of-the-Lord\'s-Supper'],
+    [require('../_Form-for-the-Confirmation-of-Marriage-before-the-Church.json'), 'Form-for-the-Confirmation-of-Marriage-before-the-Church'],
+    [require('../_Form-for-the-Installation-of-Professors-of-Theology.json'), 'Form-for-the-Installation-of-Professors-of-Theology'],
+    [require('../_Form-for-the-Ordination-(or-Installation)-of-Missionaries.json'), 'Form-for-the-Ordination-(or-Installation)-of-Missionaries'],
+    [require('../_Form-of-Ordination-(or-Installation)-of-Ministers-of-God\'s-Word.json'), 'Form-of-Ordination-(or-Installation)-of-Ministers-of-God\'s-Word'],
+    [require('../_Form-of-Ordination-of-Elders-and-Deacons.json'), 'Form-of-Ordination-of-Elders-and-Deacons'],
+    [require('../_Formula-of-Subscription-(PRCA).json'), 'Formula-of-Subscription-(PRCA).json']
 ];
 
 const text_attributor = text => {
     // log('-------')
     // log(JSON.stringify(text));
-    // const trimmed_text = text.replace(/^( |\v|\t)*|( |\v|\t)*$/g, '');
-    const trimmed_text = text.trim();
+    const trimmed_text = text.replace(common.space_remove_regex, '');
 
-    if (/#\d#/g.test(trimmed_text)) {
+    if (common.proof_super_s_regex.test(trimmed_text)) {
         return {
             is_superscript: true,
-            text: trimmed_text
+            text: trimmed_text.replace(common.proof_super_s_regex, common.proof_replace_by)
         };
 
-    } else if (/^ *A\./g.test(trimmed_text)) {
+    } else if (common.ans_regex.test(trimmed_text)) {
         return {
             is_bold: true,
-            text: `Answer:`
+            text: common.ans_replace_by
         };
-    } else if (/Q\. *\d+\.+/g.test(trimmed_text)) {
+    } else if (common.q_regex.test(trimmed_text)) {
         return {
             is_bold: true,
             text: trimmed_text
-                .replace(/Q\. *(\d+)\.+/g, (match, p1) => `Question ${p1}:`)
+                .replace(common.q_regex, common.q_replace_by)
         };
-    } else if (/<(i)[^>]*>.*?<\/\1>/ig.test(trimmed_text)) {
+    } else if (common.italics_regex.test(trimmed_text)) {
         return {
             is_italics: true,
-            text: trimmed_text.replace(/<([\w]+)[^>]*>(.*?)<\/\1>/ig, (match, p1, p2) => p2)
+            text: trimmed_text.replace(common.italics_regex, common.italics_n_bold_replace_by)
         }
-    } else if (/<(b)[^>]*>.*?<\/\1>/ig.test(trimmed_text)) {
+    } else if (common.bold_regex.test(trimmed_text)) {
         return {
-            is_italics: true,
-            text: trimmed_text.replace(/<([\w]+)[^>]*>(.*?)<\/\1>/ig, (match, p1, p2) => p2)
+            is_bold: true,
+            text: trimmed_text.replace(common.bold_regex, common.italics_n_bold_replace_by)
         }
-    } else if (/Error *:+ *|Rejection *:+ *|\d+ *\.+/ig.test(trimmed_text)) {
+    } else if (common.error_or_rej_regex.test(trimmed_text)) {
         return {
             is_bold: true,
             text: trimmed_text
         }
     }
 
-
     return {
         text: trimmed_text
     };
-
 };
 
 const line_is_valid = split_lines => (split_lines !== undefined && !/^( |\t|\v|\n)*$/.test(split_lines) && split_lines !== 'i' && split_lines !== 'b');
 
-const regex = /(\n\n)|(\n)|(#\d#)|(^ *A\.)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)/g;
+const regex = /(\n\n)|(\n)|(#\d+#)|(^ *A\.)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)/g;
 
 
 creeds_array.forEach(([file, output_name]) => {
@@ -116,7 +127,7 @@ creeds_array.forEach(([file, output_name]) => {
             .filter(line_is_valid)
             .map(text => {
                 return text
-                    .split(/(\d+ *\.+)/ig)
+                    .split(/(\d+ *\. +)/ig)
                     .filter(line_is_valid)
                     .map(text_attributor)
             });
