@@ -111,7 +111,7 @@ const text_attributor = text => {
 
 const line_is_valid = split_lines => (split_lines !== undefined && !/^( |\t|\v|\n)*$/.test(split_lines) && split_lines !== 'i' && split_lines !== 'b');
 
-const regex = /(\n\n)|(\n)|(#\d+#)|(^ *A\.)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)/g;
+const regex = /(\n\n)|(\n)|(#\d+#)|(^ *A\. +)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)/g;
 
 
 creeds_array.forEach(([file, output_name]) => {

@@ -3,236 +3,299 @@
     "type": "Forms",
     "content": [
         {
-            "header": "Form for the Administration of Baptism",
-            "content": {
-                "id": 0,
-                "content": [
-                    [
-                        {
-                            "text": "The principal parts of the doctrine of holy baptism are these three:"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "First. That we with our children are conceived and born in sin, and therefore are children of wrath, in so much that we cannot enter into the kingdom of God, except we are born again. This, the dipping in, or sprinkling with water teaches us, whereby the impurity of our souls is signified, and we admonished to loathe, and humble ourselves before God, and seek for our purification and salvation without ourselves."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Secondly. Holy baptism witnesseth and sealeth unto us the washing away of our sins through Jesus Christ. Therefore we are baptized in the name of the Father, and of the Son, and of the Holy Ghost. For when we are baptized in the name of the Father, God the Father witnesseth and sealeth unto us, that he doth make an eternal covenant of grace with us, and adopts us for his children and heirs, and therefore will provide us with every good thing, and avert all evil or turn it to our profit. And when we are baptized in the name of the Son, the Son sealeth unto us, that he doth wash us in his blood from all our sins, incorporating us into the fellowship of his death and resurrection, so that we are freed from all our sins, and accounted righteous before God. In like manner, when we are baptized in the name of the Holy Ghost, the Holy Ghost assures us, by this holy sacrament, that he will dwell in us, and sanctify us to be members of Christ, applying unto us, that which we have in Christ, namely, the washing away of our sins, and the daily renewing of our lives, till we shall finally be presented without spot or wrinkle among the assembly of the elect in life eternal."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Thirdly. Whereas in all covenants, there are contained two parts: therefore are we by God through baptism, admonished of, and obliged unto new obedience, namely, that we cleave to this one God, Father, Son, and Holy Ghost; that we trust in him, and love him with all our hearts, with all our souls, with all our mind, and with all our strength; that we forsake the world, crucify our old nature, and walk in a new and holy life."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "And if we sometimes through weakness fall into sin, we must not therefore despair of God's mercy, nor continue in sin, since baptism is a seal and undoubted testimony, that we have an eternal covenant of grace with God."
-                        }
+            "header": "Introduction",
+            "content": [
+                {
+                    "id": 1,
+                    "content": [
+                        [
+                            {
+                                "is_bold": true,
+                                "text": "Form for the Administration of Baptism"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "The principal parts of the doctrine of holy baptism are these three:"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "First. That we with our children are conceived and born in sin, and therefore are children of wrath, in so much that we cannot enter into the kingdom of God, except we are born again. This, the dipping in, or sprinkling with water teaches us, whereby the impurity of our souls is signified, and we admonished to loathe, and humble ourselves before God, and seek for our purification and salvation without ourselves."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Secondly. Holy baptism witnesseth and sealeth unto us the washing away of our sins through Jesus Christ. Therefore we are baptized in the name of the Father, and of the Son, and of the Holy Ghost. For when we are baptized in the name of the Father, God the Father witnesseth and sealeth unto us, that he doth make an eternal covenant of grace with us, and adopts us for his children and heirs, and therefore will provide us with every good thing, and avert all evil or turn it to our profit. And when we are baptized in the name of the Son, the Son sealeth unto us, that he doth wash us in his blood from all our sins, incorporating us into the fellowship of his death and resurrection, so that we are freed from all our sins, and accounted righteous before God. In like manner, when we are baptized in the name of the Holy Ghost, the Holy Ghost assures us, by this holy sacrament, that he will dwell in us, and sanctify us to be members of Christ, applying unto us, that which we have in Christ, namely, the washing away of our sins, and the daily renewing of our lives, till we shall finally be presented without spot or wrinkle among the assembly of the elect in life eternal."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Thirdly. Whereas in all covenants, there are contained two parts: therefore are we by God through baptism, admonished of, and obliged unto new obedience, namely, that we cleave to this one God, Father, Son, and Holy Ghost; that we trust in him, and love him with all our hearts, with all our souls, with all our mind, and with all our strength; that we forsake the world, crucify our old nature, and walk in a new and holy life."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "And if we sometimes through weakness fall into sin, we must not therefore despair of God's mercy, nor continue in sin, since baptism is a seal and undoubted testimony, that we have an eternal covenant of grace with God."
+                            }
+                        ],
+                        []
                     ]
-                ]
-            }
+                }
+            ]
         },
         {
             "header": "I. To Infants of Believers",
-            "content": {
-                "id": 1,
-                "content": [
-                    [
-                        {
-                            "text": "And although our young children do not understand these things, we may not therefore exclude them from baptism, for as they are without their knowledge, partakers of the condemnation in Adam, so are they again received unto grace in Christ; as God speaketh unto Abraham, the Father of all the faithful, and therefore unto us and our children (Gen. 17:7), saying, \"I will establish my covenant between me and thee, and thy seed after thee, in their generations, for an everlasting covenant; to be a God unto thee, and to thy seed after thee.\" This also the Apostle Peter testifieth, with these words (Acts 2:39), \"For the promise is unto you and to your children, and to all that are afar off, even as many as the Lord our God shall call.\" Therefore God formerly commanded them to be circumcised, which was a seal of the covenant, and of the righteousness of faith; and therefore Christ also embraced them, laid his hands upon them and blessed them (Mark 10)."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Since then baptism is come in the place of circumcision, therefore infants are to be baptized as heirs of the kingdom of God, and of his covenant. And parents are in duty bound, further to instruct their children herein, when they shall arrive to years of discretion."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "That therefore this holy ordinance of God may be administered to his glory, to our comfort,and to the edification of his Church, let us call upon his holy name."
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Prayer"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "O Almighty and eternal God, thou, who hast according to thy severe judgment punished the unbelieving and unrepentant world with the flood, and hast according to thy great mercy saved and protected believing Noah and his family; thou, who hast drowned the obstinate Pharaoh and his host in the Red Sea, and hast led thy people Israel through the midst of the Sea upon dry ground,by which baptism was signified -- we beseech thee, that thou wilt be pleased of thine infinite mercy, graciously to look upon these children, and incorporate them by thy Holy Spirit, into thy Son Jesus Christ, that they may be buried with him into his death, and be raised with him in newness of life; that they may daily follow him, joyfully bearing their cross, and cleave unto him in true faith, firm hope,and ardent love; that they may, with a comfortable sense of thy favor, leave this life, which is nothing but a continual death,and at the last day, may appear without terror before the judgment seat of Christ thy Son, through Jesus Christ our Lord, who with thee and the Holy Ghost, one only God, lives and reigns forever. Amen."
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "An Exhortation to the Parents"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Beloved in the Lord Jesus Christ, you have heard that baptism is an ordinance of God, to seal unto us and to our seed his covenant; therefore it must be used for that end, and not our of custom or superstition. That it may then be manifest, that you are thus minded, you are to answer sincerely to these questions:"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "First. Whether you acknowledge, that although our children are conceived and born in sin, and therefore are subject to all miseries, yea, to condemnation itself; yet that they are sanctified [My children. Ezek. 16:21. They are holy. I Cor. 7:14.] in Christ, and therefore, as members of his Church ought to be baptized?"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Secondly. Whether you acknowledge the doctrine which is contained in the Old and New Testament, and in the articles of the Christian faith, and which is taught here in this Christian Church, to be the true and perfect [Dutch-- Volkomene, complete.] doctrine of salvation?"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Thirdly. Whether you promise and intend to see these children, when come to the years of discretion (whereof you are either parent or witness), instructed and brought up in the aforesaid doctrine, or help or cause them to be instructed therein, to the utmost of your power?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        },
-                        {
-                            "text": "Yes."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Then the Minister of God's Word, in baptizing, shall say, N., I baptize thee in the name of the Father, and of the Son, and of the Holy Ghost. Amen."
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Thanksgiving"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Almighty God and merciful Father, we thank and praise thee, that thou hast forgiven us,and our children, all our sins, through the blood of thy beloved Son Jesus Christ, and received us through thy Holy Spirit as members of thine only begotten Son, and adopted us to be thy children, and sealed and confirmed the same unto us by holy baptism; we beseech thee, through the same Son of thy love, that thou wilt be pleased always to govern these baptized children by thy Holy Spirit, that they may be piously and religiously educated, increase and grow up in the Lord Jesus Christ, that they then may acknowledge thy fatherly goodness and mercy, which thou hast shown to them and us, and live in all righteousness, under our only Teacher, King and High Priest, Jesus Christ; and manfully fight against, and overcome sin, the devil and his whole dominion, to the end that they may eternally praise and magnify thee, and thy Son Jesus Christ, together with the Holy Ghost, the one only true God. Amen."
-                        }
+            "content": [
+                {
+                    "id": 2,
+                    "content": [
+                        [
+                            {
+                                "is_bold": true,
+                                "text": "I. To Infants of Believers"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "And although our young children do not understand these things, we may not therefore exclude them from baptism, for as they are without their knowledge, partakers of the condemnation in Adam, so are they again received unto grace in Christ; as God speaketh unto Abraham, the Father of all the faithful, and therefore unto us and our children (Gen. 17:7), saying, \"I will establish my covenant between me and thee, and thy seed after thee, in their generations, for an everlasting covenant; to be a God unto thee, and to thy seed after thee.\" This also the Apostle Peter testifieth, with these words (Acts 2:39), \"For the promise is unto you and to your children, and to all that are afar off, even as many as the Lord our God shall call.\" Therefore God formerly commanded them to be circumcised, which was a seal of the covenant, and of the righteousness of faith; and therefore Christ also embraced them, laid his hands upon them and blessed them (Mark 10)."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Since then baptism is come in the place of circumcision, therefore infants are to be baptized as heirs of the kingdom of God, and of his covenant. And parents are in duty bound, further to instruct their children herein, when they shall arrive to years of discretion."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "That therefore this holy ordinance of God may be administered to his glory, to our comfort,and to the edification of his Church, let us call upon his holy name."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Prayer"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "O Almighty and eternal God, thou, who hast according to thy severe judgment punished the unbelieving and unrepentant world with the flood, and hast according to thy great mercy saved and protected believing Noah and his family; thou, who hast drowned the obstinate Pharaoh and his host in the Red Sea, and hast led thy people Israel through the midst of the Sea upon dry ground,by which baptism was signified -- we beseech thee, that thou wilt be pleased of thine infinite mercy, graciously to look upon these children, and incorporate them by thy Holy Spirit, into thy Son Jesus Christ, that they may be buried with him into his death, and be raised with him in newness of life; that they may daily follow him, joyfully bearing their cross, and cleave unto him in true faith, firm hope,and ardent love; that they may, with a comfortable sense of thy favor, leave this life, which is nothing but a continual death,and at the last day, may appear without terror before the judgment seat of Christ thy Son, through Jesus Christ our Lord, who with thee and the Holy Ghost, one only God, lives and reigns forever. Amen."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "An Exhortation to the Parents",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Beloved in the Lord Jesus Christ, you have heard that baptism is an ordinance of God, to seal unto us and to our seed his covenant; therefore it must be used for that end, and not our of custom or superstition. That it may then be manifest, that you are thus minded, you are to answer sincerely to these questions:"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "First. Whether you acknowledge, that although our children are conceived and born in sin, and therefore are subject to all miseries, yea, to condemnation itself; yet that they are sanctified [My children. Ezek. 16:"
+                            },
+                            {
+                                "text": "21."
+                            },
+                            {
+                                "text": "They are holy. I Cor. 7:14.] in Christ, and therefore, as members of his Church ought to be baptized?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Secondly. Whether you acknowledge the doctrine which is contained in the Old and New Testament, and in the articles of the Christian faith, and which is taught here in this Christian Church, to be the true and perfect [Dutch-- Volkomene, complete.] doctrine of salvation?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Thirdly. Whether you promise and intend to see these children, when come to the years of discretion (whereof you are either parent or witness), instructed and brought up in the aforesaid doctrine, or help or cause them to be instructed therein, to the utmost of your power?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Then the Minister of God's Word, in baptizing, shall say, N., I baptize thee in the name of the Father, and of the Son, and of the Holy Ghost. Amen."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Thanksgiving"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Almighty God and merciful Father, we thank and praise thee, that thou hast forgiven us,and our children, all our sins, through the blood of thy beloved Son Jesus Christ, and received us through thy Holy Spirit as members of thine only begotten Son, and adopted us to be thy children, and sealed and confirmed the same unto us by holy baptism; we beseech thee, through the same Son of thy love, that thou wilt be pleased always to govern these baptized children by thy Holy Spirit, that they may be piously and religiously educated, increase and grow up in the Lord Jesus Christ, that they then may acknowledge thy fatherly goodness and mercy, which thou hast shown to them and us, and live in all righteousness, under our only Teacher, King and High Priest, Jesus Christ; and manfully fight against, and overcome sin, the devil and his whole dominion, to the end that they may eternally praise and magnify thee, and thy Son Jesus Christ, together with the Holy Ghost, the one only true God. Amen."
+                            }
+                        ],
+                        []
                     ]
-                ]
-            }
+                }
+            ]
         },
         {
             "header": "II. To Adult Persons",
-            "content": {
-                "id": 2,
-                "content": [
-                    [
-                        {
-                            "text": "However children of Christian parents (although they understand not this mystery) must be baptized by virtue of the covenant; yet it is not lawful to baptize those who are come to years of discretion, except they first be sensible of their sins, and make confession both of their repentance and faith in Christ. For this cause did not only John the Baptist preach (according to the command of God) the baptism of repentance, and baptized, for the remission of sins, those who confessed their sins ( Mark 1 and Luke 3); but our Lord Jesus Christ also commanded his disciples to teach all nations, and then to baptize them, in the name of the Father, and of the Son, and of the Holy Ghost ( Matt. 28, Mark 16), adding this promise: \"He that believeth and is baptized shall be saved.\" According to which rule, the Apostles, as appeareth from Acts 2, 10, and 16, baptized none who were of years of discretion, but such as made confession of their faith and repentance. Therefore it is not lawful now to baptize any other adult person, than such as have been taught the mysteries of holy baptism,by the preaching of the gospel, and are able to give an account of their faith by the confession of the mouth."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "That therefore this holy ordinance of God may be administered to his glory, to our comfort, and to the edification of his Church, let us call upon his holy name:"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "O Almighty and eternal God, thou, who hast according to thy severe judgment punished the unbelieving and unrepentant world with the flood, and hast according to thy great mercy saved and protected believing Noah and his family; thou, who hast drowned the obstinate Pharaoh and his host in the Red Sea, and hast led thy people Israel through the midst of the Sea upon dry ground, by which baptism is signified -- we beseech thee, that thou wilt be pleased of thine infinite mercy, graciously to look upon this person, and incorporate him by thy Holy Spirit into thy Son Jesus Christ, that he may be buried with him into his death,and be raised with him in newness of life; that he may daily follow him, joyfully bearing his cross,and cleave unto him in true faith, firm hope, and ardent love; that he may with a comfortable sense of thy favor, leave this life, which is nothing but a continual death, and at the last day, may appear without terror before the judgment seat of Christ thy Son, through Jesus Christ our Lord, who with thee and the Holy Ghost, one only God, lives and reigns forever. Amen."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Since therefore thou, N., art also desirous of holy baptism, to the end, that it may be to thee a seal of thine ingrafting into the Church of God; that it may appear that thou dost not only receive the Christian religion, in which thou hast been privately instructed by us and of which also thou hast made confession before us, but that thou (through the grace of God), intendest and purposest to lead a life according to the same, thou art sincerely to give answer before God and his Church."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "First. Dost thou believe in the only true God, distinct in three persons, Father, Son, and Holy Ghost, who has made heaven and earth, and all that in them is, of nothing, and still maintains and governs them, insomuch that nothing comes to pass, either in heaven or on earth, without his divine will?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        },
-                        {
-                            "text": "Yes."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Secondly. Dost thou believe that thou art conceived and born in sin, and therefore art a child of wrath by nature, wholly incapable of doing any good, and prone to all evil; and that thou hast frequently, in thought, word and deed, transgressed the commandments of the Lord: and whether thou art heartily sorry for these sins?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        },
-                        {
-                            "text": "Yes."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Thirdly. Dost thou believe that Christ, who is the true and eternal God, and very man, who took his human nature on him out of the flesh and blood of the Virgin Mary, is given thee of God, to be thy Savior, and that thou dost receive by this faith, remission of sins in his blood, and that thou art made by the power of the Holy Ghost, a member of Jesus Christ and his Church?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        },
-                        {
-                            "text": "Yes."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Fourthly. Dost thou assent to all the articles of the Christian religion, as they are taught here, int his Christian Church, according to the Word of God; and purpose steadfastly to continue in the same doctrine to the end of thy life; and also dost thou reject all heresies and schisms, repugnant to this doctrine, and promise to persevere in the communion of the Christian Church, not only in the hearing of the Word, but also in the use of the Lord's Supper?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        },
-                        {
-                            "text": "Yes."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Fifthly. Hast thou taken a firm resolution always to lead a Christian life; to forsake the world and its evil lusts, as is becoming the members of Christ and his Church; and to submit thyself to all Christian admonitions?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        },
-                        {
-                            "text": "Yes."
-                        }
-                    ],
-                    [
-                        {
-                            "text": "The good and great God mercifully grant his grace and blessing to this thy purpose, through Jesus Christ. Amen."
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Thanksgiving"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Almighty God and merciful Father, we thank and praise thee, that thou hast forgiven us and our children all our sins, through the blood of thy Son Jesus Christ, and received us through thy Holy Spirit, as members of thine only begotten Son, and adopted us to be thy children and sealed and confirmed the same unto us by holy baptism. We beseech thee, through the same Son of thy love, that thou wilt be pleased always to govern this baptized person by thy Holy Spirit, that he may lead a christian and godly life, and increase and grow up in the Lord Jesus Christ, that he may acknowledge thy fatherly goodness and mercy, which thou hast shown to him and to us, and live in all righteousness, under our only Teacher, King, and High Priest, Jesus Christ; and that he may manfully fight against and overcome sin, the devil and his whole dominion, to the end that he may eternally praise and magnify thee, and thy Son Jesus Christ together with the Holy Ghost, the one only true God. Amen."
-                        }
+            "content": [
+                {
+                    "id": 3,
+                    "content": [
+                        [
+                            {
+                                "is_bold": true,
+                                "text": "II. To Adult Persons"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "However children of Christian parents (although they understand not this mystery) must be baptized by virtue of the covenant; yet it is not lawful to baptize those who are come to years of discretion, except they first be sensible of their sins, and make confession both of their repentance and faith in Christ. For this cause did not only John the Baptist preach (according to the command of God) the baptism of repentance, and baptized, for the remission of sins, those who confessed their sins ( Mark 1 and Luke 3); but our Lord Jesus Christ also commanded his disciples to teach all nations, and then to baptize them, in the name of the Father, and of the Son, and of the Holy Ghost ( Matt. 28, Mark 16), adding this promise: \"He that believeth and is baptized shall be saved.\" According to which rule, the Apostles, as appeareth from Acts 2, 10, and 16, baptized none who were of years of discretion, but such as made confession of their faith and repentance. Therefore it is not lawful now to baptize any other adult person, than such as have been taught the mysteries of holy baptism,by the preaching of the gospel, and are able to give an account of their faith by the confession of the mouth."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "That therefore this holy ordinance of God may be administered to his glory, to our comfort, and to the edification of his Church, let us call upon his holy name:"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "O Almighty and eternal God, thou, who hast according to thy severe judgment punished the unbelieving and unrepentant world with the flood, and hast according to thy great mercy saved and protected believing Noah and his family; thou, who hast drowned the obstinate Pharaoh and his host in the Red Sea, and hast led thy people Israel through the midst of the Sea upon dry ground, by which baptism is signified -- we beseech thee, that thou wilt be pleased of thine infinite mercy, graciously to look upon this person, and incorporate him by thy Holy Spirit into thy Son Jesus Christ, that he may be buried with him into his death,and be raised with him in newness of life; that he may daily follow him, joyfully bearing his cross,and cleave unto him in true faith, firm hope, and ardent love; that he may with a comfortable sense of thy favor, leave this life, which is nothing but a continual death, and at the last day, may appear without terror before the judgment seat of Christ thy Son, through Jesus Christ our Lord, who with thee and the Holy Ghost, one only God, lives and reigns forever. Amen."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Since therefore thou, N., art also desirous of holy baptism, to the end, that it may be to thee a seal of thine ingrafting into the Church of God; that it may appear that thou dost not only receive the Christian religion, in which thou hast been privately instructed by us and of which also thou hast made confession before us, but that thou (through the grace of God), intendest and purposest to lead a life according to the same, thou art sincerely to give answer before God and his Church."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "First. Dost thou believe in the only true God, distinct in three persons, Father, Son, and Holy Ghost, who has made heaven and earth, and all that in them is, of nothing, and still maintains and governs them, insomuch that nothing comes to pass, either in heaven or on earth, without his divine will?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Secondly. Dost thou believe that thou art conceived and born in sin, and therefore art a child of wrath by nature, wholly incapable of doing any good, and prone to all evil; and that thou hast frequently, in thought, word and deed, transgressed the commandments of the Lord: and whether thou art heartily sorry for these sins?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Thirdly. Dost thou believe that Christ, who is the true and eternal God, and very man, who took his human nature on him out of the flesh and blood of the Virgin Mary, is given thee of God, to be thy Savior, and that thou dost receive by this faith, remission of sins in his blood, and that thou art made by the power of the Holy Ghost, a member of Jesus Christ and his Church?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Fourthly. Dost thou assent to all the articles of the Christian religion, as they are taught here, int his Christian Church, according to the Word of God; and purpose steadfastly to continue in the same doctrine to the end of thy life; and also dost thou reject all heresies and schisms, repugnant to this doctrine, and promise to persevere in the communion of the Christian Church, not only in the hearing of the Word, but also in the use of the Lord's Supper?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Fifthly. Hast thou taken a firm resolution always to lead a Christian life; to forsake the world and its evil lusts, as is becoming the members of Christ and his Church; and to submit thyself to all Christian admonitions?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "The good and great God mercifully grant his grace and blessing to this thy purpose, through Jesus Christ. Amen."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Thanksgiving"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Almighty God and merciful Father, we thank and praise thee, that thou hast forgiven us and our children all our sins, through the blood of thy Son Jesus Christ, and received us through thy Holy Spirit, as members of thine only begotten Son, and adopted us to be thy children and sealed and confirmed the same unto us by holy baptism. We beseech thee, through the same Son of thy love, that thou wilt be pleased always to govern this baptized person by thy Holy Spirit, that he may lead a christian and godly life, and increase and grow up in the Lord Jesus Christ, that he may acknowledge thy fatherly goodness and mercy, which thou hast shown to him and to us, and live in all righteousness, under our only Teacher, King, and High Priest, Jesus Christ; and that he may manfully fight against and overcome sin, the devil and his whole dominion, to the end that he may eternally praise and magnify thee, and thy Son Jesus Christ together with the Holy Ghost, the one only true God. Amen."
+                            }
+                        ],
+                        []
                     ]
-                ]
-            }
+                }
+            ]
         }
     ]
 }

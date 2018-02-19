@@ -4,52 +4,63 @@
     "content": [
         {
             "header": "Form for Public Confession of Faith",
-            "content": {
-                "id": 0,
-                "content": [
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Before or after the sermon, the minister requests those who intend to make public confession of their faith to arise and to reply to the following questions:"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "1."
-                        },
-                        {
-                            "text": "Do you acknowledge the doctrine contained in the Old and New Testaments and in the Articles of the Christian faith and taught here in this Christian Church to be the true and complete doctrine of salvation?"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "2."
-                        },
-                        {
-                            "text": "Have you resolved by the grace of God to adhere to this doctrine; to reject all heresies repugnant thereto and to lead a new, godly life?"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "3."
-                        },
-                        {
-                            "text": "Will you submit to church government, and in case you should be delinquent (which may God graciously forbid) to church discipline?"
-                        }
-                    ],
-                    [
-                        {
-                            "is_bold": true,
-                            "text": "Answer:"
-                        }
-                    ],
-                    [
-                        {
-                            "text": "Yes."
-                        }
+            "content": [
+                {
+                    "id": 1,
+                    "content": [
+                        [
+                            {
+                                "is_bold": true,
+                                "text": "Form for Public Confession of Faith"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "Before or after the sermon, the minister requests those who intend to make public confession of their faith to arise and to reply to the following questions:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "1."
+                            },
+                            {
+                                "text": "Do you acknowledge the doctrine contained in the Old and New Testaments and in the Articles of the Christian faith and taught here in this Christian Church to be the true and complete doctrine of salvation?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "2."
+                            },
+                            {
+                                "text": "Have you resolved by the grace of God to adhere to this doctrine; to reject all heresies repugnant thereto and to lead a new, godly life?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "3."
+                            },
+                            {
+                                "text": "Will you submit to church government, and in case you should be delinquent (which may God graciously forbid) to church discipline?"
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Answer:",
+                                "is_bold": true
+                            },
+                            {
+                                "text": "Yes."
+                            }
+                        ],
+                        []
                     ]
-                ]
-            }
+                }
+            ]
         }
     ]
 }
