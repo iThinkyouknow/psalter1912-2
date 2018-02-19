@@ -53,50 +53,9 @@ const {
 
  * **/
 
-
-
-// const text_attributor = text => {
-//
-//     const trimmed_text = text.replace(common.space_remove_regex, '');
-//
-//     if (common.proof_super_s_regex.test(trimmed_text)) {
-//         return {
-//             is_superscript: true,
-//             text: trimmed_text.replace(common.proof_super_s_regex, common.proof_replace_by)
-//         };
-//
-//     } else if (common.ans_regex.test(trimmed_text)) {
-//         return {
-//             is_bold: true,
-//             text: common.ans_replace_by
-//         };
-//     } else if (common.q_regex.test(trimmed_text)) {
-//         return {
-//             is_bold: true,
-//             text: trimmed_text
-//                 .replace(common.q_regex, common.q_replace_by)
-//         };
-//     } else if (common.italics_regex.test(trimmed_text)) {
-//         return {
-//             is_italics: true,
-//             text: trimmed_text.replace(common.italics_regex, common.italics_n_bold_replace_by)
-//         }
-//     } else if (common.bold_regex.test(trimmed_text)) {
-//         return {
-//             is_italics: true,
-//             text: trimmed_text.replace(common.bold_regex, common.italics_n_bold_replace_by)
-//         }
-//     }
-//
-//     return {
-//         text: trimmed_text
-//     };
-// };
-
-
 const text_attributor = style => text => {
 
-    const style_obj = (style !== undefined) ? {
+    const text_obj = (style !== undefined) ? {
         [style]: true,
         text
     } : {
@@ -111,7 +70,7 @@ const text_attributor = style => text => {
         bold_fn,
         list_fn,
         text_trimmer
-    ].reduce(compose, style_obj);
+    ].reduce(compose, text_obj);
 };
 
 

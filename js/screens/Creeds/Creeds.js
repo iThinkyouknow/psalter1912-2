@@ -50,6 +50,10 @@ import {
     select_creeds_or_forms
 } from '../../redux/actions/state-actions';
 
+import {
+    lock_in_creed
+} from '../../redux/actions/creeds-actions';
+
 //
 
 
@@ -150,13 +154,26 @@ const book_image_bounce_animation = bounce_animation(1000)(3)(25)(-48);
 const book_img_animated_value = book_image_bounce_animation.animated_value;
 const list_header_component = list_header_component_wo_animated_val(book_img_animated_value);
 
-const creeds_menu_flatlist = (library_type_index) => () => {
+
+
+
+const select_book = (navigator) => (dispatch) => (library_type_index) => (selected_index) => (levels_deep) => () => {
+    //select book index
+    dispatch(lock_in_creed(library_type_index)(selected_index)(levels_deep));
+    navigator.push({
+        screen: 'Creeds_Categories_1',
+        navigatorStyle: {
+            drawUnderNavBar: true,
+            navBarTranslucent: true
+        }
+    });
+};
+
+const creeds_menu_flatlist = (navigator) => (dispatch) => (library_type_index) => (library) => {
 
     const render_item = ({item, index}) => {
         const {height, width} = Dimensions.get('window');
         const should_margin_left = (index % 2 > 0);
-
-
 
         const get_image = (library_type_index) => (i) => {
             const static_images_array = [
@@ -211,50 +228,70 @@ const creeds_menu_flatlist = (library_type_index) => () => {
 
         const image = get_image(library_type_index)(index);
 
-        const library_selection_image_style = {
-            width: width / 2 - sizes.x_large,
-            height: width / 2 - sizes.x_large,
-            borderRadius: border_radii.default,
-        };
 
         const library_selection_style = {
-            ...library_selection_image_style,
             marginLeft: (should_margin_left) ? sizes.large : 0,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            borderRadius: border_radii.default,
+            width: width / 2 - sizes.x_large,
+            height: width / 2 - sizes.x_large
+        };
+
+        const library_selection_image_style = {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: width / 2 - sizes.x_large,
+            height: width / 2 - sizes.x_large,
         };
 
         const library_selection_mask_style = {
             ...library_selection_image_style,
             backgroundColor: colors.black,
             opacity: 0.5,
-            position: 'absolute'
-        }
+        };
 
+        const text_container_style = {
+            width: width / 2 - sizes.x_large,
+            height: width / 2 - sizes.x_large,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: sizes.default
 
+        };
 
 
         return (
-            <TouchableHighlight style={library_selection_style}>
+            <TouchableHighlight underlayColor={'transparent'}
+                                style={library_selection_style}
+                                onPress={select_book(navigator)(dispatch)(library_type_index)(index)(item.levels_deep)}>
                 <View>
                     <Image source={image} style={[library_selection_image_style]} />
                     <View style={library_selection_mask_style} />
+                    <View style={text_container_style}>
+                        <Default_Text text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
+                    </View>
                 </View>
-
             </TouchableHighlight>
-
-        )
+        );
     };
 
-    const creeds_menu_key_ext = (item, index) => `creeds-menu-${item.title}-${index}`;
 
+    const creeds_menu_key_ext = (item, index) => `creeds-menu-${item.title}-${index}`;
+    ListFooterComponent = () => {
+        return (
+            <View style={{height: 32 + sizes.default * 2}}/>
+        );
+    };
     return (
         <FlatList
-                  data={Array(45).fill(1)}
+                  data={library[library_type_index]}
                   renderItem={render_item}
                   numColumns={2}
                   keyExtractor={creeds_menu_key_ext}
                   columnWrapperStyle={{marginTop: 16}}
-                  contentContainerStyle={{alignItems: 'center', backgroundColor: 'transparent'}}>
+                  contentContainerStyle={{alignItems: 'center', backgroundColor: 'transparent'}}
+                  ListFooterComponent={ListFooterComponent}>
 
         </FlatList>
     );
@@ -322,10 +359,11 @@ class Creeds extends Component {
     }
 
     render() {
+
         return (
             <Default_bg style={{alignItems: 'center'}}>
                 {list_header_component(this.props.library_type_index)}
-                {creeds_menu_flatlist(this.props.library_type_index)()}
+                {creeds_menu_flatlist(this.props.navigator)(this.props.dispatch)(this.props.library_type_index)(this.props.creeds_library)}
                 {creeds_or_forms_chooser(this.props.dispatch)(this.props.library_type_index)}
             </Default_bg>
         );
@@ -335,7 +373,8 @@ class Creeds extends Component {
 
 function mapStateToProps(state) {
     return {
-        library_type_index: state.creeds_library_type_index
+        library_type_index: state.creeds_library_type_index,
+        creeds_library: state.creeds_library
     };
 }
 
