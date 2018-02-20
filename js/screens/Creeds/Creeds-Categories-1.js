@@ -15,7 +15,8 @@ import {
     font_sizes,
     zIndex,
     native_elements,
-    buttons
+    buttons,
+    border_radii
 } from '../../common/common.styles';
 
 import {
@@ -67,26 +68,53 @@ const header_banner = (title) => {
     );
 };
 
-const creed_categories_list = (component_items) => (title) => (content) => () => {
+const creed_categories_list = (component_items) => (title) => (content) => (creed_level) => {
 
-    render_creed_categories = ({item, index}) => {
-        const header_text = <Default_Text font_weight={'bold'}>{item.header}</Default_Text>
-        const sub_text = item.content.map(({content}, i) => {
-            const sub_title = content[0].map(({text}, k) => {
-                const actual_text = (k === 0) ? text : ` ${text}`;
-                return(
-                    <Default_Text key={`category-${k}`}>{actual_text}</Default_Text>
-                );
-            });
+    const render_creed_categories = ({item, index}) => {
+        const header_text = (<Default_Text font_size={'large'} font_weight={'bold'}>{item.header}</Default_Text>);
+        //todo put into reducer
+        const subtext = item.content.map(({content}, i) => {
+            const sub_title = content[0]
+                .map(({text}) => text)
+                .join(' ');
 
-            return <Default_Text key={`creeds-lv-1-sub-title-${i}`}>{sub_title}</Default_Text>
-
+            return sub_title;
         });
 
+        const sub_text_component = (subtext[0] === item.header || subtext[0].length < 1 || creed_level > 1)
+            ? null
+            : subtext.map((text, i) => {
+                const sub_title_style = {
+                    marginTop: sizes.default
+                };
+
+                return (<Default_Text style={sub_title_style} key={`creeds-lv-1-sub-title-${i}`}>{text}</Default_Text>);
+            });
+
+
+        const categories_container_style = {
+            marginTop: sizes.large,
+            marginHorizontal: sizes.large,
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 1,
+            borderRadius: border_radii.default,
+            padding: sizes.large,
+            overflow: 'hidden',
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            shadowColor: colors.black,
+            shadowOffset: {
+                width: sizes.default,
+                height: sizes.default
+            }
+
+        };
+
         return (
-            <View>
+            <View style={categories_container_style}>
                 <Default_Text>{header_text}</Default_Text>
-                {sub_text}
+                <View style={{marginLeft: sizes.medium}}>
+                    {sub_text_component}
+                </View>
             </View>
         );
     };
@@ -110,7 +138,7 @@ class Creeds_Categories_1 extends Component {
         }
         return (
             <Default_bg>
-                {creed_categories_list(component_items)(this.props.creed_title)(this.props.creed_content)()}
+                {creed_categories_list(component_items)(this.props.creed_title)(this.props.creed_content)(this.props.creed_level)}
             </Default_bg>
         )
     }

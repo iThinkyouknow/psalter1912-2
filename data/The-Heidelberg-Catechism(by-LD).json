@@ -3,6 +3,34 @@
     "type": "Creeds",
     "content": [
         {
+            "header": "Introduction to the Heidelberg Catechism",
+            "content": [
+                {
+                    "id": null,
+                    "content": [
+                        [
+                            {
+                                "is_bold": true,
+                                "text": "Introduction to the Heidelberg Catechism"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "The Heidelberg Catechism, the second of our Three Forms of Unity, received its name from the place of its origin, Heidelberg, the capital of the German Electorate of the Palatinate. There, in order that the Reformed faith might be maintained in his domain, Elector Frederick III commissioned Zacharias Ursinus, professor at Heidelberg University, and Caspar Olevianus, the court preacher, to prepare a manual for catechetical instruction. Out of this initiative came the Catechism, which was approved by the Elector himself and by the Synod of Heidelberg and first published in 1563."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "With its comfort motif and its warm, personal style, the Catechism soon won the love of the people of God, as is evident from the fact that more editions of the Catechism had to be printed that same year. While the first edition had 128 questions and answers, in the second and third editions, at the behest of the Elector, the eightieth question and answer, which refers to the popish mass as an accursed idolatry, was added. In the third edition the 129 questions and answers were divided into 52 Lord's Days with a view to the Catechism's being explained in one of the services on the Lord's Day. That salutary practice is still maintained today, in harmony with the prescription of the Church Order of Dordrecht. In the Netherlands the Heidelberg Catechism was translated into the Dutch language as early as 1566, and it soon became widely loved and used in the churches there. It was adopted by several national synods during the later sixteenth century, and finally included by the Synod of Dordrecht, 1618-1619, among our three forms of unity, a place which it has to this day."
+                            }
+                        ],
+                        []
+                    ]
+                }
+            ]
+        },
+        {
             "header": "Lord's Day 1",
             "content": [
                 {
@@ -8076,34 +8104,6 @@
                                 "text": "11. 2 Cor. 1:20. 2 Tim. 2:13."
                             }
                         ]
-                    ]
-                }
-            ]
-        },
-        {
-            "header": "Introduction to the Heidelberg Catechism",
-            "content": [
-                {
-                    "id": null,
-                    "content": [
-                        [
-                            {
-                                "is_bold": true,
-                                "text": "Introduction to the Heidelberg Catechism"
-                            }
-                        ],
-                        [
-                            {
-                                "text": "The Heidelberg Catechism, the second of our Three Forms of Unity, received its name from the place of its origin, Heidelberg, the capital of the German Electorate of the Palatinate. There, in order that the Reformed faith might be maintained in his domain, Elector Frederick III commissioned Zacharias Ursinus, professor at Heidelberg University, and Caspar Olevianus, the court preacher, to prepare a manual for catechetical instruction. Out of this initiative came the Catechism, which was approved by the Elector himself and by the Synod of Heidelberg and first published in 1563."
-                            },
-                            {
-                                "text": "\n\n"
-                            },
-                            {
-                                "text": "With its comfort motif and its warm, personal style, the Catechism soon won the love of the people of God, as is evident from the fact that more editions of the Catechism had to be printed that same year. While the first edition had 128 questions and answers, in the second and third editions, at the behest of the Elector, the eightieth question and answer, which refers to the popish mass as an accursed idolatry, was added. In the third edition the 129 questions and answers were divided into 52 Lord's Days with a view to the Catechism's being explained in one of the services on the Lord's Day. That salutary practice is still maintained today, in harmony with the prescription of the Church Order of Dordrecht. In the Netherlands the Heidelberg Catechism was translated into the Dutch language as early as 1566, and it soon became widely loved and used in the churches there. It was adopted by several national synods during the later sixteenth century, and finally included by the Synod of Dordrecht, 1618-1619, among our three forms of unity, a place which it has to this day."
-                            }
-                        ],
-                        []
                     ]
                 }
             ]
