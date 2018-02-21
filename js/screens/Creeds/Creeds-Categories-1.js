@@ -70,20 +70,12 @@ const header_banner = (title) => {
 
 const creed_categories_list = (component_items) => (title) => (content) => (creed_level) => {
 
-    const render_creed_categories = ({item, index}) => {
+    const render_creed_categories = (creed_level) => ({item, index}) => {
         const header_text = (<Default_Text font_size={'large'} font_weight={'bold'}>{item.header}</Default_Text>);
-        //todo put into reducer
-        const subtext = item.content.map(({content}, i) => {
-            const sub_title = content[0]
-                .map(({text}) => text)
-                .join(' ');
 
-            return sub_title;
-        });
-
-        const sub_text_component = (subtext[0] === item.header || subtext[0].length < 1 || creed_level > 1)
+        const sub_text_component = (item.content[0] === item.header || item.content[0].length < 1 || creed_level > 1) // impure
             ? null
-            : subtext.map((text, i) => {
+            : item.content.map((text, i) => {
                 const sub_title_style = {
                     marginTop: sizes.default
                 };
@@ -117,6 +109,8 @@ const creed_categories_list = (component_items) => (title) => (content) => (cree
                 </View>
             </View>
         );
+
+
     };
 
     creeds_cat_key_ext = (item, j) => `categories-${j}`;
@@ -125,7 +119,7 @@ const creed_categories_list = (component_items) => (title) => (content) => (cree
         <FlatList ListHeaderComponent={header_banner(title)}
                   keyExtractor={creeds_cat_key_ext}
                   data={content}
-                  renderItem={render_creed_categories} />
+                  renderItem={render_creed_categories(creed_level)} />
     );
 };
 

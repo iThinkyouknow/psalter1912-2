@@ -85,13 +85,43 @@ export const creeds_library = _creeds_library(library_names_levels_array);
 //     return state;
 // };
 
-const _creed = library => (state = library[0][0], action) => {
+const get_creed_w_header_only = (creed) => {
+    const header_only_content = creed.content.map(({header, content}) => {
+        const new_content = content.map(({content}) => {
+            return content[0]
+                .map(({text}) => text)
+                .join(' ');
+        });
+
+        return {
+            header,
+            content: new_content
+        }
+    });
+
+    return {
+        title: creed.title,
+        levels_deep: creed.levels_deep,
+        content: header_only_content
+    };
+};
+
+const original_creed_state = (library) => {
+    const creed = library[0][0];
+    return get_creed_w_header_only(creed);
+};
+
+const _creed = original_state => (state = original_state, action) => {
     if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED) {
         const { library_type_index, selected_index, levels_deep } = action;
 
-        return library[library_type_index][selected_index]
+        const creed = library[library_type_index][selected_index];
+        return get_creed_w_header_only(creed);
     }
     return state;
 };
 
-export const creed = _creed(library);
+
+
+export const creed = _creed(original_creed_state);
+

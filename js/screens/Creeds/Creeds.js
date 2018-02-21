@@ -165,7 +165,8 @@ const select_book = (navigator) => (dispatch) => (library_type_index) => (select
         navigatorStyle: {
             drawUnderNavBar: true,
             navBarTranslucent: true
-        }
+        },
+        backButtonTitle: (library_type_index === 0) ? 'Creeds' : 'Forms'
     });
 };
 
