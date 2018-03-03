@@ -85,7 +85,7 @@ export const creeds_library = _creeds_library(library_names_levels_array);
 //     return state;
 // };
 
-const get_creed_w_header_only = (creed) => {
+const get_creed_content_w_header_only = (creed) => {
     const header_only_content = creed.content.map(({header, content}) => {
         const new_content = content.map(({content}) => {
             return content[0]
@@ -108,20 +108,65 @@ const get_creed_w_header_only = (creed) => {
 
 const original_creed_state = (library) => {
     const creed = library[0][0];
-    return get_creed_w_header_only(creed);
+    return {
+        ...get_creed_content_w_header_only(creed),
+        library_type_index: 0,
+        selected_index: 0
+    };
 };
 
-const _creed = original_state => (state = original_state, action) => {
+const _creed = library => original_state => (state = original_state, action) => {
     if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED) {
         const { library_type_index, selected_index, levels_deep } = action;
 
         const creed = library[library_type_index][selected_index];
-        return get_creed_w_header_only(creed);
+        return {
+            ...get_creed_content_w_header_only(creed),
+            library_type_index,
+            selected_index
+        };
     }
     return state;
 };
 
+export const creed = _creed(library)(original_creed_state);
 
 
-export const creed = _creed(original_creed_state);
+const _creed_level_2 = library => (state = {}, action) => {
+    if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED_LEVEL_2) {
+        const {library_type_index, selected_creed_index, selected_chapter_index} = action;
+        const creed = library[library_type_index][selected_creed_index];
+        const chapter_header = creed.content[selected_chapter_index].header;
+        const chapter_content = creed.content[selected_chapter_index].content.map(({content}) => {
+
+            const [header, body] = content
+                .map(text_array => text_array.map(({text}) => text));
+
+            const joined_body = body
+                .join(' ')
+                .slice(0, 100)
+                .replace('\n\n', '');
+
+
+            return {
+                header: header[0],
+                content: [`${joined_body}...`]
+            };
+        });
+
+
+        return {
+            title: chapter_header,
+            levels_deep: creed.levels_deep - 1,
+            content: chapter_content,
+            library_type_index,
+            selected_creed_index,
+            selected_chapter_index
+        }
+    }
+
+    return state;
+};
+
+export const creed_level_2 = _creed_level_2(library);
 

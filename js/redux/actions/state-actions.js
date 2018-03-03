@@ -4,7 +4,8 @@ export const STATE_ACTIONS = {
     SET_MUSIC_TIMER: 'SET_MUSIC_TIMER',
     SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER',
     SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH',
-    SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
+    SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE',
+    CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
 };
 
 export const psalter_text_input = (val) => {
@@ -47,4 +48,11 @@ export const select_creeds_or_forms = (index) => {
         type: STATE_ACTIONS.SELECT_LIBRARY_TYPE,
         index
     }
+};
+
+export const change_creeds_chapter_lv = (lv) => {
+    return {
+        type: STATE_ACTIONS.CHANGE_CREEDS_CHAPTER_LV,
+        lv
+    };
 };

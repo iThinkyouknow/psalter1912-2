@@ -50,3 +50,10 @@ export function creeds_library_type_index(state = 0, action) {
     }
     return state;
 };
+
+export function creeds_chapters_curr_level(state = 1, action) {
+    if (action.type === STATE_ACTIONS.CHANGE_CREEDS_CHAPTER_LV) {
+        return action.lv
+    }
+    return state;
+}
