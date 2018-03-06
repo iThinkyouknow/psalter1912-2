@@ -76,9 +76,9 @@ const header_banner = (title) => {
     );
 };
 
-const creed_categories_list = (component_items) => (library_type_index) => (selected_creed_index) => (title) => (content) => (creed_level) => {
+const creed_categories_list = (component_items) => (library_type_index) => (selected_creed_index) => (title) => (content) => (creed_level) => (selected_chapter_index) => {
 
-    const render_creed_categories = (component_items) => (library_type_index) => (selected_creed_index) => (creed_level) => ({item, index}) => {
+    const render_creed_categories = (component_items) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => ({item, index}) => {
         const header_text = (<Default_Text font_size={'large'} font_weight={'bold'}>{item.header}</Default_Text>);
 
         const sub_text_component = (item.content[0] === item.header || item.content[0].length < 1 || creed_level > 1)
@@ -108,7 +108,7 @@ const creed_categories_list = (component_items) => (library_type_index) => (sele
             }
         };
 
-        const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => () => {
+        const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
             if (creed_level === 2) {
                 dispatch(change_creeds_chapter_lv(2));
                 dispatch(lock_in_creed_level_2(library_type_index)(selected_creed_index)(selected_chapter_index));
@@ -121,11 +121,8 @@ const creed_categories_list = (component_items) => (library_type_index) => (sele
                     backButtonTitle: 'Chapters'
                 });
 
-
-
-
             } else if (creed_level === undefined || creed_level < 2) {
-                dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)());
+                dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article));
                 navigator.push({
                     screen: 'Creeds_Text',
                     navigatorStyle: {
@@ -137,8 +134,13 @@ const creed_categories_list = (component_items) => (library_type_index) => (sele
             }
         };
 
+        const go_to_creeds_text = (selected_chapter_index)
+            ? go_to_next_creed_level(component_items)(library_type_index)(selected_creed_index)(creed_level)(selected_chapter_index)(index)
+            : go_to_next_creed_level(component_items)(library_type_index)(selected_creed_index)(creed_level)(index)();
+
         return (
-            <TouchableHighlight underlayColor={colors.ocean} onPress={go_to_next_creed_level(component_items)(library_type_index)(selected_creed_index)(creed_level)(index)}>
+            <TouchableHighlight underlayColor={colors.ocean}
+                                onPress={go_to_creeds_text}>
                 <View style={categories_container_style}>
                     <Default_Text>{header_text}</Default_Text>
                     <View style={{marginLeft: sizes.medium}}>
@@ -158,7 +160,7 @@ const creed_categories_list = (component_items) => (library_type_index) => (sele
         <FlatList ListHeaderComponent={header_banner(title)}
                   keyExtractor={creeds_cat_key_ext}
                   data={content}
-                  renderItem={render_creed_categories(component_items)(library_type_index)(selected_creed_index)(creed_level)} />
+                  renderItem={render_creed_categories(component_items)(library_type_index)(selected_creed_index)(creed_level)(selected_chapter_index)} />
     );
 };
 
@@ -192,14 +194,15 @@ class Creeds_Categories_1 extends Component {
                   creed_articles_content,
                   creed_title,
                   creed_content,
-                  creed_level
+                  creed_level,
+                  selected_chapter_index
         } = this.props;
 
         const creed_categories = creed_categories_list(component_items)(library_type_index)(selected_creed_index);
 
         const creed_categories_list_component = (creeds_chapters_curr_level === 2)
-            ? creed_categories(creed_articles_title)(creed_articles_content)(creed_level - 1)
-            : creed_categories(creed_title)(creed_content)(creed_level);
+            ? creed_categories(creed_articles_title)(creed_articles_content)(creed_level - 1)(selected_chapter_index)
+            : creed_categories(creed_title)(creed_content)(creed_level)();
 
 
         return (
@@ -220,7 +223,8 @@ function mapStateToProps(state) {
         selected_creed_index: state.creed.selected_index,
         creed_articles_title: state.creed_level_2.title,
         creed_articles_content: state.creed_level_2.content,
-        creed_articles_level: state.creed_level_2.levels_deep
+        creed_articles_level: state.creed_level_2.levels_deep,
+        selected_chapter_index: state.creed_level_2.selected_chapter_index
     };
 }
 
