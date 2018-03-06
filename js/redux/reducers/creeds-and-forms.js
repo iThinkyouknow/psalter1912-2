@@ -157,7 +157,7 @@ const _creed_level_2 = library => (state = {}, action) => {
 
         return {
             title: chapter_header,
-            levels_deep: creed.levels_deep - 1,
+            levels_deep: creed.levels_deep,
             content: chapter_content,
             library_type_index,
             selected_creed_index,
@@ -169,4 +169,26 @@ const _creed_level_2 = library => (state = {}, action) => {
 };
 
 export const creed_level_2 = _creed_level_2(library);
+
+
+const _creed_body = (library) => (state = {}, action = {}) => {
+    if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED_BODY) {
+        const {library_type_index, selected_creed_index, selected_chapter_index, selected_article_index} = action;
+        if (selected_article_index === undefined || selected_article_index === null) {
+            const creed = library[library_type_index][selected_creed_index];
+
+            return {
+                title: creed.title,
+                description: creed.description || '',
+                body: creed.content[selected_chapter_index]
+            }
+        } else {
+            //level 2
+        }
+    }
+
+    return state;
+};
+
+export const creed_body = _creed_body(library);
 

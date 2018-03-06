@@ -34,7 +34,7 @@ import {
 } from '../../utils/functions';
 
 import {change_creeds_chapter_lv} from '../../redux/actions/state-actions'
-import {lock_in_creed_level_2} from '../../redux/actions/creeds-actions'
+import {lock_in_creed_level_2, lock_in_creed_body} from '../../redux/actions/creeds-actions'
 
 const header_banner = (title) => {
     const {width, height} = Dimensions.get('window');
@@ -125,7 +125,15 @@ const creed_categories_list = (component_items) => (library_type_index) => (sele
 
 
             } else if (creed_level === undefined || creed_level < 2) {
-
+                dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)());
+                navigator.push({
+                    screen: 'Creeds_Text',
+                    navigatorStyle: {
+                        drawUnderNavBar: true,
+                        navBarTranslucent: true
+                    },
+                    backButtonTitle: 'Chapters'
+                });
             }
         };
 
@@ -182,7 +190,6 @@ class Creeds_Categories_1 extends Component {
                   creeds_chapters_curr_level,
                   creed_articles_title,
                   creed_articles_content,
-                  creed_articles_level,
                   creed_title,
                   creed_content,
                   creed_level
@@ -191,7 +198,7 @@ class Creeds_Categories_1 extends Component {
         const creed_categories = creed_categories_list(component_items)(library_type_index)(selected_creed_index);
 
         const creed_categories_list_component = (creeds_chapters_curr_level === 2)
-            ? creed_categories(creed_articles_title)(creed_articles_content)(creed_articles_level)
+            ? creed_categories(creed_articles_title)(creed_articles_content)(creed_level - 1)
             : creed_categories(creed_title)(creed_content)(creed_level);
 
 
