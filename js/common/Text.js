@@ -2,7 +2,9 @@ import React from 'react';
 import {
     Text,
     StyleSheet,
-    Animated
+    Animated,
+    Platform,
+    View
 } from 'react-native';
 
 import {
@@ -46,24 +48,26 @@ export function Default_Text(props = {}) {
     const extra_styles = extra_styles_fn(props);
 
     return (
-        <Text style={[styles.default, extra_styles]}>
+        <Text allowFontScaling={false} style={[styles.default, extra_styles]}>
             {text}
             {children}
         </Text>
     );
 };
 
+
 export function Animated_Text(props = {}) {
     const {text, children} = props;
     const extra_styles = extra_styles_fn(props);
 
     return (
-        <Animated.Text style={[styles.default, extra_styles]}>
+        <Animated.Text allowFontScaling={false} style={[styles.default, extra_styles]}>
             {text}
             {children}
         </Animated.Text>
     );
-}
+};
+
 
 const styles = StyleSheet.create({
     default: {
@@ -75,3 +79,48 @@ const styles = StyleSheet.create({
         ...line_height_fn(line_heights.default)(font_sizes['default'])
     }
 });
+
+
+// text utils
+export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (was_n) => (combined_text_array) => {
+    const {text} = body[i];
+
+    const get_text_component = (body) => (i) => (key_prefix) => (was_n) => {
+        const current_text = body[i];
+        const {is_bold, is_superscript, is_italics, is_list, text} = current_text;
+
+        const text_style = {
+            fontStyle: is_italics ? 'italic' : 'normal',
+            textAlignVertical: is_superscript ? 'top' : 'center'
+        };
+
+        if (is_superscript && Platform.OS === 'ios') {
+            return (
+                <View key={`creed-${key_prefix}-para-${i}`} style={{marginTop: -2, alignItems: 'flex-start', width: 8 * text.length, height: 16}}>
+                    <Animated_Text font_size={is_superscript ? font_sizes.x_small : font_sizes.default}
+                                   font_weight={is_bold ? 'bold' : 'normal'}
+                                   style={text_style}>
+                        {(i === 0 || is_superscript || was_n) ? text : ` ${text}`}
+                    </Animated_Text>
+                </View>
+            );
+        } else {
+            return (
+                <Animated_Text key={`creed-${key_prefix}-para-${i}`} font_size={is_superscript ? font_sizes.x_small : font_sizes.default}
+                               font_weight={is_bold ? 'bold' : 'normal'}
+                               style={text_style}>
+                    {(i === 0 || is_superscript || was_n) ? text : ` ${text}`}
+                </Animated_Text>
+            );
+        }
+    };
+
+    const text_component = get_text_component(body)(i)(key_prefix)(was_n);
+    const new_combined_text_array = [...combined_text_array, text_component];
+    const new_was_n = /\n/.test(text);
+    const new_index = i + 1;
+
+    if (new_index >= body.length) return new_combined_text_array;
+
+    return text_formatter(body)(new_index)(key_prefix)(new_was_n)(new_combined_text_array);
+};

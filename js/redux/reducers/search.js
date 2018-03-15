@@ -1,9 +1,8 @@
 import {SEARCH_ACTIONS} from '../actions/search-actions';
 import psalterSearchJson from '../../../data/PsalterSearchJSON.json';
 
-const psalter_search_result_cache = {};
 
-export function psalter_search_results(state = [], action = {}) {
+const  _psalter_search_results = psalter_search_result_cache => (state = [], action = {}) => {
     if (action.type === SEARCH_ACTIONS.SEARCH_PSALTER) {
 
         if (typeof action.search_text !== 'string') return state;
@@ -13,7 +12,8 @@ export function psalter_search_results(state = [], action = {}) {
                 const code = char.charCodeAt(0);
                 return (code >= 33 && code <= 47 || code >= 58 && code <= 64 || code >= 91 && code <= 96 || code >= 123 && code <= 126 ) ? `\\${char}` : char;
             })
-            .join('(\\w|\\s|\\d|,)*');
+            .join('');
+            // .join('(\\w|\\s|\\d|,)*');
 
         const regex = new RegExp(search_text, 'ig');
 
@@ -67,4 +67,6 @@ export function psalter_search_results(state = [], action = {}) {
 
     return state;
 }
+
+export const psalter_search_results = _psalter_search_results({});
 
