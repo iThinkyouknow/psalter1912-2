@@ -80,7 +80,7 @@ const Creeds_Body_Component = (section_header) => ({item, index}) => {
     );
 };
 
-const Creeds_Text_Flatlist = (title) => (description) => (body) => {
+const Creeds_Text_Flatlist = (styles) => (title) => (description) => (body) => {
 
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
@@ -105,7 +105,7 @@ class Creeds_Text extends Component {
         const {creed_body_title, creed_body_description, creed_body} = this.props;
         return (
             <View>
-                {Creeds_Text_Flatlist(creed_body_title)(creed_body_description)(creed_body)}
+                {Creeds_Text_Flatlist(styles)(creed_body_title)(creed_body_description)(creed_body)}
             </View>
         );
     }

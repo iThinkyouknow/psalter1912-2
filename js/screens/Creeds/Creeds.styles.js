@@ -96,5 +96,8 @@ export default styles = StyleSheet.create({
     },
     footer_component: {
         height: 32 + sizes.default * 2
+    },
+    column_wrapper: {
+        marginTop: 16
     }
 });

@@ -161,56 +161,56 @@ const select_book = (navigator) => (dispatch) => (library_type_index) => (select
     });
 };
 
-const creeds_menu_flatlist = ({navigator, dispatch, random, styles, images, Dimensions}) => (library_type_index) => (library) => {
+const creeds_menu_renderer = ({navigator, dispatch, random, images, Dimensions}) => (library_type_index) => ({item, index}) => {
+    const {height, width}    = Dimensions.get('window');
+    const should_margin_left = (index % 2 > 0);
 
-    const render_item = ({item, index}) => {
-        const {height, width}    = Dimensions.get('window');
-        const should_margin_left = (index % 2 > 0);
+    const get_image = (library_type_index) => (i) => {
 
-        const get_image = (library_type_index) => (i) => {
-
-            if (library_type_index === 0) {
-                if (i === 0 || i === 1 || i === 2) {
-                    return images.creeds_images_array[i];
-                }
+        if (library_type_index === 0) {
+            if (i === 0 || i === 1 || i === 2) {
+                return images.creeds_images_array[i];
             }
+        }
 
-            return images.churches_images_array[Math.floor(random() * images.churches_images_array.length)];
-        };
-
-        const image = get_image(library_type_index)(index);
-
-        const library_selection_style = {
-            marginLeft: (should_margin_left) ? sizes.large : 0,
-            width: width / 2 - sizes.x_large,
-            height: width / 2 - sizes.x_large
-        };
-
-        const library_selection_image_style = {
-            width: width / 2 - sizes.x_large,
-            height: width / 2 - sizes.x_large,
-        };
-
-        const text_container_style = {
-            width: width / 2 - sizes.x_large,
-            height: width / 2 - sizes.x_large,
-        };
-
-
-        return (
-            <TouchableHighlight underlayColor={'transparent'}
-                                style={[styles.library_selection, library_selection_style]}
-                                onPress={select_book(navigator)(dispatch)(library_type_index)(index)(item.levels_deep)}>
-                <View>
-                    <Image source={image} style={[styles.library_selection_image, library_selection_image_style]}/>
-                    <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]}/>
-                    <View style={[styles.library_text_container, text_container_style]}>
-                        <Default_Text text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
-                    </View>
-                </View>
-            </TouchableHighlight>
-        );
+        return images.churches_images_array[Math.floor(random() * images.churches_images_array.length)];
     };
+
+    const image = get_image(library_type_index)(index);
+
+    const library_selection_style = {
+        marginLeft: (should_margin_left) ? sizes.large : 0,
+        width: width / 2 - sizes.x_large,
+        height: width / 2 - sizes.x_large
+    };
+
+    const library_selection_image_style = {
+        width: width / 2 - sizes.x_large,
+        height: width / 2 - sizes.x_large,
+    };
+
+    const text_container_style = {
+        width: width / 2 - sizes.x_large,
+        height: width / 2 - sizes.x_large,
+    };
+
+
+    return (
+        <TouchableHighlight underlayColor={'transparent'}
+                            style={[styles.library_selection, library_selection_style]}
+                            onPress={select_book(navigator)(dispatch)(library_type_index)(index)(item.levels_deep)}>
+            <View>
+                <Image source={image} style={[styles.library_selection_image, library_selection_image_style]}/>
+                <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]}/>
+                <View style={[styles.library_text_container, text_container_style]}>
+                    <Default_Text text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
+                </View>
+            </View>
+        </TouchableHighlight>
+    );
+};
+
+const creeds_menu_flatlist = (renderer) => (library_type_index) => (library) => {
 
 
     const creeds_menu_key_ext = (item, index) => `creeds-menu-${item.title}-${index}`;
@@ -224,10 +224,10 @@ const creeds_menu_flatlist = ({navigator, dispatch, random, styles, images, Dime
     return (
         <FlatList
             data={library[library_type_index]}
-            renderItem={render_item}
+            renderItem={renderer}
             numColumns={2}
             keyExtractor={creeds_menu_key_ext}
-            columnWrapperStyle={{marginTop: 16}}
+            columnWrapperStyle={[styles.column_wrapper]}
             contentContainerStyle={styles.flatlist_container}
             ListFooterComponent={ListFooterComponent(styles)}>
         </FlatList>
@@ -296,12 +296,14 @@ class Creeds extends Component {
             Dimensions,
             navigator: this.props.navigator,
             dispatch: this.props.dispatch
-        }
+        };
+
+        const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(this.props.library_type_index);
 
         return (
             <Default_bg style={styles.default_bg}>
                 {list_header_component(component_obj)(this.props.library_type_index)}
-                {creeds_menu_flatlist(component_obj)(this.props.library_type_index)(this.props.creeds_library)}
+                {creeds_menu_flatlist(creeds_menu_renderer_loaded)(this.props.library_type_index)(this.props.creeds_library)}
                 {creeds_or_forms_chooser(component_obj)(this.props.library_type_index)(book_image_bounce_animation.bounce)}
             </Default_bg>
         );
