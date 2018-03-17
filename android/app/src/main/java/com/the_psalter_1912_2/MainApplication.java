@@ -3,10 +3,13 @@ package com.the_psalter_1912_2;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.jadsonlourenco.RNShakeEvent.RNShakeEventPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+
+import com.futurice.rctaudiotoolkit.AudioPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +30,7 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
             // eg. new VectorIconsPackage()
+            new AudioPackage()
     );
   }
 
@@ -44,7 +48,8 @@ public class MainApplication extends NavigationApplication {
 //    @Override
 //    protected List<ReactPackage> getPackages() {
 //      return Arrays.<ReactPackage>asList(
-//          new MainReactPackage()
+//          new MainReactPackage(),
+            new RNShakeEventPackage()
 //      );
 //    }
 //

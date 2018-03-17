@@ -1,0 +1,16 @@
+{
+    "title": "The Nicene Creed",
+    "type": "Creeds",
+    "content": {
+        "1": {
+            "chapter": "Introduction",
+            "header": "Introduction",
+            "body": "This creed is acknowledged by name in Article 9 of our Confession of Faith. It expresses the truth of Scripture concerning the doctrine of the Trinity, and it was occasioned by various errors with respect to that truth. In its earliest form the creed was adopted by the Council of Nicea (A.D. 325) over against the heresy of Arianism. It was revised by the Council of Constantinople (A.D. 381), which enlarged the confession concerning the Holy Ghost. The Latin, or Western, Church added to the article on the procession of the Holy Ghost the words \"and the Son\" (Latin: <i>Filioque</i>), a change which has been maintained since the Council of Toledo (A.D. 589)."
+        },
+        "2": {
+            "chapter": "The Nicene Creed",
+            "header": "The Nicene Creed",
+            "body": "I believe in one God, the Father Almighty, Maker of heaven and earth, and of all things visible and invisible.\n\nAnd in one Lord Jesus Christ, the only-begotten Son of God, begotten of the Father before all worlds; God of God, Light of Light, very God of very God; begotten, not made, being of one substance with the Father by whom all things were made.\n\nWho, for us men and for our salvation, came down from heaven, and was incarnate by the Holy Spirit of the virgin Mary, and was made man; and was crucified also for us under Pontius Pilate; He suffered and was buried; and the third day He rose again, according to the Scriptures; and ascended into heaven, and sitteth on the right hand of the Father; and He shall come again, with glory, to judge the living and the dead; whose kingdom shall have no end.\n\nAnd I believe in the Holy Spirit, the Lord and Giver of life; who proceedeth from the Father and the Son; who with the Father and the Son together is worshipped and glorified; who spoke by the prophets.\n\nAnd I believe one holy catholic and apostolic church. I acknowledge one baptism for the remission of sins; and I look for the resurrection of the dead, and the life of the world to come.\n\nAmen"
+        }
+    }
+}
