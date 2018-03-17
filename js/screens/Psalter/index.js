@@ -39,7 +39,7 @@ import Default_bg from '../../common/Default-bg';
 import {
     lock_in,
     set_sung_count_all,
-    set_sung_count
+    set_sung_date
 } from '../../redux/actions/psalter-actions';
 import {
     psalter_text_input,
@@ -284,7 +284,8 @@ const psalter_refs_section = ({item, index}) => {
 
 const count_section = ({item, index}) => {
     const {title} = item;
-    if (typeof title !== 'string' || (typeof title === 'string' && title.length < 1)) return null;
+
+    if (!is_present_type('string')(title)) return null;
     return (
         <View style={styles.more_info_section_container}>
             {main_title(1)(item.title)}
@@ -324,7 +325,7 @@ const More_Stuff_Section_List = (props) => {
         {
             data: [
                 {
-                    title: (props.sung_count !== undefined && props.sung_count !== null) ? `Count: ${props.sung_count}` : ''
+                    title: is_present_type('number')(props.sung_count) ? `Count: ${props.sung_count}` : ''
                 }
             ],
             renderItem: count_section,
@@ -347,7 +348,7 @@ const More_Stuff_Section_List = (props) => {
     return (
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
             <List_Header navigator={props.navigator}/>
-            <SectionList sections={sections}/>
+            <SectionList style={[styles.more_section_list]} sections={sections}/>
         </Animated.View>
     );
 };
@@ -357,15 +358,19 @@ const count_fn = () => {
     let current_no = 0;
     let timeout;
 
-    return add_count = (dispatch) => (psalter_no) => (current_count) => {
+    return add_count = (dispatch) => (Date) => (psalter_no) => (psalter_sung_dates) => {
         if (psalter_no !== null && psalter_no !== undefined && psalter_no !== current_no) {
             if (!isNaN(timeout)) clearTimeout(timeout);
             current_no = psalter_no;
             timeout    = setTimeout(() => {
                 // add count and set count
-                AsyncStorage.setItem(`psalter-${psalter_no}`, `${current_count + 1}`).then((err) => {
+                /**
+                 * []**/
+                const sung_dates_array = [Date.now(), ...psalter_sung_dates];
+
+                AsyncStorage.setItem(`psalter-${psalter_no}`, JSON.stringify(sung_dates_array)).then((err) => {
                     if (!err) {
-                        dispatch(set_sung_count(psalter_no));
+                        dispatch(set_sung_date(psalter_no)(sung_dates_array));
                     }
                 });
 
@@ -378,14 +383,6 @@ const count_fn = () => {
 const add_count = count_fn();
 
 
-/**
- *
- *
- *
- *
- *
- *
- * **/
 
 const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
 const slide_right_pos          = search_results_animation.animated_value;
@@ -526,19 +523,20 @@ class App extends Component {
         super(props);
         RNShakeEvent.addEventListener('shake', get_random_psalter(props.dispatch)(props.psalters_count));
         props.navigator.setOnNavigatorEvent(on_navigator_event(props.navigator));
-        const count_all_keys_array = Array.from(Array(props.psalters_count).keys()).map((item) => `psalter-${item + 1}`);
+        // AsyncStorage.clear();
+        const count_all_keys_array = Array.from(new Array(props.psalters_count), (item, index) => `psalter-${index + 1}`);
+
         AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
-            const arr_w_value = arr.filter(([key, value]) => (value !== undefined && value !== null));
+            const arr_w_value = arr
+                .filter(([key, value]) => is_present_type('string')(value))
+                .map(([key, value]) => [key, JSON.parse(value)]);
             props.dispatch(set_sung_count_all(arr_w_value || []));
         });
+
         set_keyboard_style(true);
     }
 
-    componentDidMount() {
-        AsyncStorage.getAllKeys((err, keys) => {
-            keys;
-        });
-    }
+
 
 
     static navigatorButtons = {
@@ -559,11 +557,11 @@ class App extends Component {
 
 
     render() {
-        add_count(this.props.dispatch)(this.props.psalter.no)(this.props.sung_count);
+        add_count(this.props.dispatch)(Date)(this.props.psalter.no)(this.props.sung_dates);
         music_player.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
         set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
-        const music_section = music_slider(this.props.dispatch)(music_player)(this.props.current_music_timer)(this.props.max_music_timer);
+        const music_section = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
 
         return (
             <Default_bg>
@@ -574,7 +572,7 @@ class App extends Component {
                     psalter_refs={this.props.psalter.ref}
                     psalm={this.props.psalter.psalm}
                     psalter_no={this.props.psalter.no}
-                    sung_count={this.props.sung_count}
+                    sung_count={is_present_type('array')(this.props.sung_dates) ? this.props.sung_dates.length : NaN}
                     music_section={music_section}/>
 
                 <Search_result_view search_results={this.props.psalter_search_results}
@@ -636,8 +634,8 @@ function mapStateToProps(state) {
         should_display_go_forth_bar: state.should_display_go_forth_bar,
         psalter_text_input: state.psalter_text_input,
         valid_text_input: state.valid_text_input,
-        sung_count: state.psalter.current_sung_count,
-        sung_count_all: state.psalter.all_sung_count,
+        sung_dates: state.psalter.current_sung_dates,
+        sung_dates_all: state.psalter.all_sung_dates,
         current_music_timer: state.music_timer.current,
         max_music_timer: state.music_timer.max,
         text_input_as_search: state.text_input_as_search,

@@ -2,6 +2,8 @@
 import psalter_json from '../../../data/PsalterJSON.json';
 import {PSALTER_ACTIONS} from '../actions/psalter-actions';
 
+import {is_present_type} from '../../utils/functions'
+
 export function psalter(state = {}, action = {}) {
     if (action.type === PSALTER_ACTIONS.LOCK_IN) {
         if (isNaN(action.next_val)) return state;
@@ -13,42 +15,44 @@ export function psalter(state = {}, action = {}) {
         })(action.next_val);
 
         const sung_count_key = `psalter-${next_val + 1}`;
-        const current_sung_count = state.all_sung_count[sung_count_key];
+        const current_sung_dates = state.all_sung_dates[sung_count_key];
 
         return {
             ...state,
             content: psalter_json[next_val] || {},
             index: next_val,
-            current_sung_count: isNaN(current_sung_count) ? undefined : current_sung_count
+            current_sung_dates: is_present_type('array')(current_sung_dates) ? current_sung_dates : []
         };
 
-    } else if (action.type === PSALTER_ACTIONS.SET_SUNG_COUNT) {
+    } else if (action.type === PSALTER_ACTIONS.SET_SUNG_DATE) {
         const key = isNaN(action.psalter_no) ? undefined : `psalter-${action.psalter_no}`;
-        const current_count = state.all_sung_count[key];
-        const new_count = isNaN(current_count) ? undefined : current_count + 1;
+        const new_dates = is_present_type('array')(action.sung_dates_array)
+            ? action.sung_dates_array
+            : [];
 
         return {
             ...state,
-            all_sung_count: {...state.all_sung_count, [key]: new_count},
-            current_sung_count: new_count
+            all_sung_dates: {...state.all_sung_dates, [key]: new_dates},
+            current_sung_dates: new_dates
         };
 
     } else if (action.type === PSALTER_ACTIONS.SET_SUNG_COUNT_ALL) {
         if (!Array.isArray(action.sung_record_array)) return state;
-        const sung_record_obj = action.sung_record_array.reduce((acc, [key, entry]) => {
-            return {...acc, [key]: parseInt(entry)};
+        const sung_record_obj = action.sung_record_array.reduce((acc, [psalter_no_str, sung_dates_array]) => {
+            return {...acc, [psalter_no_str]: sung_dates_array};
         }, {});
 
         return {
-            ...state, all_sung_count: sung_record_obj
+            ...state,
+            all_sung_dates: sung_record_obj
         };
     }
 
     return {
         content: state.content || [],
         index: isNaN(state.index) ? -1 : state.index,
-        current_sung_count: state.current_sung_count,
-        all_sung_count: state.all_sung_count || {}
+        current_sung_dates: state.current_sung_dates,
+        all_sung_dates: state.all_sung_dates || {}
     };
 };
 

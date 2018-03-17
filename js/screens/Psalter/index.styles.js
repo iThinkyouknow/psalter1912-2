@@ -16,7 +16,7 @@ import {
 
 export default styles = StyleSheet.create({
     standard_margin_horizontal: {
-        marginHorizontal: sizes.default
+        marginHorizontal: sizes.x_large
     },
     main_text_margin_top: {
         marginVertical: sizes.default
@@ -53,6 +53,9 @@ export default styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         height: sizes.x_large + sizes.large
+    },
+    more_section_list: {
+        marginBottom: sizes.x_large
     },
     ref_text_container: {
         paddingHorizontal: sizes.x_large,

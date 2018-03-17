@@ -28,6 +28,8 @@ import {
 
 import Default_bg from './Default-bg';
 
+import music_player from '../utils/music-player'
+
 const styles = StyleSheet.create({
     music_slider_container: {
         marginHorizontal: sizes.large,
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
 
 
 
-export default music_slider = (dispatch) => (music_player) => (current_music_timer) => (max_music_timer) => ({item, index}) => {
+export default music_slider = (dispatch) => (current_music_timer) => (max_music_timer) => ({item, index}) => {
     if (!Array.isArray(item.sources)) return null;
     if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
 
