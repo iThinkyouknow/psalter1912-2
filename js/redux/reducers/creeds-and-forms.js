@@ -1,4 +1,4 @@
-import psalter_json from '../../../data/PsalterJSON.json';
+
 import {CREEDS_ACTIONS} from '../actions/creeds-actions';
 
 import heidelberg_catechism from '../../../data/The-Heidelberg-Catechism(by-LD).json';

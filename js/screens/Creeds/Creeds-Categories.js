@@ -155,13 +155,13 @@ class Creeds_Categories extends Component {
         } = this.props;
 
         const component_obj = {
-            random: Math.random,
             styles,
             images: {
                 creeds_images_array,
                 scenary_images_array,
                 churches_images_array
             },
+            random: Math.random,
             Dimensions,
             navigator: this.props.navigator,
             dispatch: this.props.dispatch

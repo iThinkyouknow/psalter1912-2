@@ -48,3 +48,5 @@ export const churches_images = {
 
 export const churches_images_array = Object.values(churches_images);
 
+export const confessions_book_cover = require('../../images/confessions-book-cover.jpg');
+

@@ -15,7 +15,7 @@ import {
 
 export default styles = StyleSheet.create({
     book: {
-        backgroundColor: 'green',
+        // backgroundColor: 'green',
         width: 75,
         height: 75 * 1.4,
         marginBottom: 0

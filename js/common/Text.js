@@ -68,6 +68,28 @@ export function Animated_Text(props = {}) {
     );
 };
 
+const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
+
+    return (
+        <Animated_Text text_align={text_align}
+                       font_weight={font_weight}
+                       font_size={font_size}
+                       line_height={line_height}
+                       key={key}
+                       opacity={opacity}
+                       style={style}>
+            {children}
+        </Animated_Text>
+    );
+};
+
+export const centered_text = composable_anim_text('center');
+export const bold_centered_text = centered_text('bold');
+export const main_title = bold_centered_text('x_large')()()();
+export const sub_title = bold_centered_text('large')()()();
+export const meter_text = centered_text()('x_small')()()();
+export const normal_text = centered_text('normal')('default')(1.3);
+
 
 const styles = StyleSheet.create({
     default: {

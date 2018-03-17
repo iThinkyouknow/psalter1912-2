@@ -25,13 +25,6 @@ const default_navigator_style = {
 Navigation.startTabBasedApp({
     tabs: [
         {
-            label: 'Creeds & Forms',
-            screen: 'Creeds', // this is a registered name for a screen
-            // icon: require(' '),
-            //selectedIcon: require('../img/one_selected.png'), // iOS only
-            navigatorStyle: default_navigator_style
-        },
-        {
             label: 'Psalter',
             screen: 'Psalter', // this is a registered name for a screen
             // icon: require(' '),
@@ -42,7 +35,13 @@ Navigation.startTabBasedApp({
                 navBarTranslucent: false
             }
         },
-
+        {
+            label: 'Creeds & Forms',
+            screen: 'Creeds', // this is a registered name for a screen
+            // icon: require(' '),
+            //selectedIcon: require('../img/one_selected.png'), // iOS only
+            navigatorStyle: default_navigator_style
+        }
     ],
     tabsStyle: {
         tabBarTranslucent: true,

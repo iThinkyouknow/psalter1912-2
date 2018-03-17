@@ -43,7 +43,8 @@ import {} from '../../utils/alert';
 import {
     creeds_images_array,
     scenary_images_array,
-    churches_images_array
+    churches_images_array,
+    confessions_book_cover
 } from '../../utils/images';
 
 import {
@@ -109,7 +110,7 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                     <Default_Text font_size={font_sizes.xx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
                 </View>
                 <View style={styles.header_book_container}>
-                    <Animated.View style={[styles.book, creeds_book_style]}></Animated.View>
+                    <Animated.Image source={confessions_book_cover} style={[styles.book, creeds_book_style]} />
                 </View>
             </View>
         );
@@ -124,13 +125,13 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
             ]
         };
 
-        const image = scenary_images_array[Math.floor(random() * scenary_images_array.length)]; //impure
+        const image = scenary_images_array[Math.floor(random() * scenary_images_array.length)];
         return (
             <View style={[styles.header_container, container_style]}>
                 <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'}/>
                 <View style={[styles.header_img_mask, img_mask_style]}/>
                 <View style={styles.header_book_container_forms}>
-                    <Animated.View style={[styles.book, styles.forms_book, forms_book_style]}/>
+                    <Animated.Image source={confessions_book_cover} style={[styles.book, styles.forms_book, forms_book_style]}/>
                 </View>
 
                 <View style={styles.header_forms_title_container}>
@@ -234,18 +235,18 @@ const creeds_menu_flatlist = (renderer) => (library_type_index) => (library) => 
     );
 };
 
-const select_tab = (dispatch) => (index) => (bounce) => () => {
+const select_tab = (dispatch) => (index) => () => {
     dispatch(select_creeds_or_forms(index));
-    bounce();
+    book_image_bounce_animation.bounce();
 };
 
-const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index) => (bounce) => {
+const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index) => {
     const {width, height}      = Dimensions.get('window');
     const creeds_chooser_style = {
         width: width * 2 / 3,
     };
 
-    const button_renderer = (dispatch) => (_library_type_index) => (bounce) => (text, index) => {
+    const button_renderer = (dispatch) => (_library_type_index) => (text, index) => {
         const is_selected    = (index === _library_type_index);
         const bg_color_obj   = {backgroundColor: (is_selected) ? colors.blue : 'transparent'};
         const underlay_color = (is_selected) ? colors.ocean : 'transparent';
@@ -254,7 +255,7 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index)
             <TouchableHighlight key={key}
                                 style={[{flex: 1}, bg_color_obj]}
                                 underlayColor={underlay_color}
-                                onPress={select_tab(dispatch)(index)(bounce)}>
+                                onPress={select_tab(dispatch)(index)}>
                 <View>
                     <Default_Text line_height={2} text_align={'center'}>
                         {text}
@@ -267,7 +268,7 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index)
     const buttons = [
         'Confessions',
         'Forms'
-    ].map(button_renderer(dispatch)(library_type_index)(bounce));
+    ].map(button_renderer(dispatch)(library_type_index));
 
     return (
         <View style={[styles.creeds_chooser, creeds_chooser_style]}>
@@ -277,10 +278,14 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index)
 
 };
 
+onNavigatorEvent = (e) => {
+    if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
+};
+
 class Creeds extends Component {
 
     componentDidMount() {
-        book_image_bounce_animation.bounce();
+        this.props.navigator.setOnNavigatorEvent(onNavigatorEvent);
     }
 
     render() {
@@ -304,7 +309,7 @@ class Creeds extends Component {
             <Default_bg style={styles.default_bg}>
                 {list_header_component(component_obj)(this.props.library_type_index)}
                 {creeds_menu_flatlist(creeds_menu_renderer_loaded)(this.props.library_type_index)(this.props.creeds_library)}
-                {creeds_or_forms_chooser(component_obj)(this.props.library_type_index)(book_image_bounce_animation.bounce)}
+                {creeds_or_forms_chooser(component_obj)(this.props.library_type_index)}
             </Default_bg>
         );
     }
