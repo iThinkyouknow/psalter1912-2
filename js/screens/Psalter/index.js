@@ -131,7 +131,7 @@ const on_psalter_change = (dispatch) => (next_val) => () => {
 const swipe_action = (dispatch) => (index) => (e, gestureState) => {
     // insert fade animation here
     const change_psalter = on_psalter_change(dispatch);
-    if (gestureState.dy !== 0) return;
+    if (Math.abs(gestureState.dy) > 10) return;
     if (gestureState.dx < 0) {
         change_psalter(index + 1)();
     } else if (gestureState.dx > 0) {
@@ -293,11 +293,10 @@ const count_section = ({item, index}) => {
     );
 };
 
-
 const More_Stuff_Section_List = (props) => {
 
     const psalter_music_source = (props.psalter_no !== -1 && props.psalter_no !== 0 && props.psalter_no !== undefined && props.psalter_no !== null)
-        ? `Psalter ${props.psalter_no}.mp3`
+        ? `Psalter-${props.psalter_no}.mp3`
         : ``;
 
     const sections = [
@@ -353,7 +352,6 @@ const More_Stuff_Section_List = (props) => {
     );
 };
 
-
 const count_fn = () => {
     let current_no = 0;
     let timeout;
@@ -381,7 +379,6 @@ const count_fn = () => {
 };
 
 const add_count = count_fn();
-
 
 
 const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
@@ -444,7 +441,6 @@ const Text_input_search = (props) => {
                    {...props} />
     );
 };
-
 
 const Search_result_view = (props) => {
     const {width, height}                   = Dimensions.get('window');
@@ -513,9 +509,6 @@ const Search_result_view = (props) => {
  *
  *
  *
- *
- *
- *
  * **/
 
 class App extends Component {
@@ -536,9 +529,6 @@ class App extends Component {
         set_keyboard_style(true);
     }
 
-
-
-
     static navigatorButtons = {
         rightButtons: [
             {
@@ -558,7 +548,7 @@ class App extends Component {
 
     render() {
         add_count(this.props.dispatch)(Date)(this.props.psalter.no)(this.props.sung_dates);
-        music_player.when_psalter_change(this.props.dispatch)(`Psalter ${this.props.psalter.no}.mp3`);
+        music_player.when_psalter_change(this.props.dispatch)(`Psalter-${this.props.psalter.no}.mp3`);
         set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
         const music_section = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);

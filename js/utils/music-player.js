@@ -66,6 +66,7 @@ const _music_player_fn = (Player) => {
                     music_player.stop();
                 }
                 music_player = create_new_player(Player)(current_music_file_name);
+                music_player.volume = 0;
                 music_player.play(() => {
                     dispatch(set_max_music_timer(music_player.duration));
                     music_player.stop();
