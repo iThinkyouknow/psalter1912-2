@@ -105,8 +105,8 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                 <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'}/>
                 <View style={[styles.header_img_mask, img_mask_style]}/>
                 <View style={[styles.header_title_container, header_title_container_x_style]}>
-                    <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>REFORMED</Default_Text>
+                    <Default_Text font_size={font_sizes.xxxxxx_large} font_weight={'bold'}>THE</Default_Text>
+                    <Default_Text font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
                     <Default_Text font_size={font_sizes.xx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
                 </View>
                 <View style={styles.header_book_container}>
@@ -135,8 +135,8 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                 </View>
 
                 <View style={styles.header_forms_title_container}>
-                    <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>REFORMED</Default_Text>
+                    <Default_Text font_size={font_sizes.xxxxxx_large} font_weight={'bold'}>THE</Default_Text>
+                    <Default_Text font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
                     <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>FORMS</Default_Text>
                 </View>
             </View>
@@ -249,7 +249,7 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index)
     const button_renderer = (dispatch) => (_library_type_index) => (text, index) => {
         const is_selected    = (index === _library_type_index);
         const bg_color_obj   = {backgroundColor: (is_selected) ? colors.blue : 'transparent'};
-        const underlay_color = (is_selected) ? colors.ocean : 'transparent';
+        const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
         const key            = `library-chooser-${text}-${index}`;
         return (
             <TouchableHighlight key={key}

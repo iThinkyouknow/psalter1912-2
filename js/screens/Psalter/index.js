@@ -293,6 +293,24 @@ const count_section = ({item, index}) => {
     );
 };
 
+const music_section = (music_slider) => ({item, index}) => {
+    if (!Array.isArray(item.sources)) return null;
+    if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
+
+    const music_slider_array = item.sources
+        .map(music_slider)
+        .filter(slider => slider !== null);
+
+    return (music_slider_array.length > 0)
+        ? (
+        <View >
+            {main_title(1)(item.title)}
+            {music_slider_array}
+        </View>
+    )
+        : null;
+};
+
 const More_Stuff_Section_List = (props) => {
 
     const psalter_music_source = (props.psalter_no !== -1 && props.psalter_no !== 0 && props.psalter_no !== undefined && props.psalter_no !== null)
@@ -307,7 +325,7 @@ const More_Stuff_Section_List = (props) => {
                     sources: [psalter_music_source],
                 }
             ],
-            renderItem: props.music_section,
+            renderItem: music_section(props.music_slider),
             keyExtractor: more_info_section_key_extractor
         },
         {
@@ -551,7 +569,7 @@ class App extends Component {
         music_player.when_psalter_change(this.props.dispatch)(`Psalter-${this.props.psalter.no}.mp3`);
         set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
-        const music_section = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
+        const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
 
         return (
             <Default_bg>
@@ -563,7 +581,7 @@ class App extends Component {
                     psalm={this.props.psalter.psalm}
                     psalter_no={this.props.psalter.no}
                     sung_count={is_present_type('array')(this.props.sung_dates) ? this.props.sung_dates.length : NaN}
-                    music_section={music_section}/>
+                    music_slider={music_slider_w_data}/>
 
                 <Search_result_view search_results={this.props.psalter_search_results}
                                     dispatch={this.props.dispatch}
@@ -602,7 +620,7 @@ class App extends Component {
 
                     <TouchableHighlight style={styles.search_button_container}
                                         onPress={on_search_button_press(this.props.dispatch)(this.props.navigator)(this.props.text_input_as_search)(slide_right_pos)}
-                                        underlayColor={colors.ocean}
+                                        underlayColor={colors.dark_cerulean}
 
                     >
                         <Image style={styles.button_std} source={require('../../../images/icons/icon-search.png')}/>

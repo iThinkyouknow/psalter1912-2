@@ -83,7 +83,7 @@ export default styles = StyleSheet.create({
     search_results_separator: {
         alignSelf: 'center',
         height: 1,
-        backgroundColor: colors.ocean},
+        backgroundColor: colors.dark_cerulean},
     button_std: {
         width: buttons.default,
         height: buttons.default

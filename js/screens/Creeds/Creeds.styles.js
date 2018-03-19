@@ -21,7 +21,7 @@ export default styles = StyleSheet.create({
         marginBottom: 0
     },
     header_container: {
-        backgroundColor: colors.ocean,
+        backgroundColor: colors.dark_cerulean,
         flexDirection: 'row'
     },
     header_image: {
