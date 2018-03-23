@@ -2,7 +2,7 @@ import {
     Alert
 } from 'react-native';
 
-export const string_input_error_alert = () => {
+export const string_input_error_alert = (on_apology) => {
     const emojis = [`😳`, `🤔`, `😖`, `😑`, `😩`];
     const emoji = emojis[Math.floor(Math.random() * emojis.length)];
     Alert.alert(
@@ -12,14 +12,14 @@ export const string_input_error_alert = () => {
         [
             {
                 text: `Yea, you are right... 😳`,
-                onPress: () => {}, style: 'cancel'
+                onPress: on_apology, style: 'cancel'
             }
         ],
         { cancelable: true }
     )
 };
 
-export const wrong_number_error_alert = (max_val) => {
+export const wrong_number_error_alert = (max_val) => (on_apology) => {
     Alert.alert(
         `Psalter Not Available`,
         `Come On! \ 
@@ -28,7 +28,8 @@ export const wrong_number_error_alert = (max_val) => {
         [
             {
                 text: `I'm Sorry! 😳`,
-                onPress: () => {}, style: 'cancel'
+                onPress: on_apology,
+                style: 'cancel'
             }
         ],
         { cancelable: true }

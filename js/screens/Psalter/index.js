@@ -51,13 +51,15 @@ import {
 } from '../../redux/actions/search-actions';
 
 import music_player from '../../utils/music-player';
-import {is_present_type} from '../../utils/functions';
+import {is_present_type, no_op} from '../../utils/functions';
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
 import {
     string_input_error_alert,
     wrong_number_error_alert,
     not_enough_characters_search_alert
 } from '../../utils/alert';
+
+
 
 import music_slider from '../../common/music-slider';
 
@@ -126,6 +128,7 @@ const on_psalter_change = (dispatch) => (next_val) => () => {
     dispatch(lock_in(next_val));
     psalter_text_fade_anim.fade_in();
     set_keyboard_style(true);
+    music_player.when_psalter_change(dispatch)(`Psalter-${next_val + 1}.mp3`)();
 };
 
 const swipe_action = (dispatch) => (index) => (e, gestureState) => {
@@ -157,23 +160,23 @@ const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => 
     const value_int     = parseInt(_value);
     const last_char_int = parseInt(_value.slice(-1));
 
+    const toggle_text_as_valid_fn = () => dispatch(toggle_text_as_valid(true));
+
     if (_value !== "" && isNaN(last_char_int)) {
         set_text_input_value(dispatch)(_value.slice(0, -1));
         dispatch(toggle_text_as_valid(false));
-        string_input_error_alert();
+        string_input_error_alert(toggle_text_as_valid_fn);
 
     } else if (value_int > max_val || value_int < 1) {
         set_text_input_value(dispatch)(_value.slice(0, -1));
         dispatch(toggle_text_as_valid(false));
-        wrong_number_error_alert(max_val);
-        setTimeout(() => {
-            dispatch(toggle_text_as_valid(true));
-        }, 200);
+        wrong_number_error_alert(max_val)(toggle_text_as_valid_fn);
+
 
     } else if (value_int < 1) {
         set_text_input_value(dispatch)('');
         dispatch(toggle_text_as_valid(false));
-        wrong_number_error_alert(max_val);
+        wrong_number_error_alert(max_val)(no_op);
 
     } else if (_value === "") {
         dispatch(toggle_text_as_valid(false));
@@ -566,7 +569,7 @@ class App extends Component {
 
     render() {
         add_count(this.props.dispatch)(Date)(this.props.psalter.no)(this.props.sung_dates);
-        music_player.when_psalter_change(this.props.dispatch)(`Psalter-${this.props.psalter.no}.mp3`);
+        //music_player.when_psalter_change(this.props.dispatch)(`Psalter-${this.props.psalter.no}.mp3`)();
         set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
         const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
