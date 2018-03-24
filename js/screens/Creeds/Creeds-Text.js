@@ -31,6 +31,7 @@ import {change_creeds_chapter_lv} from '../../redux/actions/state-actions';
 
 import styles from './Creeds-Text.styles';
 
+
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
 
 const Header_Text_Component = (font_size) => (other_style) => (text) => {

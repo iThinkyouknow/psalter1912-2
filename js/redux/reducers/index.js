@@ -12,7 +12,8 @@ const rootReducer = combineReducers({
     // text_input_as_search,
     ...require('./state'),
     ...require('./search'),
-    ...require('./creeds-and-forms')
+    ...require('./creeds-and-forms'),
+    ...require('./bible')
 });
 
 export default rootReducer;

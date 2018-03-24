@@ -123,9 +123,9 @@ const verses_attributor = (header) => (verses_array, j) => {
         return new_verse_array
     });
 
-    
+
     const new_verses_array_with_title = [
-        chapter_title, 
+        chapter_title,
         ...new_verses_array
     ];
 
@@ -141,17 +141,12 @@ const book_attributor = (book_names) => (book, index) => {
 
     const new_ch = book.chapters.map(verses_attributor(header));
 
-    return {
-        title: "The Holy Bible",
-        type: "Bible",
-        content: [
-            { //gen
-                header,
-                abbrev_header,
-                content: new_ch
-            }
-        ]
+    return { //gen
+        header,
+        abbrev_header,
+        content: new_ch
     };
+
 }
 
 
@@ -159,7 +154,11 @@ const bible_transformer = (book_names) => (bible_json) => {
 
     const transformed = bible_json.map(book_attributor(book_names));
 
-    return transformed;
+    return {
+        title: "The Holy Bible",
+        type: "Bible",
+        content: transformed
+    };
 
 };
 
