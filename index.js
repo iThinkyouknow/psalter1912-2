@@ -15,11 +15,15 @@ const default_navigator_style = {
     navBarNoBorder: true,
     navBarTransparent: true,
     navBarTranslucent: true, // use to make drawUnderNavBar effective
-    navBarBackgroundColor: colors.ocean,
+    navBarBackgroundColor: colors.dark_cerulean,
     statusBarTextColorScheme: 'light',
     navBarTextColor: colors.white,
-    screenBackgroundColor: colors.ocean,
-    drawUnderNavBar: true
+    screenBackgroundColor: colors.dark_cerulean,
+    drawUnderNavBar: true,
+    drawUnderTabBar: true,
+    navBarHidden: true,
+    tabBarBackgroundColor: colors.dark_cerulean,
+    tabBarHidden: true
 };
 // start the app
 Navigation.startTabBasedApp({
@@ -33,7 +37,7 @@ Navigation.startTabBasedApp({
             navigatorStyle: {
                 ...default_navigator_style,
                 navBarTranslucent: false
-            }
+            },
         },
         {
             label: 'Psalter',
@@ -55,8 +59,9 @@ Navigation.startTabBasedApp({
         }
     ],
     tabsStyle: {
-        tabBarTranslucent: true,
-        tabBarBackgroundColor: colors.ocean
+        // tabBarTranslucent: true,
+        tabBarBackgroundColor: colors.dark_cerulean,
+        tabBarHidden: true
     }
 });
 

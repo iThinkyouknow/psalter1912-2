@@ -15,7 +15,7 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
             const {height} = Dimensions.get('window');
 
             Animated.spring(animated_value, {
-                toValue: (should_slide_down) ? (height + native_elements.tab_bar) : 0,
+                toValue: (should_slide_down) ? (height) : 0,
                 duration,
                 useNativeDriver: true,
                 bounciness
