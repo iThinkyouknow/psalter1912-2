@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-    View,
-    FlatList,
-    Animated,
-    Platform,
-    Dimensions,
-    SectionList,
-    TouchableHighlight
+    View
+    , FlatList
+    , Animated
+    , Platform
+    , Dimensions
+    , SectionList
+    , TouchableHighlight
+    , Image
 } from 'react-native';
 
 // import styles from './creeds-text.styles';
@@ -29,13 +30,18 @@ import {
 
 import Default_bg from '../../common/Default-bg';
 
+import {Rounded_Button} from '../../common/Rounded-Button';
+
 import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type} from '../../utils/functions';
 
-import {} from '../../redux/actions/state-actions';
-import {get_bible_chapter_list} from '../../redux/actions/bible-actions';
+import {bible_toggle_back_to_book_buttons} from '../../redux/actions/state-actions';
+import {
+    get_bible_chapter_list
+    , get_bible_passage
+} from '../../redux/actions/bible-actions';
 
 // import styles from './Creeds-Text.styles';
 
@@ -63,7 +69,7 @@ const bible_key_extractor = (item, index) => `${item.title}-${index}`;
 
 const bible_body_component = ({item, index}) => {
     const text_component = (
-        <Animated_Text style={{marginTop: sizes.large}}>
+        <Animated_Text text_align={'justify'} style={{marginTop: sizes.large}}>
             <Default_Text>{`${index + 1}. `}</Default_Text>
             {text_formatter(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
         </Animated_Text>
@@ -72,13 +78,13 @@ const bible_body_component = ({item, index}) => {
     return text_component;
 };
 
-const Chapter_Component = (chapter) => {
+const Bible_Text_Component = (chapter) => {
 
     return (
         <FlatList data={chapter.content.slice(1)}
                   ListHeaderComponent={list_header_component(chapter.title)(chapter.description)}
                   keyExtractor={bible_key_extractor}
-                  style={{paddingHorizontal: sizes.large * 1.5, marginVertical: sizes.default}}
+                  style={{paddingHorizontal: sizes.large * 1.5, marginTop: 16 + sizes.default + native_elements.status_bar, marginBottom: 0}}
                   renderItem={bible_body_component}/>
     );
 };
@@ -205,42 +211,70 @@ const chapter_library = (chapter_header_loaded) => (book_chapters_array = []) =>
 
 
 
-const close_library_action = (dispatch) => () => {
-    library_slide_down_animation.slide();
-};
-
-const close_library_button = ({width}) => (close_library_action) => {
-    const close_library_button_style =
-          {
-              flexShrink: 0,
-              position: 'absolute',
-              flexDirection: 'row',
-              bottom: sizes.default,
-              height: 40,
-              borderRadius: border_radii.default,
-              borderColor: colors.blue,
-              borderWidth: 1,
-              alignItems: 'center',
-              overflow: 'hidden',
-              marginBottom: sizes.medium,
-              // backgroundColor: colors.blue
-          };
-
-    const close_library_button_dyn_style = {
-        width: Math.floor(width * 1 / 3)
-    };
-
-
-    return (
-        <TouchableHighlight onPress={library_slide_down_animation.slide}
-                            underlayColor={colors.blue}
-                            style={[close_library_button_style, close_library_button_dyn_style]}>
-            <View style={{flex: 1}}>
-                <Default_Text text_align={'center'}>Cancel</Default_Text>
-            </View>
-        </TouchableHighlight>
+const close_library_button = ({width}) => {
+    const child_component = (
+        <Default_Text text_align={'center'}>
+            Cancel
+        </Default_Text>
     );
 
+    return Rounded_Button(child_component)(library_slide_down_animation.slide)(width)
+};
+
+const back_to_books_btn = ({width}) => {
+    const child_component = (
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Image style={{width: buttons.small, height: buttons.small}} source={require('../../../images/icons/icon-back-arrow.png')}/>
+            <Default_Text>
+                Chapters
+            </Default_Text>
+        </View>
+    );
+
+    return Rounded_Button(child_component)(library_container_slide_anim.slide)(width)
+
+};
+
+const _library_bottom_buttons_container = (width) => (close_library_button) => (back_to_books_button) => {
+    const library_bottom_container_style = {
+        // flexShrink: 0,
+        width,
+        justifyContent: 'space-around',
+        position: 'absolute',
+        flexDirection: 'row',
+        bottom: sizes.default,
+        height: 40,
+        marginBottom: sizes.medium,
+        // backgroundColor: 'blue'
+    };
+
+    return (
+        <View style={library_bottom_container_style}>
+            {close_library_button}
+            {back_to_books_button}
+        </View>
+    );
+};
+
+const library_bottom_buttons_container = _library_bottom_buttons_container(Dimensions.get('window').width);
+
+
+
+
+
+const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => () => {
+    dispatch(get_bible_passage(book_index)(chapter_index));
+    library_slide_down_animation.slide();
+    library_container_slide_anim.slide();
+
+};
+
+const show_back_to_books_button = (width) => (dispatch) => ({value}) => {
+    if (value === 0) {
+        return dispatch(bible_toggle_back_to_book_buttons(true));
+    } else if (value === width) {
+        return dispatch(bible_toggle_back_to_book_buttons(false));
+    }
 };
 
 
@@ -254,13 +288,23 @@ class Bible_Text extends Component {
         // tabBarHidden: true
     };
 
+    constructor(props) {
+        super(props);
+        library_container_slide_anim.animated_value.addListener(show_back_to_books_button(Dimensions.get('window').width)(props.dispatch));
+
+    }
+
+    componentWillUnmount() {
+        library_container_slide_anim.animated_value.removeListener();
+    }
+
     render() {
 
         const library_dynamic_style = {
             height: Dimensions.get('window').height,
             width: Dimensions.get('window').width,
-            // bottom: Dimensions.get('window').height,
-            bottom: 0,
+            bottom: Dimensions.get('window').height,
+            // bottom: 0,
             transform: [
                 {translateY: library_slide_down_animation.animated_value}
             ]
@@ -290,46 +334,45 @@ class Bible_Text extends Component {
             ]
         };
 
-        const chapter_button_component = chapter_button(book_button_component_dimensions(() => {})(0));
+        const select_chapter_action_w_book_index = select_chapter_action(this.props.dispatch)(this.props.selection_book_index);
+
+        const chapter_button_component = chapter_button(book_button_component_dimensions(select_chapter_action_w_book_index)(0));
 
         const chapter_lib_header = chapter_header(Dimensions.get('window').width)(this.props.selection_selected_book_title);
 
+        const back_to_books_btn_present = this.props.bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
         return (
-            <Default_bg >
+            <Default_bg>
                 <Animated.View style={[library_style, library_dynamic_style]}>
                     <Animated.View style={bible_library_container_style}>
                         {bible_library(this.props.book_list)(book_buttons_section_header_loaded)}
                         {chapter_library(chapter_lib_header)(this.props.selection_chapter_list)(chapter_button_component)}
                     </Animated.View>
 
-                    {close_library_button(Dimensions.get('window'))(close_library_action(this.props.dispatch))}
+                    {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
-                {Chapter_Component(this.props.chapter)}
-                <View style={{alignItems: 'flex-end'}}>
-                    <TouchableHighlight underlayColor={colors.blue} style={{
-                        justifyContent: 'center',
-                        minWidth: buttons.default,
-                        height: native_elements.nav_bar_std
-                    }} onPress={library_slide_down_animation.slide}>
-                        <View>
-                            <Default_Text>Open</Default_Text>
-                        </View>
+                {Bible_Text_Component(this.props.bible_passage)}
+
+                <View style={{alignItems: 'flex-end', justifyContent: 'center', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large}}>
+                    <TouchableHighlight underlayColor={'transparent'} onPress={library_slide_down_animation.slide}>
+                        <Image style={{width: buttons.medium, height: buttons.medium}} source={require('../../../images/icons/icon-open-book.png')}/>
                     </TouchableHighlight>
                 </View>
+
             </Default_bg>
         );
     }
-
-}
-;
+};
 
 
 function mapStateToProps(state) {
     return {
         book_list: state.bible_book_list,
-        chapter: state.bible_chapter,
+        bible_passage: state.bible_passage,
         selection_chapter_list: state.selection_bible_chapter_list.chapter_list,
-        selection_selected_book_title: state.selection_bible_chapter_list.title
+        selection_selected_book_title: state.selection_bible_chapter_list.title,
+        selection_book_index: state.selection_bible_chapter_list.book_index,
+        bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button // state reducer
     };
 }
 

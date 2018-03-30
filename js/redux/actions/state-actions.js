@@ -6,6 +6,7 @@ export const STATE_ACTIONS = {
     SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH',
     SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE',
     CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
+    , BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS: 'BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS'
 };
 
 export const psalter_text_input = (val) => {
@@ -55,4 +56,11 @@ export const change_creeds_chapter_lv = (lv) => {
         type: STATE_ACTIONS.CHANGE_CREEDS_CHAPTER_LV,
         lv
     };
+};
+
+export const bible_toggle_back_to_book_buttons = (bible_should_show_back_to_books_button) => {
+    return {
+        type: STATE_ACTIONS.BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS,
+        bible_should_show_back_to_books_button
+    }
 };

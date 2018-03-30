@@ -51,9 +51,17 @@ export function creeds_library_type_index(state = 0, action) {
     return state;
 };
 
-export function creeds_chapters_curr_level(state = 1, action) {
+export function creeds_chapters_curr_level(state = 1, action = {}) {
     if (action.type === STATE_ACTIONS.CHANGE_CREEDS_CHAPTER_LV) {
         return action.lv
     }
     return state;
 }
+
+export function bible_should_show_back_to_books_button(state = false, action = {}) {
+    if (action.type === STATE_ACTIONS.BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS) {
+        return action.bible_should_show_back_to_books_button
+    }
+
+    return state;
+};

@@ -4,28 +4,32 @@ import bible_text from '../../../data/Bible-KJV.json';
 
 import {is_present_type} from '../../utils/functions'
 
-const get_original_chapter_state = (bible_text) => {
-    const book = bible_text.content[18];
+const get_bible_passage = (bible_text) => (book_index) => (chapter_index) => {
+    const book = bible_text.content[book_index];
 
-    const title = book.content[0].content[0]
+    const title = book.content[chapter_index].content[0]
         .map(({text}) => text)
         .join(' ');
-    
+
     return {
         title,
         description: book.description || '',
-        content: book.content[0].content
+        content: book.content[chapter_index].content
     }
 };
 
 
-const _bible_chapter = (bible_text) => (cache) => (state = get_original_chapter_state(bible_text), action) => {
+const _bible_passage = (bible_text) => (cache) => (state = get_bible_passage(bible_text)(18)(0), action) => {
+
+    if (action.type === BIBLE_ACTIONS.GET_BIBLE_PASSAGE) {
+        return get_bible_passage(bible_text)(action.book_selected_index)(action.chapter_selected_index);
+    };
 
 
     return state;
 };
 
-export const bible_chapter = _bible_chapter(bible_text)({});
+export const bible_passage = _bible_passage(bible_text)({});
 
 
 
@@ -44,7 +48,8 @@ const _selection_bible_chapter_list = (bible_text) => (cache) => (state = [], ac
 
         const return_value = {
             title,
-            chapter_list
+            chapter_list,
+            book_index: action.book_selected_index
         };
 
         cache[action.book_selected_index] = return_value;
