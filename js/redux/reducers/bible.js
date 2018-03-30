@@ -14,7 +14,9 @@ const get_bible_passage = (bible_text) => (book_index) => (chapter_index) => {
     return {
         title,
         description: book.description || '',
-        content: book.content[chapter_index].content
+        content: book.content[chapter_index].content,
+        book_index: book_index,
+        chapter_index: chapter_index
     }
 };
 
@@ -41,6 +43,7 @@ const _selection_bible_chapter_list = (bible_text) => (cache) => (state = [], ac
     if (action.type === BIBLE_ACTIONS.GET_BIBLE_CHAPTER_LIST) {
 
         if (is_present_type('array')(cache[action.book_selected_index])) return cache[action.book_selected_index];
+
         const book = bible_text.content[action.book_selected_index];
         const title = book.header;
         const chapter_list = book.content
