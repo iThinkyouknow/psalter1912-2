@@ -58,6 +58,7 @@ export const font_weight_fn = (weight) => {
 };
 
 export const font_sizes = {
+    xx_small: 10,
     x_small: 14,
     small: 16,
     default: 18,

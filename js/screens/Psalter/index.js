@@ -35,6 +35,7 @@ import {
     normal_text
 } from '../../common/Text';
 import Default_bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {
     lock_in,
@@ -49,6 +50,10 @@ import {
 import {
     search_psalter
 } from '../../redux/actions/search-actions';
+
+import {
+    select_tab_index
+} from '../../redux/actions/tab-bar-actions';
 
 import music_player from '../../utils/music-player';
 import {is_present_type, no_op} from '../../utils/functions';
@@ -468,7 +473,7 @@ const Search_result_view = (props) => {
     const search_results_view_dynamic_style = {
         width: width - sizes.large * 2,
         height: height - native_elements.status_bar - native_elements.tab_bar - sizes.default * 2 - 37,
-        bottom: 37 + sizes.default * 2,
+        top: native_elements.status_bar,
         transform: [
             {
                 translateX: slide_right_pos
@@ -526,6 +531,14 @@ const Search_result_view = (props) => {
 }
 
 
+const select_tab_action = (navigator) => (dispatch) => (index) => () => {
+    navigator.switchToTab({
+        tabIndex: index
+    });
+    dispatch(select_tab_index(index));
+};
+
+
 /**
  *
  *
@@ -574,6 +587,7 @@ class App extends Component {
 
         const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
 
+        const select_tab_action_wo_index = select_tab_action(this.props.navigator)(this.props.dispatch);
         return (
             <Default_bg>
                 <More_Stuff_Section_List
@@ -594,11 +608,10 @@ class App extends Component {
                           ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
                           keyExtractor={psalter_key_extractor}
-                          style={styles.psalter_text_flat_list}
                           {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
 
                 <View style={{
-                    position: 'absolute',
+
                     bottom: 0,
                     zIndex: zIndex.small,
                     flexDirection: 'row',
@@ -631,6 +644,7 @@ class App extends Component {
                     </TouchableHighlight>
                 </View>
 
+                {Tab_Bar(select_tab_action_wo_index)()(this.props.tab_bar_selected_index)}
             </Default_bg>
         );
     }
@@ -639,18 +653,19 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        psalter: state.psalter.content,
-        index: state.psalter.index,
-        psalters_count: state.psalters_count,
-        should_display_go_forth_bar: state.should_display_go_forth_bar,
-        psalter_text_input: state.psalter_text_input,
-        valid_text_input: state.valid_text_input,
-        sung_dates: state.psalter.current_sung_dates,
-        sung_dates_all: state.psalter.all_sung_dates,
-        current_music_timer: state.music_timer.current,
-        max_music_timer: state.music_timer.max,
-        text_input_as_search: state.text_input_as_search,
-        psalter_search_results: state.psalter_search_results
+        psalter: state.psalter.content
+        , index: state.psalter.index
+        , psalters_count: state.psalters_count
+        , should_display_go_forth_bar: state.should_display_go_forth_bar
+        , psalter_text_input: state.psalter_text_input
+        , valid_text_input: state.valid_text_input
+        , sung_dates: state.psalter.current_sung_dates
+        , sung_dates_all: state.psalter.all_sung_dates
+        , current_music_timer: state.music_timer.current
+        , max_music_timer: state.music_timer.max
+        , text_input_as_search: state.text_input_as_search
+        , psalter_search_results: state.psalter_search_results
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 

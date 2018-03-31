@@ -31,6 +31,7 @@ import {
 import Default_bg from '../../common/Default-bg';
 
 import {Rounded_Button} from '../../common/Rounded-Button';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
@@ -42,6 +43,10 @@ import {
     get_bible_chapter_list
     , get_bible_passage
 } from '../../redux/actions/bible-actions';
+
+import {
+    select_tab_index
+} from '../../redux/actions/tab-bar-actions';
 
 // import styles from './Creeds-Text.styles';
 
@@ -104,7 +109,9 @@ const select_book_action = (dispatch) => (book_index) => () => {
 const book_button = ({width, height}) => (selected_index) => (select_book_action) => (book_start_index) => (item, index) => { //work on
     const box_width = Math.floor(width / 6);
 
-    const border_style = (index === 18 && is_present_type('string')(item))
+    const true_index = is_present_type('number')(book_start_index) ? book_start_index + index : index;
+
+    const border_style = (true_index === 18 && is_present_type('string')(item))
         ? {borderWidth: 2, borderColor: colors.blue}
         : {};
 
@@ -116,10 +123,10 @@ const book_button = ({width, height}) => (selected_index) => (select_book_action
         ...border_style
     };
 
-    const true_index = is_present_type('number')(book_start_index) ? book_start_index + index : index;
+
 
     const text_extra_style = {
-        color: (index === selected_index) ? colors.blue : colors.white
+        color: (true_index === selected_index) ? colors.blue : colors.white
     };
 
     return (
@@ -284,8 +291,12 @@ const show_back_to_books_button = (width) => (dispatch) => ({value}) => {
     }
 };
 
-
-
+const select_tab_action = (navigator) => (dispatch) => (index) => () => {
+    navigator.switchToTab({
+        tabIndex: index
+    });
+    dispatch(select_tab_index(index));
+};
 
 
 class Bible_Text extends Component {
@@ -353,6 +364,10 @@ class Bible_Text extends Component {
 
         const back_to_books_btn_present = this.props.bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
+        const select_tab_action_wo_index = select_tab_action(this.props.navigator)(this.props.dispatch);
+
+
+
         return (
             <Default_bg>
                 <Animated.View style={[library_style, library_dynamic_style]}>
@@ -365,12 +380,14 @@ class Bible_Text extends Component {
                 </Animated.View>
                 {Bible_Text_Component(this.props.bible_passage)}
 
-                <View style={{alignItems: 'flex-end', justifyContent: 'center', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large}}>
+                <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large}}>
                     <TouchableHighlight underlayColor={'transparent'} onPress={library_slide_down_animation.slide}>
                         <Image style={{width: buttons.medium, height: buttons.medium}} source={require('../../../images/icons/icon-open-book.png')}/>
                     </TouchableHighlight>
                 </View>
 
+
+                {Tab_Bar(select_tab_action_wo_index)()(this.props.tab_bar_selected_index)}
             </Default_bg>
         );
     }
@@ -379,14 +396,15 @@ class Bible_Text extends Component {
 
 function mapStateToProps(state) {
     return {
-        book_list: state.bible_book_list,
-        bible_passage: state.bible_passage,
-        current_book_index: state.bible_passage.book_index,
-        current_chapter_index: state.bible_passage.chapter_index,
-        selection_chapter_list: state.selection_bible_chapter_list.chapter_list,
-        selection_selected_book_title: state.selection_bible_chapter_list.title,
-        selection_book_index: state.selection_bible_chapter_list.book_index,
-        bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button // state reducer
+        book_list: state.bible_book_list
+        , bible_passage: state.bible_passage
+        , current_book_index: state.bible_passage.book_index
+        , current_chapter_index: state.bible_passage.chapter_index
+        , selection_chapter_list: state.selection_bible_chapter_list.chapter_list
+        , selection_selected_book_title: state.selection_bible_chapter_list.title
+        , selection_book_index: state.selection_bible_chapter_list.book_index
+        , tab_bar_selected_index: state.tab_bar_selected_index
+        , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button // state reducer
     };
 }
 

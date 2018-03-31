@@ -29,9 +29,6 @@ export default styles = StyleSheet.create({
         fontSize: font_sizes.default,
         backgroundColor: colors.white
     },
-    psalter_text_flat_list: {
-        marginBottom: native_elements.tab_bar
-    },
     slide_down_view_style: {
         backgroundColor: colors.black,
         opacity: 0.8,
