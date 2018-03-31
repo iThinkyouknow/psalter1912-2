@@ -31,7 +31,7 @@ import {
 import Default_bg from '../../common/Default-bg';
 
 import {Rounded_Button} from '../../common/Rounded-Button';
-import Tab_Bar from '../../common/Tab-bar';
+
 
 import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
@@ -47,6 +47,8 @@ import {
 import {
     select_tab_index
 } from '../../redux/actions/tab-bar-actions';
+
+import Tab_Bar from '../../common/Tab-bar';
 
 // import styles from './Creeds-Text.styles';
 

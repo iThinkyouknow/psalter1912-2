@@ -83,7 +83,7 @@ export default styles = StyleSheet.create({
     creeds_chooser: {
         position: 'absolute',
         flexDirection: 'row',
-        bottom: sizes.default,
+        bottom: sizes.default + native_elements.tab_bar,
         height: 32,
         borderRadius: border_radii.default,
         borderColor: colors.blue,
@@ -95,7 +95,7 @@ export default styles = StyleSheet.create({
         alignItems: 'center'
     },
     footer_component: {
-        height: 32 + sizes.default * 2
+        height: sizes.default * 2
     },
     column_wrapper: {
         marginTop: 16

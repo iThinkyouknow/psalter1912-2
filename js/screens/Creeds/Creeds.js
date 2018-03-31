@@ -59,6 +59,12 @@ import {
     lock_in_creed
 } from '../../redux/actions/creeds-actions';
 
+import {
+    select_tab_index
+} from '../../redux/actions/tab-bar-actions';
+
+import Tab_Bar from '../../common/Tab-bar';
+
 
 const list_header_component_wo_animated_val = (book_animated_value) => ({random, styles, images, Dimensions}) => (selected_index) => {
 
@@ -282,6 +288,13 @@ onNavigatorEvent = (e) => {
     if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
 };
 
+const select_tab_action = (navigator) => (dispatch) => (index) => () => {
+    navigator.switchToTab({
+        tabIndex: index
+    });
+    dispatch(select_tab_index(index));
+};
+
 class Creeds extends Component {
 
     componentDidMount() {
@@ -303,13 +316,18 @@ class Creeds extends Component {
             dispatch: this.props.dispatch
         };
 
+
+
         const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(this.props.library_type_index);
+
+        const select_tab_action_wo_index = select_tab_action(this.props.navigator)(this.props.dispatch);
 
         return (
             <Default_bg style={styles.default_bg}>
                 {list_header_component(component_obj)(this.props.library_type_index)}
                 {creeds_menu_flatlist(creeds_menu_renderer_loaded)(this.props.library_type_index)(this.props.creeds_library)}
                 {creeds_or_forms_chooser(component_obj)(this.props.library_type_index)}
+                {Tab_Bar(select_tab_action_wo_index)()(this.props.tab_bar_selected_index)}
             </Default_bg>
         );
     }
@@ -318,8 +336,9 @@ class Creeds extends Component {
 
 function mapStateToProps(state) {
     return {
-        library_type_index: state.creeds_library_type_index,
-        creeds_library: state.creeds_library
+        library_type_index: state.creeds_library_type_index
+        , creeds_library: state.creeds_library
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 
