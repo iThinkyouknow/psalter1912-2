@@ -28,7 +28,7 @@ import {
     text_formatter
 } from '../../common/Text';
 
-import Default_bg from '../../common/Default-bg';
+import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
 
 import {Rounded_Button} from '../../common/Rounded-Button';
 
@@ -39,16 +39,13 @@ import {slide_down_animation, slide_side_animation} from '../../utils/animation'
 import {is_present_type} from '../../utils/functions';
 
 import {bible_toggle_back_to_book_buttons} from '../../redux/actions/state-actions';
+
 import {
     get_bible_chapter_list
     , get_bible_passage
 } from '../../redux/actions/bible-actions';
 
-import {
-    select_tab_index
-} from '../../redux/actions/tab-bar-actions';
 
-import Tab_Bar from '../../common/Tab-bar';
 
 // import styles from './Creeds-Text.styles';
 
@@ -65,7 +62,7 @@ const Header_Text_Component = (font_size) => (other_style) => (text) => {
 
 const list_header_component = (title) => (description) => {
     return (
-        <View>
+        <View style={{paddingHorizontal: sizes.large * 1.5, paddingTop: 3 * sizes.default + native_elements.status_bar, marginBottom: 0}}>
             {Header_Text_Component(font_sizes.xx_large)()(title)}
             {(description.length > 0) && Header_Text_Component(font_sizes.x_large)({marginTop: sizes.default})(description)}
         </View>
@@ -76,7 +73,7 @@ const bible_key_extractor = (item, index) => `${item.title}-${index}`;
 
 const bible_body_component = ({item, index}) => {
     const text_component = (
-        <Animated_Text text_align={'justify'} style={{marginTop: sizes.large}}>
+        <Animated_Text text_align={'justify'} style={{marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5}}>
             <Default_Text>{`${index + 1}. `}</Default_Text>
             {text_formatter(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
         </Animated_Text>
@@ -91,7 +88,7 @@ const Bible_Text_Component = (chapter) => {
         <FlatList data={chapter.content.slice(1)}
                   ListHeaderComponent={list_header_component(chapter.title)(chapter.description)}
                   keyExtractor={bible_key_extractor}
-                  style={{paddingHorizontal: sizes.large * 1.5, marginTop: 16 + sizes.default + native_elements.status_bar, marginBottom: 0}}
+
                   renderItem={bible_body_component}/>
     );
 };
@@ -293,13 +290,6 @@ const show_back_to_books_button = (width) => (dispatch) => ({value}) => {
     }
 };
 
-const select_tab_action = (navigator) => (dispatch) => (index) => () => {
-    navigator.switchToTab({
-        tabIndex: index
-    });
-    dispatch(select_tab_index(index));
-};
-
 
 class Bible_Text extends Component {
 
@@ -366,12 +356,10 @@ class Bible_Text extends Component {
 
         const back_to_books_btn_present = this.props.bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
-        const select_tab_action_wo_index = select_tab_action(this.props.navigator)(this.props.dispatch);
-
-
-
         return (
-            <Default_bg>
+            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
+                                  dispatch={this.props.dispatch}
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
                 <Animated.View style={[library_style, library_dynamic_style]}>
                     <Animated.View style={bible_library_container_style}>
                         {bible_library(this.props.book_list)(book_buttons_section_header_loaded)}
@@ -388,9 +376,7 @@ class Bible_Text extends Component {
                     </TouchableHighlight>
                 </View>
 
-
-                {Tab_Bar(select_tab_action_wo_index)()(this.props.tab_bar_selected_index)}
-            </Default_bg>
+            </Default_Bg_w_Tab_Bar>
         );
     }
 };

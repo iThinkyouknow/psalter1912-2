@@ -25,7 +25,7 @@ import {
     Animated_Text
 } from '../../common/Text';
 
-import Default_bg from '../../common/Default-bg';
+import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
 
 import {} from '../../utils/alert';
 import {
@@ -185,9 +185,11 @@ class Creeds_Categories extends Component {
 
 
         return (
-            <Default_bg>
+            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
+                                  dispatch={this.props.dispatch}
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
                 {creed_categories_list_component}
-            </Default_bg>
+            </Default_Bg_w_Tab_Bar>
         )
     }
 }
@@ -195,16 +197,17 @@ class Creeds_Categories extends Component {
 
 function mapStateToProps(state) {
     return {
-        creed_content: state.creed.content,
-        creed_level: state.creed.levels_deep || 0,
-        creed_title: state.creed.title,
-        creeds_chapters_curr_level: state.creeds_chapters_curr_level,
-        library_type_index: state.creed.library_type_index,
-        selected_creed_index: state.creed.selected_index,
-        creed_articles_title: state.creed_level_2.title,
-        creed_articles_content: state.creed_level_2.content,
-        creed_articles_level: state.creed_level_2.levels_deep,
-        selected_chapter_index: state.creed_level_2.selected_chapter_index
+        creed_content: state.creed.content
+        , creed_level: state.creed.levels_deep || 0
+        , creed_title: state.creed.title
+        , creeds_chapters_curr_level: state.creeds_chapters_curr_level
+        , library_type_index: state.creed.library_type_index
+        , selected_creed_index: state.creed.selected_index
+        , creed_articles_title: state.creed_level_2.title
+        , creed_articles_content: state.creed_level_2.content
+        , creed_articles_level: state.creed_level_2.levels_deep
+        , selected_chapter_index: state.creed_level_2.selected_chapter_index
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 

@@ -30,12 +30,13 @@ import {
     centered_text,
     bold_centered_text,
     main_title,
+    main_title_2,
     sub_title,
     meter_text,
     normal_text
 } from '../../common/Text';
-import Default_bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
+import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+
 
 import {
     lock_in,
@@ -51,9 +52,6 @@ import {
     search_psalter
 } from '../../redux/actions/search-actions';
 
-import {
-    select_tab_index
-} from '../../redux/actions/tab-bar-actions';
 
 import music_player from '../../utils/music-player';
 import {is_present_type, no_op} from '../../utils/functions';
@@ -71,16 +69,9 @@ import music_slider from '../../common/music-slider';
 
 const psalter_text_fade_anim = fade_animation(500)(0);
 
-const more_section_slide_animation = slide_down_animation(500)(0);
+const more_section_slide_animation = slide_down_animation(500)(12);
 const more_section_slide_position  = more_section_slide_animation.animated_value;
 const more_section_slide           = more_section_slide_animation.slide;
-
-const toggle_tab_nav_bar = (navigator) => (should_show) => () => {
-    navigator.setStyle({
-        tabBarHidden: !should_show,
-        navBarHidden: !should_show
-    });
-};
 
 const set_nav_bar_title = (navigator) => (psalter_no) => () => {
     const invalid_psalter = (psalter_no === undefined || psalter_no === null || isNaN(parseInt(psalter_no)));
@@ -89,15 +80,8 @@ const set_nav_bar_title = (navigator) => (psalter_no) => () => {
     });
 };
 
-const on_navigator_event = (navigator) => (event) => { // this is the onPress handler for the two buttons together
-    if (event.type === 'NavBarButtonPress') { // this is the event type for button presses
-        if (event.id === 'more-stuff') { // this is the same id field from the static navigatorButtons definition
-            more_section_slide();
-            toggle_tab_nav_bar(navigator)(false)();
-        }
-    }
-    ;
-};
+
+
 
 
 const header = (fade_anim) => (psalter) => (index) => {
@@ -105,7 +89,7 @@ const header = (fade_anim) => (psalter) => (index) => {
     const {no, title, content, meter, psalm, score_ref, ref} = psalter;
 
     return (((index >= 0) &&
-        <View style={[styles.standard_margin_horizontal, styles.main_text_margin_top]}>
+        <View style={[styles.standard_margin_horizontal, styles.main_text_padding_top]}>
             {is_present_type('number')(no) && main_title(fade_anim)(`Psalter ${no}`)}
             {is_present_type('string')(title) && sub_title(fade_anim)(title)}
             {is_present_type('number')(psalm) && sub_title(fade_anim)(`Psalm ${psalm}`)}
@@ -239,18 +223,11 @@ const set_keyboard_style = (is_psalter_input) => {
 };
 
 
-const List_Header = (props) => {
-    const slide_up_action = () => {
-        more_section_slide();
-        setTimeout(() => {
-            toggle_tab_nav_bar(props.navigator)(true)();
-        }, 300);
-    };
-
+const List_Header = () => {
     return (
         <View style={styles.more_stuff_header_style}>
 
-            <TouchableHighlight style={styles.cancel_more_stuff_menu_cross_style} onPress={slide_up_action}>
+            <TouchableHighlight style={styles.cancel_more_stuff_menu_cross_style} onPress={more_section_slide}>
                 <Image style={styles.button_std} source={require('../../../images/icons/icon-cancel-50.png')}/>
             </TouchableHighlight>
         </View>
@@ -282,7 +259,7 @@ const psalter_refs_section = ({item, index}) => {
 
     return (
         <View style={styles.more_info_section_container}>
-            {main_title(1)(title)}
+            {main_title_2(1)(title)}
             <View style={styles.ref_text_container}>
                 {texts}
             </View>
@@ -296,7 +273,7 @@ const count_section = ({item, index}) => {
     if (!is_present_type('string')(title)) return null;
     return (
         <View style={styles.more_info_section_container}>
-            {main_title(1)(item.title)}
+            {main_title_2(1)(item.title)}
         </View>
     );
 };
@@ -312,7 +289,7 @@ const music_section = (music_slider) => ({item, index}) => {
     return (music_slider_array.length > 0)
         ? (
         <View >
-            {main_title(1)(item.title)}
+            {main_title_2(1)(item.title)}
             {music_slider_array}
         </View>
     )
@@ -410,18 +387,6 @@ const add_count = count_fn();
 const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
 const slide_right_pos          = search_results_animation.animated_value;
 
-const toggle_nav_bar_for_search = () => {
-    let should_show = false;
-    return (navigator) => () => {
-        navigator.setStyle({
-            navBarHidden: !should_show
-        });
-        should_show = !should_show;
-    };
-};
-
-const toggle_nav_bar_for_search_w_should_search_cache = toggle_nav_bar_for_search();
-
 const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     if (typeof text_input_as_search !== "boolean") return;
     dispatch(set_input_as_search(!text_input_as_search));
@@ -429,7 +394,6 @@ const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
 
 const on_search_button_press = (dispatch) => (navigator) => (text_input_as_search) => (slide_right_pos) => () => {
     set_text_input_as_search(dispatch)(text_input_as_search)();
-    toggle_nav_bar_for_search_w_should_search_cache(navigator)();
     search_results_animation.slide();
     set_keyboard_style(text_input_as_search);
 
@@ -488,7 +452,7 @@ const Search_result_view = (props) => {
 
         return (
             <View style={{marginTop: sizes.medium}}>
-                {main_title(1)(`${search_results_count} Search Results`)}
+                {main_title_2(1)(`${search_results_count} Search Results`)}
             </View>
         );
     };
@@ -531,13 +495,6 @@ const Search_result_view = (props) => {
 }
 
 
-const select_tab_action = (navigator) => (dispatch) => (index) => () => {
-    navigator.switchToTab({
-        tabIndex: index
-    });
-    dispatch(select_tab_index(index));
-};
-
 
 /**
  *
@@ -549,7 +506,6 @@ class App extends Component {
     constructor(props) {
         super(props);
         RNShakeEvent.addEventListener('shake', get_random_psalter(props.dispatch)(props.psalters_count));
-        props.navigator.setOnNavigatorEvent(on_navigator_event(props.navigator));
         // AsyncStorage.clear();
         const count_all_keys_array = Array.from(new Array(props.psalters_count), (item, index) => `psalter-${index + 1}`);
 
@@ -563,14 +519,7 @@ class App extends Component {
         set_keyboard_style(true);
     }
 
-    static navigatorButtons = {
-        rightButtons: [
-            {
-                icon: require('../../../images/icons/icon-info-32.png'),
-                id: 'more-stuff'
-            }
-        ]
-    }
+
 
 
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
@@ -587,9 +536,11 @@ class App extends Component {
 
         const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
 
-        const select_tab_action_wo_index = select_tab_action(this.props.navigator)(this.props.dispatch);
+
         return (
-            <Default_bg>
+            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
+                                  dispatch={this.props.dispatch}
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
                 <More_Stuff_Section_List
                     dispatch={this.props.dispatch}
                     navigator={this.props.navigator}
@@ -608,7 +559,7 @@ class App extends Component {
                           ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
                           keyExtractor={psalter_key_extractor}
-                          {...panResponder(this.props.dispatch)(this.props.index).panHandlers} />
+                          {...panResponder(this.props.dispatch)(this.props.index).panHandlers}  />
 
                 <View style={{
 
@@ -636,16 +587,21 @@ class App extends Component {
 
                     <TouchableHighlight style={styles.search_button_container}
                                         onPress={on_search_button_press(this.props.dispatch)(this.props.navigator)(this.props.text_input_as_search)(slide_right_pos)}
-                                        underlayColor={colors.dark_cerulean}
-
-                    >
+                                        underlayColor={colors.dark_cerulean} >
                         <Image style={styles.button_std} source={require('../../../images/icons/icon-search.png')}/>
+
+                    </TouchableHighlight>
+
+                    <TouchableHighlight style={styles.search_button_container}
+                                        onPress={more_section_slide}
+                                        underlayColor={colors.dark_cerulean} >
+                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')}/>
 
                     </TouchableHighlight>
                 </View>
 
-                {Tab_Bar(select_tab_action_wo_index)()(this.props.tab_bar_selected_index)}
-            </Default_bg>
+
+            </Default_Bg_w_Tab_Bar>
         );
     }
 }

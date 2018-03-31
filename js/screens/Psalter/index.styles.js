@@ -21,6 +21,10 @@ export default styles = StyleSheet.create({
     main_text_margin_top: {
         marginVertical: sizes.default
     },
+    main_text_padding_top: {
+        paddingVertical: sizes.default,
+        paddingTop: 3 * sizes.default + native_elements.status_bar
+    },
     text_input_style: {
         flex: 1,
         padding: sizes.default,
@@ -75,12 +79,14 @@ export default styles = StyleSheet.create({
         width: buttons.large,
         height: buttons.large,
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        // backgroundColor: 'red'
     },
     search_results_separator: {
         alignSelf: 'center',
         height: 1,
-        backgroundColor: colors.dark_cerulean},
+        backgroundColor: colors.dark_cerulean
+    },
     button_std: {
         width: buttons.default,
         height: buttons.default

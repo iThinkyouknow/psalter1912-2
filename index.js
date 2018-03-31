@@ -29,17 +29,6 @@ const default_navigator_style = {
 Navigation.startTabBasedApp({
     tabs: [
         {
-            label: 'Bible',
-            screen: 'Bible_Text', // this is a registered name for a screen
-            // icon: require(' '),
-            //selectedIcon: require('../img/one_selected.png'), // iOS only
-            title: 'The Holy Bible',
-            navigatorStyle: {
-                ...default_navigator_style,
-                navBarTranslucent: false
-            },
-        },
-        {
             label: 'Psalter',
             screen: 'Psalter', // this is a registered name for a screen
             // icon: require(' '),
@@ -49,13 +38,24 @@ Navigation.startTabBasedApp({
                 ...default_navigator_style,
                 navBarTranslucent: false
             }
-        },
-        {
+        }
+        , {
             label: 'Creeds & Forms',
             screen: 'Creeds', // this is a registered name for a screen
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             navigatorStyle: default_navigator_style
+        }
+        , {
+            label: 'Bible',
+            screen: 'Bible_Text', // this is a registered name for a screen
+            // icon: require(' '),
+            //selectedIcon: require('../img/one_selected.png'), // iOS only
+            title: 'The Holy Bible',
+            navigatorStyle: {
+                ...default_navigator_style,
+                navBarTranslucent: false
+            }
         }
     ],
     tabsStyle: {

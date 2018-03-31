@@ -1,7 +1,7 @@
 export const creeds_images = {
-    canons: require('../../images/The-synod-of-dordt.jpg'),
     heidelberg: require('../../images/Heidelberg-Catechism.jpg'),
-    belgic: require('../../images/Belgic-Confession.jpg')
+    belgic: require('../../images/Belgic-Confession.jpg'),
+    canons: require('../../images/The-synod-of-dordt.jpg')
 };
 
 export const creeds_images_array = Object.values(creeds_images);

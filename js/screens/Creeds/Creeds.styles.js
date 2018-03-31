@@ -95,7 +95,7 @@ export default styles = StyleSheet.create({
         alignItems: 'center'
     },
     footer_component: {
-        height: sizes.default * 2
+        height: native_elements.tab_bar
     },
     column_wrapper: {
         marginTop: 16

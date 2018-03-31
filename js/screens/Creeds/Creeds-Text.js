@@ -23,7 +23,7 @@ import {
     text_formatter
 } from '../../common/Text';
 
-import Default_bg from '../../common/Default-bg';
+import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
 
 import {} from '../../utils/alert';
 import {is_present} from '../../utils/functions';
@@ -105,9 +105,11 @@ class Creeds_Text extends Component {
     render() {
         const {creed_body_title, creed_body_description, creed_body} = this.props;
         return (
-            <View>
+            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
+                                  dispatch={this.props.dispatch}
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
                 {Creeds_Text_Flatlist(styles)(creed_body_title)(creed_body_description)(creed_body)}
-            </View>
+            </Default_Bg_w_Tab_Bar>
         );
     }
 
@@ -116,10 +118,11 @@ class Creeds_Text extends Component {
 
 function mapStateToProps(state) {
     return {
-        creed_body_title: state.creed_body.title,
-        creed_body_description: state.creed_body.description,
-        creed_body: state.creed_body.body,
-        creed_levels: state.creed.levels_deep || 0,
+        creed_body_title: state.creed_body.title
+        , creed_body_description: state.creed_body.description
+        , creed_body: state.creed_body.body
+        , creed_levels: state.creed.levels_deep || 0
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 
