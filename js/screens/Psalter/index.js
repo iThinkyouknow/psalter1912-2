@@ -81,9 +81,6 @@ const set_nav_bar_title = (navigator) => (psalter_no) => () => {
 };
 
 
-
-
-
 const header = (fade_anim) => (psalter) => (index) => {
 
     const {no, title, content, meter, psalm, score_ref, ref} = psalter;
@@ -115,26 +112,28 @@ const render_psalter_text = (fade_anim) => ({item, index}) => {
 
 const on_psalter_change = (dispatch) => (next_val) => () => {
     dispatch(lock_in(next_val));
+
     psalter_text_fade_anim.fade_in();
     set_keyboard_style(true);
     music_player.when_psalter_change(dispatch)(`Psalter-${next_val + 1}.mp3`)();
 };
 
-const swipe_action = (dispatch) => (index) => (e, gestureState) => {
+const swipe_action = (dispatch) => (screen_width) => (index) => (e, gestureState) => {
     // insert fade animation here
     const change_psalter = on_psalter_change(dispatch);
-    if (Math.abs(gestureState.dy) > 10) return;
-    if (gestureState.dx < 0) {
+    const one_third_screen_width = Math.floor(screen_width / 3);
+
+    if (gestureState.dx < -(one_third_screen_width)) {
         change_psalter(index + 1)();
-    } else if (gestureState.dx > 0) {
+    } else if (gestureState.dx > one_third_screen_width) {
         change_psalter(index - 1)();
     }
 };
 
 
-const panResponder = (dispatch) => (index) => PanResponder.create({
+const panResponder = (dispatch) => (screen_width) => (index) => PanResponder.create({
     onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: swipe_action(dispatch)(index)
+    onPanResponderRelease: swipe_action(dispatch)(screen_width)(index)
 });
 
 
@@ -179,6 +178,7 @@ const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => 
 
 
 const end_text_input = (dispatch) => (text_is_valid) => (event) => {
+
     if (text_is_valid) {
         const input_int = parseInt(event.nativeEvent.text) - 1;
         on_psalter_change(dispatch)(input_int)();
@@ -389,12 +389,13 @@ const slide_right_pos          = search_results_animation.animated_value;
 
 const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     if (typeof text_input_as_search !== "boolean") return;
-    dispatch(set_input_as_search(!text_input_as_search));
+    return dispatch(set_input_as_search(!text_input_as_search));
 };
 
 const on_search_button_press = (dispatch) => (navigator) => (text_input_as_search) => (slide_right_pos) => () => {
+    // search_results_animation.slide();
     set_text_input_as_search(dispatch)(text_input_as_search)();
-    search_results_animation.slide();
+    setTimeout(search_results_animation.slide, 100);
     set_keyboard_style(text_input_as_search);
 
 };
@@ -519,9 +520,6 @@ class App extends Component {
         set_keyboard_style(true);
     }
 
-
-
-
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
     // Keyboard.addListener('keyboardDidHide', keyboard_did_hide);
 
@@ -532,10 +530,9 @@ class App extends Component {
     render() {
         add_count(this.props.dispatch)(Date)(this.props.psalter.no)(this.props.sung_dates);
         //music_player.when_psalter_change(this.props.dispatch)(`Psalter-${this.props.psalter.no}.mp3`)();
-        set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
+        // set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
 
         const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
-
 
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
@@ -559,7 +556,7 @@ class App extends Component {
                           ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(this.props.psalter)(this.props.index)}
                           renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
                           keyExtractor={psalter_key_extractor}
-                          {...panResponder(this.props.dispatch)(this.props.index).panHandlers}  />
+                          {...panResponder(this.props.dispatch)(Dimensions.get('window').width)(this.props.index).panHandlers}  />
 
                 <View style={{
 

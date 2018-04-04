@@ -57,6 +57,7 @@ export const fade_animation = (duration) => (initial_val) => {
                 duration: 0,
                 easing: Easing.linear(1)
             }),
+            Animated.delay(500),
             Animated.timing(fade_opacity, {
                 toValue: 1,
                 duration: duration

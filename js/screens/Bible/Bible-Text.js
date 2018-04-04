@@ -282,13 +282,24 @@ const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => (
 
 };
 
-const show_back_to_books_button = (width) => (dispatch) => ({value}) => {
-    if (value === 0) {
-        return dispatch(bible_toggle_back_to_book_buttons(true));
-    } else if (value === width) {
-        return dispatch(bible_toggle_back_to_book_buttons(false));
-    }
+const _show_back_to_books_button = () => {
+    let should_show = true;
+
+    return (width) => (dispatch) => ({value}) => {
+        if (should_show && value < width - 20) {
+            console.log('sjow');
+            should_show = false;
+            return dispatch(bible_toggle_back_to_book_buttons(true));
+
+        } else if (!should_show && value > width - 20) {
+            console.log('hide');
+            should_show = true;
+            return dispatch(bible_toggle_back_to_book_buttons(false));
+        }
+    };
 };
+
+const show_back_to_books_button = _show_back_to_books_button();
 
 
 class Bible_Text extends Component {

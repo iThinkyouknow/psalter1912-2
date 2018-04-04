@@ -61,7 +61,8 @@ Navigation.startTabBasedApp({
     tabsStyle: {
         // tabBarTranslucent: true,
         tabBarBackgroundColor: colors.dark_cerulean,
-        tabBarHidden: true
+        tabBarHidden: true,
+        drawUnderTabBar: true
     }
 });
 
