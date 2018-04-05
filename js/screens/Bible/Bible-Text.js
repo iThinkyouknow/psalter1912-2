@@ -271,10 +271,6 @@ const _library_bottom_buttons_container = (width) => (close_library_button) => (
 
 const library_bottom_buttons_container = _library_bottom_buttons_container(Dimensions.get('window').width);
 
-
-
-
-
 const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => () => {
     dispatch(get_bible_passage(book_index)(chapter_index));
     library_slide_down_animation.slide();
@@ -287,12 +283,10 @@ const _show_back_to_books_button = () => {
 
     return (width) => (dispatch) => ({value}) => {
         if (should_show && value < width - 20) {
-            console.log('sjow');
             should_show = false;
             return dispatch(bible_toggle_back_to_book_buttons(true));
 
         } else if (!should_show && value > width - 20) {
-            console.log('hide');
             should_show = true;
             return dispatch(bible_toggle_back_to_book_buttons(false));
         }
@@ -381,10 +375,8 @@ class Bible_Text extends Component {
                 </Animated.View>
                 {Bible_Text_Component(this.props.bible_passage)}
 
-                <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large}}>
-                    <TouchableHighlight underlayColor={'transparent'} onPress={library_slide_down_animation.slide}>
-                        <Image style={{width: buttons.medium, height: buttons.medium}} source={require('../../../images/icons/icon-open-book.png')}/>
-                    </TouchableHighlight>
+                <View style={{flexDirection: 'row', justifyContent: 'center', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large, paddingVertical: sizes.default / 2}}>
+                    {Rounded_Button(<Default_Text text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
 
             </Default_Bg_w_Tab_Bar>

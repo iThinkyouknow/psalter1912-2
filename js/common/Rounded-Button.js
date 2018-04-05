@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden'
 
-        // backgroundColor: colors.blue
+        // , backgroundColor: colors.blue
     }
 });
 

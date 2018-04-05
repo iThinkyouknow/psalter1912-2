@@ -35,7 +35,9 @@ import {
     meter_text,
     normal_text
 } from '../../common/Text';
+
 import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import {Rounded_Button} from '../../common/Rounded-Button';
 
 
 import {
@@ -67,7 +69,7 @@ import {
 import music_slider from '../../common/music-slider';
 
 
-const psalter_text_fade_anim = fade_animation(500)(0);
+const psalter_text_fade_anim = fade_animation(200)(0);
 
 const more_section_slide_animation = slide_down_animation(500)(12);
 const more_section_slide_position  = more_section_slide_animation.animated_value;
@@ -222,14 +224,18 @@ const set_keyboard_style = (is_psalter_input) => {
     }
 };
 
+const more_stuff_list_header = () => {
+    return(
+        <View style={styles.more_stuff_list_header} />
+    );
+};
 
-const List_Header = () => {
+
+const Bottom_Buttons = (props) => {
+
     return (
-        <View style={styles.more_stuff_header_style}>
-
-            <TouchableHighlight style={styles.cancel_more_stuff_menu_cross_style} onPress={more_section_slide}>
-                <Image style={styles.button_std} source={require('../../../images/icons/icon-cancel-50.png')}/>
-            </TouchableHighlight>
+        <View style={styles.more_stuff_bottom_buttons_container}>
+            {Rounded_Button(<Default_Text text_align={'center'}>I'm Done</Default_Text>)(more_section_slide)(props.width)}
         </View>
 
     );
@@ -349,8 +355,8 @@ const More_Stuff_Section_List = (props) => {
 
     return (
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
-            <List_Header navigator={props.navigator}/>
-            <SectionList style={[styles.more_section_list]} sections={sections}/>
+            <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]} sections={sections}/>
+            <Bottom_Buttons width={width} navigator={props.navigator}/>
         </Animated.View>
     );
 };

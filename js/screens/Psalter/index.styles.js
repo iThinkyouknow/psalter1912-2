@@ -38,25 +38,20 @@ export default styles = StyleSheet.create({
         opacity: 0.8,
         position: 'absolute',
         left: 0,
-        zIndex: zIndex.max,
+        zIndex: zIndex.max
     },
-    cancel_more_stuff_menu_cross_style: {
-        position: 'absolute',
-        top: sizes.large,
-        right: sizes.large,
-        height: sizes.x_large,
-        width: sizes.x_large,
-        justifyContent: 'center',
-        alignItems: 'center'
+    more_stuff_list_header: {
+        paddingTop: native_elements.nav_bar_std + native_elements.status_bar
     },
-    more_stuff_header_style: {
-        marginTop: native_elements.status_bar,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        height: sizes.x_large + sizes.large
+    more_stuff_bottom_buttons_container: {
+        flexDirection: 'row'
+        , justifyContent: 'center'
+        , height: native_elements.tab_bar
+        , paddingVertical: sizes.default / 2
+        , marginBottom: sizes.large
     },
     more_section_list: {
-        marginBottom: sizes.x_large
+        marginBottom: sizes.default
     },
     ref_text_container: {
         paddingHorizontal: sizes.x_large,

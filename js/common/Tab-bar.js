@@ -79,14 +79,14 @@ export default Tab_Bar = (select_tab_action_wo_index) => (other_styles) => (sele
         }
         , {
             text: 'Creeds'
-            , icon_default: require('../../images/icons/icon-open-book.png')
-            , icon_selected: require('../../images/icons/icon-open-book-fill.png')
+            , icon_default: require('../../images/icons/icon-creeds.png')
+            , icon_selected: require('../../images/icons/icon-creeds-fill.png')
             , on_press: select_tab_action_wo_index
         }
         , {
             text: 'Bible'
-            , icon_default: require('../../images/icons/icon-open-book.png')
-            , icon_selected: require('../../images/icons/icon-open-book-fill.png')
+            , icon_default: require('../../images/icons/icon-bible.png')
+            , icon_selected: require('../../images/icons/icon-bible-fill.png')
             , on_press: select_tab_action_wo_index
         }
     ].map(get_buttons(selected_index));
