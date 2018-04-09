@@ -40,6 +40,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		C0035A0E354A448D9C94D858 /* libRCTPdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DEF0497B04472FAFB0160A /* libRCTPdf.a */; };
 		DB09B6EA202097FA000E5F1D /* libReactNativeAudioToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB09B6E6202097E6000E5F1D /* libReactNativeAudioToolkit.a */; };
 		DB94ACCC205D5F3600B01326 /* Psalter-133.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94AB1A205D5ED300B01326 /* Psalter-133.mp3 */; };
 		DB94ACCD205D5F3600B01326 /* Psalter-241.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94AB1B205D5ED300B01326 /* Psalter-241.mp3 */; };
@@ -475,6 +476,7 @@
 		DB94AE7B205D5F3700B01326 /* Psalter-388.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94ACC9205D5F3500B01326 /* Psalter-388.mp3 */; };
 		DB94AE7C205D5F3700B01326 /* Psalter-402.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94ACCA205D5F3600B01326 /* Psalter-402.mp3 */; };
 		DB94AE7D205D5F3700B01326 /* Psalter-290.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94ACCB205D5F3600B01326 /* Psalter-290.mp3 */; };
+		EC8986EDC98F4EC4AAD4147A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -765,6 +767,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShakeEvent;
 		};
+		DBE4859A20786CC400AB6E47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
+		};
+		DBE485D820786CD800AB6E47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 20D8E03F1C8E946C00039823;
+			remoteInfo = RCTPdf;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -778,6 +794,7 @@
 		00E356EE1AD99517003FC87E /* The_Psalter_1912_2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = The_Psalter_1912_2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* The_Psalter_1912_2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = The_Psalter_1912_2Tests.m; sourceTree = "<group>"; };
+		01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		07082D7CB5AE4B6CA8FC1ADA /* libReactNativeKeyboardManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeKeyboardManager.a; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -792,6 +809,8 @@
 		2C6577A2965C4DFDBAF2AC72 /* RNShakeEvent.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShakeEvent.xcodeproj; path = "../node_modules/react-native-shake-event/ios/RNShakeEvent.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* The_Psalter_1912_2-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The_Psalter_1912_2-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* The_Psalter_1912_2-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The_Psalter_1912_2-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
+		31DEF0497B04472FAFB0160A /* libRCTPdf.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTPdf.a; sourceTree = "<group>"; };
 		5BFB2FDDB6C64EF49C884D98 /* libRNShakeEvent.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShakeEvent.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -1233,6 +1252,7 @@
 		DB94ACC9205D5F3500B01326 /* Psalter-388.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Psalter-388.mp3"; path = "../../Music-Files/Psalter-388.mp3"; sourceTree = "<group>"; };
 		DB94ACCA205D5F3600B01326 /* Psalter-402.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Psalter-402.mp3"; path = "../../Music-Files/Psalter-402.mp3"; sourceTree = "<group>"; };
 		DB94ACCB205D5F3600B01326 /* Psalter-290.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Psalter-290.mp3"; path = "../../Music-Files/Psalter-290.mp3"; sourceTree = "<group>"; };
+		E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTPdf.xcodeproj; path = "../node_modules/react-native-pdf/ios/RCTPdf.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1265,6 +1285,8 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				3DA4A43098E74B5DB631981D /* libReactNativeKeyboardManager.a in Frameworks */,
 				5AFBB92024C14B52B10AC8E3 /* libRNShakeEvent.a in Frameworks */,
+				EC8986EDC98F4EC4AAD4147A /* libRNFetchBlob.a in Frameworks */,
+				C0035A0E354A448D9C94D858 /* libRCTPdf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1460,6 +1482,8 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				C2BC4AE31B2F4EC2AB14F83B /* ReactNativeKeyboardManager.xcodeproj */,
 				2C6577A2965C4DFDBAF2AC72 /* RNShakeEvent.xcodeproj */,
+				01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */,
+				E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1521,6 +1545,8 @@
 			children = (
 				07082D7CB5AE4B6CA8FC1ADA /* libReactNativeKeyboardManager.a */,
 				5BFB2FDDB6C64EF49C884D98 /* libRNShakeEvent.a */,
+				2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */,
+				31DEF0497B04472FAFB0160A /* libRCTPdf.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1982,6 +2008,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DBE4859720786CC400AB6E47 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DBE4859B20786CC400AB6E47 /* libRNFetchBlob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DBE485D520786CD800AB6E47 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DBE485D920786CD800AB6E47 /* libRCTPdf.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2126,6 +2168,10 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
+					ProductGroup = DBE485D520786CD800AB6E47 /* Products */;
+					ProjectRef = E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */;
+				},
+				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
@@ -2156,6 +2202,10 @@
 				{
 					ProductGroup = 00CDE5911FC80AB90076F178 /* Products */;
 					ProjectRef = 00CDE5901FC80AB90076F178 /* ReactNativeNavigation.xcodeproj */;
+				},
+				{
+					ProductGroup = DBE4859720786CC400AB6E47 /* Products */;
+					ProjectRef = 01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */;
 				},
 				{
 					ProductGroup = DBD750931FDFCB56008DD6E2 /* Products */;
@@ -2444,6 +2494,20 @@
 			fileType = archive.ar;
 			path = libRNShakeEvent.a;
 			remoteRef = DBD750961FDFCB56008DD6E2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBE4859B20786CC400AB6E47 /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = DBE4859A20786CC400AB6E47 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBE485D920786CD800AB6E47 /* libRCTPdf.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTPdf.a;
+			remoteRef = DBE485D820786CD800AB6E47 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3023,12 +3087,16 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-keyboard-manager/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -3051,12 +3119,16 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-keyboard-manager/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -3080,6 +3152,8 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-keyboard-manager/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3103,6 +3177,8 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-keyboard-manager/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3132,11 +3208,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-keyboard-manager/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 				);
 				INFOPLIST_FILE = "The_Psalter_1912_2-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -3168,11 +3248,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-keyboard-manager/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 				);
 				INFOPLIST_FILE = "The_Psalter_1912_2-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -3205,6 +3289,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.The_Psalter_1912_2-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3229,6 +3315,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

@@ -29,6 +29,17 @@ const default_navigator_style = {
 Navigation.startTabBasedApp({
     tabs: [
         {
+            label: 'Psalter_PDF',
+            screen: 'Psalter_PDF', // this is a registered name for a screen
+            // icon: require(' '),
+            //selectedIcon: require('../img/one_selected.png'), // iOS only
+            title: 'Psalter_PDF',
+            navigatorStyle: {
+                ...default_navigator_style,
+                navBarTranslucent: false
+            }
+        }
+        , {
             label: 'Psalter',
             screen: 'Psalter', // this is a registered name for a screen
             // icon: require(' '),

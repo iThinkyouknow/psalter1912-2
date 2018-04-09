@@ -41,10 +41,19 @@ const select_tab_action = (navigator) => (dispatch) => (index) => () => {
 export const Default_Bg_w_Tab_Bar = (props = {}) => {
     const select_tab_action_wo_index = select_tab_action(props.navigator)(props.dispatch);
 
+    const on_press_actions = (select_tab_action_wo_index) => (other_actions_array) => (index) => () => {
+
+        const actions_w_index = index => action => action(index)();
+        other_actions_array.map(actions_w_index(index));
+        select_tab_action_wo_index(index)();
+    };
+
+    const on_press_actions_wo_index = on_press_actions(select_tab_action_wo_index)(props.other_actions_array || []);
+
     return (
         <Default_bg style={props.style}>
             {props.children}
-            {Tab_Bar(select_tab_action_wo_index)()(props.tab_bar_selected_index)}
+            {Tab_Bar(on_press_actions_wo_index)()(props.tab_bar_selected_index)}
         </Default_bg>
     );
 };

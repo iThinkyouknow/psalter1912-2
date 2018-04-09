@@ -45,14 +45,20 @@ import {
     set_sung_count_all,
     set_sung_date
 } from '../../redux/actions/psalter-actions';
+
 import {
     psalter_text_input,
     toggle_text_as_valid,
     set_input_as_search
 } from '../../redux/actions/state-actions';
+
 import {
     search_psalter
 } from '../../redux/actions/search-actions';
+
+import {
+    get_bible_passage
+} from '../../redux/actions/bible-actions';
 
 
 import music_player from '../../utils/music-player';
@@ -499,9 +505,11 @@ const Search_result_view = (props) => {
                   ItemSeparatorComponent={search_results_separator(width)}/>
 
     </Animated.View>)
-}
+};
 
-
+const on_bible_tab_select = (dispatch) => (psalm) => (tab_index) => () => {
+    if (tab_index === 2) dispatch(get_bible_passage(18)(psalm - 1));
+};
 
 /**
  *
@@ -540,10 +548,15 @@ class App extends Component {
 
         const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
 
+        const tab_actions = this.props.psalter.psalm > 0 ? [
+            on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
+        ] : [];
+
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
                                   dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
+                                  other_actions_array={tab_actions}>
                 <More_Stuff_Section_List
                     dispatch={this.props.dispatch}
                     navigator={this.props.navigator}
@@ -565,7 +578,6 @@ class App extends Component {
                           {...panResponder(this.props.dispatch)(Dimensions.get('window').width)(this.props.index).panHandlers}  />
 
                 <View style={{
-
                     bottom: 0,
                     zIndex: zIndex.small,
                     flexDirection: 'row',

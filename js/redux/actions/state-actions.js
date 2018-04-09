@@ -1,5 +1,6 @@
 export const STATE_ACTIONS = {
     PSALTER_TEXT_INPUT: 'PSALTER_TEXT_INPUT',
+    PSALTER_PDF_TEXT_INPUT: 'PSALTER_PDF_TEXT_INPUT',
     TOGGLE_TEXT_INPUT_VALID: "TOGGLE_TEXT_INPUT_INVALID",
     SET_MUSIC_TIMER: 'SET_MUSIC_TIMER',
     SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER',
@@ -12,6 +13,13 @@ export const STATE_ACTIONS = {
 export const psalter_text_input = (val) => {
     return {
         type: STATE_ACTIONS.PSALTER_TEXT_INPUT,
+        val
+    }
+};
+
+export const psalter_pdf_text_input = (val) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT,
         val
     }
 };

@@ -68,26 +68,32 @@ const get_buttons = (selected_index) => ({text, icon_default, icon_selected, on_
     );
 };
 
-export default Tab_Bar = (select_tab_action_wo_index) => (other_styles) => (selected_index) => {
+export default Tab_Bar = (on_press_actions_wo_index) => (other_styles) => (selected_index) => {
 
     const buttons = [
         {
+            text: 'Score'
+            , icon_default: require('../../images/icons/icon-open-book.png')
+            , icon_selected: require('../../images/icons/icon-open-book-fill.png')
+            , on_press: on_press_actions_wo_index
+        }
+        , {
             text: 'Psalter'
             , icon_default: require('../../images/icons/icon-open-book.png')
             , icon_selected: require('../../images/icons/icon-open-book-fill.png')
-            , on_press: select_tab_action_wo_index
+            , on_press: on_press_actions_wo_index
         }
         , {
             text: 'Creeds'
             , icon_default: require('../../images/icons/icon-creeds.png')
             , icon_selected: require('../../images/icons/icon-creeds-fill.png')
-            , on_press: select_tab_action_wo_index
+            , on_press: on_press_actions_wo_index
         }
         , {
             text: 'Bible'
             , icon_default: require('../../images/icons/icon-bible.png')
             , icon_selected: require('../../images/icons/icon-bible-fill.png')
-            , on_press: select_tab_action_wo_index
+            , on_press: on_press_actions_wo_index
         }
     ].map(get_buttons(selected_index));
 

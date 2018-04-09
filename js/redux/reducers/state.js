@@ -65,3 +65,11 @@ export function bible_should_show_back_to_books_button(state = false, action = {
 
     return state;
 };
+
+export function psalter_pdf_input(state = "", action = {}) {
+    if (action.type === STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT) {
+        return `${action.val}`;
+    }
+
+    return state;
+}

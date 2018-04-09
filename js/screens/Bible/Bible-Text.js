@@ -36,7 +36,7 @@ import {Rounded_Button} from '../../common/Rounded-Button';
 import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
-import {is_present_type} from '../../utils/functions';
+import {is_present_type, no_op} from '../../utils/functions';
 
 import {bible_toggle_back_to_book_buttons} from '../../redux/actions/state-actions';
 
@@ -44,6 +44,10 @@ import {
     get_bible_chapter_list
     , get_bible_passage
 } from '../../redux/actions/bible-actions';
+
+import {
+    lock_in
+} from '../../redux/actions/psalter-actions';
 
 
 
@@ -296,12 +300,19 @@ const _show_back_to_books_button = () => {
 const show_back_to_books_button = _show_back_to_books_button();
 
 
+const on_psalter_tab_select = (dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () => {
+    if (tab_index === 0 && current_book_index === 18 && current_psalm !== psalter_psalm) {
+        dispatch(lock_in(psalm_to_psalter_obj[current_psalm]));
+    };
+};
+
+
 class Bible_Text extends Component {
 
-    static navigatorStyle = {
-        navBarHidden: true,
-        // tabBarHidden: true
-    };
+    // static navigatorStyle = {
+    //     navBarHidden: true,
+    //     // tabBarHidden: true
+    // };
 
     constructor(props) {
         super(props);
@@ -361,10 +372,24 @@ class Bible_Text extends Component {
 
         const back_to_books_btn_present = this.props.bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
+        //(dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () =>
+
+        const change_psalter_on_tab_action = (
+                this.props.current_book_index === 18
+                && this.props.current_chapter_index + 1 !== this.props.psalter_psalm
+            )
+            ? on_psalter_tab_select(this.props.dispatch)(this.props.current_book_index)(this.props.current_chapter_index + 1)(this.props.psalter_psalm)(this.props.first_psalter_index_of_each_psalm_obj)
+            : () => () => {};
+
+        const tab_actions = [
+            change_psalter_on_tab_action
+        ];
+
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
                                   dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
+                                  other_actions_array={tab_actions}>
                 <Animated.View style={[library_style, library_dynamic_style]}>
                     <Animated.View style={bible_library_container_style}>
                         {bible_library(this.props.book_list)(book_buttons_section_header_loaded)}
@@ -378,7 +403,6 @@ class Bible_Text extends Component {
                 <View style={{flexDirection: 'row', justifyContent: 'center', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large, paddingVertical: sizes.default / 2}}>
                     {Rounded_Button(<Default_Text text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
-
             </Default_Bg_w_Tab_Bar>
         );
     }
@@ -395,6 +419,8 @@ function mapStateToProps(state) {
         , selection_selected_book_title: state.selection_bible_chapter_list.title
         , selection_book_index: state.selection_bible_chapter_list.book_index
         , tab_bar_selected_index: state.tab_bar_selected_index
+        , psalter_psalm: state.psalter.content.psalm
+        , first_psalter_index_of_each_psalm_obj: state.first_psalter_index_of_each_psalm_obj
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button // state reducer
     };
 }
