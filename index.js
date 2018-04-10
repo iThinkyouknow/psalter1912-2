@@ -22,29 +22,29 @@ const default_navigator_style = {
     drawUnderNavBar: true,
     drawUnderTabBar: true,
     navBarHidden: true,
-    tabBarBackgroundColor: colors.dark_cerulean,
+    //tabBarBackgroundColor: colors.dark_cerulean,
     tabBarHidden: true
 };
 // start the app
 Navigation.startTabBasedApp({
     tabs: [
         {
-            label: 'Psalter_PDF',
-            screen: 'Psalter_PDF', // this is a registered name for a screen
+            label: 'Psalter',
+            screen: 'Psalter', // this is a registered name for a screen
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
-            title: 'Psalter_PDF',
+            title: 'Psalter',
             navigatorStyle: {
                 ...default_navigator_style,
                 navBarTranslucent: false
             }
         }
         , {
-            label: 'Psalter',
-            screen: 'Psalter', // this is a registered name for a screen
+            label: 'Score',
+            screen: 'Psalter_PDF', // this is a registered name for a screen
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
-            title: 'Psalter',
+            title: 'Score',
             navigatorStyle: {
                 ...default_navigator_style,
                 navBarTranslucent: false

@@ -71,3 +71,11 @@ export function first_psalter_index_of_each_psalm_obj(state, action = {}) {
     }, {});
 }
 
+export function pdf_page_to_psalter_index_obj(state = {}, action = {}) {
+    return psalter_json.reduce((acc, psalter, index) => {
+        return (acc[psalter.scoreRef] === undefined)
+            ? {...acc, [psalter.scoreRef]: index}
+            : acc;
+    }, {});
+};
+

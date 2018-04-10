@@ -8,7 +8,7 @@ export function psalter_text_input(state = "", action = {}) {
     return state;
 }
 
-export function valid_text_input(state = "", action = {}) {
+export function valid_text_input(state = true, action = {}) {
     if (action.type === STATE_ACTIONS.TOGGLE_TEXT_INPUT_VALID) {
         return action.is_valid
     }
@@ -73,3 +73,20 @@ export function psalter_pdf_input(state = "", action = {}) {
 
     return state;
 }
+
+export function valid_psalter_pdf_text_input(state = true, action = {}) {
+    if (action.type === STATE_ACTIONS.TOGGLE_PSALTER_PDF_TEXT_INPUT_VALID) {
+        return action.is_valid
+    }
+    return state;
+}
+
+export function temp_psalter_pdf_page_number_for_pdf(state = NaN, action = {}) {
+    if (action.type === STATE_ACTIONS.SET_TEMP_PSALTER_PDF_PAGE_NO) {
+        return action.page_no;
+
+    } else if (action.type === STATE_ACTIONS.RESET_TEMP_PSALTER_PDF_PAGE_NO) {
+        return NaN;
+    }
+    return state
+};

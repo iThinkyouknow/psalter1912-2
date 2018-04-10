@@ -72,15 +72,15 @@ export default Tab_Bar = (on_press_actions_wo_index) => (other_styles) => (selec
 
     const buttons = [
         {
-            text: 'Score'
+            text: 'Psalter'
             , icon_default: require('../../images/icons/icon-open-book.png')
             , icon_selected: require('../../images/icons/icon-open-book-fill.png')
             , on_press: on_press_actions_wo_index
         }
         , {
-            text: 'Psalter'
-            , icon_default: require('../../images/icons/icon-open-book.png')
-            , icon_selected: require('../../images/icons/icon-open-book-fill.png')
+            text: 'Score'
+            , icon_default: require('../../images/icons/icon-music-score.png')
+            , icon_selected: require('../../images/icons/icon-music-score-fill.png')
             , on_press: on_press_actions_wo_index
         }
         , {
@@ -96,6 +96,33 @@ export default Tab_Bar = (on_press_actions_wo_index) => (other_styles) => (selec
             , on_press: on_press_actions_wo_index
         }
     ].map(get_buttons(selected_index));
+
+    const buttons_2 = [
+        {
+            text: 'Psalter'
+            , icon_default: require('../../images/icons/icon-open-book.png')
+            , icon_selected: require('../../images/icons/icon-open-book-fill.png')
+            , on_press: on_press_actions_wo_index
+        }
+        , {
+            text: 'Score'
+            , icon_default: require('../../images/icons/icon-music-score.png')
+            , icon_selected: require('../../images/icons/icon-music-score-fill.png')
+            , on_press: on_press_actions_wo_index
+        }
+        , {
+            text: 'Creeds'
+            , icon_default: require('../../images/icons/icon-creeds.png')
+            , icon_selected: require('../../images/icons/icon-creeds-fill.png')
+            , on_press: on_press_actions_wo_index
+        }
+        , {
+            text: 'Bible'
+            , icon_default: require('../../images/icons/icon-bible.png')
+            , icon_selected: require('../../images/icons/icon-bible-fill.png')
+            , on_press: on_press_actions_wo_index
+        }
+    ]
 
 
 
