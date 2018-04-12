@@ -300,8 +300,8 @@ const _show_back_to_books_button = () => {
 const show_back_to_books_button = _show_back_to_books_button();
 
 
-const on_psalter_tab_select = (dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () => {
-    if (tab_index === 0 && current_book_index === 18 && current_psalm !== psalter_psalm) {
+const on_psalter_and_score_tab_select = (dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () => {
+    if ((tab_index === 0 || tab_index === 1) && current_book_index === 18 && current_psalm !== psalter_psalm) {
         dispatch(lock_in(psalm_to_psalter_obj[current_psalm]));
     };
 };
@@ -378,7 +378,7 @@ class Bible_Text extends Component {
                 this.props.current_book_index === 18
                 && this.props.current_chapter_index + 1 !== this.props.psalter_psalm
             )
-            ? on_psalter_tab_select(this.props.dispatch)(this.props.current_book_index)(this.props.current_chapter_index + 1)(this.props.psalter_psalm)(this.props.first_psalter_index_of_each_psalm_obj)
+            ? on_psalter_and_score_tab_select(this.props.dispatch)(this.props.current_book_index)(this.props.current_chapter_index + 1)(this.props.psalter_psalm)(this.props.first_psalter_index_of_each_psalm_obj)
             : () => () => {};
 
         const tab_actions = [

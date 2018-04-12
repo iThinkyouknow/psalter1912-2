@@ -79,7 +79,6 @@ const _Number_input = (os) => (end_text_action) => (change_text_action) => (text
 
                    {...props} />
     );
-
 };
 
 const Number_input = _Number_input(Platform.OS);
@@ -118,13 +117,39 @@ const on_psalter_text_change = (dispatch) => (max_value) => (value) => {
     }
 };
 
+const select_tab_0 = (dispatch) => (psalter_index) => (pdf_page_to_psalter_index_obj) => (temp_psalter_pdf_page_number_for_pdf) => () => {
+
+    const new_psalter_index = pdf_page_to_psalter_index_obj[temp_psalter_pdf_page_number_for_pdf]
+        || pdf_page_to_psalter_index_obj[temp_psalter_pdf_page_number_for_pdf - 1] + 1;
+
+    const pdf_page_did_change = !Number.isNaN(temp_psalter_pdf_page_number_for_pdf)
+        && !Number.isNaN(new_psalter_index)
+        && psalter_index !== new_psalter_index;
+
+    if (pdf_page_did_change) {
+        dispatch(lock_in(new_psalter_index));
+        dispatch(reset_temp_psalter_pdf_page_no());
+    }
+
+};
+
+const select_tab_3 = (dispatch) => (psalm) => () => dispatch(get_bible_passage(18)(psalm - 1));
+
+const select_tab = (tab_0_action = no_op) => (tab_3_action = no_op) => (tab_index) => () => {
+    if (tab_index === 0) {
+        tab_0_action();
+    } else if (tab_index === 3) {
+        // scrolling does not get the latest psalm
+        tab_3_action();
+    }
+};
+
 const on_page_change = (dispatch) => (pg, num) => {
     dispatch(set_temp_psalter_pdf_page_no(pg));
 };
 
 class Psalter_PDF extends Component {
     render() {
-        //todo isvalidtextinput
 
         const pdf_style = {
             paddingTop: sizes.large
@@ -136,34 +161,19 @@ class Psalter_PDF extends Component {
             scale;
         };
 
-
         const on_psalter_selected     = on_select_psalter_action(this.props.dispatch)(this.props.valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(this.props.dispatch)(413);
 
-
-        //umber_input =  (end_text_action) => (change_text_action) => (text_is_valid) => (value) => (style) => (props) =>
-
         const num_input_field = Number_input(on_psalter_selected)(on_psalter_input_change)(true)(this.props.psalter_pdf_input)()();
 
-        const select_tab = (dispatch) => (psalter_index) => (pdf_page_to_psalter_index_obj) => (temp_psalter_pdf_page_number_for_pdf) => (tab_index) => () => {
-            if (tab_index === 0) {
-                const new_psalter_index = pdf_page_to_psalter_index_obj[temp_psalter_pdf_page_number_for_pdf]
-                    || pdf_page_to_psalter_index_obj[temp_psalter_pdf_page_number_for_pdf - 1] + 1;
+        const select_tab_0_loaded = select_tab_0(this.props.dispatch)(this.props.psalter_index)(this.props.pdf_page_to_psalter_index_obj)(this.props.temp_psalter_pdf_page_number_for_pdf);
 
-                const pdf_page_did_change = !Number.isNaN(temp_psalter_pdf_page_number_for_pdf)
-                    && !Number.isNaN(new_psalter_index)
-                    && psalter_index !== new_psalter_index;
-
-                if (pdf_page_did_change) {
-                    dispatch(lock_in(new_psalter_index));
-                    dispatch(reset_temp_psalter_pdf_page_no());
-                }
-            }
-        };
+        const select_tab_3_loaded = select_tab_3(this.props.dispatch)(this.props.psalter_psalm);
 
         const tab_actions = [
-            select_tab(this.props.dispatch)(this.props.psalter_index)(this.props.pdf_page_to_psalter_index_obj)(this.props.temp_psalter_pdf_page_number_for_pdf)
+            select_tab(select_tab_0_loaded)(select_tab_3_loaded)
         ];
+
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
                                   dispatch={this.props.dispatch}
@@ -193,6 +203,7 @@ function mapStateToProps(state) {
     return {
         psalter_index: state.psalter.index
         , psalter_score_page: state.psalter.content.scoreRef
+        , psalter_psalm: state.psalter.content.psalm
         , pdf_page_to_psalter_index_obj: state.pdf_page_to_psalter_index_obj
         // state reducer
         , psalter_pdf_input: state.psalter_pdf_input
