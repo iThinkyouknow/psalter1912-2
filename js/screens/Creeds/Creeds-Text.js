@@ -67,9 +67,9 @@ const Creeds_Body_Component = (section_header) => ({item, index}) => {
     );
 
     const [
-        body_component,
-        extra_component
-    ] = [body_para_component, extra_para_component].map(component => is_present(component) ? component_wrapper(component) : null);
+              body_component,
+              extra_component
+          ] = [body_para_component, extra_para_component].map(component => is_present(component) ? component_wrapper(component) : null);
 
 
     return (
@@ -95,19 +95,42 @@ const Creeds_Text_Flatlist = (styles) => (title) => (description) => (body) => {
         <FlatList data={body.content}
                   ListHeaderComponent={Creeds_Body_Header}
                   keyExtractor={key_extractor}
-                  renderItem={Creeds_Body_Component(body.header)} style={styles.flatlist_padding_horizontal} />
+                  renderItem={Creeds_Body_Component(body.header)} style={styles.flatlist_padding_horizontal}/>
     );
+};
+
+const tab_2_actions = (navigator) => () => navigator.popToRoot();
+
+const select_tab = (tab_2_actions) => (tab_index) => () => {
+    if (tab_index === 2) {
+        tab_2_actions();
+    }
 };
 
 
 class Creeds_Text extends Component {
 
     render() {
-        const {creed_body_title, creed_body_description, creed_body} = this.props;
+        const {
+            creed_body_title
+            , creed_body_description
+            , creed_body
+            , tab_bar_selected_index
+            , navigator
+            , dispatch
+        } = this.props;
+
+        const select_tab_wo_tab_index = select_tab(tab_2_actions(navigator));
+
+        const tab_actions = [
+            select_tab_wo_tab_index
+        ];
+
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
+            <Default_Bg_w_Tab_Bar navigator={navigator}
+                                  dispatch={dispatch}
+                                  tab_bar_selected_index={tab_bar_selected_index}
+                                  other_actions_array={tab_actions}>
                 {Creeds_Text_Flatlist(styles)(creed_body_title)(creed_body_description)(creed_body)}
             </Default_Bg_w_Tab_Bar>
         );

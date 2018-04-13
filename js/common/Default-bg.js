@@ -33,7 +33,6 @@ const select_tab_action = (navigator) => (dispatch) => (index) => () => {
     navigator.switchToTab({
         tabIndex: index
     });
-    navigator.popToRoot();
     dispatch(select_tab_index(index));
 };
 

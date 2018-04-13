@@ -133,12 +133,22 @@ const creed_categories_list = (header_banner_component) => (content) => (render_
     );
 };
 
+const tab_2_actions = (navigator) => () => navigator.popToRoot();
+
+const select_tab = (tab_2_actions) => (tab_index) => () => {
+    if (tab_index === 2) {
+        tab_2_actions();
+    }
+};
+
 
 class Creeds_Categories extends Component {
 
     componentWillUnmount() {
         if (this.props.creeds_chapters_curr_level === 2) this.props.dispatch(change_creeds_chapter_lv(1));
     }
+
+
 
 
     render() {
@@ -183,11 +193,20 @@ class Creeds_Categories extends Component {
             ? creed_categories_list(header_banner_w_title)(creed_articles_content)(render_creed_categories_w_data)
             : creed_categories_list(header_banner_w_title)(creed_content)(render_creed_categories_w_data);
 
+        const tab_2_w_nav = tab_2_actions(this.props.navigator);
+
+        const select_tab_wo_tab_index = select_tab(tab_2_w_nav);
+
+        const tab_actions = [
+            select_tab_wo_tab_index
+        ];
+
 
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
                                   dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}>
+                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
+                                  other_actions_array={tab_actions}>
                 {creed_categories_list_component}
             </Default_Bg_w_Tab_Bar>
         )

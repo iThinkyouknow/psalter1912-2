@@ -184,7 +184,7 @@ class Psalter_PDF extends Component {
                          scale={1}
                          style={pdf_style}
                          horizontal={true}
-                         page={this.props.psalter_score_page}
+                         page={this.props.psalter_score_page || 14}
                          onScaleChanged={on_scale}
                          onPageChanged={on_page_change(this.props.dispatch)}/>
                 </View>
