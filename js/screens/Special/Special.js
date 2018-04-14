@@ -51,7 +51,7 @@ const categories_data = [
     , {
         title: 'Give Thanks'
         , image: require('../../../images/thanks.jpg')
-        , nav_to: ''
+        , nav_to: 'Credits'
     }
 ];
 
