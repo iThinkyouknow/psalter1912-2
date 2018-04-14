@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
 import {
-    Alert,
-    View,
-    FlatList,
-    SectionList,
-    PanResponder,
-    Animated,
-    TextInput,
-    Dimensions,
-    KeyboardAvoidingView,
-    Keyboard,
-    Platform,
-    TouchableHighlight,
-    Image,
-    StyleSheet,
-    AsyncStorage,
-    Slider
+    Alert
+    , View
+    , FlatList
+    , SectionList
+    , PanResponder
+    , Animated
+    , TextInput
+    , Dimensions
+    , KeyboardAvoidingView
+    , Keyboard
+    , Platform
+    , TouchableHighlight
+    , Image
+    , StyleSheet
+    , AsyncStorage
+    , Slider
 } from 'react-native';
 import {connect} from 'react-redux';
 import KeyboardManager from 'react-native-keyboard-manager'
@@ -47,9 +47,10 @@ import {
 } from '../../redux/actions/psalter-actions';
 
 import {
-    psalter_text_input,
-    toggle_text_as_valid,
-    set_input_as_search
+    psalter_text_input
+    , toggle_text_as_valid
+    , set_input_as_search
+    , set_can_search
 } from '../../redux/actions/state-actions';
 
 import {
@@ -194,10 +195,14 @@ const end_text_input = (dispatch) => (text_is_valid) => (event) => {
     }
 };
 
+const num_input_set_can_search = (dispatch) => (can_search) => () => {
+    dispatch(set_can_search(can_search));
+};
+
 const Number_input = (props) => {
 
     const keyboard_type = (Platform.OS === 'ios') ? 'number-pad' : 'numeric';
-    const {psalters_count, value, dispatch, valid_text_input} = props;
+    const {psalters_count, value, dispatch, valid_text_input, on_blur_action, on_focus_action} = props;
 
     return (
         <TextInput keyboardType={keyboard_type}
@@ -207,6 +212,8 @@ const Number_input = (props) => {
                    onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
                    value={value}
                    autoCorrect={false}
+                   onBlur={props.on_blur_action}
+                   onFocus={props.on_focus_action}
                    {...props} />
     );
 };
@@ -409,7 +416,6 @@ const on_search_button_press = (dispatch) => (navigator) => (text_input_as_searc
     set_text_input_as_search(dispatch)(text_input_as_search)();
     setTimeout(search_results_animation.slide, 100);
     set_keyboard_style(text_input_as_search);
-
 };
 
 const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
@@ -421,9 +427,9 @@ const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () =>
 const search_fn = (dispatch) => (search_action) => (event) => {
     const text = event.nativeEvent.text.trim();
 
-    if (text.length < 3) {
+    if (text.length > 0 && text.length < 3) {
         not_enough_characters_search_alert(3);
-    } else {
+    } else if (text.length > 2) {
         dispatch(search_action(text));
     }
 };
@@ -552,6 +558,8 @@ class App extends Component {
             on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
         ] : [];
 
+        const num_input_set_can_search_w_dispatch = num_input_set_can_search(this.props.dispatch);
+
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
                                   dispatch={this.props.dispatch}
@@ -586,48 +594,56 @@ class App extends Component {
                     paddingHorizontal: sizes.large,
                     paddingVertical: sizes.default,
                 }}>
-                    {!this.props.text_input_as_search &&
-                    <Number_input psalters_count={this.props.psalters_count}
-                                  value={this.props.psalter_text_input}
-                                  dispatch={this.props.dispatch}
-                                  style={[styles.text_input_style]}
-                                  valid_text_input={this.props.valid_text_input}/>
-                    }
-                    {this.props.text_input_as_search &&
-                    <Text_input_search dispatch={this.props.dispatch}
-                                       style={[styles.text_input_style]}
-                                       valid_text_input={true}
-                                       search_results={this.props.psalter_search_results}/>
+                    {(this.props.text_input_as_search)
+                        ? <Text_input_search dispatch={this.props.dispatch}
+                                              style={[styles.text_input_style]}
+                                              valid_text_input={true}
+                                              search_results={this.props.psalter_search_results}/>
+
+                        : <Number_input psalters_count={this.props.psalters_count}
+                                         value={this.props.psalter_text_input}
+                                         dispatch={this.props.dispatch}
+                                         style={[styles.text_input_style]}
+                                         valid_text_input={this.props.valid_text_input}
+                                         on_blur_action={num_input_set_can_search_w_dispatch(true)}
+                                         on_focus_action={num_input_set_can_search_w_dispatch(false)} />
+
                     }
 
-                    <TouchableHighlight style={styles.search_button_container}
+
+                    <TouchableHighlight style={styles.bottom_button_container}
                                         onPress={on_search_button_press(this.props.dispatch)(this.props.navigator)(this.props.text_input_as_search)(slide_right_pos)}
-                                        underlayColor={colors.dark_cerulean} >
-                        <Image style={styles.button_std} source={require('../../../images/icons/icon-search.png')}/>
+                                        underlayColor={colors.dark_cerulean}
+                                        disabled={!this.props.can_search} >
+                        {(this.props.can_search)
+                            ? <Image style={styles.button_std}
+                                     source={require('../../../images/icons/icon-search.png')}/>
 
+                            : <Image style={styles.button_std}
+                                     source={require('../../../images/icons/icon-search-grey.png')}/>
+                        }
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={styles.search_button_container}
+                    <TouchableHighlight style={styles.bottom_button_container}
                                         onPress={more_section_slide}
                                         underlayColor={colors.dark_cerulean} >
                         <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')}/>
 
                     </TouchableHighlight>
                 </View>
-
-
             </Default_Bg_w_Tab_Bar>
         );
     }
-}
-;
+};
 
 function mapStateToProps(state) {
     return {
         psalter: state.psalter.content
         , index: state.psalter.index
         , psalters_count: state.psalters_count
-        , should_display_go_forth_bar: state.should_display_go_forth_bar
+        // , should_display_go_forth_bar: state.should_display_go_forth_bar
+        // state reducer
+        , can_search: state.psalter_can_search
         , psalter_text_input: state.psalter_text_input
         , valid_text_input: state.valid_text_input
         , sung_dates: state.psalter.current_sung_dates
@@ -635,7 +651,9 @@ function mapStateToProps(state) {
         , current_music_timer: state.music_timer.current
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
+        //search reducer
         , psalter_search_results: state.psalter_search_results
+        // tab reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }

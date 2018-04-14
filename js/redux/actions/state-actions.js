@@ -5,6 +5,7 @@ export const STATE_ACTIONS = {
     , SET_MUSIC_TIMER: 'SET_MUSIC_TIMER'
     , SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER'
     , SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH'
+    , PSALTER_SET_CAN_SEARCH: 'PSALTER_SET_CAN_SEARCH'
     , SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
     , CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
     , BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS: 'BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS'
@@ -20,12 +21,7 @@ export const psalter_text_input = (val) => {
     }
 };
 
-export const psalter_pdf_text_input = (val) => {
-    return {
-        type: STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT,
-        val
-    }
-};
+
 
 export const toggle_text_as_valid = (is_valid) => {
     return {
@@ -52,6 +48,20 @@ export const set_input_as_search = (should_search) => {
     return {
         type: STATE_ACTIONS.SET_INPUT_AS_SEARCH,
         should_search
+    }
+};
+
+export const set_can_search = (can_search) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_SET_CAN_SEARCH
+        , can_search
+    }
+}
+
+export const psalter_pdf_text_input = (val) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT,
+        val
     }
 };
 

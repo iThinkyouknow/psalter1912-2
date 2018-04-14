@@ -65,11 +65,11 @@ export default styles = StyleSheet.create({
         opacity: 0.8,
         position: 'absolute',
         left: sizes.large,
-        zIndex: zIndex.max,
+        zIndex: zIndex.xxx_large,
         borderRadius: border_radii.large
     },
 
-    search_button_container: {
+    bottom_button_container: {
         marginLeft: sizes.default,
         width: buttons.large,
         height: buttons.large,

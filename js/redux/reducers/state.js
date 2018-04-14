@@ -44,6 +44,15 @@ export function text_input_as_search(state = false, action) {
     return state;
 }
 
+export function psalter_can_search(state = true, action) {
+    if (action.type === STATE_ACTIONS.PSALTER_SET_CAN_SEARCH) {
+        return action.can_search
+    }
+
+    return state;
+}
+
+
 export function creeds_library_type_index(state = 0, action) {
     if (action.type === STATE_ACTIONS.SELECT_LIBRARY_TYPE) {
         return action.index;

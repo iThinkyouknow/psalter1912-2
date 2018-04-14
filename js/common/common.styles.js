@@ -13,7 +13,8 @@ export const colors = {
     ocean: 'rgb(0, 84, 147)',
     dark_cerulean: 'rgb(0, 64, 128)',
     black: 'rgb(0, 0, 0)',
-    blue: 'rgb(0, 122, 255)'
+    blue: 'rgb(0, 122, 255)',
+    grey: 'rgb(142, 142, 147)'
 };
 
 export const sizes = {
