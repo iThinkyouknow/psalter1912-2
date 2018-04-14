@@ -34,10 +34,7 @@ Navigation.startTabBasedApp({
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'Psalter',
-            navigatorStyle: {
-                ...default_navigator_style,
-                navBarTranslucent: false
-            }
+            navigatorStyle: default_navigator_style
         }
         , {
             label: 'Score',
@@ -45,10 +42,7 @@ Navigation.startTabBasedApp({
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'Score',
-            navigatorStyle: {
-                ...default_navigator_style,
-                navBarTranslucent: false
-            }
+            navigatorStyle: default_navigator_style
         }
         , {
             label: 'Creeds & Forms',
@@ -63,10 +57,15 @@ Navigation.startTabBasedApp({
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'The Holy Bible',
-            navigatorStyle: {
-                ...default_navigator_style,
-                navBarTranslucent: false
-            }
+            navigatorStyle: default_navigator_style
+        }
+        , {
+            label: 'Special',
+            screen: 'Special', // this is a registered name for a screen
+            // icon: require(' '),
+            //selectedIcon: require('../img/one_selected.png'), // iOS only
+            title: 'Special',
+            navigatorStyle: default_navigator_style
         }
     ],
     tabsStyle: {

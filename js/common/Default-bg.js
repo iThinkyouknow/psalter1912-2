@@ -43,6 +43,7 @@ export const Default_Bg_w_Tab_Bar = (props = {}) => {
     const on_press_actions = (select_tab_action_wo_index) => (other_actions_array) => (index) => () => {
 
         const actions_w_index = index => action => action(index)();
+
         other_actions_array.map(actions_w_index(index));
         select_tab_action_wo_index(index)();
     };

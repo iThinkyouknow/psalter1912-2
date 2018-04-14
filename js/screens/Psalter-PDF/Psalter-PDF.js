@@ -1,5 +1,5 @@
+
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {
     View
     , FlatList
@@ -7,6 +7,8 @@ import {
     , Platform
     , TextInput
 } from 'react-native';
+
+import {connect} from 'react-redux';
 
 // import styles from './Psalter-PDF.styles';
 import {
@@ -20,14 +22,10 @@ import {
     , line_height_fn
 } from '../../common/common.styles';
 
-import {
-    Default_Text,
-    Animated_Text
-} from '../../common/Text';
-
 import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
 
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
+import {set_keyboard_toolbar} from '../../utils/keyboard';
 
 import {is_present_type, no_op, debounce} from '../../utils/functions';
 
@@ -48,6 +46,7 @@ import {
 } from '../../redux/actions/state-actions';
 
 import Pdf from 'react-native-pdf';
+
 
 const pdf_file = (Platform.OS === 'ios')
     ? require('../../../data/The_Psalter_PDF.pdf')
@@ -76,7 +75,6 @@ const _Number_input = (os) => (end_text_action) => (change_text_action) => (text
                    value={value}
                    autoCorrect={false}
                    style={[text_input_style, style]}
-
                    {...props} />
     );
 };
@@ -195,8 +193,7 @@ class Psalter_PDF extends Component {
             </Default_Bg_w_Tab_Bar>
         );
     }
-}
-;
+};
 
 
 function mapStateToProps(state) {
@@ -209,6 +206,8 @@ function mapStateToProps(state) {
         , psalter_pdf_input: state.psalter_pdf_input
         , valid_psalter_pdf_text_input: state.valid_psalter_pdf_text_input
         , temp_psalter_pdf_page_number_for_pdf: state.temp_psalter_pdf_page_number_for_pdf
+        // tab reducer
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 

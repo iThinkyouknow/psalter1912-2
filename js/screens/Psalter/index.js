@@ -71,6 +71,8 @@ import {
     not_enough_characters_search_alert
 } from '../../utils/alert';
 
+import {set_keyboard_toolbar} from '../../utils/keyboard';
+
 
 
 import music_slider from '../../common/music-slider';
@@ -81,13 +83,6 @@ const psalter_text_fade_anim = fade_animation(200)(0);
 const more_section_slide_animation = slide_down_animation(500)(12);
 const more_section_slide_position  = more_section_slide_animation.animated_value;
 const more_section_slide           = more_section_slide_animation.slide;
-
-const set_nav_bar_title = (navigator) => (psalter_no) => () => {
-    const invalid_psalter = (psalter_no === undefined || psalter_no === null || isNaN(parseInt(psalter_no)));
-    navigator.setTitle({
-        title: invalid_psalter ? `Psalter` : `Psalter ${psalter_no}`
-    });
-};
 
 
 const header = (fade_anim) => (psalter) => (index) => {
@@ -123,7 +118,7 @@ const on_psalter_change = (dispatch) => (next_val) => () => {
     dispatch(lock_in(next_val));
 
     psalter_text_fade_anim.fade_in();
-    set_keyboard_style(true);
+    set_keyboard_toolbar(true);
     music_player.when_psalter_change(dispatch)(`Psalter-${next_val + 1}.mp3`)();
 };
 
@@ -224,18 +219,17 @@ const get_random_psalter = (dispatch) => (count) => () => {
     on_psalter_change(dispatch)(random)();
 };
 
-const set_keyboard_style = (is_psalter_input) => {
-
-    if (is_psalter_input) {
-        KeyboardManager.setEnableAutoToolbar(true);
-        KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
-        KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
-        KeyboardManager.setShouldShowTextFieldPlaceholder(false);
-
-    } else {
-        KeyboardManager.setEnableAutoToolbar(false);
-    }
-};
+// const set_keyboard_toolbar = (should_show_toolbar) => {
+//
+//     if (should_show_toolbar) {
+//         KeyboardManager.setEnableAutoToolbar(true);
+//         KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
+//         KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
+//         KeyboardManager.setShouldShowTextFieldPlaceholder(false);
+//     } else {
+//         KeyboardManager.setEnableAutoToolbar(false);
+//     }
+// };
 
 const more_stuff_list_header = () => {
     return(
@@ -415,7 +409,7 @@ const on_search_button_press = (dispatch) => (navigator) => (text_input_as_searc
     // search_results_animation.slide();
     set_text_input_as_search(dispatch)(text_input_as_search)();
     setTimeout(search_results_animation.slide, 100);
-    set_keyboard_style(text_input_as_search);
+    set_keyboard_toolbar(text_input_as_search);
 };
 
 const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
@@ -513,8 +507,31 @@ const Search_result_view = (props) => {
     </Animated.View>)
 };
 
-const on_bible_tab_select = (dispatch) => (psalm) => (tab_index) => () => {
-    if (tab_index === 2) dispatch(get_bible_passage(18)(psalm - 1));
+const on_tab_select = (tab_1_action) => (tab_3_action) => (tab_index) => () => {
+    if (tab_index === 1) {
+        tab_1_action()
+    } else if (tab_index === 3) {
+        tab_3_action();
+    }
+};
+
+const on_bible_tab_select = (dispatch) => (psalm) => () => {
+    dispatch(get_bible_passage(18)(psalm - 1));
+};
+
+const on_pdf_tab_select = () => {
+    set_keyboard_toolbar(true)
+};
+
+const on_action = (actions_array) => () => {
+    actions_array.map((action) => action());
+};
+
+const hide_tabs_action = (navigator) => () => {
+    return navigator.toggleTabs({
+        to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        animated: false // does the toggle have transition animation or does it happen immediately (optional)
+    });
 };
 
 /**
@@ -537,7 +554,7 @@ class App extends Component {
             props.dispatch(set_sung_count_all(arr_w_value || []));
         });
 
-        set_keyboard_style(true);
+        set_keyboard_toolbar(true);
     }
 
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
@@ -554,11 +571,20 @@ class App extends Component {
 
         const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
 
-        const tab_actions = this.props.psalter.psalm > 0 ? [
-            on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
-        ] : [];
+        const on_bible_tab_select_loaded = is_present_type('number')(this.props.psalter.psalm)
+            ? on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
+            : no_op;
+
+        const tab_actions = [
+            on_tab_select(on_pdf_tab_select)(on_bible_tab_select_loaded)
+        ];
 
         const num_input_set_can_search_w_dispatch = num_input_set_can_search(this.props.dispatch);
+
+        const num_input_on_blur_actions_array = [
+            hide_tabs_action(this.props.navigator)
+            , num_input_set_can_search_w_dispatch(true)
+        ];
 
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
@@ -598,14 +624,15 @@ class App extends Component {
                         ? <Text_input_search dispatch={this.props.dispatch}
                                               style={[styles.text_input_style]}
                                               valid_text_input={true}
-                                              search_results={this.props.psalter_search_results}/>
+                                              search_results={this.props.psalter_search_results}
+                                             onBlur={hide_tabs_action(this.props.navigator)} />
 
                         : <Number_input psalters_count={this.props.psalters_count}
                                          value={this.props.psalter_text_input}
                                          dispatch={this.props.dispatch}
                                          style={[styles.text_input_style]}
                                          valid_text_input={this.props.valid_text_input}
-                                         on_blur_action={num_input_set_can_search_w_dispatch(true)}
+                                         on_blur_action={on_action(num_input_on_blur_actions_array)}
                                          on_focus_action={num_input_set_can_search_w_dispatch(false)} />
 
                     }
