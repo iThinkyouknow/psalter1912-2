@@ -97,8 +97,8 @@ export default Tab_Bar = (on_press_actions_wo_index) => (other_styles) => (selec
         }
         , {
             text: 'Special'
-            , icon_default: require('../../images/icons/icon-bible.png')
-            , icon_selected: require('../../images/icons/icon-bible-fill.png')
+            , icon_default: require('../../images/icons/icon-special.png')
+            , icon_selected: require('../../images/icons/icon-special-fill.png')
             , on_press: on_press_actions_wo_index
         }
     ].map(get_buttons(selected_index));
