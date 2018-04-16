@@ -148,9 +148,6 @@ class Creeds_Categories extends Component {
         if (this.props.creeds_chapters_curr_level === 2) this.props.dispatch(change_creeds_chapter_lv(1));
     }
 
-
-
-
     render() {
         const {
             library_type_index,

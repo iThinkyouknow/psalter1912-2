@@ -14,6 +14,7 @@ import Bible_Text from './Bible/Bible-Text';
 import Special from './Special/Special';
 import Website from './Special/Website';
 import Credits from './Special/Credits';
+import Resources from './Special/Resources';
 
 
 // register all screens of the app (including internal ones)
@@ -31,4 +32,5 @@ export function registerScreens(store, Provider) {
     Navigation.registerComponent('Special', () => Special, store, Provider);
     Navigation.registerComponent('Website', () => Website, store, Provider);
     Navigation.registerComponent('Credits', () => Credits, store, Provider);
+    Navigation.registerComponent('Resources', () => Resources, store, Provider);
 }

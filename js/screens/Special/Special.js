@@ -7,6 +7,7 @@ import {
     , Animated
     , TouchableHighlight
     , Dimensions
+    , Linking
 } from 'react-native';
 
 // import styles from './Special.styles';
@@ -32,40 +33,23 @@ import {is_present_type} from '../../utils/functions';
 
 const special_categories_key_extractor = (item, index) => `special-cat-${item.title}-${index}`;
 
-const categories_data = [
-    {
-        title: 'Website'
-        , image: require('../../../images/website.jpg')
-        , nav_to: 'Website'
-    }
-    , {
-        title: 'Sung 123 Times'
-        , image: require('../../../images/statistics.jpg')
-        , nav_to: ''
-    }
-    , {
-        title: 'Resources'
-        , image: require('../../../images/resources.jpg')
-        , nav_to: ''
-    }
-    , {
-        title: 'Give Thanks'
-        , image: require('../../../images/thanks.jpg')
-        , nav_to: 'Credits'
-    }
-];
+
 
 const navigate_to = (navigator) => (screen_name) => () => {
     if (is_present_type('string')(screen_name)) {
         navigator.push({
             screen: screen_name,
-            // navigatorStyle: {
-            //     drawUnderNavBar: true,
-            //     navBarTranslucent: true,
-            // },
+            navigatorStyle: {
+                drawUnderNavBar: true,
+                navBarTranslucent: true,
+            },
             backButtonTitle: 'Special'
         });
     }
+};
+
+const link_to = (url) => () => {
+    Linking.openURL(url);
 };
 
 const renderer = (width) => (navigate) => ({item, index}) => {
@@ -97,11 +81,15 @@ const renderer = (width) => (navigate) => ({item, index}) => {
         , paddingBottom: 2
     };
 
+    const on_press_action = (is_present_type('string')(item.link))
+        ? link_to(item.link)
+        : navigate(item.nav_to);
 
 
+//<TouchableHighlight underlayColor={'transparent'} onPress={navigate(item.nav_to)}>
 
     return (
-        <TouchableHighlight underlayColor={'transparent'} onPress={navigate(item.nav_to)}>
+        <TouchableHighlight underlayColor={'transparent'} onPress={on_press_action}>
             <View style={[renderer_style, dyn_style]}>
                 <Image style={[imageStyle, dyn_style]} source={item.image}/>
                 <View style={text_cont_style}>
@@ -114,8 +102,49 @@ const renderer = (width) => (navigate) => ({item, index}) => {
     );
 };
 
+const get_total_sung_count = (psalter_all_sung_dates) => {
+    return Object.values(psalter_all_sung_dates)
+        .map((date_array) => date_array.length)
+        .reduce((acc, count_per_psalter) => acc + count_per_psalter, 0);
+};
+
+const get_categories_data = (psalter_all_sung_dates) => {
+
+    const sung_count = get_total_sung_count(psalter_all_sung_dates);
+    const Times = sung_count === 1 ? 'Time' : 'Times';
+
+    return [
+        {
+            title: 'Website'
+            , image: require('../../../images/website.jpg')
+            , link: 'http://psalterapp.weebly.com/'
+            , nav_to: ''
+        }
+        , {
+            title: `Sung ${sung_count} ${Times}`
+            , image: require('../../../images/statistics.jpg')
+            , link: ''
+            , nav_to: ''
+        }
+        , {
+            title: 'Resources'
+            , image: require('../../../images/resources.jpg')
+            , link: ''
+            , nav_to: 'Resources'
+        }
+        , {
+            title: 'Give Thanks'
+            , image: require('../../../images/thanks.jpg')
+            , link: ''
+            , nav_to: 'Credits'
+        }
+    ];
+};
+
 class Special extends Component {
     render() {
+
+        const categories_data = get_categories_data(this.props.psalter_all_sung_dates);
 
         const tab_actions = [];
 
@@ -137,14 +166,15 @@ class Special extends Component {
         );
     }
 
-}
-;
+};
 
 
 function mapStateToProps(state) {
     return {
         // tab_bar_reducer
         tab_bar_selected_index: state.tab_bar_selected_index
+        //psalter reducer
+        , psalter_all_sung_dates: state.psalter.all_sung_dates
     };
 }
 

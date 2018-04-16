@@ -32,6 +32,7 @@ import {is_present_type} from '../../utils/functions';
 const Intro_Component = () => {
     const style = {
         alignItems: 'center'
+        , paddingTop: native_elements.nav_bar_std + native_elements.status_bar
     };
     return (
         <View style={style}>

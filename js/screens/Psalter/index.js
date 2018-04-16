@@ -551,6 +551,7 @@ class App extends Component {
             const arr_w_value = arr
                 .filter(([key, value]) => is_present_type('string')(value))
                 .map(([key, value]) => [key, JSON.parse(value)]);
+
             props.dispatch(set_sung_count_all(arr_w_value || []));
         });
 
