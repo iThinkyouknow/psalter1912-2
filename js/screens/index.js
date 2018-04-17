@@ -15,6 +15,7 @@ import Special from './Special/Special';
 import Website from './Special/Website';
 import Credits from './Special/Credits';
 import Resources from './Special/Resources';
+import Statistics from './Special/Statistics';
 
 
 // register all screens of the app (including internal ones)
@@ -33,4 +34,5 @@ export function registerScreens(store, Provider) {
     Navigation.registerComponent('Website', () => Website, store, Provider);
     Navigation.registerComponent('Credits', () => Credits, store, Provider);
     Navigation.registerComponent('Resources', () => Resources, store, Provider);
+    Navigation.registerComponent('Statistics', () => Statistics, store, Provider);
 }

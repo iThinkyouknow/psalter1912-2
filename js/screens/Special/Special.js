@@ -124,7 +124,7 @@ const get_categories_data = (psalter_all_sung_dates) => {
             title: `Sung ${sung_count} ${Times}`
             , image: require('../../../images/statistics.jpg')
             , link: ''
-            , nav_to: ''
+            , nav_to: 'Statistics'
         }
         , {
             title: 'Resources'

@@ -372,9 +372,10 @@ const count_fn = () => {
     let current_no = 0;
     let timeout;
 
-    return add_count = (dispatch) => (Date) => (psalter_no) => (psalter_sung_dates) => {
+    const add_count = (dispatch) => (Date) => (psalter_no) => (psalter_sung_dates) => {
+
         if (psalter_no !== null && psalter_no !== undefined && psalter_no !== current_no) {
-            if (!isNaN(timeout)) clearTimeout(timeout);
+            if (is_present_type('number')(timeout)) clearTimeout(timeout);
             current_no = psalter_no;
             timeout    = setTimeout(() => {
                 // add count and set count
@@ -392,9 +393,22 @@ const count_fn = () => {
             }, 14 * 1000);
         }
     };
+
+    const clear_timeout = () => {
+        clearTimeout(timeout);
+    };
+
+    return {
+        add_count,
+        clear_timeout
+    };
+
+
 };
 
-const add_count = count_fn();
+const counter = count_fn();
+
+const add_count = counter.add_count;
 
 
 const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
@@ -512,7 +526,10 @@ const on_tab_select = (tab_1_action) => (tab_3_action) => (tab_index) => () => {
         tab_1_action()
     } else if (tab_index === 3) {
         tab_3_action();
+    } else if (tab_index !== 0) {
+        counter.clear_timeout();
     }
+
 };
 
 const on_bible_tab_select = (dispatch) => (psalm) => () => {
