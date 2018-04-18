@@ -62,7 +62,7 @@ const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_pr
 
     return (
         <TouchableHighlight key={key}
-                            style={[{flex: 1}, bg_color_obj]}
+                            style={[{flex: 1, borderColor: colors.blue, borderWidth: 0.5}, bg_color_obj]}
                             underlayColor={underlay_color}
                             onPress={on_press}>
             <View>
