@@ -27,6 +27,8 @@ import {
 } from '../../common/Text';
 
 import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Segmented_Buttons from '../../common/Segmented-Buttons';
+import {select_statistics_tab} from '../../redux/actions/state-actions';
 
 import {} from '../../utils/alert';
 
@@ -36,7 +38,7 @@ const Per_Section_Render = (screen_width) => ({item, index}) => {
         width: screen_width - sizes.large * 2
     };
     const style = {
-        backgroundColor: 'red'
+        backgroundColor: 'rgba(0, 0, 0, 0.2)'
         , height: 100
         , borderRadius: border_radii.large
     }
@@ -53,26 +55,55 @@ const Section_Header = (title) => () => {
 
 };
 
+const select_tab = (dispatch) => (index) => () => {
+    dispatch(select_statistics_tab(index));
+};
+
+const Footer = () => <View style={{height: native_elements.tab_bar}}></View>
+
 class Statistics extends Component {
     render() {
         const tab_actions = [];
+
+        const seg_buttons_width = Math.floor(Dimensions.get('window').width * 9 / 10);
+
+        const select_tab_w_dispatch = select_tab(this.props.dispatch);
+        const seg_buttons_array = [
+            {
+                text: 'Most Sung'
+                , on_press: select_tab_w_dispatch(0)
+            }
+            , {
+                text: 'Latest'
+                , on_press: select_tab_w_dispatch(1)
+            }
+            , {
+                text: 'Neglected'
+                , on_press: select_tab_w_dispatch(2)
+            }
+        ];
 
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
                                   dispatch={this.props.dispatch}
                                   tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+                                  other_actions_array={tab_actions}
+                                  style={{alignItems: 'center'}}>
 
 
-                <ScrollView >
+
                     <FlatList data={[1, 2, 3, 4, 5]}
                               renderItem={Per_Section_Render(Dimensions.get('window').width)}
                               ListHeaderComponent={Section_Header('Most Sung')}
+                              ListFooterComponent={Footer()}
                               contentContainerStyle={{alignItems: 'center', paddingTop: sizes.x_large}}
                               style={{height: 500}}
                               keyExtractor={per_sect_key_extractor(`most-sung`)}
                               ItemSeparatorComponent={() => <View style={{height: sizes.default}} />} />
-                </ScrollView>
+
+                <View style={{position: 'absolute', bottom: sizes.default + native_elements.tab_bar}}>
+                    {Segmented_Buttons(seg_buttons_width)(seg_buttons_array)()(this.props.selected_tab_index)}
+                </View>
 
 
             </Default_Bg_w_Tab_Bar>
@@ -84,8 +115,10 @@ class Statistics extends Component {
 
 function mapStateToProps(state) {
     return {
+        //state reducer
+        selected_tab_index: state.statistics_selected_tab_index
         // tab_bar_reducer
-        tab_bar_selected_index: state.tab_bar_selected_index
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 

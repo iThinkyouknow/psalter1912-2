@@ -99,3 +99,10 @@ export function temp_psalter_pdf_page_number_for_pdf(state = NaN, action = {}) {
     }
     return state
 };
+
+export function statistics_selected_tab_index(state = 0 , action ={}) {
+    if (action.type === STATE_ACTIONS.SELECT_STATISTICS_TAB) {
+        return action.selected_index;
+    }
+    return state;
+}

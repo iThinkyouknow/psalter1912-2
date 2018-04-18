@@ -245,7 +245,7 @@ const select_tab = (dispatch) => (index) => () => {
 const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index) => {
     const {width, height}      = Dimensions.get('window');
     const creeds_chooser_style = {
-        width: width * 2 / 3,
+        width: Math.floor(width * 2 / 3),
     };
 
     const button_renderer = (dispatch) => (_library_type_index) => (text, index) => {
