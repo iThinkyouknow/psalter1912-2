@@ -119,21 +119,21 @@ const book_button = ({width, height}) => (selected_index) => (select_book_action
         : {};
 
     const bible_books_button = {
-        width: box_width,
-        height: box_width,
         alignItems: 'center',
-        justifyContent: 'center',
-        ...border_style
+        justifyContent: 'center'
     };
 
-
+    const bible_books_button_dyn = {
+        width: box_width,
+        height: box_width,
+    };
 
     const text_extra_style = {
         color: (true_index === selected_index) ? colors.blue : colors.white
     };
 
     return (
-        <TouchableHighlight onPress={select_book_action(true_index)} style={bible_books_button} key={`bible-book-button-${item}-${index}`}>
+        <TouchableHighlight onPress={select_book_action(true_index)} style={[bible_books_button, bible_books_button_dyn, border_style]} key={`bible-book-button-${item}-${index}`}>
             <View>
                 {Header_Text_Component(font_sizes.large)(text_extra_style)(item)}
                 <View style={{

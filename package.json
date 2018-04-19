@@ -8,6 +8,7 @@
 	},
 	"dependencies": {
 		"ffmpeg": "^0.0.4",
+		"moment": "^2.22.1",
 		"react": "16.0.0",
 		"react-native": "0.50.3",
 		"react-native-audio-toolkit": "^1.0.6",
