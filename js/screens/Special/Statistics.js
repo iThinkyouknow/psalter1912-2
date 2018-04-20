@@ -35,7 +35,7 @@ import Segmented_Buttons from '../../common/Segmented-Buttons';
 import {select_statistics_tab} from '../../redux/actions/state-actions';
 
 import {} from '../../utils/alert';
-import {is_present_type, no_op} from '../../utils/functions';
+import {is_present_type, no_op, composer} from '../../utils/functions';
 
 const Per_Section_Render = (screen_width) => ({item, index}) => {
     const dyn_style = {
@@ -112,7 +112,58 @@ const Section_Header = (title)  => {
     );
 };
 
-const Section_Header_Neglected = (title) => {
+const Section_Header_Neglected = (random) => (title) => {
+    const texts_array = [
+        [
+            'Notice us Senpai!'
+            , 'How long more before you will notice us?'
+            , 'You have been neglecting us for too long!'
+            , 'Apologize and sing us now!'
+        ]
+        , [
+            'You have been conveniently neglecting us,'
+            , 'haven\'t you?'
+            , 'Stop that right now!'
+            , 'Apologize and sing us now!'
+        ]
+        , [
+            'Day and Night we have been waiting for you...'
+            , 'but day and night you disappoint.'
+            , 'How long before you will sing us?'
+            , 'Sing us now, that\'s the point!'
+        ]
+        , [
+            'Hey, we exist!'
+            , 'But you don\'t even think about us!'
+            , 'Conveniently we have been neglected...'
+            , 'Apologize and sing us now!'
+        ]
+        , [
+            'These are the Psalters'
+            , 'that you have conveniently neglected'
+            , 'You cannot carry on like this'
+            , 'Apologize and sing them now!'
+        ]
+    ];
+
+    const magic_number = Math.floor(random() * 100);
+
+    const get_text_index_of_array = (magic_number) => {
+        if (magic_number < 30) {
+            return 1;
+        } else if (magic_number < 60) {
+            return 2;
+        } else if (magic_number < 90) {
+            return 3;
+        } else if (magic_number > 89) {
+            return 0;
+        }
+    };
+
+    const text_index = get_text_index_of_array(magic_number);
+
+    const text_array = texts_array[text_index];
+
     return (
         <View>
             <Default_Text
@@ -125,24 +176,24 @@ const Section_Header_Neglected = (title) => {
                           font_size={'x_large'}
                           font_weight={'thin'}
                           style={{paddingTop: sizes.default}}>
-                Notice us Senpai!
+                {text_array[0]}
             </Default_Text>
             <Default_Text text_align={'center'}
                           font_size={'x_large'}
                           font_weight={'thin'} >
-                How long more before you will notice us?
+                {text_array[1]}
             </Default_Text>
             <Default_Text text_align={'center'}
                           font_size={'x_large'}
                           font_weight={'thin'} >
-                You have been neglecting us for too long!
+                {text_array[2]}
 
             </Default_Text>
             <Default_Text text_align={'center'}
                           font_size={'xx_large'}
                           font_weight={'thin'}
                           style={{paddingBottom: sizes.large}}>
-                Apologize and sing us now!
+                {text_array[3]}
             </Default_Text>
         </View>
 
@@ -171,7 +222,7 @@ const content_container_style = {
 
 const most_sung_obj_formatter = ([key, dates_array]) => {
     return {
-        psalter: key.replace('-', ' ')
+        psalter: key.replace('psalter-', 'Psalter ')
         , last_sung: moment(dates_array[0]).format('D MMM \'YY h:mm A')
         , ago: moment(dates_array[0]).fromNow()
         , sung_count: dates_array.length
@@ -216,7 +267,7 @@ const book_button = ({width, height}) => (on_press = no_op) => ({item, index}) =
     return (
         <TouchableHighlight underlayColor={'transparent'} onPress={on_press} style={[button, button_dyn]} key={`neglected-psalter-${item}-${index}`}>
             <View>
-                <Default_Text font_size={'x_large'} text_align={'center'}>12</Default_Text>
+                <Default_Text font_size={'x_large'} text_align={'center'}>{item}</Default_Text>
                 <View style={{
                     marginTop: sizes.default,
                     height: 1,
@@ -227,6 +278,46 @@ const book_button = ({width, height}) => (on_press = no_op) => ({item, index}) =
 
         </TouchableHighlight>
     );
+};
+
+const change_psalter_num_string_to_int = (psalter_num_str) => parseInt(psalter_num_str.replace('psalter-', ''));
+
+const get_unsung_array = (all_sung_dates_obj) => {
+    const all_psalters = Array.from(new Array(434), (item, index) => `psalter-${index + 1}`);
+
+    const get_not_sung = (sung_obj) => (psalter_num_str) => {
+        return (sung_obj[psalter_num_str] === undefined);
+    };
+
+    return all_psalters
+        .filter(get_not_sung(all_sung_dates_obj))
+        .map(change_psalter_num_string_to_int);
+};
+
+const get_least_sung_psalter_array = (all_sung_dates_array) => {
+    // ['psalter-1',  [4957348957, 45987345897345]]
+
+    const get_key_int_count = ([key, values_array]) => {
+        const key_int = change_psalter_num_string_to_int(key);
+        return [key_int, values_array.length];
+    };
+
+    const sort_by_count_asc = ([aKey, aCount], [bKey, bCount]) => {
+        return aCount - bCount
+    };
+
+    const get_lowest = ([key, count], index, array) => {
+        const lowest_count = array[0][1];
+        return (count === lowest_count);
+    };
+
+    const sung_dates_num_count_sorted_array = all_sung_dates_array
+        .map(get_key_int_count)
+        .sort(sort_by_count_asc)
+        .filter(get_lowest)
+        .map(([key, count]) => key);
+
+    return sung_dates_num_count_sorted_array;
 };
 
 class Statistics extends Component {
@@ -264,6 +355,12 @@ class Statistics extends Component {
 
         const title = titles[selected_tab_index];
 
+        const unsung_psalters_array = get_unsung_array(all_sung_dates_obj);
+
+        const neglected_psalters_array = (unsung_psalters_array.length > 0)
+            ? unsung_psalters_array
+            : get_least_sung_psalter_array(sung_dates_array);
+
         return (
             <Default_Bg_w_Tab_Bar navigator={navigator}
                                   dispatch={dispatch}
@@ -285,8 +382,8 @@ class Statistics extends Component {
                 }
                 {
                     (selected_tab_index === 2) && (
-                        <FlatList data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                                  ListHeaderComponent={Section_Header_Neglected(title)}
+                        <FlatList data={neglected_psalters_array}
+                                  ListHeaderComponent={Section_Header_Neglected(Math.random)(title)}
                                   ListFooterComponent={Footer()}
                                   numColumns={5}
                                   contentContainerStyle={[content_container_style]}
