@@ -16,6 +16,7 @@ import Website from './Special/Website';
 import Credits from './Special/Credits';
 import Resources from './Special/Resources';
 import Statistics from './Special/Statistics';
+import Psalter_Sung_Details from './Special/Psalter-Sung-Details';
 
 
 // register all screens of the app (including internal ones)
@@ -35,4 +36,5 @@ export function registerScreens(store, Provider) {
     Navigation.registerComponent('Credits', () => Credits, store, Provider);
     Navigation.registerComponent('Resources', () => Resources, store, Provider);
     Navigation.registerComponent('Statistics', () => Statistics, store, Provider);
+    Navigation.registerComponent('Psalter_Sung_Details', () => Psalter_Sung_Details, store, Provider);
 }

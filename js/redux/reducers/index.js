@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     , ...require('./creeds-and-forms')
     , ...require('./bible')
     , ...require('./tab-bar')
+    , ...require('./statistics')
 });
 
 export default rootReducer;
