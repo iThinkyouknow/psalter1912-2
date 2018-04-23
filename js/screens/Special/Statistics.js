@@ -225,6 +225,11 @@ const get_psalter_sung_date_details = (most_sung_obj_formatter_w_on_press) => (s
         .map(most_sung_obj_formatter_w_on_press);
 };
 
+const flatlist_item_layout = (width) => (data, index) => {
+    return {length: width, offset: width * index, index}
+};
+
+
 
 const neglected_book_button = ({width, height}) => (on_press = no_op) => ({item, index}) => { //work on
     const box_width = Math.floor(width / 6);
@@ -331,13 +336,15 @@ class Statistics extends Component {
             , selected_tab_index
         } = this.props;
 
+        const screen_width = Dimensions.get('window').width;
+
         const sung_dates_array = Object.entries(all_sung_dates_obj);
 
         const tab_actions = [
             select_tab_bar(tab_4_actions(navigator))
         ];
 
-        const seg_buttons_width = Math.floor(Dimensions.get('window').width * 9 / 10);
+        const seg_buttons_width = Math.floor(screen_width * 9 / 10);
 
         const select_tab_w_dispatch = select_tab(dispatch);
         const seg_buttons_array = [
@@ -357,8 +364,7 @@ class Statistics extends Component {
 
         const title = titles[selected_tab_index];
 
-        const unsung_psalters_array = get_unsung_array(all_sung_dates_obj);
-
+        const unsung_psalters_array = get_unsung_array(all_sung_dates_obj);console.timeEnd('t1');
         const neglected_psalters_array = (unsung_psalters_array.length > 0)
             ? unsung_psalters_array
             : get_least_sung_psalter_array(sung_dates_array);
@@ -383,11 +389,12 @@ class Statistics extends Component {
                 && (
                     <FlatList
                         data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array))(sung_dates_array)(selected_tab_index)}
-                        renderItem={Psalter_Btn_Component(Dimensions.get('window').width)}
+                        renderItem={Psalter_Btn_Component(screen_width)}
                         ListHeaderComponent={Section_Header(title)}
                         ListFooterComponent={Footer()}
                         contentContainerStyle={content_container_style}
                         keyExtractor={per_sect_key_extractor(title)}
+                        getItemLayout={flatlist_item_layout(screen_width - sizes.large * 2)}
                         ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}/>
                 )
                 }
@@ -399,6 +406,7 @@ class Statistics extends Component {
                                   numColumns={5}
                                   contentContainerStyle={[content_container_style]}
                                   keyExtractor={per_sect_key_extractor(title)}
+                                  getItemLayout={flatlist_item_layout(Math.floor(screen_width / 6))}
                                   renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(Math.random)(neglected_on_press_yes_wo_index)())}/>
                     )
                 }

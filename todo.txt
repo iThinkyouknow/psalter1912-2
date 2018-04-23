@@ -9,3 +9,5 @@ fonts
 properly handle on_psalter_change
 refactor tab bar
 all the other screens
+
+lower lag for stats tab switching √
