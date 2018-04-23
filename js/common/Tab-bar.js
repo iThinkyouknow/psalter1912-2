@@ -25,6 +25,10 @@ import {
     , buttons
 } from './common.styles';
 
+import {
+    select_tab_index
+} from '../redux/actions/tab-bar-actions';
+
 const styles = StyleSheet.create({
     tab_bar: {
         height: native_elements.tab_bar
@@ -66,6 +70,13 @@ const get_buttons = (selected_index) => ({text, icon_default, icon_selected, on_
             </View>
         </TouchableHighlight>
     );
+};
+
+export const select_tab_action = (navigator) => (dispatch) => (tab_index) => () => {
+    navigator.switchToTab({
+        tabIndex: tab_index
+    });
+    dispatch(select_tab_index(tab_index));
 };
 
 export default Tab_Bar = (on_press_actions_wo_index) => (other_styles) => (selected_index) => {

@@ -22,9 +22,9 @@ How about numbers instead?`,
 export const wrong_number_error_alert = (max_val) => (on_apology) => {
     Alert.alert(
         `Psalter Not Available`,
-        `Come On! \ 
-            Don't you know that there are only Psalters 1 - ${max_val} available? \
-            Apologize Now! 😡`,
+        `Come On!
+Don't you know that there are only Psalters 1 - ${max_val} available?
+Apologize Now! 😡`,
         [
             {
                 text: `I'm Sorry! 😳`,
@@ -53,7 +53,7 @@ Apologize Now! 😡`,
     )
 };
 
-export const neglected_alert = (random) => (on_yes) => (on_no) => () => {
+export const neglected_alert = (random) => (on_yes) => (on_no) => (index) => () => {
     const texts = [
         [
             `Sorely Neglected`
@@ -107,7 +107,7 @@ Sing me now!`
             }
             , {
                 text: 'Right Away!'
-                , onPress: on_yes
+                , onPress: on_yes(index)
             }
         ]
         , { cancelable: true }

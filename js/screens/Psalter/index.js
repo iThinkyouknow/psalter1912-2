@@ -114,7 +114,7 @@ const render_psalter_text = (fade_anim) => ({item, index}) => {
     )
 };
 
-const on_psalter_change = (dispatch) => (next_val) => () => {
+export const on_psalter_change = (dispatch) => (next_val) => () => {
     dispatch(lock_in(next_val));
 
     psalter_text_fade_anim.fade_in();

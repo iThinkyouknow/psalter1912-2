@@ -32,8 +32,22 @@ import {
 
 import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
 import Segmented_Buttons from '../../common/Segmented-Buttons';
+
+import Tab_Bar
+    , {
+    select_tab_action
+} from '../../common/Tab-bar';
+
 import {select_statistics_tab} from '../../redux/actions/state-actions';
 import {set_sung_psalter_details} from '../../redux/actions/statistics-actions';
+
+import {
+    lock_in
+} from '../../redux/actions/psalter-actions';
+
+import {
+    on_psalter_change
+} from '../Psalter';
 
 import {neglected_alert} from '../../utils/alert';
 import {is_present_type, no_op, composer} from '../../utils/functions';
@@ -104,8 +118,19 @@ const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
     );
 };
 
-const per_sect_key_extractor = (prefix) => (item, index) => `psalter-stat-${prefix}-${index}`;
+const get_text_index_of_array = (magic_number) => {
+    if (magic_number < 30) {
+        return 1;
+    } else if (magic_number < 60) {
+        return 2;
+    } else if (magic_number < 90) {
+        return 3;
+    } else if (magic_number > 89) {
+        return 0;
+    }
+};
 
+const per_sect_key_extractor = (prefix) => (item, index) => `psalter-stat-${prefix}-${index}`;
 
 const Section_Header = (title) => {
     return (
@@ -115,25 +140,7 @@ const Section_Header = (title) => {
     );
 };
 
-const Section_Header_Neglected = (texts_array) => (random) => (title) => {
-
-    const magic_number = Math.floor(random() * 100);
-
-    const get_text_index_of_array = (magic_number) => {
-        if (magic_number < 30) {
-            return 1;
-        } else if (magic_number < 60) {
-            return 2;
-        } else if (magic_number < 90) {
-            return 3;
-        } else if (magic_number > 89) {
-            return 0;
-        }
-    };
-
-    const text_index = get_text_index_of_array(magic_number);
-
-    const text_array = texts_array[text_index];
+const Section_Header_Neglected = (text_array) => (title) => {
 
     return (
         <View>
@@ -233,7 +240,7 @@ const neglected_book_button = ({width, height}) => (on_press = no_op) => ({item,
     };
 
     return (
-        <TouchableHighlight underlayColor={'transparent'} onPress={on_press} style={[button, button_dyn]}
+        <TouchableHighlight underlayColor={'transparent'} onPress={on_press(item - 1)} style={[button, button_dyn]}
                             key={`neglected-psalter-${item}-${index}`}>
             <View>
                 <Default_Text font_size={'x_large'} text_align={'center'}>{item}</Default_Text>
@@ -308,6 +315,11 @@ const select_tab_bar = (tab_4_actions) => (tab_index) => () => {
     }
 };
 
+const neglected_on_press_yes = (dispatch) => (navigator) => (index) => () => {
+    on_psalter_change(dispatch)(index)();
+    select_tab_action(navigator)(dispatch)(0)();
+};
+
 class Statistics extends Component {
     render() {
 
@@ -353,6 +365,12 @@ class Statistics extends Component {
 
         const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(dispatch)(navigator);
 
+        const magic_number = Math.floor(Math.random() * 100);
+        const text_index = get_text_index_of_array(magic_number);
+        const text_array = neglected_texts_array[text_index];
+
+        const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch)(navigator);
+
         return (
             <Default_Bg_w_Tab_Bar navigator={navigator}
                                   dispatch={dispatch}
@@ -376,12 +394,12 @@ class Statistics extends Component {
                 {
                     (selected_tab_index === 2) && (
                         <FlatList data={neglected_psalters_array}
-                                  ListHeaderComponent={Section_Header_Neglected(neglected_texts_array)(Math.random)(title)}
+                                  ListHeaderComponent={Section_Header_Neglected(text_array)(title)}
                                   ListFooterComponent={Footer()}
                                   numColumns={5}
                                   contentContainerStyle={[content_container_style]}
                                   keyExtractor={per_sect_key_extractor(title)}
-                                  renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(Math.random)()())}/>
+                                  renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(Math.random)(neglected_on_press_yes_wo_index)())}/>
                     )
                 }
 

@@ -66,6 +66,7 @@ const Date_Details_Component = (screen_width) => ({item, index}) => {
             <View style={[text_container_style]}>
                 <Default_Text>{item.date_time}</Default_Text>
                 <Default_Text>{item.ago}</Default_Text>
+
             </View>
         </TouchableHighlight>
     );

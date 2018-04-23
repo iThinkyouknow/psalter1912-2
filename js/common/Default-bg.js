@@ -7,11 +7,12 @@ import {
 
 import {colors, background_color_fn} from './common.styles';
 
-import {
-    select_tab_index
-} from '../redux/actions/tab-bar-actions';
 
-import Tab_Bar from '../common/Tab-bar';
+
+import Tab_Bar
+    , {
+    select_tab_action
+} from '../common/Tab-bar';
 
 export default function Default_bg(props = {}) {
     return (
@@ -27,14 +28,6 @@ const styles = StyleSheet.create({
         flex: 1
     }
 });
-
-
-const select_tab_action = (navigator) => (dispatch) => (index) => () => {
-    navigator.switchToTab({
-        tabIndex: index
-    });
-    dispatch(select_tab_index(index));
-};
 
 
 export const Default_Bg_w_Tab_Bar = (props = {}) => {

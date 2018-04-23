@@ -48,7 +48,7 @@ export const slide_side_animation = (duration = 100) => (bounciness = 18) => (in
 };
 
 export const fade_animation = (duration) => (initial_val) => {
-    const fade_opacity = new Animated.Value(initial_val);
+    const fade_opacity = new Animated.Value(0);
 
     const fade_in = () => {
         Animated.sequence([
