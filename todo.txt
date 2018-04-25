@@ -1,4 +1,4 @@
-canons rej pre-text
+canons rej pre-text √
 
 actions if no psalter on tab 0;√
 
@@ -11,3 +11,5 @@ refactor tab bar
 all the other screens
 
 lower lag for stats tab switching √
+
+swipe left right for confessions & bible

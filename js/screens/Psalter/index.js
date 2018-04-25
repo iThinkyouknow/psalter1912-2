@@ -123,7 +123,6 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
 };
 
 const swipe_action = (dispatch) => (screen_width) => (index) => (e, gestureState) => {
-    // insert fade animation here
     const change_psalter = on_psalter_change(dispatch);
     const one_third_screen_width = Math.floor(screen_width / 3);
 

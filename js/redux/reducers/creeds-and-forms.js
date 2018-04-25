@@ -1,9 +1,8 @@
-
 import {CREEDS_ACTIONS} from '../actions/creeds-actions';
 
 import heidelberg_catechism from '../../../data/The-Heidelberg-Catechism(by-LD).json';
 import belgic_confession from '../../../data/The-Belgic-Confession.json';
-import canons_of_dordt from '../../../data/The-Canons-of-Dordt.json';
+import canons_of_dordt from '../../../data/The-Canons-of_Dordt.json';
 import apostles_creed from '../../../data/The-Apostles-Creed.json';
 import nicene_creed from '../../../data/The-Nicene-Creed.json';
 import athanasian_creed from '../../../data/The-Athanasian-Creed.json';
@@ -98,7 +97,7 @@ const original_creed_state = (library) => {
 
 const _creed = library => cache => original_state => (state = original_state, action) => {
     if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED) {
-        const { library_type_index, selected_index, levels_deep } = action;
+        const {library_type_index, selected_index, levels_deep} = action;
 
         const key = `${library_type_index}${selected_index}`;
         if (cache[key] !== undefined) return cache[key];
@@ -107,7 +106,7 @@ const _creed = library => cache => original_state => (state = original_state, ac
 
         cache = {
             ...cache,
-            [key] : {
+            [key]: {
                 ...get_creed_content_w_header_only(creed),
                 library_type_index,
                 selected_index
@@ -129,22 +128,26 @@ const _creed_level_2 = library => cache => (state = {}, action) => {
 
         if (cache[key] !== undefined) return cache[key];
 
-
         const creed = library[library_type_index][selected_creed_index];
         const chapter_header = creed.content[selected_chapter_index].header;
         const chapter_content = creed.content[selected_chapter_index].content.map(({content}) => {
 
-            const [header, body] = content
+            const [header, body, body2] = content
                 .map(text_array => text_array.map(({text}) => text));
 
-            const joined_body = body
+            const header_text = header.join(' ');
+
+            const is_rej_of_error = /rejection of error/i.test(header_text);
+
+            const body_to_display = is_rej_of_error ? body2 : body;
+
+            const joined_body = body_to_display
                 .join(' ')
                 .slice(0, 100)
                 .replace('\n\n', '');
 
-
             return {
-                header: header.join(' '),
+                header: header_text,
                 content: [`${joined_body}...`]
             };
         });

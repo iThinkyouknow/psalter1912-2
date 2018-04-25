@@ -65,4 +65,8 @@ const _selection_bible_chapter_list = (bible_text) => (cache) => (state = [], ac
 
 export const selection_bible_chapter_list = _selection_bible_chapter_list(bible_text)({});
 
+export const bible_per_book_ch_last_index_array = (state, action) => {
+    return bible_text.content.map(({content}) => content.length - 1);
+};
+
 

@@ -9,6 +9,7 @@ import {
     , SectionList
     , TouchableHighlight
     , Image
+    , PanResponder
 } from 'react-native';
 
 // import styles from './creeds-text.styles';
@@ -50,7 +51,6 @@ import {
 } from '../../redux/actions/psalter-actions';
 
 
-
 // import styles from './Creeds-Text.styles';
 
 const Header_Text_Component = (font_size) => (other_style) => (text) => {
@@ -66,7 +66,11 @@ const Header_Text_Component = (font_size) => (other_style) => (text) => {
 
 const list_header_component = (title) => (description) => {
     return (
-        <View style={{paddingHorizontal: sizes.large * 1.5, paddingTop: 3 * sizes.default + native_elements.status_bar, marginBottom: 0}}>
+        <View style={{
+            paddingHorizontal: sizes.large * 1.5,
+            paddingTop: 3 * sizes.default + native_elements.status_bar,
+            marginBottom: 0
+        }}>
             {Header_Text_Component(font_sizes.xx_large)()(title)}
             {(description.length > 0) && Header_Text_Component(font_sizes.x_large)({marginTop: sizes.default})(description)}
         </View>
@@ -86,14 +90,14 @@ const bible_body_component = ({item, index}) => {
     return text_component;
 };
 
-const Bible_Text_Component = (chapter) => {
+const Bible_Text_Component = (pan_responder) => (chapter) => {
 
     return (
         <FlatList data={chapter.content.slice(1)}
                   ListHeaderComponent={list_header_component(chapter.title)(chapter.description)}
                   keyExtractor={bible_key_extractor}
-
-                  renderItem={bible_body_component}/>
+                  renderItem={bible_body_component}
+                  {...pan_responder.panHandlers} />
     );
 };
 
@@ -133,7 +137,9 @@ const book_button = ({width, height}) => (selected_index) => (select_book_action
     };
 
     return (
-        <TouchableHighlight onPress={select_book_action(true_index)} style={[bible_books_button, bible_books_button_dyn, border_style]} key={`bible-book-button-${item}-${index}`}>
+        <TouchableHighlight onPress={select_book_action(true_index)}
+                            style={[bible_books_button, bible_books_button_dyn, border_style]}
+                            key={`bible-book-button-${item}-${index}`}>
             <View>
                 {Header_Text_Component(font_sizes.large)(text_extra_style)(item)}
                 <View style={{
@@ -147,7 +153,6 @@ const book_button = ({width, height}) => (selected_index) => (select_book_action
         </TouchableHighlight>
     );
 };
-
 
 
 const book_buttons_section_header = (book_button_component_loaded) => ({section: {title, data, book_start_index}}) => {
@@ -221,11 +226,10 @@ const chapter_library = (chapter_header_loaded) => (book_chapters_array = []) =>
                   keyExtractor={chapter_key_extractor}
                   renderItem={ch_button_loaded}
                   numColumns={6}
-                  style={bible_library_style} />
+                  style={bible_library_style}/>
     );
 
 };
-
 
 
 const close_library_button = ({width}) => {
@@ -241,7 +245,8 @@ const close_library_button = ({width}) => {
 const back_to_books_btn = ({width}) => {
     const child_component = (
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <Image style={{width: buttons.small, height: buttons.small}} source={require('../../../images/icons/icon-back-arrow.png')}/>
+            <Image style={{width: buttons.small, height: buttons.small}}
+                   source={require('../../../images/icons/icon-back-arrow.png')}/>
             <Default_Text>
                 Chapters
             </Default_Text>
@@ -303,8 +308,38 @@ const show_back_to_books_button = _show_back_to_books_button();
 const on_psalter_and_score_tab_select = (dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () => {
     if ((tab_index === 0 || tab_index === 1) && current_book_index === 18 && current_psalm !== psalter_psalm) {
         dispatch(lock_in(psalm_to_psalter_obj[current_psalm]));
-    };
+    }
 };
+
+const swipe_action = (dispatch) => (swipe_width) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => (e, gestureState) => {
+    if (gestureState.dx > swipe_width) {
+        if (ch_index === 0) {
+            if (book_index === 0) {
+                dispatch(get_bible_passage(65)(per_book_ch_last_index_array[65]));
+
+            } else if (book_index > 0) {
+                dispatch(get_bible_passage(book_index - 1)(per_book_ch_last_index_array[book_index - 1]));
+            }
+        } else if (ch_index > 0) {
+            dispatch(get_bible_passage(book_index)(ch_index - 1));
+        }
+    } else if (gestureState < -swipe_width) {
+        if (ch_index === per_book_ch_last_index_array[book_index]) {
+            if (book_index === 65) {
+
+            } else if (book_index < 65) {
+
+            }
+        } else if (ch_index < per_book_ch_last_index_array[book_index]) {
+
+        }
+    }
+};
+
+const pan_responder = (swipe_action) => PanResponder.create({
+    onMoveShouldSetPanResponder: (evt, gestureState) => true,
+    onPanResponderRelease: swipe_action
+});
 
 
 class Bible_Text extends Component {
@@ -375,15 +410,18 @@ class Bible_Text extends Component {
         //(dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () =>
 
         const change_psalter_on_tab_action = (
-                this.props.current_book_index === 18
-                && this.props.current_chapter_index + 1 !== this.props.psalter_psalm
-            )
+            this.props.current_book_index === 18
+            && this.props.current_chapter_index + 1 !== this.props.psalter_psalm
+        )
             ? on_psalter_and_score_tab_select(this.props.dispatch)(this.props.current_book_index)(this.props.current_chapter_index + 1)(this.props.psalter_psalm)(this.props.first_psalter_index_of_each_psalm_obj)
-            : () => () => {};
+            : () => () => {
+        };
 
         const tab_actions = [
             change_psalter_on_tab_action
         ];
+
+        const swipe_action_loaded = swipe_action(this.props.dispatch)(Math.floor(Dimensions.get('window').width / 3))(this.props.per_book_ch_last_index_array)(this.props.current_book_index)(this.props.current_chapter_index);
 
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
@@ -398,15 +436,23 @@ class Bible_Text extends Component {
 
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
-                {Bible_Text_Component(this.props.bible_passage)}
+                {Bible_Text_Component(pan_responder(swipe_action_loaded))(this.props.bible_passage)}
 
-                <View style={{flexDirection: 'row', justifyContent: 'center', height: native_elements.nav_bar_std, paddingHorizontal: sizes.large, paddingVertical: sizes.default / 2}}>
-                    {Rounded_Button(<Default_Text text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    height: native_elements.nav_bar_std,
+                    paddingHorizontal: sizes.large,
+                    paddingVertical: sizes.default / 2
+                }}>
+                    {Rounded_Button(<Default_Text
+                        text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
             </Default_Bg_w_Tab_Bar>
         );
     }
-};
+}
+;
 
 
 function mapStateToProps(state) {
@@ -421,6 +467,7 @@ function mapStateToProps(state) {
         , tab_bar_selected_index: state.tab_bar_selected_index
         , psalter_psalm: state.psalter.content.psalm
         , first_psalter_index_of_each_psalm_obj: state.first_psalter_index_of_each_psalm_obj
+        , per_book_ch_last_index_array: state.bible_per_book_ch_last_index_array
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button // state reducer
     };
 }

@@ -91,6 +91,10 @@ Sing me now!`
             , `We could be best friends
 Sing me now!`
         ]
+        , [
+            `Come On!`
+            , `Sing me now!`
+        ]
     ];
 
     const magic_number = Math.floor(random() * texts.length);
