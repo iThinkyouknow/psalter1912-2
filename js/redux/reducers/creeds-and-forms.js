@@ -2,7 +2,7 @@ import {CREEDS_ACTIONS} from '../actions/creeds-actions';
 
 import heidelberg_catechism from '../../../data/The-Heidelberg-Catechism(by-LD).json';
 import belgic_confession from '../../../data/The-Belgic-Confession.json';
-import canons_of_dordt from '../../../data/The-Canons-of_Dordt.json';
+import canons_of_dordt from '../../../data/The-Canons-of-Dordt.json';
 import apostles_creed from '../../../data/The-Apostles-Creed.json';
 import nicene_creed from '../../../data/The-Nicene-Creed.json';
 import athanasian_creed from '../../../data/The-Athanasian-Creed.json';
