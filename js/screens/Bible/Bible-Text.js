@@ -9,7 +9,6 @@ import {
     , SectionList
     , TouchableHighlight
     , Image
-    , PanResponder
 } from 'react-native';
 
 // import styles from './creeds-text.styles';
@@ -38,6 +37,7 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, no_op} from '../../utils/functions';
+import {swipe, swipe_side_action} from '../../utils/touch-gestures';
 
 import {bible_toggle_back_to_book_buttons} from '../../redux/actions/state-actions';
 
@@ -49,6 +49,10 @@ import {
 import {
     lock_in
 } from '../../redux/actions/psalter-actions';
+
+import {
+    on_psalter_change
+} from '../Psalter'
 
 
 // import styles from './Creeds-Text.styles';
@@ -90,14 +94,14 @@ const bible_body_component = ({item, index}) => {
     return text_component;
 };
 
-const Bible_Text_Component = (pan_responder) => (chapter) => {
+const Bible_Text_Component = (swipe) => (chapter) => {
 
     return (
         <FlatList data={chapter.content.slice(1)}
                   ListHeaderComponent={list_header_component(chapter.title)(chapter.description)}
                   keyExtractor={bible_key_extractor}
                   renderItem={bible_body_component}
-                  {...pan_responder.panHandlers} />
+                  {...swipe.panHandlers} />
     );
 };
 
@@ -165,9 +169,7 @@ const book_buttons_section_header = (book_button_component_loaded) => ({section:
             <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
                 {buttons_component}
             </View>
-
         </View>
-
     );
 }
 
@@ -307,39 +309,39 @@ const show_back_to_books_button = _show_back_to_books_button();
 
 const on_psalter_and_score_tab_select = (dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () => {
     if ((tab_index === 0 || tab_index === 1) && current_book_index === 18 && current_psalm !== psalter_psalm) {
-        dispatch(lock_in(psalm_to_psalter_obj[current_psalm]));
+        on_psalter_change(dispatch)(psalm_to_psalter_obj[current_psalm])();
     }
 };
 
-const swipe_action = (dispatch) => (swipe_width) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => (e, gestureState) => {
-    if (gestureState.dx > swipe_width) {
-        if (ch_index === 0) {
-            if (book_index === 0) {
-                dispatch(get_bible_passage(65)(per_book_ch_last_index_array[65]));
+const swipe_right_action = (dispatch) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => () => {
+    if (ch_index === 0) {
+        if (book_index === 0) {
+            const last_book_index = per_book_ch_last_index_array.length - 1;
+            dispatch(get_bible_passage(last_book_index)(per_book_ch_last_index_array[last_book_index]));
 
-            } else if (book_index > 0) {
-                dispatch(get_bible_passage(book_index - 1)(per_book_ch_last_index_array[book_index - 1]));
-            }
-        } else if (ch_index > 0) {
-            dispatch(get_bible_passage(book_index)(ch_index - 1));
+        } else if (book_index > 0) {
+            const prev_book_index = book_index - 1;
+            dispatch(get_bible_passage(prev_book_index)(per_book_ch_last_index_array[prev_book_index]));
         }
-    } else if (gestureState < -swipe_width) {
-        if (ch_index === per_book_ch_last_index_array[book_index]) {
-            if (book_index === 65) {
-
-            } else if (book_index < 65) {
-
-            }
-        } else if (ch_index < per_book_ch_last_index_array[book_index]) {
-
-        }
+    } else if (ch_index > 0) {
+        dispatch(get_bible_passage(book_index)(ch_index - 1));
     }
 };
 
-const pan_responder = (swipe_action) => PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: swipe_action
-});
+const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => () => {
+    if (ch_index === per_book_ch_last_index_array[book_index]) {
+        const last_book_index = per_book_ch_last_index_array.length - 1;
+
+        if (book_index === last_book_index) {
+            dispatch(get_bible_passage(0)(0));
+        } else if (book_index < last_book_index) {
+            const next_book_index = book_index + 1;
+            dispatch(get_bible_passage(next_book_index)(0));
+        }
+    } else if (ch_index < per_book_ch_last_index_array[book_index]) {
+        dispatch(get_bible_passage(book_index)(ch_index + 1));
+    }
+};
 
 
 class Bible_Text extends Component {
@@ -421,7 +423,12 @@ class Bible_Text extends Component {
             change_psalter_on_tab_action
         ];
 
-        const swipe_action_loaded = swipe_action(this.props.dispatch)(Math.floor(Dimensions.get('window').width / 3))(this.props.per_book_ch_last_index_array)(this.props.current_book_index)(this.props.current_chapter_index);
+
+        const swipe_right_loaded = swipe_right_action(this.props.dispatch)(this.props.per_book_ch_last_index_array)(this.props.current_book_index)(this.props.current_chapter_index);
+
+        const swipe_left_loaded = swipe_left_action(this.props.dispatch)(this.props.per_book_ch_last_index_array)(this.props.current_book_index)(this.props.current_chapter_index);
+
+        const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
 
         return (
             <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
@@ -436,7 +443,7 @@ class Bible_Text extends Component {
 
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
-                {Bible_Text_Component(pan_responder(swipe_action_loaded))(this.props.bible_passage)}
+                {Bible_Text_Component(swipe(swipe_side_action_loaded))(this.props.bible_passage)}
 
                 <View style={{
                     flexDirection: 'row',

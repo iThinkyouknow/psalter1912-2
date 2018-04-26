@@ -51,7 +51,16 @@ const library = [
     forms
 ];
 
-const get_lib_data = ({title, levels_deep}) => ({title, levels_deep});
+const get_lib_data = ({title, levels_deep, content}) => {
+    return {
+        title
+        , levels_deep
+        , last_ch_index: content.length - 1
+        , last_article_index: (levels_deep === 2)
+            ? content.map(({content}) => content.length - 1)
+            : []
+    };
+};
 
 const library_names_levels_array = [
     creeds.map(get_lib_data),
@@ -118,7 +127,7 @@ const _creed = library => cache => original_state => (state = original_state, ac
     return state;
 };
 
-export const creed = _creed(library)({})(original_creed_state);
+export const creed = _creed(library)({})(original_creed_state(library));
 
 
 const _creed_level_2 = library => cache => (state = {}, action) => {
@@ -182,21 +191,28 @@ const _creed_body = (library) => (state = {}, action = {}) => {
         if (selected_article_index === undefined || selected_article_index === null) {
 
             return {
-                title: creed.title || '',
-                description: creed.description || '',
-                body: creed.content[selected_chapter_index]
+                title: creed.title || ''
+                , description: creed.description || ''
+                , body: creed.content[selected_chapter_index]
+                , library_type_index
+                , selected_creed_index
+                , selected_chapter_index
+                , selected_article_index
             }
         } else {
             //level 2
 
             return {
-                title: creed.title || '',
-                description: creed.description || '',
-                body: {
-                    ...creed.content[selected_chapter_index],
-                    content: [creed.content[selected_chapter_index].content[selected_article_index]]
+                title: creed.title || ''
+                , description: creed.description || ''
+                , body: {
+                    ...creed.content[selected_chapter_index]
+                    , content: [creed.content[selected_chapter_index].content[selected_article_index]]
                 }
-
+                , library_type_index
+                , selected_creed_index
+                , selected_chapter_index
+                , selected_article_index
             }
         }
     }

@@ -256,7 +256,6 @@ const neglected_book_button = ({width, height}) => (on_press = no_op) => ({item,
                     backgroundColor: colors.blue
                 }}/>
             </View>
-
         </TouchableHighlight>
     );
 };

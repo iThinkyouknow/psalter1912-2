@@ -1364,80 +1364,92 @@
                         ],
                         [
                             {
-                                "text": "<i>"
-                            },
-                            {
                                 "text": "Answer:",
                                 "is_bold": true
                             },
                             {
+                                "text": "\n"
+                            },
+                            {
+                                "is_italics": true,
                                 "text": "I. I believe in God the Father, Almighty, Maker of heaven and earth;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "II. And in Jesus Christ, His only begotten Son, our Lord;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "III. Who was conceived by the Holy Ghost, born of the Virgin Mary;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "IV. Suffered under Pontius Pilate; was crucified, dead, and buried; He descended into hell;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "V. The third day He rose again from the dead;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "VI. He ascended into heaven, and sitteth at the right hand of God the Father Almighty;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "VII. From thence He shall come to judge the quick and the dead."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "VIII. I believe in the Holy Ghost."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "IX. I believe an holy catholic church; the communion of saints;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "X. The forgiveness of sins;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "XI. The resurrection of the body;"
                             },
                             {
                                 "text": "\n"
                             },
                             {
-                                "text": "XII. And the life everlasting. Amen.</i>"
+                                "is_italics": true,
+                                "text": "XII. And the life everlasting. Amen."
                             }
                         ],
                         []
@@ -5516,67 +5528,81 @@
                                 "is_bold": true
                             },
                             {
-                                "text": "God spake all these words, Exodus 20, Deuteronomy 5, saying: <i>I am the Lord thy God, which have brought thee out of the land of Egypt, out of the house of bondage."
+                                "text": "God spake all these words, Exodus 20, Deuteronomy 5, saying:"
+                            },
+                            {
+                                "is_italics": true,
+                                "text": "I am the Lord thy God, which have brought thee out of the land of Egypt, out of the house of bondage."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "I. Thou shalt have no other gods before me."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "II. Thou shalt not make unto thee any graven image, or any likeness of any thing that is in heaven above, or that is in the earth beneath, or that is in the water under the earth: thou shalt not bow down thyself to them, nor serve them: for I the Lord thy God am a jealous God, visiting the iniquity of the fathers upon the children unto the third and fourth generation of them that hate me; and showing mercy unto thousands of them that love me, and keep my commandments."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "III. Thou shalt not take the name of the Lord thy God in vain: for the Lord will not hold him guiltless that taketh his name in vain."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "IV. Remember the sabbath day, to keep it holy. Six days shalt thou labor, and do all thy work: but the seventh day is the sabbath of the Lord thy God: in it thou shalt not do any work, thou, nor thy son, nor thy daughter, thy manservant, nor thy maidservant, nor thy cattle, nor thy stranger that is within thy gates: for in six days the Lord made heaven and earth, the sea, and all that in them is, and rested the seventh day: wherefore the Lord blessed the sabbath day, and hallowed it."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "V. Honor thy father and thy mother: that thy days may be long upon the land which the Lord thy God giveth thee."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "VI. Thou shalt not kill."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "VII. Thou shalt not commit adultery."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "VIII. Thou shalt not steal."
                             },
                             {
                                 "text": "\n"
                             },
                             {
+                                "is_italics": true,
                                 "text": "IX. Thou shalt not bear false witness against thy neighbor."
                             },
                             {
                                 "text": "\n"
                             },
                             {
-                                "text": "X. Thou shalt not covet thy neighbor's house, thou shalt not covet thy neighbor's wife, nor his manservant, nor his maid-servant, nor his ox, nor his ass, nor any thing that is thy neighbor's.</i>"
+                                "is_italics": true,
+                                "text": "X. Thou shalt not covet thy neighbor's house, thou shalt not covet thy neighbor's wife, nor his manservant, nor his maid-servant, nor his ox, nor his ass, nor any thing that is thy neighbor's."
                             }
                         ],
                         []
