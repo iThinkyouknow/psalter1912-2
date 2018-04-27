@@ -26,7 +26,8 @@ import {
     Animated_Text
 } from '../../common/Text';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {is_present_type} from '../../utils/functions';
@@ -143,27 +144,31 @@ const get_categories_data = (psalter_all_sung_dates) => {
 
 class Special extends Component {
     render() {
+        const {
+            dispatch
+            , navigator
+            , tab_bar_selected_index
+            , psalter_all_sung_dates
+        } = this.props;
 
-        const categories_data = get_categories_data(this.props.psalter_all_sung_dates);
+        const categories_data = get_categories_data(psalter_all_sung_dates);
 
         const tab_actions = [];
 
-        return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
+        return (
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <FlatList
                     data={categories_data}
-                    renderItem={renderer(Dimensions.get('window').width)(navigate_to(this.props.navigator))}
+                    renderItem={renderer(Dimensions.get('window').width)(navigate_to(navigator))}
                     keyExtractor={special_categories_key_extractor}
                     contentContainerStyle={{alignItems: 'center', padding: sizes.large * 1.5}}
                 />
 
 
 
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 

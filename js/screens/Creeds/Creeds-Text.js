@@ -25,7 +25,8 @@ import {
     text_formatter
 } from '../../common/Text';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {is_present, is_present_type} from '../../utils/functions';
@@ -127,7 +128,6 @@ const go_to_prev_creed = (dispatch) => (library_books_info) => (library_type_ind
 const swipe_right = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => (selected_chapter_index) => (selected_article_index) => () => {
     //library_type_index => selected_creed_index => selected_chapter_index => selected_article_index =>
 
-
     if (is_present_type('number')(selected_article_index)) {
         if (selected_article_index > 0) {
             dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index - 1));
@@ -153,6 +153,51 @@ const swipe_right = (dispatch) => (library_books_info) => (library_type_index) =
         } else if (selected_chapter_index === 0) {
             if (selected_creed_index > 0) {
                 go_to_prev_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
+            }
+        }
+    }
+};
+
+const go_to_next_creed = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => {
+    const next_creed_index = selected_creed_index + 1;
+    const next_has_two_levels_deep = (library_books_info[library_type_index][next_creed_index]['levels_deep'] === 2);
+
+    const next_creed_next_ch_last_article_index = next_has_two_levels_deep
+        ? 0
+        : undefined;
+    dispatch(lock_in_creed_body(library_type_index)(next_creed_index)(0)(next_creed_next_ch_last_article_index));
+};
+
+const swipe_left = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => (selected_chapter_index) => (selected_article_index) => () => {
+
+    const {last_ch_index = NaN, last_article_index = []} = library_books_info[library_type_index][selected_creed_index];
+
+    if (is_present_type('number')(selected_article_index)) {
+        const last_article_index_int = last_article_index[selected_chapter_index];
+
+        if (selected_article_index < last_article_index_int) {
+            dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index + 1));
+
+        } else if (selected_article_index === last_article_index_int) {
+            if (selected_chapter_index < last_ch_index) {
+                const next_ch_index = selected_chapter_index + 1;
+                dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(next_ch_index)(0));
+
+            } else if (selected_chapter_index === last_ch_index) {
+                if (selected_creed_index < library_books_info[library_type_index].length) {
+                    go_to_next_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
+                }
+            }
+        }
+
+    } else if (!is_present_type('number')(selected_article_index)) {
+
+        if (selected_chapter_index < last_ch_index) {
+            dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index + 1)());
+
+        } else if (selected_chapter_index === last_ch_index) {
+            if (selected_creed_index < library_books_info[library_type_index].length) {
+                go_to_next_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
             }
         }
     }
@@ -185,18 +230,18 @@ class Creeds_Text extends Component {
         ];
 
         const swipe_right_loaded = swipe_right(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
+        const swipe_left_loaded = swipe_left(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
 
-        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)();
+        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
 
         const swipe_action_loaded = swipe(on_swipe_loaded);
 
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+
         return (
-            <Default_Bg_w_Tab_Bar navigator={navigator}
-                                  dispatch={dispatch}
-                                  tab_bar_selected_index={tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 {Creeds_Text_Flatlist(swipe_action_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)}
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 

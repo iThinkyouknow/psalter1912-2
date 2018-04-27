@@ -24,7 +24,8 @@ import {
     , text_formatter
 } from '../../common/Text';
 
-import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {is_present_type} from '../../utils/functions';
@@ -70,22 +71,35 @@ const Thanks_Party_Component = ({item, index}) => {
     );
 };
 
+const tab_4_actions = (navigator) => () => navigator.popToRoot();
+
+const select_tab = (tab_4_actions) => (tab_index) => () => {
+    if (tab_index === 4) {
+        tab_4_actions();
+    }
+};
+
 class Credits extends Component {
     render() {
-        const tab_actions = [];
+        const {
+            dispatch
+            , navigator
+            , tab_bar_selected_index
+        } = this.props;
+
+        const tab_actions = [select_tab(tab_4_actions(navigator))];
+
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <FlatList ListHeaderComponent={Intro_Component}
                           data={credits_text}
                           keyExtractor={key_extractor}
                           renderItem={Thanks_Party_Component} />
 
 
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 }

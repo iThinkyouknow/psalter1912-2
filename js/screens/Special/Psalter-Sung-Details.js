@@ -25,7 +25,8 @@ import {
     , Animated_Text
 } from '../../common/Text';
 
-import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 
@@ -102,11 +103,10 @@ class Psalter_Sung_Details extends Component {
 
         const tab_actions = [select_tab(tab_4_actions(navigator))];
 
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+
         return (
-            <Default_Bg_w_Tab_Bar navigator={navigator}
-                                  dispatch={dispatch}
-                                  tab_bar_selected_index={tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
 
                 <FlatList data={sung_psalter_date_details_array}
                           keyExtractor={sung_details_key_extractor}
@@ -116,7 +116,7 @@ class Psalter_Sung_Details extends Component {
                           ListFooterComponent={Footer()}
                           ListHeaderComponent={Sung_Details_Header(psalter_title)} />
 
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 }

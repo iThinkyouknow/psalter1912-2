@@ -7,17 +7,11 @@ import {
 
 import {colors, background_color_fn} from './common.styles';
 
-
-
-import Tab_Bar
-    , {
-    select_tab_action
-} from '../common/Tab-bar';
-
-export default function Default_bg(props = {}) {
+export default function Default_Bg(props = {}) {
     return (
         <View style={[styles.background_col, styles.flex, {bottom: 0}, props.style]}>
             {props.children}
+            {(props.Tab_Bar !== undefined) && props.Tab_Bar}
         </View>
     )
 };
@@ -31,22 +25,11 @@ const styles = StyleSheet.create({
 
 
 export const Default_Bg_w_Tab_Bar = (props = {}) => {
-    const select_tab_action_wo_index = select_tab_action(props.navigator)(props.dispatch);
-
-    const on_press_actions = (select_tab_action_wo_index) => (other_actions_array) => (index) => () => {
-
-        const actions_w_index = index => action => action(index)();
-
-        other_actions_array.map(actions_w_index(index));
-        select_tab_action_wo_index(index)();
-    };
-
-    const on_press_actions_wo_index = on_press_actions(select_tab_action_wo_index)(props.other_actions_array || []);
 
     return (
-        <Default_bg style={props.style}>
+        <Default_Bg style={props.style}>
             {props.children}
-            {Tab_Bar(on_press_actions_wo_index)()(props.tab_bar_selected_index)}
-        </Default_bg>
+            {props.Tab_Bar}
+        </Default_Bg>
     );
 };

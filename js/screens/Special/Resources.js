@@ -25,7 +25,8 @@ import {
     , Animated_Text
 } from '../../common/Text';
 
-import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {no_op, is_present_type} from '../../utils/functions';
@@ -118,20 +119,33 @@ const header_component = () => {
     return <Default_Text style={resource_header_style} text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>Resources</Default_Text>
 };
 
+const tab_4_actions = (navigator) => () => navigator.popToRoot();
+
+const select_tab = (tab_4_actions) => (tab_index) => () => {
+    if (tab_index === 4) {
+        tab_4_actions();
+    }
+};
+
 class Resources extends Component {
     render() {
-        const tab_actions = [];
+        const {
+            dispatch
+            , navigator
+            , tab_bar_selected_index
+        } = this.props;
+
+        const tab_actions = [select_tab(tab_4_actions(navigator))];
+
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <FlatList data={data}
                           keyExtractor={resources_key_ext}
                           renderItem={resources_renderer}
                           ListHeaderComponent={header_component} contentContainerStyle={{paddingBottom: sizes.large}}/>
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 }

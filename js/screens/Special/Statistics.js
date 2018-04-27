@@ -30,13 +30,11 @@ import {
     , Animated_Text
 } from '../../common/Text';
 
-import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 import Segmented_Buttons from '../../common/Segmented-Buttons';
 
-import Tab_Bar
-    , {
-    select_tab_action
-} from '../../common/Tab-bar';
+
 
 import {select_statistics_tab} from '../../redux/actions/state-actions';
 import {set_sung_psalter_details} from '../../redux/actions/statistics-actions';
@@ -225,8 +223,8 @@ const get_psalter_sung_date_details = (most_sung_obj_formatter_w_on_press) => (s
         .map(most_sung_obj_formatter_w_on_press);
 };
 
-const flatlist_item_layout = (width) => (data, index) => {
-    return {length: width, offset: width * index, index}
+const flatlist_item_layout = (height) => (data, index) => {
+    return {length: height, offset: height * index, index}
 };
 
 
@@ -376,13 +374,10 @@ class Statistics extends Component {
 
         const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch)(navigator);
 
-        return (
-            <Default_Bg_w_Tab_Bar navigator={navigator}
-                                  dispatch={dispatch}
-                                  tab_bar_selected_index={tab_bar_selected_index}
-                                  other_actions_array={tab_actions}
-                                  style={{alignItems: 'center'}}>
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
+        return (
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} style={{alignItems: 'center'}}>
 
                 {(selected_tab_index === 0 || selected_tab_index === 1)
                 && (
@@ -393,7 +388,7 @@ class Statistics extends Component {
                         ListFooterComponent={Footer()}
                         contentContainerStyle={content_container_style}
                         keyExtractor={per_sect_key_extractor(title)}
-                        getItemLayout={flatlist_item_layout(screen_width - sizes.large * 2)}
+                        getItemLayout={flatlist_item_layout(100)}
                         ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}/>
                 )
                 }
@@ -414,7 +409,7 @@ class Statistics extends Component {
                     {Segmented_Buttons(seg_buttons_width)(seg_buttons_array)()(selected_tab_index)}
                 </View>
 
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 }

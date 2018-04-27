@@ -28,7 +28,8 @@ import {
     text_formatter
 } from '../../common/Text';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {Rounded_Button} from '../../common/Rounded-Button';
 
@@ -362,6 +363,22 @@ class Bible_Text extends Component {
     }
 
     render() {
+        const {
+            navigator
+            , dispatch
+            , book_list
+            , bible_passage
+            , current_book_index
+            , current_chapter_index
+            , selection_chapter_list
+            , selection_selected_book_title
+            , selection_book_index
+            , tab_bar_selected_index
+            , psalter_psalm
+            , first_psalter_index_of_each_psalm_obj
+            , per_book_ch_last_index_array
+            , bible_should_show_back_to_books_button
+        } = this.props;
 
         const library_dynamic_style = {
             height: Dimensions.get('window').height,
@@ -383,7 +400,7 @@ class Bible_Text extends Component {
         };
 
         const book_button_component_dimensions = book_button(Dimensions.get('window'));
-        const book_button_component = book_button_component_dimensions(this.props.current_book_index)(select_book_action(this.props.dispatch));
+        const book_button_component = book_button_component_dimensions(current_book_index)(select_book_action(dispatch));
 
         const book_buttons_section_header_loaded = book_buttons_section_header(book_button_component);
 
@@ -397,53 +414,51 @@ class Bible_Text extends Component {
             ]
         };
 
-        const select_chapter_action_w_book_index = select_chapter_action(this.props.dispatch)(this.props.selection_book_index);
+        const select_chapter_action_w_book_index = select_chapter_action(dispatch)(selection_book_index);
 
-        const selection_chapter_index = (this.props.selection_book_index === this.props.current_book_index)
-            ? this.props.current_chapter_index
+        const selection_chapter_index = (selection_book_index === current_book_index)
+            ? current_chapter_index
             : 0;
 
         const chapter_button_component = chapter_button(book_button_component_dimensions(selection_chapter_index)(select_chapter_action_w_book_index)(0));
 
-        const chapter_lib_header = chapter_header(Dimensions.get('window').width)(this.props.selection_selected_book_title);
+        const chapter_lib_header = chapter_header(Dimensions.get('window').width)(selection_selected_book_title);
 
-        const back_to_books_btn_present = this.props.bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
+        const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
         //(dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () =>
 
         const change_psalter_on_tab_action = (
-            this.props.current_book_index === 18
-            && this.props.current_chapter_index + 1 !== this.props.psalter_psalm
+            current_book_index === 18
+            && current_chapter_index + 1 !== psalter_psalm
         )
-            ? on_psalter_and_score_tab_select(this.props.dispatch)(this.props.current_book_index)(this.props.current_chapter_index + 1)(this.props.psalter_psalm)(this.props.first_psalter_index_of_each_psalm_obj)
+            ? on_psalter_and_score_tab_select(dispatch)(current_book_index)(current_chapter_index + 1)(psalter_psalm)(first_psalter_index_of_each_psalm_obj)
             : () => () => {
         };
+
+        const swipe_right_loaded = swipe_right_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index);
+
+        const swipe_left_loaded = swipe_left_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index);
+
+        const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
 
         const tab_actions = [
             change_psalter_on_tab_action
         ];
 
-
-        const swipe_right_loaded = swipe_right_action(this.props.dispatch)(this.props.per_book_ch_last_index_array)(this.props.current_book_index)(this.props.current_chapter_index);
-
-        const swipe_left_loaded = swipe_left_action(this.props.dispatch)(this.props.per_book_ch_last_index_array)(this.props.current_book_index)(this.props.current_chapter_index);
-
-        const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <Animated.View style={[library_style, library_dynamic_style]}>
                     <Animated.View style={bible_library_container_style}>
-                        {bible_library(this.props.book_list)(book_buttons_section_header_loaded)}
-                        {chapter_library(chapter_lib_header)(this.props.selection_chapter_list)(chapter_button_component)}
+                        {bible_library(book_list)(book_buttons_section_header_loaded)}
+                        {chapter_library(chapter_lib_header)(selection_chapter_list)(chapter_button_component)}
                     </Animated.View>
 
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
-                {Bible_Text_Component(swipe(swipe_side_action_loaded))(this.props.bible_passage)}
+                {Bible_Text_Component(swipe(swipe_side_action_loaded))(bible_passage)}
 
                 <View style={{
                     flexDirection: 'row',
@@ -455,11 +470,10 @@ class Bible_Text extends Component {
                     {Rounded_Button(<Default_Text
                         text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
-}
-;
+};
 
 
 function mapStateToProps(state) {

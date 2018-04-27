@@ -7,9 +7,11 @@ fonts
 
 //refactor
 properly handle on_psalter_change
-refactor tab bar
+refactor tab bar√
 all the other screens
 
 lower lag for stats tab switching √
 
-swipe left right for confessions & bible
+swipe left right for confessions & bible √
+
+"global creed state"

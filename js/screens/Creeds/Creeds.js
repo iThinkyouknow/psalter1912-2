@@ -36,7 +36,8 @@ import {
     Animated_Text
 } from '../../common/Text';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 
@@ -58,9 +59,6 @@ import {
 import {
     lock_in_creed
 } from '../../redux/actions/creeds-actions';
-
-
-
 
 const list_header_component_wo_animated_val = (book_animated_value) => ({random, styles, images, Dimensions}) => (selected_index) => {
 
@@ -299,6 +297,15 @@ class Creeds extends Component {
 
     render() {
         //random, styles, images, Dimensions, navigator, dispatch
+
+        const {
+            dispatch
+            , navigator
+            , library_type_index
+            , creeds_library
+            , tab_bar_selected_index
+        } = this.props;
+
         const component_obj = {
             random: Math.random,
             styles,
@@ -308,26 +315,23 @@ class Creeds extends Component {
                 churches_images_array
             },
             Dimensions,
-            navigator: this.props.navigator,
-            dispatch: this.props.dispatch
+            navigator: navigator,
+            dispatch: dispatch
         };
 
 
 
-        const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(this.props.library_type_index);
+        const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(library_type_index);
 
-        const select_tab_action_wo_index = select_tab_action(this.props.navigator)(this.props.dispatch);
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)()()(tab_bar_selected_index);
 
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  style={styles.default_bg}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} style={styles.default_bg} >
 
-                {list_header_component(component_obj)(this.props.library_type_index)}
-                {creeds_menu_flatlist(creeds_menu_renderer_loaded)(this.props.library_type_index)(this.props.creeds_library)}
-                {creeds_or_forms_chooser(component_obj)(this.props.library_type_index)}
-            </Default_Bg_w_Tab_Bar>
+                {list_header_component(component_obj)(library_type_index)}
+                {creeds_menu_flatlist(creeds_menu_renderer_loaded)(library_type_index)(creeds_library)}
+                {creeds_or_forms_chooser(component_obj)(library_type_index)}
+            </Default_Bg>
         );
     }
 };

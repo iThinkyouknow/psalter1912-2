@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
     View
@@ -22,7 +21,8 @@ import {
     , line_height_fn
 } from '../../common/common.styles';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
 import {set_keyboard_toolbar} from '../../utils/keyboard';
@@ -93,7 +93,7 @@ const on_select_psalter_action = (dispatch) =>(text_input_is_valid) => (e) => {
 const on_psalter_text_change = (dispatch) => (max_value) => (value) => {
     const value_trimmed = value.trim();
     const last_char_int = parseInt(value_trimmed.slice(-1));
-    const value_int     = parseInt(value_trimmed);
+    const value_int = parseInt(value_trimmed);
 
     const set_text_input_true_action = () => dispatch(toggle_psalter_pdf_text_input_valid(true));
 
@@ -149,6 +149,19 @@ const on_page_change = (dispatch) => (pg, num) => {
 class Psalter_PDF extends Component {
     render() {
 
+        const {
+            dispatch
+            , navigator
+            , psalter_index
+            , psalter_score_page
+            , psalter_psalm
+            , pdf_page_to_psalter_index_obj
+            , psalter_pdf_input
+            , valid_psalter_pdf_text_input
+            , temp_psalter_pdf_page_number_for_pdf
+            , tab_bar_selected_index
+        } = this.props;
+
         const pdf_style = {
             paddingTop: sizes.large
             , backgroundColor: colors.white
@@ -159,41 +172,41 @@ class Psalter_PDF extends Component {
             scale;
         };
 
-        const on_psalter_selected     = on_select_psalter_action(this.props.dispatch)(this.props.valid_psalter_pdf_text_input);
-        const on_psalter_input_change = on_psalter_text_change(this.props.dispatch)(413);
+        const on_psalter_selected = on_select_psalter_action(dispatch)(valid_psalter_pdf_text_input);
+        const on_psalter_input_change = on_psalter_text_change(dispatch)(413);
 
-        const num_input_field = Number_input(on_psalter_selected)(on_psalter_input_change)(true)(this.props.psalter_pdf_input)()();
+        const num_input_field = Number_input(on_psalter_selected)(on_psalter_input_change)(true)(psalter_pdf_input)()();
 
-        const select_tab_0_loaded = select_tab_0(this.props.dispatch)(this.props.psalter_index)(this.props.pdf_page_to_psalter_index_obj)(this.props.temp_psalter_pdf_page_number_for_pdf);
+        const select_tab_0_loaded = select_tab_0(dispatch)(psalter_index)(pdf_page_to_psalter_index_obj)(temp_psalter_pdf_page_number_for_pdf);
 
-        const select_tab_3_loaded = select_tab_3(this.props.dispatch)(this.props.psalter_psalm);
+        const select_tab_3_loaded = select_tab_3(dispatch)(psalter_psalm);
 
         const tab_actions = [
             select_tab(select_tab_0_loaded)(select_tab_3_loaded)
         ];
 
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <Pdf source={pdf_file}
                          scale={1}
                          style={pdf_style}
                          horizontal={true}
-                         page={this.props.psalter_score_page || 14}
+                         page={psalter_score_page || 14}
                          onScaleChanged={on_scale}
-                         onPageChanged={on_page_change(this.props.dispatch)}/>
+                         onPageChanged={on_page_change(dispatch)}/>
                 </View>
                 <View style={{paddingHorizontal: sizes.large, paddingVertical: sizes.default, flexDirection: 'row'}}>
                     {num_input_field}
                 </View>
 
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
-};
+}
+;
 
 
 function mapStateToProps(state) {

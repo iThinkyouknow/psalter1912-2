@@ -24,21 +24,20 @@ import {
     , Animated_Text
 } from '../../common/Text';
 
-import Default_bg, {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 
 class Website extends Component {
     render() {
         const tab_actions = [];
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <WebView source={{uri: 'http://psalterapp.weebly.com/'}}/>
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
 }

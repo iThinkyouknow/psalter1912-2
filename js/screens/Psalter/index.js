@@ -36,7 +36,8 @@ import {
     normal_text
 } from '../../common/Text';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 import {Rounded_Button} from '../../common/Rounded-Button';
 
 
@@ -74,15 +75,14 @@ import {
 import {set_keyboard_toolbar} from '../../utils/keyboard';
 
 
-
 import music_slider from '../../common/music-slider';
 
 
 const psalter_text_fade_anim = fade_animation(200)(0);
 
 const more_section_slide_animation = slide_down_animation(500)(12);
-const more_section_slide_position  = more_section_slide_animation.animated_value;
-const more_section_slide           = more_section_slide_animation.slide;
+const more_section_slide_position = more_section_slide_animation.animated_value;
+const more_section_slide = more_section_slide_animation.slide;
 
 
 const header = (fade_anim) => (psalter) => (index) => {
@@ -148,7 +148,7 @@ const set_text_input_value = (dispatch) => (value) => {
 const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => {
     const _value = value.trim();
 
-    const value_int     = parseInt(_value);
+    const value_int = parseInt(_value);
     const last_char_int = parseInt(_value.slice(-1));
 
     const toggle_text_as_valid_fn = () => dispatch(toggle_text_as_valid(true));
@@ -231,8 +231,8 @@ const get_random_psalter = (dispatch) => (count) => () => {
 // };
 
 const more_stuff_list_header = () => {
-    return(
-        <View style={styles.more_stuff_list_header} />
+    return (
+        <View style={styles.more_stuff_list_header}/>
     );
 };
 
@@ -241,7 +241,8 @@ const Bottom_Buttons = (props) => {
 
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
-            {Rounded_Button(<Default_Text text_align={'center'}>I'm Done</Default_Text>)(more_section_slide)(props.width)}
+            {Rounded_Button(<Default_Text text_align={'center'}>I'm
+                Done</Default_Text>)(more_section_slide)(props.width)}
         </View>
 
     );
@@ -361,7 +362,8 @@ const More_Stuff_Section_List = (props) => {
 
     return (
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
-            <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]} sections={sections}/>
+            <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]}
+                         sections={sections}/>
             <Bottom_Buttons width={width} navigator={props.navigator}/>
         </Animated.View>
     );
@@ -376,7 +378,7 @@ const count_fn = () => {
         if (psalter_no !== null && psalter_no !== undefined && psalter_no !== current_no) {
             if (is_present_type('number')(timeout)) clearTimeout(timeout);
             current_no = psalter_no;
-            timeout    = setTimeout(() => {
+            timeout = setTimeout(() => {
                 // add count and set count
                 /**
                  * []**/
@@ -411,7 +413,7 @@ const add_count = counter.add_count;
 
 
 const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
-const slide_right_pos          = search_results_animation.animated_value;
+const slide_right_pos = search_results_animation.animated_value;
 
 const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     if (typeof text_input_as_search !== "boolean") return;
@@ -485,9 +487,9 @@ const Search_result_view = (props) => {
 
     const search_result = (dispatch) => (navigator) => ({item, index}) => {
         const text = item.search_result.map(({text, style}, i) => {
-            const key         = `search-result-${index}-${i}`;
+            const key = `search-result-${index}-${i}`;
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
-            const color       = (style === 'bold') ? {
+            const color = (style === 'bold') ? {
                 color: colors.blue
             } : undefined;
             return <Default_Text style={color} key={key} font_weight={font_weight}>{text}</Default_Text>;
@@ -507,7 +509,7 @@ const Search_result_view = (props) => {
     };
 
     const search_results_key_extractor = (item, index) => `search-results-${index}`;
-    const search_results_separator     = (width) => ({highlighter}) => <View
+    const search_results_separator = (width) => ({highlighter}) => <View
         style={[styles.search_results_separator, {width: Math.floor(width * 0.5)}]}/>;
 
     return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
@@ -582,51 +584,69 @@ class App extends Component {
 
 
     render() {
-        add_count(this.props.dispatch)(Date)(this.props.psalter.no)(this.props.sung_dates);
-        //music_player.when_psalter_change(this.props.dispatch)(`Psalter-${this.props.psalter.no}.mp3`)();
-        // set_nav_bar_title(this.props.navigator)(this.props.psalter.no)();
+        const {
+            dispatch
+            , navigator
+            , psalter
+            , index
+            , psalters_count
+// , should_display_go_forth_bar
+            , can_search
+            , psalter_text_input
+            , valid_text_input
+            , sung_dates
+            , sung_dates_all
+            , current_music_timer
+            , max_music_timer
+            , text_input_as_search
+            , psalter_search_results
+            , tab_bar_selected_index
+        } = this.props;
 
-        const music_slider_w_data = music_slider(this.props.dispatch)(this.props.current_music_timer)(this.props.max_music_timer);
+        add_count(dispatch)(Date)(psalter.no)(sung_dates);
+        //music_player.when_psalter_change(dispatch)(`Psalter-${psalter.no}.mp3`)();
+        // set_nav_bar_title(navigator)(psalter.no)();
 
-        const on_bible_tab_select_loaded = is_present_type('number')(this.props.psalter.psalm)
-            ? on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
+        const music_slider_w_data = music_slider(dispatch)(current_music_timer)(max_music_timer);
+
+        const on_bible_tab_select_loaded = is_present_type('number')(psalter.psalm)
+            ? on_bible_tab_select(dispatch)(psalter.psalm)
             : no_op;
 
         const tab_actions = [
             on_tab_select(on_pdf_tab_select)(on_bible_tab_select_loaded)
         ];
 
-        const num_input_set_can_search_w_dispatch = num_input_set_can_search(this.props.dispatch);
+        const num_input_set_can_search_w_dispatch = num_input_set_can_search(dispatch);
 
         const num_input_on_blur_actions_array = [
-            hide_tabs_action(this.props.navigator)
+            hide_tabs_action(navigator)
             , num_input_set_can_search_w_dispatch(true)
         ];
 
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <More_Stuff_Section_List
-                    dispatch={this.props.dispatch}
-                    navigator={this.props.navigator}
+                    dispatch={dispatch}
+                    navigator={navigator}
                     more_section_slide_position={more_section_slide_position}
-                    psalter_refs={this.props.psalter.ref}
-                    psalm={this.props.psalter.psalm}
-                    psalter_no={this.props.psalter.no}
-                    sung_count={is_present_type('array')(this.props.sung_dates) ? this.props.sung_dates.length : NaN}
+                    psalter_refs={psalter.ref}
+                    psalm={psalter.psalm}
+                    psalter_no={psalter.no}
+                    sung_count={is_present_type('array')(sung_dates) ? sung_dates.length : NaN}
                     music_slider={music_slider_w_data}/>
 
-                <Search_result_view search_results={this.props.psalter_search_results}
-                                    dispatch={this.props.dispatch}
-                                    navigator={this.props.navigator}/>
+                <Search_result_view search_results={psalter_search_results}
+                                    dispatch={dispatch}
+                                    navigator={navigator}/>
 
-                <FlatList data={this.props.psalter.content}
-                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(this.props.psalter)(this.props.index)}
+                <FlatList data={psalter.content}
+                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)}
                           renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
                           keyExtractor={psalter_key_extractor}
-                          {...panResponder(this.props.dispatch)(Dimensions.get('window').width)(this.props.index).panHandlers}  />
+                          {...panResponder(dispatch)(Dimensions.get('window').width)(index).panHandlers}  />
 
                 <View style={{
                     bottom: 0,
@@ -637,29 +657,29 @@ class App extends Component {
                     paddingHorizontal: sizes.large,
                     paddingVertical: sizes.default,
                 }}>
-                    {(this.props.text_input_as_search)
-                        ? <Text_input_search dispatch={this.props.dispatch}
-                                              style={[styles.text_input_style]}
-                                              valid_text_input={true}
-                                              search_results={this.props.psalter_search_results}
-                                             onBlur={hide_tabs_action(this.props.navigator)} />
+                    {(text_input_as_search)
+                        ? <Text_input_search dispatch={dispatch}
+                                             style={[styles.text_input_style]}
+                                             valid_text_input={true}
+                                             search_results={psalter_search_results}
+                                             onBlur={hide_tabs_action(navigator)}/>
 
-                        : <Number_input psalters_count={this.props.psalters_count}
-                                         value={this.props.psalter_text_input}
-                                         dispatch={this.props.dispatch}
-                                         style={[styles.text_input_style]}
-                                         valid_text_input={this.props.valid_text_input}
-                                         on_blur_action={on_action(num_input_on_blur_actions_array)}
-                                         on_focus_action={num_input_set_can_search_w_dispatch(false)} />
+                        : <Number_input psalters_count={psalters_count}
+                                        value={psalter_text_input}
+                                        dispatch={dispatch}
+                                        style={[styles.text_input_style]}
+                                        valid_text_input={valid_text_input}
+                                        on_blur_action={on_action(num_input_on_blur_actions_array)}
+                                        on_focus_action={num_input_set_can_search_w_dispatch(false)}/>
 
                     }
 
 
                     <TouchableHighlight style={styles.bottom_button_container}
-                                        onPress={on_search_button_press(this.props.dispatch)(this.props.navigator)(this.props.text_input_as_search)(slide_right_pos)}
+                                        onPress={on_search_button_press(dispatch)(navigator)(text_input_as_search)(slide_right_pos)}
                                         underlayColor={colors.dark_cerulean}
-                                        disabled={!this.props.can_search} >
-                        {(this.props.can_search)
+                                        disabled={!can_search}>
+                        {(can_search)
                             ? <Image style={styles.button_std}
                                      source={require('../../../images/icons/icon-search.png')}/>
 
@@ -670,15 +690,16 @@ class App extends Component {
 
                     <TouchableHighlight style={styles.bottom_button_container}
                                         onPress={more_section_slide}
-                                        underlayColor={colors.dark_cerulean} >
+                                        underlayColor={colors.dark_cerulean}>
                         <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')}/>
 
                     </TouchableHighlight>
                 </View>
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         );
     }
-};
+}
+;
 
 function mapStateToProps(state) {
     return {

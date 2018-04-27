@@ -79,7 +79,18 @@ export const select_tab_action = (navigator) => (dispatch) => (tab_index) => () 
     dispatch(select_tab_index(tab_index));
 };
 
-export default Tab_Bar = (on_press_actions_wo_index) => (other_styles) => (selected_index) => {
+const on_press_actions = (select_tab_action_wo_index) => (other_actions_array) => (index) => () => {
+
+    const actions_w_index = index => action => action(index)();
+
+    other_actions_array.map(actions_w_index(index));
+    select_tab_action_wo_index(index)();
+};
+
+export default Tab_Bar = (dispatch) => (navigator) => (other_actions_array = []) => (other_styles) => (selected_index) => {
+    const select_tab_action_wo_index = select_tab_action(navigator)(dispatch);
+    const on_press_actions_wo_index = on_press_actions(select_tab_action_wo_index)(other_actions_array || []);
+
 
     const buttons = [
         {

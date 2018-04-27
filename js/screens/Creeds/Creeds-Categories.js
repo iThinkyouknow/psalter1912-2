@@ -25,7 +25,8 @@ import {
     Animated_Text
 } from '../../common/Text';
 
-import {Default_Bg_w_Tab_Bar} from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {
@@ -150,15 +151,19 @@ class Creeds_Categories extends Component {
 
     render() {
         const {
-            library_type_index,
-            selected_creed_index,
-            creeds_chapters_curr_level,
-            creed_articles_title,
-            creed_articles_content,
-            creed_title,
-            creed_content,
-            creed_level,
-            selected_chapter_index
+            dispatch
+            , navigator
+            , creed_content
+            , creed_level
+            , creed_title
+            , creeds_chapters_curr_level
+            , library_type_index
+            , selected_creed_index
+            , creed_articles_title
+            , creed_articles_content
+            , creed_articles_level
+            , selected_chapter_index
+            , tab_bar_selected_index
         } = this.props;
 
         const component_obj = {
@@ -170,8 +175,8 @@ class Creeds_Categories extends Component {
             },
             random: Math.random,
             Dimensions,
-            navigator: this.props.navigator,
-            dispatch: this.props.dispatch
+            navigator: navigator,
+            dispatch: dispatch
         };
 
         const header_banner_w_title = (creeds_chapters_curr_level === 2)
@@ -190,7 +195,7 @@ class Creeds_Categories extends Component {
             ? creed_categories_list(header_banner_w_title)(creed_articles_content)(render_creed_categories_w_data)
             : creed_categories_list(header_banner_w_title)(creed_content)(render_creed_categories_w_data);
 
-        const tab_2_w_nav = tab_2_actions(this.props.navigator);
+        const tab_2_w_nav = tab_2_actions(navigator);
 
         const select_tab_wo_tab_index = select_tab(tab_2_w_nav);
 
@@ -198,14 +203,12 @@ class Creeds_Categories extends Component {
             select_tab_wo_tab_index
         ];
 
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg_w_Tab_Bar navigator={this.props.navigator}
-                                  dispatch={this.props.dispatch}
-                                  tab_bar_selected_index={this.props.tab_bar_selected_index}
-                                  other_actions_array={tab_actions}>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 {creed_categories_list_component}
-            </Default_Bg_w_Tab_Bar>
+            </Default_Bg>
         )
     }
 }
