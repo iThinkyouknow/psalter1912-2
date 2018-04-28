@@ -15,3 +15,5 @@ lower lag for stats tab switching √
 swipe left right for confessions & bible √
 
 "global creed state"
+
+upgrade react native & hoek's vulnerability

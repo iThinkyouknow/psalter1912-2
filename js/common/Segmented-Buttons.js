@@ -54,7 +54,7 @@ const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_pr
     const is_selected = (selected_tab_index === index);
 
     const bg_color_obj = {
-        backgroundColor: is_selected  ? tint : 'transparent'
+        backgroundColor: is_selected ? tint : 'transparent'
     };
 
     const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
@@ -62,11 +62,9 @@ const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_pr
 
     return (
         <TouchableHighlight key={key}
-                            style={[{flex: 1, borderColor: colors.blue, borderWidth: 0.5}, bg_color_obj]}
+                            style={[{flex: 1, borderColor: colors.blue, borderWidth: 1}, bg_color_obj]}
                             underlayColor={underlay_color}
-                            onPress={on_press}>
-            <View>
-                <Default_Text line_height={2} text_align={'center'}>
+                            onPress={on_press}>gn={'center'}>
                     {text}
                 </Default_Text>
             </View>
@@ -75,10 +73,12 @@ const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_pr
 };
 
 
-export default Segmented_Buttons = (width) => (buttons_array = [{
-    text: '',
-    on_press: no_op
-}]) => (selected_tint = '') => (selected_tab_index) => {
+export default Segmented_Buttons = (width) => (buttons_array = [
+    {
+        text: '',
+        on_press: no_op
+    }
+]) => (selected_tint = '') => (selected_tab_index) => {
 
     const buttons = buttons_array.map(button_renderer(selected_tint)(selected_tab_index));
 

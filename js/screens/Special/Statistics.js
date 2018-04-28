@@ -31,7 +31,7 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
+import Tab_Bar, {select_tab_action} from '../../common/Tab-bar';
 import Segmented_Buttons from '../../common/Segmented-Buttons';
 
 
@@ -361,7 +361,7 @@ class Statistics extends Component {
 
         const title = titles[selected_tab_index];
 
-        const unsung_psalters_array = get_unsung_array(all_sung_dates_obj);console.timeEnd('t1');
+        const unsung_psalters_array = get_unsung_array(all_sung_dates_obj);
         const neglected_psalters_array = (unsung_psalters_array.length > 0)
             ? unsung_psalters_array
             : get_least_sung_psalter_array(sung_dates_array);
