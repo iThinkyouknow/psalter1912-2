@@ -64,7 +64,9 @@ const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_pr
         <TouchableHighlight key={key}
                             style={[{flex: 1, borderColor: colors.blue, borderWidth: 1}, bg_color_obj]}
                             underlayColor={underlay_color}
-                            onPress={on_press}>gn={'center'}>
+                            onPress={on_press}>
+            <View>
+                <Default_Text line_height={2} text_align={'center'}>
                     {text}
                 </Default_Text>
             </View>
