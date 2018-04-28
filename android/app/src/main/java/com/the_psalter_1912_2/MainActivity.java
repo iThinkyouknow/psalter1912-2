@@ -1,7 +1,8 @@
 package com.the_psalter_1912_2;
 
-import com.facebook.react.ReactActivity;
+//import com.facebook.react.ReactActivity;
 import com.reactnativenavigation.controllers.SplashActivity;
+
 
 public class MainActivity extends SplashActivity {
 

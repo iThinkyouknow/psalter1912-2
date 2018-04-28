@@ -1,8 +1,8 @@
 package com.the_psalter_1912_2;
 
-import android.app.Application;
+//import android.app.Application;
 
-import com.facebook.react.ReactApplication;
+//import com.facebook.react.ReactApplication;
 import org.wonday.pdf.RCTPdfView;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.jadsonlourenco.RNShakeEvent.RNShakeEventPackage;
@@ -32,13 +32,21 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
             // eg. new VectorIconsPackage()
-            new AudioPackage()
+            new AudioPackage(),
+            new RCTPdfView(),
+            new RNFetchBlobPackage(),
+            new RNShakeEventPackage()
     );
   }
 
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return getPackages();
+  }
+
+  @Override
+  public String getJSMainModuleName() {
+    return "index";
   }
 
 //  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -51,9 +59,9 @@ public class MainApplication extends NavigationApplication {
 //    protected List<ReactPackage> getPackages() {
 //      return Arrays.<ReactPackage>asList(
 //          new MainReactPackage(),
-            new RCTPdfView(),
-            new RNFetchBlobPackage(),
-            new RNShakeEventPackage()
+//            new RCTPdfView(),
+//            new RNFetchBlobPackage(),
+//            new RNShakeEventPackage()
 //      );
 //    }
 //

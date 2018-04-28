@@ -3,7 +3,7 @@ canons rej pre-text √
 actions if no psalter on tab 0;√
 
 android
-fonts
+fonts√
 
 //refactor
 properly handle on_psalter_change
