@@ -105,9 +105,9 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                 <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'}/>
                 <View style={[styles.header_img_mask, img_mask_style]}/>
                 <View style={[styles.header_title_container, header_title_container_x_style]}>
-                    <Default_Text font_size={font_sizes.xxxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                    <Default_Text font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
-                    <Default_Text font_size={font_sizes.xx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large} font_weight={'bold'}>THE</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
                 </View>
                 <View style={styles.header_book_container}>
                     <Animated.Image source={confessions_book_cover} style={[styles.book, creeds_book_style]} />
@@ -135,9 +135,9 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                 </View>
 
                 <View style={styles.header_forms_title_container}>
-                    <Default_Text font_size={font_sizes.xxxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                    <Default_Text font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
-                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>FORMS</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large} font_weight={'bold'}>THE</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxx_large} font_weight={'bold'}>FORMS</Default_Text>
                 </View>
             </View>
         );

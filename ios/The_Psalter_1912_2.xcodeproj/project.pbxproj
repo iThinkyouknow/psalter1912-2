@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -477,6 +476,7 @@
 		DB94AE7C205D5F3700B01326 /* Psalter-402.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94ACCA205D5F3600B01326 /* Psalter-402.mp3 */; };
 		DB94AE7D205D5F3700B01326 /* Psalter-290.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB94ACCB205D5F3600B01326 /* Psalter-290.mp3 */; };
 		EC8986EDC98F4EC4AAD4147A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */; };
+		A34089BEF2EF48CF8C8A5784 /* Durwent.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3DC38E3C9554770866DC8BD /* Durwent.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1253,6 +1253,7 @@
 		DB94ACCA205D5F3600B01326 /* Psalter-402.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Psalter-402.mp3"; path = "../../Music-Files/Psalter-402.mp3"; sourceTree = "<group>"; };
 		DB94ACCB205D5F3600B01326 /* Psalter-290.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Psalter-290.mp3"; path = "../../Music-Files/Psalter-290.mp3"; sourceTree = "<group>"; };
 		E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTPdf.xcodeproj; path = "../node_modules/react-native-pdf/ios/RCTPdf.xcodeproj"; sourceTree = "<group>"; };
+		B3DC38E3C9554770866DC8BD /* Durwent.ttf */ = {isa = PBXFileReference; name = "Durwent.ttf"; path = "../assets/Durwent.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1506,6 +1507,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				00CDE5961FC80B180076F178 /* Frameworks */,
 				DB5E0CF71FD1A01500C617E7 /* Recovered References */,
+				C62627F347BF4AC2BF262CC6 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -2023,6 +2025,15 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		C62627F347BF4AC2BF262CC6 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				B3DC38E3C9554770866DC8BD /* Durwent.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -2960,6 +2971,7 @@
 				DB94AE48205D5F3700B01326 /* Psalter-148.mp3 in Resources */,
 				DB94AE03205D5F3600B01326 /* Psalter-418.mp3 in Resources */,
 				DB94AE00205D5F3600B01326 /* Psalter-201.mp3 in Resources */,
+				A34089BEF2EF48CF8C8A5784 /* Durwent.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

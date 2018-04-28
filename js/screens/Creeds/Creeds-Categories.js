@@ -52,13 +52,15 @@ const header_banner = ({Dimensions, styles}) => (title) => {
         width: width
     };
 
+    const font_size = (title.length > 100) ? font_sizes.xx_large : font_sizes.xxx_large;
+
     return (
         <View style={[styles.head_banner, header_banner_sm_style]}>
             <Image style={[styles.head_banner_image, header_banner_sm_image_style]}
                    source={require('../../../images/Heidelberg-Catechism.jpg')} resizeMode={'cover'}/>
             <View style={[styles.head_banner_image, header_banner_sm_image_style, styles.head_banner_mask]}/>
             <View style={[styles.text_container]}>
-                <Default_Text font_size={font_sizes.xx_large}>{title}</Default_Text>
+                <Default_Text font_family={'Durwent'} font_size={font_size}>{title}</Default_Text>
             </View>
         </View>
     );

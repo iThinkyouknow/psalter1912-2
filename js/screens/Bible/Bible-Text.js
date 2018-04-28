@@ -58,10 +58,11 @@ import {
 
 // import styles from './Creeds-Text.styles';
 
-const Header_Text_Component = (font_size) => (other_style) => (text) => {
+const Header_Text_Component = (font_size) => (font_family) => (other_style) => (text) => {
     return (
         <Animated_Text text_align={'center'}
                        font_size={font_size}
+                       font_family={font_family}
                        style={other_style}
                        font_weight={'bold'}>
             {text}
@@ -76,8 +77,8 @@ const list_header_component = (title) => (description) => {
             paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
-            {Header_Text_Component(font_sizes.xx_large)()(title)}
-            {(description.length > 0) && Header_Text_Component(font_sizes.x_large)({marginTop: sizes.default})(description)}
+            {Header_Text_Component(font_sizes.xxxxx_large)('Durwent')()(title)}
+            {(description.length > 0) && Header_Text_Component(font_sizes.x_large)()({marginTop: sizes.default})(description)}
         </View>
     );
 };
@@ -146,7 +147,7 @@ const book_button = ({width, height}) => (selected_index) => (select_book_action
                             style={[bible_books_button, bible_books_button_dyn, border_style]}
                             key={`bible-book-button-${item}-${index}`}>
             <View>
-                {Header_Text_Component(font_sizes.large)(text_extra_style)(item)}
+                {Header_Text_Component(font_sizes.large)()(text_extra_style)(item)}
                 <View style={{
                     marginTop: sizes.default,
                     height: 1,
@@ -166,7 +167,7 @@ const book_buttons_section_header = (book_button_component_loaded) => ({section:
 
     return (
         <View style={{marginTop: sizes.default * 3}}>
-            {Header_Text_Component(font_sizes.x_large)()(title)}
+            {Header_Text_Component(font_sizes.x_large)()()(title)}
             <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
                 {buttons_component}
             </View>
@@ -207,7 +208,7 @@ const chapter_key_extractor = (item, index) => `${item}-${index}`;
 
 const chapter_header = (width) => (title) => {
     return (
-        Header_Text_Component(font_sizes.x_large)({marginTop: sizes.default * 3, width})(title)
+        Header_Text_Component(font_sizes.x_large)()({marginTop: sizes.default * 3, width})(title)
     );
 };
 
