@@ -90,8 +90,6 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         const creeds_book_style = {
             transform: [
-                {rotate: '-25deg'},
-                {translateX: -8},
                 {translateY: book_animated_value}
             ]
         };
@@ -109,9 +107,9 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                     <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large} font_weight={'bold'}>REFORMED</Default_Text>
                     <Default_Text font_family={'Durwent'} font_size={font_sizes.xxx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
                 </View>
-                <View style={styles.header_book_container}>
+                <Animated.View style={[styles.header_book_container]}>
                     <Animated.Image source={confessions_book_cover} style={[styles.book, creeds_book_style]} />
-                </View>
+                </Animated.View>
             </View>
         );
 
@@ -119,8 +117,6 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         const forms_book_style = {
             transform: [
-                {rotate: '-25deg'},
-                {translateX: 32},
                 {translateY: book_animated_value}
             ]
         };
@@ -256,8 +252,8 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index)
                                 style={[{flex: 1}, bg_color_obj]}
                                 underlayColor={underlay_color}
                                 onPress={select_tab(dispatch)(index)}>
-                <View>
-                    <Default_Text line_height={2} text_align={'center'}>
+                <View style={{backgroundColor: 'green', justifyContent: 'center', alignItems: 'center'}}>
+                    <Default_Text  line_height={2} text_align={'center'}>
                         {text}
                     </Default_Text>
                 </View>

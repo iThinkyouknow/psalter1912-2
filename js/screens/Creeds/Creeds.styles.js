@@ -41,12 +41,20 @@ export default styles = StyleSheet.create({
     },
     header_book_container: {
         justifyContent: 'center',
-        flex: 0
+        flex: 0,
+        transform: [
+            {translateX: -8},
+            {rotate: '-25deg'}
+        ]
     },
     header_book_container_forms: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        transform: [
+            {rotate: '-25deg'},
+            {translateX: 32}
+        ]
     },
     forms_book: {
         marginTop: 48
