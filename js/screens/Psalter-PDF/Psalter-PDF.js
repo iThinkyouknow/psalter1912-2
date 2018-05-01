@@ -75,6 +75,7 @@ const _Number_input = (os) => (end_text_action) => (change_text_action) => (text
                    value={value}
                    autoCorrect={false}
                    style={[text_input_style, style]}
+                   underlineColorAndroid={'transparent'}
                    {...props} />
     );
 };

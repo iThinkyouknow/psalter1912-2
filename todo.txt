@@ -17,3 +17,6 @@ swipe left right for confessions & bible √
 "global creed state"
 
 upgrade react native & hoek's vulnerability
+
+android line height / padding bottom
+icon & splash screen

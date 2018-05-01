@@ -49,6 +49,8 @@ public class MainApplication extends NavigationApplication {
     return "index";
   }
 
+
+  //here
 //  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 //    @Override
 //    public boolean getUseDeveloperSupport() {
