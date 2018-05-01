@@ -64,7 +64,7 @@ const Header_Text_Component = (font_size) => (font_family) => (other_style) => (
                        font_size={font_size}
                        font_family={font_family}
                        style={other_style}
-                       font_weight={'bold'}>
+                       >
             {text}
         </Animated_Text>
     );

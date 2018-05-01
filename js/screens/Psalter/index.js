@@ -208,6 +208,7 @@ const Number_input = (props) => {
                    autoCorrect={false}
                    onBlur={props.on_blur_action}
                    onFocus={props.on_focus_action}
+                   underlineColorAndroid={'transparent'}
                    {...props} />
     );
 };
@@ -456,16 +457,24 @@ const Text_input_search = (props) => {
                    selectTextOnFocus={true}
                    autoFocus={should_autofocus}
                    autoCapitalize={'none'}
+                   underlineColorAndroid={'transparent'}
                    {...props} />
     );
 };
 
 const Search_result_view = (props) => {
-    const {width, height}                   = Dimensions.get('window');
+    const {width, height} = Dimensions.get('window');
+
+    const height_to_reduce_os = (Platform.OS === 'ios')
+        ? sizes.default * 2
+        : sizes.default * 3;
+
+    const top = (Platform.OS === 'ios') ? native_elements.status_bar : 0;
+
     const search_results_view_dynamic_style = {
         width: width - sizes.large * 2,
-        height: height - native_elements.status_bar - native_elements.tab_bar - sizes.default * 2 - 37,
-        top: native_elements.status_bar,
+        height: height - native_elements.status_bar - native_elements.tab_bar - 37 - height_to_reduce_os,
+        top: top,
         transform: [
             {
                 translateX: slide_right_pos

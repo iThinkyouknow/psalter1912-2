@@ -88,7 +88,7 @@ const composable_anim_text = (text_align) => (font_weight) => (font_size) => (fo
 
 export const centered_text = composable_anim_text('center');
 export const bold_centered_text = centered_text('bold');
-export const main_title = bold_centered_text('xxxxx_large')('Durwent')()()({color: colors.gold});
+export const main_title = centered_text()('xxxxx_large')('Durwent')()()({color: colors.gold});
 export const main_title_2 = bold_centered_text('x_large')()()()();
 export const sub_title = bold_centered_text('large')()()()();
 export const meter_text = centered_text()('x_small')()()()();

@@ -12,6 +12,8 @@ import {
     , TouchableHighlight
 } from 'react-native';
 
+import {navigator_style_push} from '../../../index'
+
 import moment from 'moment';
 
 //import styles from './Statistics.styles';
@@ -301,10 +303,7 @@ const on_press_action_for_sung_psalters = (dispatch) => (navigator) => (sung_arr
     dispatch(set_sung_psalter_details(sung_array)(psalter_title));
     navigator.push({
         screen: 'Psalter_Sung_Details',
-        navigatorStyle: {
-            drawUnderNavBar: true,
-            navBarTranslucent: true
-        },
+        navigatorStyle: navigator_style_push,
         backButtonTitle: 'All'
     });
 };
@@ -413,7 +412,6 @@ class Statistics extends Component {
         );
     }
 }
-;
 
 
 function mapStateToProps(state) {

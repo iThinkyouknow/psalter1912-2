@@ -10,6 +10,8 @@ import {
     , Linking
 } from 'react-native';
 
+import {navigator_style_push} from '../../../index'
+
 // import styles from './Special.styles';
 import {
     colors,
@@ -35,15 +37,11 @@ import {is_present_type} from '../../utils/functions';
 const special_categories_key_extractor = (item, index) => `special-cat-${item.title}-${index}`;
 
 
-
 const navigate_to = (navigator) => (screen_name) => () => {
     if (is_present_type('string')(screen_name)) {
         navigator.push({
             screen: screen_name,
-            navigatorStyle: {
-                drawUnderNavBar: true,
-                navBarTranslucent: true,
-            },
+            navigatorStyle: navigator_style_push,
             backButtonTitle: 'Special'
         });
     }
@@ -55,8 +53,8 @@ const link_to = (url) => () => {
 
 const renderer = (width) => (navigate) => ({item, index}) => {
 
-    const box_width      = width - (sizes.large * 2 * 1.5);
-    const dyn_style      = {
+    const box_width = width - (sizes.large * 2 * 1.5);
+    const dyn_style = {
         height: Math.floor(box_width * 1.3)
         , width: box_width
     };
@@ -158,7 +156,7 @@ class Special extends Component {
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <FlatList
                     data={categories_data}
                     renderItem={renderer(Dimensions.get('window').width)(navigate_to(navigator))}
@@ -167,12 +165,10 @@ class Special extends Component {
                 />
 
 
-
             </Default_Bg>
         );
     }
-
-};
+}
 
 
 function mapStateToProps(state) {

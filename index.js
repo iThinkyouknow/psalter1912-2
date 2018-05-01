@@ -11,19 +11,28 @@ const store = configureStore();
 
 registerScreens(store, Provider); // this is where you register all of your app's screens
 
-const default_navigator_style = {
+export const default_navigator_style = {
     navBarNoBorder: true,
     navBarTransparent: true,
     navBarTranslucent: true, // use to make drawUnderNavBar effective
     navBarBackgroundColor: colors.dark_cerulean,
     statusBarTextColorScheme: 'light',
+    navBarButtonColor: colors.blue,
     navBarTextColor: colors.white,
     screenBackgroundColor: colors.dark_cerulean,
     drawUnderNavBar: true,
     drawUnderTabBar: true,
     navBarHidden: true,
     //tabBarBackgroundColor: colors.dark_cerulean,
-    tabBarHidden: true
+    tabBarHidden: true,
+    drawUnderStatusBar: true,
+    statusBarTranslucent: true,
+    statusBarColor: 'transparent'
+};
+
+export const navigator_style_push = {
+    ...default_navigator_style,
+    navBarHidden: false
 };
 // start the app
 Navigation.startTabBasedApp({

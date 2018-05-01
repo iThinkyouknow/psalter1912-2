@@ -7,6 +7,7 @@ import {
     , Image
     , StyleSheet
     , TouchableHighlight
+    , Platform
 } from 'react-native';
 
 import {
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
         height: 32,
         borderRadius: border_radii.default,
         borderColor: colors.blue,
-        borderWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
         alignItems: 'center',
         overflow: 'hidden'
         // , position: 'absolute'
@@ -60,13 +62,15 @@ const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_pr
     const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
     const key = `segment-buttons-${text}-${index}`;
 
+    const line_height = Platform.OS === 'ios' ? 2 : 1.3;
+
     return (
         <TouchableHighlight key={key}
                             style={[{flex: 1, borderColor: colors.blue, borderWidth: 1}, bg_color_obj]}
                             underlayColor={underlay_color}
                             onPress={on_press}>
-            <View>
-                <Default_Text line_height={2} text_align={'center'}>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <Default_Text line_height={line_height} text_align={'center'}>
                     {text}
                 </Default_Text>
             </View>

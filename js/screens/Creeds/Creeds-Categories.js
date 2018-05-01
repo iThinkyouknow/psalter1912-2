@@ -9,6 +9,8 @@ import {
     TouchableHighlight
 } from 'react-native';
 
+import {navigator_style_push} from '../../../index'
+
 import styles from './Creeds-Categories.styles';
 import {
     colors,
@@ -68,15 +70,13 @@ const header_banner = ({Dimensions, styles}) => (title) => {
 
 
 const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
+
     if (creed_level === 2) {
         dispatch(change_creeds_chapter_lv(2));
         dispatch(lock_in_creed_level_2(library_type_index)(selected_creed_index)(selected_chapter_index));
         navigator.push({
             screen: 'Creeds_Categories',
-            navigatorStyle: {
-                drawUnderNavBar: true,
-                navBarTranslucent: true
-            },
+            navigatorStyle: navigator_style_push,
             backButtonTitle: 'Chapters'
         });
 
@@ -84,10 +84,7 @@ const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_
         dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article));
         navigator.push({
             screen: 'Creeds_Text',
-            navigatorStyle: {
-                drawUnderNavBar: true,
-                navBarTranslucent: true
-            },
+            navigatorStyle: navigator_style_push,
             backButtonTitle: 'Chapters'
         });
     }
@@ -150,6 +147,8 @@ class Creeds_Categories extends Component {
     componentWillUnmount() {
         if (this.props.creeds_chapters_curr_level === 2) this.props.dispatch(change_creeds_chapter_lv(1));
     }
+
+
 
     render() {
         const {
