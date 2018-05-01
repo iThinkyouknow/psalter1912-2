@@ -119,8 +119,7 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
 
     psalter_text_fade_anim.fade_in();
     set_keyboard_toolbar(true);
-    //note here
-    // music_player.when_psalter_change(dispatch)(`Psalter-${next_val + 1}.mp3`)();
+
     music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
 };
 
@@ -313,7 +312,6 @@ const music_section = (music_slider) => ({item, index}) => {
 };
 
 const More_Stuff_Section_List = (props) => {
-    // note herer
     const psalter_music_source = (props.psalter_no !== -1 && props.psalter_no !== 0 && props.psalter_no !== undefined && props.psalter_no !== null)
         ? `psalter_${props.psalter_no}.mp3`
         : ``;
