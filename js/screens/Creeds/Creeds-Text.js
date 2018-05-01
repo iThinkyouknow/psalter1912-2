@@ -67,7 +67,7 @@ const Creeds_Body_Component = (section_header) => ({item, index}) => {
         : null;
 
     const component_wrapper = (text_component) => (
-        <Animated_Text text_align={'justify'} style={{marginVertical: sizes.default}}>
+        <Animated_Text text_align={'justify'} style={{paddingVertical: sizes.default}}>
             {text_component}
         </Animated_Text>
     );

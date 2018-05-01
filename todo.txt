@@ -18,5 +18,9 @@ swipe left right for confessions & bible √
 
 upgrade react native & hoek's vulnerability
 
-android line height / padding bottom
+android line height / padding bottom √
 icon & splash screen
+portrait only
+
+transparent status bar android
+superscript android
