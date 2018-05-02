@@ -40,7 +40,7 @@ Navigation.startTabBasedApp({
         {
             label: 'Psalter',
             screen: 'Psalter', // this is a registered name for a screen
-            icon: require('./images/icons/icon-open-book.png'),
+            icon: require('./images/icons/icon-transparent.png'),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'Psalter',
             navigatorStyle: default_navigator_style
@@ -48,7 +48,7 @@ Navigation.startTabBasedApp({
         , {
             label: 'Score',
             screen: 'Psalter_PDF', // this is a registered name for a screen
-            icon: require('./images/icons/icon-open-book.png'),
+            icon: require('./images/icons/icon-transparent.png'),
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'Score',
@@ -57,7 +57,7 @@ Navigation.startTabBasedApp({
         , {
             label: 'Creeds & Forms',
             screen: 'Creeds', // this is a registered name for a screen
-            icon: require('./images/icons/icon-open-book.png'),
+            icon: require('./images/icons/icon-transparent.png'),
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             navigatorStyle: default_navigator_style
@@ -65,7 +65,7 @@ Navigation.startTabBasedApp({
         , {
             label: 'Bible',
             screen: 'Bible_Text', // this is a registered name for a screen
-            icon: require('./images/icons/icon-open-book.png'),
+            icon: require('./images/icons/icon-transparent.png'),
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'The Holy Bible',
@@ -74,7 +74,7 @@ Navigation.startTabBasedApp({
         , {
             label: 'Special',
             screen: 'Special', // this is a registered name for a screen
-            icon: require('./images/icons/icon-open-book.png'),
+            icon: require('./images/icons/icon-transparent.png'),
             // icon: require(' '),
             //selectedIcon: require('../img/one_selected.png'), // iOS only
             title: 'Special',
@@ -86,6 +86,9 @@ Navigation.startTabBasedApp({
         tabBarBackgroundColor: colors.dark_cerulean,
         tabBarHidden: true,
         drawUnderTabBar: true
+    },
+    appStyle: {
+        orientation: 'portrait'
     }
 });
 

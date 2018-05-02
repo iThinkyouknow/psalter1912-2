@@ -590,9 +590,9 @@ class App extends Component {
 
     //<KeyboardAvoidingView behavior={'position'}
     //keyboardVerticalOffset={64} >
-
-
+    
     render() {
+
         const {
             dispatch
             , navigator
