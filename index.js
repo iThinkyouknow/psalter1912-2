@@ -24,11 +24,7 @@ export const default_navigator_style = {
     drawUnderTabBar: true,
     navBarHidden: true,
     //tabBarBackgroundColor: colors.dark_cerulean,
-    tabBarHidden: true,
-    drawUnderStatusBar: true,
-    // statusBarTranslucent: true,
-    statusBarColor: 'transparent',
-    drawUnderStatusBar: true
+    tabBarHidden: true
 };
 
 export const navigator_style_push = {

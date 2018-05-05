@@ -3,9 +3,9 @@ package com.the_psalter_1912_2;
 //import android.app.Application;
 
 //import com.facebook.react.ReactApplication;
+import com.jadsonlourenco.RNShakeEvent.RNShakeEventPackage;
 import org.wonday.pdf.RCTPdfView;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.jadsonlourenco.RNShakeEvent.RNShakeEventPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -61,6 +61,7 @@ public class MainApplication extends NavigationApplication {
 //    protected List<ReactPackage> getPackages() {
 //      return Arrays.<ReactPackage>asList(
 //          new MainReactPackage(),
+//            new RNShakeEventPackage(),
 //            new RCTPdfView(),
 //            new RNFetchBlobPackage(),
 //            new RNShakeEventPackage()
