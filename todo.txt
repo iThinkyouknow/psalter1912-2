@@ -21,8 +21,13 @@ upgrade react native & hoek's vulnerability
 
 for release:
 android line height / padding bottom √
-icon & splash screen
 portrait only √
 
-transparent status bar android
+
+transparent status bar android √
+shake android√
+bible text size√
+
+chorus for lyrics
+icon & splash screen
 superscript android
