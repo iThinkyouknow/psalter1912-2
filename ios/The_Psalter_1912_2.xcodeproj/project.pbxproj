@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -35,6 +36,7 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* The_Psalter_1912_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* The_Psalter_1912_2Tests.m */; };
 		3DA4A43098E74B5DB631981D /* libReactNativeKeyboardManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07082D7CB5AE4B6CA8FC1ADA /* libReactNativeKeyboardManager.a */; };
+		4B6A37ED052E4E3E8FC3D304 /* libRNShakeEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A34089BEF2EF48CF8C8A5784 /* Durwent.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3DC38E3C9554770866DC8BD /* Durwent.ttf */; };
@@ -476,7 +478,6 @@
 		DBD1AAB12098429F0025CBFB /* psalter_222.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A8FF2098429E0025CBFB /* psalter_222.mp3 */; };
 		DBD1AAB22098429F0025CBFB /* psalter_127.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A9002098429E0025CBFB /* psalter_127.mp3 */; };
 		EC8986EDC98F4EC4AAD4147A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */; };
-		4B6A37ED052E4E3E8FC3D304 /* libRNShakeEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -711,6 +712,13 @@
 			remoteGlobalIDString = 5E8FD9831D269F5D00CF68CC;
 			remoteInfo = ReactNativeAudioToolkit;
 		};
+		DB279D0E209FD2B50037748E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F59092BA6A124A248160F0BA /* RNShakeEvent.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNShakeEvent;
+		};
 		DB5E0CDD1FD1808800C617E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -806,6 +814,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShakeEvent.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B3DC38E3C9554770866DC8BD /* Durwent.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Durwent.ttf; path = ../assets/Durwent.ttf; sourceTree = "<group>"; };
 		C2BC4AE31B2F4EC2AB14F83B /* ReactNativeKeyboardManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeKeyboardManager.xcodeproj; path = "../node_modules/react-native-keyboard-manager/ios/ReactNativeKeyboardManager.xcodeproj"; sourceTree = "<group>"; };
@@ -1245,8 +1254,7 @@
 		DBD1A8FF2098429E0025CBFB /* psalter_222.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_222.mp3; path = "../../Music-Files/psalter_222.mp3"; sourceTree = "<group>"; };
 		DBD1A9002098429E0025CBFB /* psalter_127.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_127.mp3; path = "../../Music-Files/psalter_127.mp3"; sourceTree = "<group>"; };
 		E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTPdf.xcodeproj; path = "../node_modules/react-native-pdf/ios/RCTPdf.xcodeproj"; sourceTree = "<group>"; };
-		F59092BA6A124A248160F0BA /* RNShakeEvent.xcodeproj */ = {isa = PBXFileReference; name = "RNShakeEvent.xcodeproj"; path = "../node_modules/react-native-shake-event/ios/RNShakeEvent.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */ = {isa = PBXFileReference; name = "libRNShakeEvent.a"; path = "libRNShakeEvent.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F59092BA6A124A248160F0BA /* RNShakeEvent.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShakeEvent.xcodeproj; path = "../node_modules/react-native-shake-event/ios/RNShakeEvent.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1543,13 +1551,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DB279D0B209FD2B50037748E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DB279D0F209FD2B50037748E /* libRNShakeEvent.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DB5E0CF71FD1A01500C617E7 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				07082D7CB5AE4B6CA8FC1ADA /* libReactNativeKeyboardManager.a */,
-				5BFB2FDDB6C64EF49C884D98 /* libRNShakeEvent.a */,
 				2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */,
 				31DEF0497B04472FAFB0160A /* libRCTPdf.a */,
+				8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -2202,6 +2218,10 @@
 					ProductGroup = DBE4859720786CC400AB6E47 /* Products */;
 					ProjectRef = 01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */;
 				},
+				{
+					ProductGroup = DB279D0B209FD2B50037748E /* Products */;
+					ProjectRef = F59092BA6A124A248160F0BA /* RNShakeEvent.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2429,6 +2449,13 @@
 			fileType = archive.ar;
 			path = libReactNativeAudioToolkit.a;
 			remoteRef = DB09B6E5202097E6000E5F1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB279D0F209FD2B50037748E /* libRNShakeEvent.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNShakeEvent.a;
+			remoteRef = DB279D0E209FD2B50037748E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DB5E0CDE1FD1808800C617E7 /* libthird-party.a */ = {

@@ -15,7 +15,7 @@ export const colors = {
     black: 'rgb(0, 0, 0)',
     blue: 'rgb(0, 122, 255)',
     grey: 'rgb(142, 142, 147)',
-    gold: 'rgb(218,165,32)'
+    gold: 'rgb(218, 165, 32)'
 };
 
 export const sizes = {

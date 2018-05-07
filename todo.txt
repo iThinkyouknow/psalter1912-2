@@ -29,5 +29,6 @@ shake android√
 bible text size√
 
 chorus for lyrics
-icon & splash screen
+icon & splash screen: ios √ android X
 superscript android
+text selectable
