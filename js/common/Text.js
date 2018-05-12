@@ -120,22 +120,33 @@ export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (w
             textAlignVertical: is_superscript ? 'top' : 'center'
         };
 
+        const punctuation_regex = /^(?:\.|\;|\,|\?|\:| |\!)/i;
+        const is_start_w_punctuation = punctuation_regex.test(text);
+
         if (is_superscript && Platform.OS === 'ios') {
             return (
-                <View key={`creed-${key_prefix}-para-${i}`} style={{marginTop: -2, alignItems: 'flex-start', width: 8 * text.length, height: 16}}>
-                    <Animated_Text font_size={is_superscript ? font_sizes.x_small : font_sizes.default}
+                <View key={`creed-${key_prefix}-para-${i}`} style={{marginTop: 0, alignItems: 'flex-start', width: 8 * text.length, height: 14}}>
+                    <Animated_Text font_size={font_sizes.x_small}
                                    font_weight={is_bold ? 'bold' : 'normal'}
                                    style={text_style}>
-                        {(i === 0 || is_superscript || was_n) ? text : ` ${text}`}
+                        {text}
                     </Animated_Text>
                 </View>
             );
-        } else {
+        } else if (is_superscript && Platform.OS === 'android') {
             return (
-                <Animated_Text key={`creed-${key_prefix}-para-${i}`} font_size={is_superscript ? font_sizes.x_small : font_sizes.default}
+                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
                                font_weight={is_bold ? 'bold' : 'normal'}
                                style={text_style}>
-                    {(i === 0 || is_superscript || was_n) ? text : ` ${text}`}
+                    {`[${text}]`}
+                </Animated_Text>
+            );
+        } else {
+            return (
+                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                               font_weight={is_bold ? 'bold' : 'normal'}
+                               style={text_style}>
+                    {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
                 </Animated_Text>
             );
         }

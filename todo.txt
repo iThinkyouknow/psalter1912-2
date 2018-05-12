@@ -9,6 +9,7 @@ fonts√
 properly handle on_psalter_change
 refactor tab bar√
 all the other screens
+superscript android
 
 lower lag for stats tab switching √
 
@@ -28,7 +29,7 @@ transparent status bar android √
 shake android√
 bible text size√
 
-chorus for lyrics
+chorus for lyrics √
 icon & splash screen √
-superscript android
+
 text selectable √
