@@ -72,7 +72,7 @@ Sing me now!`
         ]
         , [
             `Wow!`
-            , `I am amazed at how you never realized that I am always by your side
+            , `I am amazed at how you never realize that I am always by your side
 Sing me now!`
         ]
         , [
@@ -93,6 +93,10 @@ Sing me now!`
         ]
         , [
             `Come On!`
+            , `Sing me now!`
+        ]
+        , [
+            `Senpai noticed me!`
             , `Sing me now!`
         ]
     ];
