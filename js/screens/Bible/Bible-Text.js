@@ -441,7 +441,7 @@ class Bible_Text extends Component {
 
         const swipe_left_loaded = swipe_left_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index);
 
-        const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
+        const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 4))(swipe_right_loaded)(swipe_left_loaded);
 
         const tab_actions = [
             change_psalter_on_tab_action

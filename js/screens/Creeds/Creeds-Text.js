@@ -232,7 +232,7 @@ class Creeds_Text extends Component {
         const swipe_right_loaded = swipe_right(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
         const swipe_left_loaded = swipe_left(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
 
-        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
+        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 4))(swipe_right_loaded)(swipe_left_loaded);
 
         const swipe_action_loaded = swipe(on_swipe_loaded);
 

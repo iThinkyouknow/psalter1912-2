@@ -125,11 +125,11 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
 
 const swipe_action = (dispatch) => (screen_width) => (index) => (e, gestureState) => {
     const change_psalter = on_psalter_change(dispatch);
-    const one_third_screen_width = Math.floor(screen_width / 3);
+    const one_quarter_screen_width = Math.floor(screen_width / 4);
 
-    if (gestureState.dx < -(one_third_screen_width)) {
+    if (gestureState.dx < -(one_quarter_screen_width)) {
         change_psalter(index + 1)();
-    } else if (gestureState.dx > one_third_screen_width) {
+    } else if (gestureState.dx > one_quarter_screen_width) {
         change_psalter(index - 1)();
     }
 };
