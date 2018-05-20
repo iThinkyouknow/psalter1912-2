@@ -33,7 +33,25 @@ Apologize Now! 😡`,
             }
         ],
         { cancelable: true }
-    )
+    );
+};
+
+export const perhaps_change_to_psalter_input_alert = (psalter_num) => {
+    Alert.alert(
+        `Perhaps...`,
+        `What you want is to sing psalter ${psalter_num}.
+Tap on the magnifying glass again and tap on the white space that says Psalter #.
+The magnifying glass is for searching keywords.
+From now on, tap on the white text input directly to go to a certain Psalter #.
+You're welcome!`,
+        [
+            {
+                text: `Thank you! That makes so much sense!`,
+                onPress: () => {}, style: 'cancel'
+            }
+        ],
+        { cancelable: true }
+    );
 };
 
 export const not_enough_characters_search_alert = (min_length) => {
@@ -50,7 +68,7 @@ Apologize Now! 😡`,
             }
         ],
         { cancelable: true }
-    )
+    );
 };
 
 export const neglected_alert = (random) => (on_yes) => (on_no) => (index) => () => {

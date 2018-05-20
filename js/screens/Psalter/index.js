@@ -70,6 +70,7 @@ import {
     string_input_error_alert,
     wrong_number_error_alert,
     not_enough_characters_search_alert
+    , perhaps_change_to_psalter_input_alert
 } from '../../utils/alert';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
@@ -438,7 +439,12 @@ const search_fn = (dispatch) => (search_action) => (event) => {
     const text = event.nativeEvent.text.trim();
 
     if (text.length > 0 && text.length < 3) {
-        not_enough_characters_search_alert(3);
+        const used_the_wrong_text_input_regex = /^\d{1,2}$/;
+
+        (used_the_wrong_text_input_regex.test(text))
+            ? perhaps_change_to_psalter_input_alert(text)
+            : not_enough_characters_search_alert(3);
+
     } else if (text.length > 2) {
         dispatch(search_action(text));
     }
@@ -465,15 +471,11 @@ const Text_input_search = (props) => {
 const Search_result_view = (props) => {
     const {width, height} = Dimensions.get('window');
 
-    const height_to_reduce_os = (Platform.OS === 'ios')
-        ? sizes.default * 2
-        : sizes.default * 3;
-
-    const top = (Platform.OS === 'ios') ? native_elements.status_bar : 0;
+    const top = native_elements.status_bar;
 
     const search_results_view_dynamic_style = {
         width: width - sizes.large * 2,
-        height: height - native_elements.status_bar - native_elements.tab_bar - 37 - height_to_reduce_os,
+        height: height - native_elements.status_bar - native_elements.tab_bar - 37 - sizes.default * 2,
         top: top,
         transform: [
             {
