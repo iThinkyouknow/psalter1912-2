@@ -90,13 +90,17 @@ const header = (fade_anim) => (psalter) => (index) => {
 
     const {no, title, content, meter, psalm, score_ref, ref} = psalter;
 
+    const fade_in_style = {
+        opacity: fade_anim
+    };
+
     return (((index >= 0) &&
-        <View style={[styles.standard_margin_horizontal, styles.main_text_padding_top]}>
-            {is_present_type('number')(no) && main_title(fade_anim)(`Psalter ${no}`)}
-            {is_present_type('string')(title) && sub_title(fade_anim)(title)}
-            {is_present_type('number')(psalm) && sub_title(fade_anim)(`Psalm ${psalm}`)}
-            {is_present_type('string')(meter) && meter_text(fade_anim)(`Meter: ${meter}`)}
-        </View>
+        <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
+            {is_present_type('number')(no) && main_title(`Psalter ${no}`)}
+            {is_present_type('string')(title) && sub_title(title)}
+            {is_present_type('number')(psalm) && sub_title(`Psalm ${psalm}`)}
+            {is_present_type('string')(meter) && meter_text(`Meter: ${meter}`)}
+        </Animated.View>
     ));
 };
 
@@ -105,13 +109,17 @@ const psalter_key_extractor = (item, i) => `psalter-text-${i}`;
 const render_psalter_text = (fade_anim) => ({item, index}) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
-        return normal_text(`line-${i}`)()(fade_anim)(line_to_render);
+        return normal_text(`line-${i}`)()(line_to_render);
     }) : item;
 
+    const fade_in_style = {
+        opacity: fade_anim
+    };
+
     return (
-        <View style={[styles.standard_margin_horizontal, styles.main_text_margin_top]}>
+        <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_margin_top, fade_in_style]}>
             {texts}
-        </View>
+        </Animated.View>
     )
 };
 
@@ -271,11 +279,11 @@ const psalter_refs_section = ({item, index}) => {
 
     const texts = Array.isArray(item.text_array)
         ? item.text_array.map(ref_text_comp(psalm))
-        : normal_text(`ref-line-${index}`)()(1)(`${psalm} - ${item.text_array}`);
+        : normal_text(`ref-line-${index}`)()(`${psalm} - ${item.text_array}`);
 
     return (
         <View style={styles.more_info_section_container}>
-            {main_title_2(1)(title)}
+            {main_title_2(title)}
             <View style={styles.ref_text_container}>
                 {texts}
             </View>
@@ -289,7 +297,7 @@ const count_section = ({item, index}) => {
     if (!is_present_type('string')(title)) return null;
     return (
         <View style={styles.more_info_section_container}>
-            {main_title_2(1)(item.title)}
+            {main_title_2(item.title)}
         </View>
     );
 };
@@ -305,7 +313,7 @@ const music_section = (music_slider) => ({item, index}) => {
     return (music_slider_array.length > 0)
         ? (
         <View >
-            {main_title_2(1)(item.title)}
+            {main_title_2(item.title)}
             {music_slider_array}
         </View>
     )
@@ -491,7 +499,7 @@ const Search_result_view = (props) => {
 
         return (
             <View style={{marginTop: sizes.medium}}>
-                {main_title_2(1)(`${search_results_count} Search Results`)}
+                {main_title_2(`${search_results_count} Search Results`)}
             </View>
         );
     };

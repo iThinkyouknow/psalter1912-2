@@ -70,23 +70,23 @@ export function Animated_Text(props = {}) {
     );
 };
 
-const composable_anim_text = (text_align) => (font_weight) => (font_size) => (font_family) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
+const composable_default_text = (text_align) => (font_weight) => (font_size) => (font_family) => (line_height) => (key) => (style) => (children) => {
 
     return (
-        <Animated_Text text_align={text_align}
+        <Default_Text text_align={text_align}
                        font_weight={font_weight}
                        font_size={font_size}
                        line_height={line_height}
                        font_family={font_family}
                        key={key}
-                       opacity={opacity}
                        style={style}>
             {children}
-        </Animated_Text>
+        </Default_Text>
     );
 };
 
-export const centered_text = composable_anim_text('center');
+// export const centered_text = composable_anim_text('center');
+export const centered_text = composable_default_text('center');
 export const bold_centered_text = centered_text('bold');
 export const main_title = centered_text()('xxxxx_large')('Durwent')()()({color: colors.gold});
 export const main_title_2 = bold_centered_text('x_large')()()()();

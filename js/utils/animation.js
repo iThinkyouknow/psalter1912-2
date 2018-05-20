@@ -53,22 +53,24 @@ export const fade_animation = (duration) => (initial_val) => {
     const fade_in = () => {
         Animated.sequence([
             Animated.timing(fade_opacity, {
-                toValue: 0,
-                duration: 0,
-                easing: Easing.linear(1)
+                toValue: 0
+                , duration: 0
+                , useNativeDriver: true
             }),
             Animated.delay(500),
             Animated.timing(fade_opacity, {
-                toValue: 1,
-                duration: duration
+                toValue: 1
+                , duration: duration
+                , useNativeDriver: true
             })
         ]).start();
     };
 
     const fade_out = () => {
         Animated.timing(fade_opacity, {
-            toValue: 0,
-            duration: duration
+            toValue: 0
+            , duration: duration
+            , useNativeDriver: true
         }).start();
     };
 
