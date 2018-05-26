@@ -312,11 +312,11 @@ const music_section = (music_slider) => ({item, index}) => {
 
     return (music_slider_array.length > 0)
         ? (
-        <View >
-            {main_title_2(item.title)}
-            {music_slider_array}
-        </View>
-    )
+            <View >
+                {main_title_2(item.title)}
+                {music_slider_array}
+            </View>
+        )
         : null;
 };
 
@@ -508,9 +508,12 @@ const Search_result_view = (props) => {
         const text = item.search_result.map(({text, style}, i) => {
             const key = `search-result-${index}-${i}`;
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
-            const color = (style === 'bold') ? {
-                color: colors.blue
-            } : undefined;
+            const color = (style === 'bold')
+                ? {
+                    color: colors.blue
+                }
+            : undefined;
+
             return <Default_Text style={color} key={key} font_weight={font_weight}>{text}</Default_Text>;
         });
 

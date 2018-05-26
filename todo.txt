@@ -37,4 +37,5 @@ text selectable √
 
 swipe for android
 adjust layout for keyboard
-alert for search
+alert for search √
+text animation √
