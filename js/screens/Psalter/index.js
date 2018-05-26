@@ -208,7 +208,7 @@ const num_input_set_can_search = (dispatch) => (can_search) => () => {
 const Number_input = (props) => {
 
     const keyboard_type = (Platform.OS === 'ios') ? 'number-pad' : 'numeric';
-    const {psalters_count, value, dispatch, valid_text_input, on_blur_action, on_focus_action} = props;
+    const {psalters_count, value, dispatch, valid_text_input} = props;
 
     return (
         <TextInput keyboardType={keyboard_type}
@@ -218,8 +218,6 @@ const Number_input = (props) => {
                    onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
                    value={value}
                    autoCorrect={false}
-                   onBlur={props.on_blur_action}
-                   onFocus={props.on_focus_action}
                    underlineColorAndroid={'transparent'}
                    {...props} />
     );
@@ -652,6 +650,37 @@ class App extends Component {
             ? scroll_swipe_actions(on_psalter_change(dispatch)(index + 1))(on_psalter_change(dispatch)(index - 1))
             : no_op;
 
+        const get_text_input = (text_input_as_search) => {
+            if (Platform.OS === 'ios') {
+                return (text_input_as_search)
+                    ? <Text_input_search dispatch={dispatch}
+                                            style={[styles.text_input_style]}
+                                            valid_text_input={true}
+                                            search_results={psalter_search_results}
+                                            onBlur={hide_tabs_action(navigator)}/>
+
+                    : <Number_input psalters_count={psalters_count}
+                                    value={psalter_text_input}
+                                    dispatch={dispatch}
+                                    style={[styles.text_input_style]}
+                                    valid_text_input={valid_text_input}
+                                    onBlur={on_action(num_input_on_blur_actions_array)}
+                                    onFocus={num_input_set_can_search_w_dispatch(false)} />
+
+            } else if (Platform.OS === 'android') {
+                return (text_input_as_search)
+                    ? <Text_input_search dispatch={dispatch}
+                                         style={[styles.text_input_style]}
+                                         valid_text_input={true} />
+
+                    : <Number_input psalters_count={psalters_count}
+                                    value={psalter_text_input}
+                                    dispatch={dispatch}
+                                    style={[styles.text_input_style]}
+                                    valid_text_input={valid_text_input} />
+            }
+        };
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <More_Stuff_Section_List
@@ -684,23 +713,8 @@ class App extends Component {
                     paddingHorizontal: sizes.large,
                     paddingVertical: sizes.default,
                 }}>
-                    {(text_input_as_search)
-                        ? <Text_input_search dispatch={dispatch}
-                                             style={[styles.text_input_style]}
-                                             valid_text_input={true}
-                                             search_results={psalter_search_results}
-                                             onBlur={hide_tabs_action(navigator)}/>
 
-                        : <Number_input psalters_count={psalters_count}
-                                        value={psalter_text_input}
-                                        dispatch={dispatch}
-                                        style={[styles.text_input_style]}
-                                        valid_text_input={valid_text_input}
-                                        on_blur_action={on_action(num_input_on_blur_actions_array)}
-                                        on_focus_action={num_input_set_can_search_w_dispatch(false)}/>
-
-                    }
-
+                    {get_text_input(text_input_as_search)}
 
                     <TouchableHighlight style={styles.bottom_button_container}
                                         onPress={on_search_button_press(dispatch)(navigator)(text_input_as_search)(slide_right_pos)}
