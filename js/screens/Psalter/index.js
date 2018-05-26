@@ -39,7 +39,7 @@ import {
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 import {Rounded_Button} from '../../common/Rounded-Button';
-
+import music_slider from '../../common/music-slider';
 
 import {
     lock_in,
@@ -62,7 +62,6 @@ import {
     get_bible_passage
 } from '../../redux/actions/bible-actions';
 
-
 import music_player from '../../utils/music-player';
 import {is_present_type, no_op} from '../../utils/functions';
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
@@ -73,10 +72,13 @@ import {
     , perhaps_change_to_psalter_input_alert
 } from '../../utils/alert';
 
+import {
+    scroll_swipe_actions
+} from '../../utils/touch-gestures';
+
 import {set_keyboard_toolbar} from '../../utils/keyboard';
 
 
-import music_slider from '../../common/music-slider';
 
 
 const psalter_text_fade_anim = fade_animation(200)(0);
@@ -413,8 +415,6 @@ const count_fn = () => {
         add_count,
         clear_timeout
     };
-
-
 };
 
 const counter = count_fn();
@@ -648,6 +648,10 @@ class App extends Component {
 
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
+        const scroll_swipe_actions_loaded = Platform.OS === 'android'
+            ? scroll_swipe_actions(on_psalter_change(dispatch)(index + 1))(on_psalter_change(dispatch)(index - 1))
+            : no_op;
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <More_Stuff_Section_List
@@ -668,6 +672,7 @@ class App extends Component {
                           ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)}
                           renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
                           keyExtractor={psalter_key_extractor}
+                          onScrollEndDrag={scroll_swipe_actions_loaded}
                           {...panResponder(dispatch)(Dimensions.get('window').width)(index).panHandlers}  />
 
                 <View style={{
