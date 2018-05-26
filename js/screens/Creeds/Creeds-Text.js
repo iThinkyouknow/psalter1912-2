@@ -29,9 +29,9 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
-import {is_present, is_present_type} from '../../utils/functions';
+import {is_present_type, no_op} from '../../utils/functions';
 
-import {swipe_side_action, swipe} from '../../utils/touch-gestures'
+import {swipe_side_action, swipe, scroll_swipe_actions} from '../../utils/touch-gestures'
 
 import styles from './Creeds-Text.styles';
 
@@ -75,7 +75,7 @@ const Creeds_Body_Component = (section_header) => ({item, index}) => {
     const [
               body_component,
               extra_component
-          ] = [body_para_component, extra_para_component].map(component => is_present(component) ? component_wrapper(component) : null);
+          ] = [body_para_component, extra_para_component].map(component => is_present_type('object')(component) ? component_wrapper(component) : null);
 
 
     return (
@@ -87,7 +87,8 @@ const Creeds_Body_Component = (section_header) => ({item, index}) => {
     );
 };
 
-const Creeds_Text_Flatlist = (swipe_action) => (styles) => (title) => (description) => (body) => {
+
+const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles) => (title) => (description) => (body) => {
 
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
@@ -102,6 +103,7 @@ const Creeds_Text_Flatlist = (swipe_action) => (styles) => (title) => (descripti
                   ListHeaderComponent={Creeds_Body_Header}
                   keyExtractor={key_extractor}
                   renderItem={Creeds_Body_Component(body.header)} style={styles.flatlist_padding_horizontal}
+                  onScrollEndDrag={scroll_swipe_actions}
                   {...swipe_action.panHandlers} />
     );
 };
@@ -236,11 +238,15 @@ class Creeds_Text extends Component {
 
         const swipe_action_loaded = swipe(on_swipe_loaded);
 
+        const scroll_swipe_actions_loaded = Platform.OS === 'android'
+            ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
+            : no_op;
+
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
-                {Creeds_Text_Flatlist(swipe_action_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)}
+                {Creeds_Text_Flatlist(swipe_action_loaded)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)}
             </Default_Bg>
         );
     }

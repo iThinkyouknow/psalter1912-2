@@ -38,7 +38,7 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, no_op} from '../../utils/functions';
-import {swipe, swipe_side_action} from '../../utils/touch-gestures';
+import {swipe, swipe_side_action, scroll_swipe_actions} from '../../utils/touch-gestures';
 
 import {bible_toggle_back_to_book_buttons} from '../../redux/actions/state-actions';
 
@@ -96,13 +96,14 @@ const bible_body_component = ({item, index}) => {
     return text_component;
 };
 
-const Bible_Text_Component = (swipe) => (chapter) => {
+const Bible_Text_Component = (swipe) => (scroll_swipe_actions) => (chapter) => {
 
     return (
         <FlatList data={chapter.content.slice(1)}
                   ListHeaderComponent={list_header_component(chapter.title)(chapter.description)}
                   keyExtractor={bible_key_extractor}
                   renderItem={bible_body_component}
+                  onScrollEndDrag={scroll_swipe_actions}
                   {...swipe.panHandlers} />
     );
 };
@@ -443,6 +444,10 @@ class Bible_Text extends Component {
 
         const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 4))(swipe_right_loaded)(swipe_left_loaded);
 
+        const scroll_swipe_actions_loaded = Platform.OS === 'android'
+            ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
+            : no_op;
+
         const tab_actions = [
             change_psalter_on_tab_action
         ];
@@ -459,7 +464,7 @@ class Bible_Text extends Component {
 
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
-                {Bible_Text_Component(swipe(swipe_side_action_loaded))(bible_passage)}
+                {Bible_Text_Component(swipe(swipe_side_action_loaded))(scroll_swipe_actions_loaded)(bible_passage)}
 
                 <View style={{
                     flexDirection: 'row',

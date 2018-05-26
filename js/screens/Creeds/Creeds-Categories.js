@@ -111,7 +111,7 @@ const render_creed_categories = ({styles}) => (creed_level) => (selected_chapter
         <TouchableHighlight underlayColor={colors.dark_cerulean}
                             onPress={go_to_creeds_text}>
             <View style={[styles.categories_container]}>
-                <Default_Text>{header_text}</Default_Text>
+                {header_text}
                 <View style={[styles.sub_text_container]}>
                     {sub_text_component}
                 </View>
