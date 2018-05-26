@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    StyleSheet,
+    StyleSheet
+    , SafeAreaView
 
 } from 'react-native';
 

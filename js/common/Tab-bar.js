@@ -23,6 +23,8 @@ import {
     , line_heights
     , native_elements
     , buttons
+    , sizes
+    , is_iPhone_X
 } from './common.styles';
 
 import {
@@ -31,11 +33,13 @@ import {
 
 const styles = StyleSheet.create({
     tab_bar: {
+        paddingTop: sizes.default / 2,
         height: native_elements.tab_bar
         , flex: 0
         , flexDirection: 'row'
         , justifyContent: 'space-between'
-        , alignItems: 'center'
+        , alignItems: 'flex-start'
+        , marginBottom: is_iPhone_X ? native_elements.x_bottom_safe_area : 0
     }
     , button: {
         flexDirection: 'column',
