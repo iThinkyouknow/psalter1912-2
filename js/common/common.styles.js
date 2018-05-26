@@ -1,11 +1,28 @@
 'use strict';
 
+import {
+    Dimensions
+    , Platform
+} from 'react-native'
+
+const _is_iphone_x = (Dimensions) => {
+    const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width;
+    const aspect_ratio = 17 / 9;
+
+    return ((Platform.OS === 'ios') && ((height / width) > aspect_ratio || (width / height) > aspect_ratio));
+};
+
+export const is_iPhone_X = _is_iphone_x(Dimensions);
+
 
 export const native_elements = {
-    status_bar: 20,
-    nav_bar_std: 44,
-    nav_bar_x: 96,
-    tab_bar: 49
+    status_bar: 20
+    , nav_bar_std: 44
+    , nav_bar_x: 96
+    , tab_bar: 49
+    , x_bottom_safe_area: 34
+    , x_top_safe_area: 44
 };
 
 export const colors = {

@@ -3168,6 +3168,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.The-Psalter";
 				PRODUCT_NAME = The_Psalter_1912_2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -3193,6 +3194,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.The-Psalter";
 				PRODUCT_NAME = The_Psalter_1912_2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

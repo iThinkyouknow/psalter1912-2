@@ -11,6 +11,7 @@ import {
     colors,
     line_height_fn,
     buttons
+    , is_iPhone_X
 } from '../../common/common.styles';
 
 export default styles = StyleSheet.create({
@@ -91,7 +92,7 @@ export default styles = StyleSheet.create({
     creeds_chooser: {
         position: 'absolute',
         flexDirection: 'row',
-        bottom: sizes.default + native_elements.tab_bar,
+        bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
         height: 32,
         borderRadius: border_radii.default,
         borderColor: colors.blue,
