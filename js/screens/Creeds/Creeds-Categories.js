@@ -9,6 +9,8 @@ import {
     TouchableHighlight
 } from 'react-native';
 
+import {navigator_style_push} from '../../../index'
+
 import styles from './Creeds-Categories.styles';
 import {
     colors,
@@ -25,7 +27,8 @@ import {
     Animated_Text
 } from '../../common/Text';
 
-import Default_bg from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {
@@ -51,13 +54,15 @@ const header_banner = ({Dimensions, styles}) => (title) => {
         width: width
     };
 
+    const font_size = (title.length > 100) ? font_sizes.xx_large : font_sizes.xxx_large;
+
     return (
         <View style={[styles.head_banner, header_banner_sm_style]}>
             <Image style={[styles.head_banner_image, header_banner_sm_image_style]}
                    source={require('../../../images/Heidelberg-Catechism.jpg')} resizeMode={'cover'}/>
             <View style={[styles.head_banner_image, header_banner_sm_image_style, styles.head_banner_mask]}/>
             <View style={[styles.text_container]}>
-                <Default_Text font_size={font_sizes.xx_large}>{title}</Default_Text>
+                <Default_Text font_family={'Durwent'} font_size={font_size}>{title}</Default_Text>
             </View>
         </View>
     );
@@ -65,15 +70,13 @@ const header_banner = ({Dimensions, styles}) => (title) => {
 
 
 const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
+
     if (creed_level === 2) {
         dispatch(change_creeds_chapter_lv(2));
         dispatch(lock_in_creed_level_2(library_type_index)(selected_creed_index)(selected_chapter_index));
         navigator.push({
             screen: 'Creeds_Categories',
-            navigatorStyle: {
-                drawUnderNavBar: true,
-                navBarTranslucent: true
-            },
+            navigatorStyle: navigator_style_push,
             backButtonTitle: 'Chapters'
         });
 
@@ -81,10 +84,7 @@ const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_
         dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article));
         navigator.push({
             screen: 'Creeds_Text',
-            navigatorStyle: {
-                drawUnderNavBar: true,
-                navBarTranslucent: true
-            },
+            navigatorStyle: navigator_style_push,
             backButtonTitle: 'Chapters'
         });
     }
@@ -108,7 +108,7 @@ const render_creed_categories = ({styles}) => (creed_level) => (selected_chapter
         : go_to_next_creed_level_action(index)();
 
     return (
-        <TouchableHighlight underlayColor={colors.ocean}
+        <TouchableHighlight underlayColor={colors.dark_cerulean}
                             onPress={go_to_creeds_text}>
             <View style={[styles.categories_container]}>
                 <Default_Text>{header_text}</Default_Text>
@@ -133,6 +133,14 @@ const creed_categories_list = (header_banner_component) => (content) => (render_
     );
 };
 
+const tab_2_actions = (navigator) => () => navigator.popToRoot();
+
+const select_tab = (tab_2_actions) => (tab_index) => () => {
+    if (tab_index === 2) {
+        tab_2_actions();
+    }
+};
+
 
 class Creeds_Categories extends Component {
 
@@ -141,17 +149,22 @@ class Creeds_Categories extends Component {
     }
 
 
+
     render() {
         const {
-            library_type_index,
-            selected_creed_index,
-            creeds_chapters_curr_level,
-            creed_articles_title,
-            creed_articles_content,
-            creed_title,
-            creed_content,
-            creed_level,
-            selected_chapter_index
+            dispatch
+            , navigator
+            , creed_content
+            , creed_level
+            , creed_title
+            , creeds_chapters_curr_level
+            , library_type_index
+            , selected_creed_index
+            , creed_articles_title
+            , creed_articles_content
+            , creed_articles_level
+            , selected_chapter_index
+            , tab_bar_selected_index
         } = this.props;
 
         const component_obj = {
@@ -163,8 +176,8 @@ class Creeds_Categories extends Component {
             },
             random: Math.random,
             Dimensions,
-            navigator: this.props.navigator,
-            dispatch: this.props.dispatch
+            navigator: navigator,
+            dispatch: dispatch
         };
 
         const header_banner_w_title = (creeds_chapters_curr_level === 2)
@@ -183,11 +196,20 @@ class Creeds_Categories extends Component {
             ? creed_categories_list(header_banner_w_title)(creed_articles_content)(render_creed_categories_w_data)
             : creed_categories_list(header_banner_w_title)(creed_content)(render_creed_categories_w_data);
 
+        const tab_2_w_nav = tab_2_actions(navigator);
+
+        const select_tab_wo_tab_index = select_tab(tab_2_w_nav);
+
+        const tab_actions = [
+            select_tab_wo_tab_index
+        ];
+
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_bg>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 {creed_categories_list_component}
-            </Default_bg>
+            </Default_Bg>
         )
     }
 }
@@ -195,16 +217,17 @@ class Creeds_Categories extends Component {
 
 function mapStateToProps(state) {
     return {
-        creed_content: state.creed.content,
-        creed_level: state.creed.levels_deep || 0,
-        creed_title: state.creed.title,
-        creeds_chapters_curr_level: state.creeds_chapters_curr_level,
-        library_type_index: state.creed.library_type_index,
-        selected_creed_index: state.creed.selected_index,
-        creed_articles_title: state.creed_level_2.title,
-        creed_articles_content: state.creed_level_2.content,
-        creed_articles_level: state.creed_level_2.levels_deep,
-        selected_chapter_index: state.creed_level_2.selected_chapter_index
+        creed_content: state.creed.content
+        , creed_level: state.creed.levels_deep || 0
+        , creed_title: state.creed.title
+        , creeds_chapters_curr_level: state.creeds_chapters_curr_level
+        , library_type_index: state.creed.library_type_index
+        , selected_creed_index: state.creed.selected_index
+        , creed_articles_title: state.creed_level_2.title
+        , creed_articles_content: state.creed_level_2.content
+        , creed_articles_level: state.creed_level_2.levels_deep
+        , selected_chapter_index: state.creed_level_2.selected_chapter_index
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 

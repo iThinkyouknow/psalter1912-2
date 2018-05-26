@@ -1,0 +1,41 @@
+canons rej pre-text √
+
+actions if no psalter on tab 0;√
+
+android
+fonts√
+
+//refactor
+properly handle on_psalter_change
+refactor tab bar√
+all the other screens
+superscript android
+
+lower lag for stats tab switching √
+
+swipe left right for confessions & bible √
+
+"global creed state"
+
+upgrade react native & hoek's vulnerability
+
+
+for release:
+android line height / padding bottom √
+portrait only √
+
+
+transparent status bar android √
+shake android√
+bible text size√
+
+chorus for lyrics √
+icon & splash screen √
+
+text selectable √
+
+
+swipe for android
+adjust layout for keyboard
+alert for search √
+text animation √

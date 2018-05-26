@@ -15,7 +15,7 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
             const {height} = Dimensions.get('window');
 
             Animated.spring(animated_value, {
-                toValue: (should_slide_down) ? (height + native_elements.tab_bar) : 0,
+                toValue: (should_slide_down) ? (height) : 0,
                 duration,
                 useNativeDriver: true,
                 bounciness
@@ -48,26 +48,29 @@ export const slide_side_animation = (duration = 100) => (bounciness = 18) => (in
 };
 
 export const fade_animation = (duration) => (initial_val) => {
-    const fade_opacity = new Animated.Value(initial_val);
+    const fade_opacity = new Animated.Value(0);
 
     const fade_in = () => {
         Animated.sequence([
             Animated.timing(fade_opacity, {
-                toValue: 0,
-                duration: 0,
-                easing: Easing.linear(1)
+                toValue: 0
+                , duration: 0
+                , useNativeDriver: true
             }),
+            Animated.delay(500),
             Animated.timing(fade_opacity, {
-                toValue: 1,
-                duration: duration
+                toValue: 1
+                , duration: duration
+                , useNativeDriver: true
             })
         ]).start();
     };
 
     const fade_out = () => {
         Animated.timing(fade_opacity, {
-            toValue: 0,
-            duration: duration
+            toValue: 0
+            , duration: duration
+            , useNativeDriver: true
         }).start();
     };
 

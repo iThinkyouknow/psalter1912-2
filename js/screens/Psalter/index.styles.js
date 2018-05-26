@@ -21,6 +21,10 @@ export default styles = StyleSheet.create({
     main_text_margin_top: {
         marginVertical: sizes.default
     },
+    main_text_padding_top: {
+        paddingVertical: sizes.default,
+        paddingTop: 3 * sizes.default + native_elements.status_bar
+    },
     text_input_style: {
         flex: 1,
         padding: sizes.default,
@@ -29,33 +33,25 @@ export default styles = StyleSheet.create({
         fontSize: font_sizes.default,
         backgroundColor: colors.white
     },
-    psalter_text_flat_list: {
-        marginBottom: native_elements.tab_bar
-    },
     slide_down_view_style: {
         backgroundColor: colors.black,
         opacity: 0.8,
         position: 'absolute',
         left: 0,
-        zIndex: zIndex.max,
+        zIndex: zIndex.max
     },
-    cancel_more_stuff_menu_cross_style: {
-        position: 'absolute',
-        top: sizes.large,
-        right: sizes.large,
-        height: sizes.x_large,
-        width: sizes.x_large,
-        justifyContent: 'center',
-        alignItems: 'center'
+    more_stuff_list_header: {
+        paddingTop: native_elements.nav_bar_std + native_elements.status_bar
     },
-    more_stuff_header_style: {
-        marginTop: native_elements.status_bar,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        height: sizes.x_large + sizes.large
+    more_stuff_bottom_buttons_container: {
+        flexDirection: 'row'
+        , justifyContent: 'center'
+        , height: native_elements.tab_bar
+        , paddingVertical: sizes.default / 2
+        , marginBottom: sizes.large
     },
     more_section_list: {
-        marginBottom: sizes.x_large
+        marginBottom: sizes.default
     },
     ref_text_container: {
         paddingHorizontal: sizes.x_large,
@@ -69,21 +65,23 @@ export default styles = StyleSheet.create({
         opacity: 0.8,
         position: 'absolute',
         left: sizes.large,
-        zIndex: zIndex.max,
+        zIndex: zIndex.xxx_large,
         borderRadius: border_radii.large
     },
 
-    search_button_container: {
+    bottom_button_container: {
         marginLeft: sizes.default,
         width: buttons.large,
         height: buttons.large,
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        // backgroundColor: 'red'
     },
     search_results_separator: {
         alignSelf: 'center',
         height: 1,
-        backgroundColor: colors.ocean},
+        backgroundColor: colors.dark_cerulean
+    },
     button_std: {
         width: buttons.default,
         height: buttons.default

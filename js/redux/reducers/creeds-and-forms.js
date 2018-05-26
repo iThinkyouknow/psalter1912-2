@@ -1,4 +1,3 @@
-
 import {CREEDS_ACTIONS} from '../actions/creeds-actions';
 
 import heidelberg_catechism from '../../../data/The-Heidelberg-Catechism(by-LD).json';
@@ -52,7 +51,16 @@ const library = [
     forms
 ];
 
-const get_lib_data = ({title, levels_deep}) => ({title, levels_deep});
+const get_lib_data = ({title, levels_deep, content}) => {
+    return {
+        title
+        , levels_deep
+        , last_ch_index: content.length - 1
+        , last_article_index: (levels_deep === 2)
+            ? content.map(({content}) => content.length - 1)
+            : []
+    };
+};
 
 const library_names_levels_array = [
     creeds.map(get_lib_data),
@@ -98,7 +106,7 @@ const original_creed_state = (library) => {
 
 const _creed = library => cache => original_state => (state = original_state, action) => {
     if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED) {
-        const { library_type_index, selected_index, levels_deep } = action;
+        const {library_type_index, selected_index, levels_deep} = action;
 
         const key = `${library_type_index}${selected_index}`;
         if (cache[key] !== undefined) return cache[key];
@@ -107,7 +115,7 @@ const _creed = library => cache => original_state => (state = original_state, ac
 
         cache = {
             ...cache,
-            [key] : {
+            [key]: {
                 ...get_creed_content_w_header_only(creed),
                 library_type_index,
                 selected_index
@@ -119,7 +127,7 @@ const _creed = library => cache => original_state => (state = original_state, ac
     return state;
 };
 
-export const creed = _creed(library)({})(original_creed_state);
+export const creed = _creed(library)({})(original_creed_state(library));
 
 
 const _creed_level_2 = library => cache => (state = {}, action) => {
@@ -129,22 +137,26 @@ const _creed_level_2 = library => cache => (state = {}, action) => {
 
         if (cache[key] !== undefined) return cache[key];
 
-
         const creed = library[library_type_index][selected_creed_index];
         const chapter_header = creed.content[selected_chapter_index].header;
         const chapter_content = creed.content[selected_chapter_index].content.map(({content}) => {
 
-            const [header, body] = content
+            const [header, body, body2] = content
                 .map(text_array => text_array.map(({text}) => text));
 
-            const joined_body = body
+            const header_text = header.join(' ');
+
+            const is_rej_of_error = /rejection of error/i.test(header_text);
+
+            const body_to_display = is_rej_of_error ? body2 : body;
+
+            const joined_body = body_to_display
                 .join(' ')
                 .slice(0, 100)
                 .replace('\n\n', '');
 
-
             return {
-                header: header.join(' '),
+                header: header_text,
                 content: [`${joined_body}...`]
             };
         });
@@ -179,21 +191,28 @@ const _creed_body = (library) => (state = {}, action = {}) => {
         if (selected_article_index === undefined || selected_article_index === null) {
 
             return {
-                title: creed.title || '',
-                description: creed.description || '',
-                body: creed.content[selected_chapter_index]
+                title: creed.title || ''
+                , description: creed.description || ''
+                , body: creed.content[selected_chapter_index]
+                , library_type_index
+                , selected_creed_index
+                , selected_chapter_index
+                , selected_article_index
             }
         } else {
             //level 2
 
             return {
-                title: creed.title || '',
-                description: creed.description || '',
-                body: {
-                    ...creed.content[selected_chapter_index],
-                    content: [creed.content[selected_chapter_index].content[selected_article_index]]
+                title: creed.title || ''
+                , description: creed.description || ''
+                , body: {
+                    ...creed.content[selected_chapter_index]
+                    , content: [creed.content[selected_chapter_index].content[selected_article_index]]
                 }
-
+                , library_type_index
+                , selected_creed_index
+                , selected_chapter_index
+                , selected_article_index
             }
         }
     }

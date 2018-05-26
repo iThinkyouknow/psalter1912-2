@@ -93,12 +93,40 @@ const text_attributor = text => {
 
 const regex = /(\n\n)|(\n)|(#\d#)|(A\. +)|(Q\. \d+\.+)|(<([\w]+)[^>]*>.*?<\/\7>)|(Error *:+ *)|(Rejection *:+ *)/g;
 
-const creed = require('../_The-Canons-of_Dordt.json');
+const rej_preamble = [
+    {
+        text: 'The true doctrine concerning'
+    }
+    , {
+        is_italics: true
+        , text: 'Election'
+    }
+    , {
+        text: 'and'
+    }
+    , {
+        is_italics: true
+        , text: 'Reprobation'
+    }
+    , {
+        text: 'having been explained,'
+    }
+    , {
+        text: 'the Synod'
+    }
+    , {
+        is_italics: true
+        , text: 'rejects'
+    }
+    , {
+        text: 'the errors of those:'
+    }
+];
 
 [
-    [require('../_The-Canons-of_Dordt.json'), 'The-Canons-of_Dordt'],
-    [require('../_The-Church-Order.json'), 'The-Church-Order']
-].forEach(([file, output_name]) => {
+    [require('../_The-Canons-of_Dordt.json'), 'The-Canons-of_Dordt'. rej_preamble],
+    [require('../_The-Church-Order.json'), 'The-Church-Order', []]
+].forEach(([file, output_name, rej_preamble]) => {
     const creed_content = file.content;
     const content_array = Object.entries(creed_content);
     const new_content = content_array.map(([key, {chapter, content}]) => {
@@ -109,6 +137,8 @@ const creed = require('../_The-Canons-of_Dordt.json');
                 .filter(common.line_is_valid)
                 .map(text_attributor);
             //end of new_header
+
+
 
             const new_body_2 = body
                 .split(regex)
@@ -124,7 +154,11 @@ const creed = require('../_The-Canons-of_Dordt.json');
             //     .filter(common.line_is_valid)
             //     .map(text_attributor);
 
-            const new_content = [new_header, new_body_2];
+            const is_err_text = /^Rejection of Error/i.test(new_header[0].text);
+
+            const new_content = (is_err_text && rej_preamble.length > 0)
+                ? [new_header, rej_preamble, new_body_2]
+                : [new_header, new_body_2];
 
             const key_int = parseInt(key);
 
@@ -153,7 +187,6 @@ const creed = require('../_The-Canons-of_Dordt.json');
 // log(new_content.length);
     const json_new_creed = JSON.stringify(new_creed, null, 4);
 // log(json_new_creed);
-
 
 
     fs.writeFile(`/Users/notforyoutouse/psalter1912-2/data/${output_name}.json`, json_new_creed);

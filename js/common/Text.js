@@ -23,6 +23,7 @@ const extra_styles_fn = (props) => {
         font_weight,
         font_size,
         line_height,
+        font_family,
         opacity,
         style, text, children
     } = props;
@@ -32,6 +33,7 @@ const extra_styles_fn = (props) => {
         text_align_fn(text_align),
         font_weight_fn(font_weight),
         line_height_fn(line_height)(font_size),
+        {fontFamily: font_family},
         {opacity},
         style
     ].reduce((acc, item) => {
@@ -68,27 +70,29 @@ export function Animated_Text(props = {}) {
     );
 };
 
-const composable_anim_text = (text_align) => (font_weight) => (font_size) => (line_height) => (key) => (style) => (opacity) => (children) =>  {
+const composable_default_text = (text_align) => (font_weight) => (font_size) => (font_family) => (line_height) => (key) => (style) => (children) => {
 
     return (
-        <Animated_Text text_align={text_align}
+        <Default_Text text_align={text_align}
                        font_weight={font_weight}
                        font_size={font_size}
                        line_height={line_height}
+                       font_family={font_family}
                        key={key}
-                       opacity={opacity}
                        style={style}>
             {children}
-        </Animated_Text>
+        </Default_Text>
     );
 };
 
-export const centered_text = composable_anim_text('center');
+// export const centered_text = composable_anim_text('center');
+export const centered_text = composable_default_text('center');
 export const bold_centered_text = centered_text('bold');
-export const main_title = bold_centered_text('x_large')()()();
-export const sub_title = bold_centered_text('large')()()();
-export const meter_text = centered_text()('x_small')()()();
-export const normal_text = centered_text('normal')('default')(1.3);
+export const main_title = centered_text()('xxxxx_large')('Durwent')()()({color: colors.gold});
+export const main_title_2 = bold_centered_text('x_large')()()()();
+export const sub_title = bold_centered_text('large')()()()();
+export const meter_text = centered_text()('x_small')()()()();
+export const normal_text = centered_text('normal')('default')()(1.3);
 
 
 const styles = StyleSheet.create({
@@ -116,22 +120,33 @@ export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (w
             textAlignVertical: is_superscript ? 'top' : 'center'
         };
 
+        const punctuation_regex = /^(?:\.|\;|\,|\?|\:| |\!)/i;
+        const is_start_w_punctuation = punctuation_regex.test(text);
+
         if (is_superscript && Platform.OS === 'ios') {
             return (
-                <View key={`creed-${key_prefix}-para-${i}`} style={{marginTop: -2, alignItems: 'flex-start', width: 8 * text.length, height: 16}}>
-                    <Animated_Text font_size={is_superscript ? font_sizes.x_small : font_sizes.default}
+                <View key={`creed-${key_prefix}-para-${i}`} style={{marginTop: 0, alignItems: 'flex-start', width: 8 * text.length, height: 14}}>
+                    <Animated_Text font_size={font_sizes.x_small}
                                    font_weight={is_bold ? 'bold' : 'normal'}
                                    style={text_style}>
-                        {(i === 0 || is_superscript || was_n) ? text : ` ${text}`}
+                        {text}
                     </Animated_Text>
                 </View>
             );
-        } else {
+        } else if (is_superscript && Platform.OS === 'android') {
             return (
-                <Animated_Text key={`creed-${key_prefix}-para-${i}`} font_size={is_superscript ? font_sizes.x_small : font_sizes.default}
+                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
                                font_weight={is_bold ? 'bold' : 'normal'}
                                style={text_style}>
-                    {(i === 0 || is_superscript || was_n) ? text : ` ${text}`}
+                    {`[${text}]`}
+                </Animated_Text>
+            );
+        } else {
+            return (
+                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                               font_weight={is_bold ? 'bold' : 'normal'}
+                               style={text_style}>
+                    {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
                 </Animated_Text>
             );
         }

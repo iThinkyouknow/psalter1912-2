@@ -2,7 +2,7 @@
 import psalter_json from '../../../data/PsalterJSON.json';
 import {PSALTER_ACTIONS} from '../actions/psalter-actions';
 
-import {is_present_type} from '../../utils/functions'
+import {is_present_type} from '../../utils/functions';
 
 export function psalter(state = {}, action = {}) {
     if (action.type === PSALTER_ACTIONS.LOCK_IN) {
@@ -58,5 +58,24 @@ export function psalter(state = {}, action = {}) {
 
 export function psalters_count(state = 0, action = {}) {
     return (Array.isArray(psalter_json)) ? psalter_json.length : 0;
+};
+
+export function first_psalter_index_of_each_psalm_obj(state, action = {}) {
+    return psalter_json.reduce((acc, psalter, index) => {
+        return (acc[psalter.psalm] === undefined)
+            ? {
+                ...acc,
+                [psalter.psalm]:  index
+            }
+            : acc;
+    }, {});
+}
+
+export function pdf_page_to_psalter_index_obj(state = {}, action = {}) {
+    return psalter_json.reduce((acc, psalter, index) => {
+        return (acc[psalter.scoreRef] === undefined)
+            ? {...acc, [psalter.scoreRef]: index}
+            : acc;
+    }, {});
 };
 

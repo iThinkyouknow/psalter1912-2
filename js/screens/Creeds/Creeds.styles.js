@@ -21,7 +21,7 @@ export default styles = StyleSheet.create({
         marginBottom: 0
     },
     header_container: {
-        backgroundColor: colors.ocean,
+        backgroundColor: colors.dark_cerulean,
         flexDirection: 'row'
     },
     header_image: {
@@ -41,12 +41,20 @@ export default styles = StyleSheet.create({
     },
     header_book_container: {
         justifyContent: 'center',
-        flex: 0
+        flex: 0,
+        transform: [
+            {translateX: -8},
+            {rotate: '-25deg'}
+        ]
     },
     header_book_container_forms: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        transform: [
+            {rotate: '-25deg'},
+            {translateX: 32}
+        ]
     },
     forms_book: {
         marginTop: 48
@@ -83,7 +91,7 @@ export default styles = StyleSheet.create({
     creeds_chooser: {
         position: 'absolute',
         flexDirection: 'row',
-        bottom: sizes.default,
+        bottom: sizes.default + native_elements.tab_bar,
         height: 32,
         borderRadius: border_radii.default,
         borderColor: colors.blue,
@@ -95,7 +103,7 @@ export default styles = StyleSheet.create({
         alignItems: 'center'
     },
     footer_component: {
-        height: 32 + sizes.default * 2
+        height: native_elements.tab_bar
     },
     column_wrapper: {
         marginTop: 16

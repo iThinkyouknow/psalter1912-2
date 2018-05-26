@@ -1,11 +1,19 @@
 export const STATE_ACTIONS = {
-    PSALTER_TEXT_INPUT: 'PSALTER_TEXT_INPUT',
-    TOGGLE_TEXT_INPUT_VALID: "TOGGLE_TEXT_INPUT_INVALID",
-    SET_MUSIC_TIMER: 'SET_MUSIC_TIMER',
-    SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER',
-    SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH',
-    SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE',
-    CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
+    PSALTER_TEXT_INPUT: 'PSALTER_TEXT_INPUT'
+    , PSALTER_PDF_TEXT_INPUT: 'PSALTER_PDF_TEXT_INPUT'
+    , TOGGLE_TEXT_INPUT_VALID: "TOGGLE_TEXT_INPUT_INVALID"
+    , SET_MUSIC_TIMER: 'SET_MUSIC_TIMER'
+    , SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER'
+    , SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH'
+    , PSALTER_SET_CAN_SEARCH: 'PSALTER_SET_CAN_SEARCH'
+    , SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
+    , CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
+    , BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS: 'BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS'
+    , TOGGLE_PSALTER_PDF_TEXT_INPUT_VALID: 'TOGGLE_PSALTER_PDF_TEXT_INPUT_VALID'
+    , SET_TEMP_PSALTER_PDF_PAGE_NO: 'SET_TEMP_PSALTER_PDF_PAGE_NO'
+    , RESET_TEMP_PSALTER_PDF_PAGE_NO: 'RESET_TEMP_PSALTER_PDF_PAGE_NO'
+
+    , SELECT_STATISTICS_TAB: 'SELECT_STATISTICS_TAB'
 };
 
 export const psalter_text_input = (val) => {
@@ -14,6 +22,8 @@ export const psalter_text_input = (val) => {
         val
     }
 };
+
+
 
 export const toggle_text_as_valid = (is_valid) => {
     return {
@@ -43,6 +53,20 @@ export const set_input_as_search = (should_search) => {
     }
 };
 
+export const set_can_search = (can_search) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_SET_CAN_SEARCH
+        , can_search
+    }
+}
+
+export const psalter_pdf_text_input = (val) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT,
+        val
+    }
+};
+
 export const select_creeds_or_forms = (index) => {
     return {
         type: STATE_ACTIONS.SELECT_LIBRARY_TYPE,
@@ -56,3 +80,38 @@ export const change_creeds_chapter_lv = (lv) => {
         lv
     };
 };
+
+export const bible_toggle_back_to_book_buttons = (bible_should_show_back_to_books_button) => {
+    return {
+        type: STATE_ACTIONS.BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS,
+        bible_should_show_back_to_books_button
+    }
+};
+
+export const toggle_psalter_pdf_text_input_valid = (is_valid) => {
+    return {
+        type: STATE_ACTIONS.TOGGLE_PSALTER_PDF_TEXT_INPUT_VALID
+        , is_valid
+    }
+};
+
+export const set_temp_psalter_pdf_page_no = (page_no) => {
+    return {
+        type: STATE_ACTIONS.SET_TEMP_PSALTER_PDF_PAGE_NO
+        , page_no
+    }
+};
+
+export const reset_temp_psalter_pdf_page_no = () => {
+    return {
+        type: STATE_ACTIONS.RESET_TEMP_PSALTER_PDF_PAGE_NO
+    }
+};
+
+export const select_statistics_tab = (selected_index) => {
+    return {
+        type: STATE_ACTIONS.SELECT_STATISTICS_TAB
+        , selected_index
+    }
+}
+

@@ -3,6 +3,46 @@
     "type": "Creeds",
     "content": [
         {
+            "header": "Introduction to the Confession of Faith",
+            "content": [
+                {
+                    "id": null,
+                    "content": [
+                        [
+                            {
+                                "is_bold": true,
+                                "text": "Introduction to the Confession of Faith"
+                            }
+                        ],
+                        [
+                            {
+                                "text": "This is historically the first of our \"Three Forms of Unity\" (Heidelberg Catechism, Belgic Confession of Faith, and the Canons of Dordt), having been composed in 1561. It is often called the Belgic Confession because it was written in the southern Lowlands, now known as Belgium. Its chief author was Guido de Bres, on of the several itinerant preachers during those days of persecution, who died a martyr's death."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "Under Philip II, of Spain, an ally of the Romish Church, the Reformed believers in the Lowlands were sorely persecuted as revolutionaries. This Confession was written primarily as a testimony to the Spanish king to prove that the Reformed believers were not rebels, as was charged, but law-abiding citizens who professed only those doctrines which were the teachings of Holy Scripture. In 1562 a copy was sent to the Spanish king, accompanied by a petition for relief from persecution, in which the petitioners declared that they were ready to obey the government in all lawful things, although they would \"offer their backs to stripes, their tongues to knives, their mouths to gags, and their whole bodies to fire,\" rather than deny the truth of God's Word."
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "The Confession and the petition had no effect on the Spanish authorities. However, it served well as a means of instruction of Reformed believers and thus became an expression of the faith of a people enduring suffering for Christ's sake. This is also reflected in its language. For while this confession follows the objective doctrinal order in its articles, its profoundly personal element is evident from the fact that every article begins with such words as, \"We believe...,\" \"We believe and confess...,\" or, \"We all believe with the heart and confess with the mouth....\""
+                            },
+                            {
+                                "text": "\n\n"
+                            },
+                            {
+                                "text": "The confession was adopted by several National Synods in the sixteenth century, and, after careful revision of the text, was approved and adopted by the Synod of Dordrecht, 1618-1619, and ever since that time included among our \"Three Forms of Unity.\""
+                            }
+                        ],
+                        []
+                    ]
+                }
+            ]
+        },
+        {
             "header": "Article 1: That there is One Only God.",
             "content": [
                 {
@@ -1127,46 +1167,6 @@
                             },
                             {
                                 "text": "\"Even so, come, Lord Jesus.\" - Revelation. 22:20."
-                            }
-                        ],
-                        []
-                    ]
-                }
-            ]
-        },
-        {
-            "header": "Introduction to the Confession of Faith",
-            "content": [
-                {
-                    "id": null,
-                    "content": [
-                        [
-                            {
-                                "is_bold": true,
-                                "text": "Introduction to the Confession of Faith"
-                            }
-                        ],
-                        [
-                            {
-                                "text": "This is historically the first of our \"Three Forms of Unity\" (Heidelberg Catechism, Belgic Confession of Faith, and the Canons of Dordt), having been composed in 1561. It is often called the Belgic Confession because it was written in the southern Lowlands, now known as Belgium. Its chief author was Guido de Bres, on of the several itinerant preachers during those days of persecution, who died a martyr's death."
-                            },
-                            {
-                                "text": "\n\n"
-                            },
-                            {
-                                "text": "Under Philip II, of Spain, an ally of the Romish Church, the Reformed believers in the Lowlands were sorely persecuted as revolutionaries. This Confession was written primarily as a testimony to the Spanish king to prove that the Reformed believers were not rebels, as was charged, but law-abiding citizens who professed only those doctrines which were the teachings of Holy Scripture. In 1562 a copy was sent to the Spanish king, accompanied by a petition for relief from persecution, in which the petitioners declared that they were ready to obey the government in all lawful things, although they would \"offer their backs to stripes, their tongues to knives, their mouths to gags, and their whole bodies to fire,\" rather than deny the truth of God's Word."
-                            },
-                            {
-                                "text": "\n\n"
-                            },
-                            {
-                                "text": "The Confession and the petition had no effect on the Spanish authorities. However, it served well as a means of instruction of Reformed believers and thus became an expression of the faith of a people enduring suffering for Christ's sake. This is also reflected in its language. For while this confession follows the objective doctrinal order in its articles, its profoundly personal element is evident from the fact that every article begins with such words as, \"We believe...,\" \"We believe and confess...,\" or, \"We all believe with the heart and confess with the mouth....\""
-                            },
-                            {
-                                "text": "\n\n"
-                            },
-                            {
-                                "text": "The confession was adopted by several National Synods in the sixteenth century, and, after careful revision of the text, was approved and adopted by the Synod of Dordrecht, 1618-1619, and ever since that time included among our \"Three Forms of Unity.\""
                             }
                         ],
                         []

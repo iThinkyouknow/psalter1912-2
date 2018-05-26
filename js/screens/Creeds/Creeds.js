@@ -20,6 +20,8 @@ import {
     Slider
 } from 'react-native';
 
+import {navigator_style_push} from '../../../index'
+
 import styles from './Creeds.styles';
 import {
     colors,
@@ -36,7 +38,8 @@ import {
     Animated_Text
 } from '../../common/Text';
 
-import Default_bg from '../../common/Default-bg';
+import Default_Bg from '../../common/Default-bg';
+import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 
@@ -58,7 +61,6 @@ import {
 import {
     lock_in_creed
 } from '../../redux/actions/creeds-actions';
-
 
 const list_header_component_wo_animated_val = (book_animated_value) => ({random, styles, images, Dimensions}) => (selected_index) => {
 
@@ -90,8 +92,6 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         const creeds_book_style = {
             transform: [
-                {rotate: '-25deg'},
-                {translateX: -8},
                 {translateY: book_animated_value}
             ]
         };
@@ -105,13 +105,13 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                 <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'}/>
                 <View style={[styles.header_img_mask, img_mask_style]}/>
                 <View style={[styles.header_title_container, header_title_container_x_style]}>
-                    <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>REFORMED</Default_Text>
-                    <Default_Text font_size={font_sizes.xx_large} font_weight={'bold'}>CONFESSIONS</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xx_large}>CONFESSIONS</Default_Text>
                 </View>
-                <View style={styles.header_book_container}>
+                <Animated.View style={[styles.header_book_container]}>
                     <Animated.Image source={confessions_book_cover} style={[styles.book, creeds_book_style]} />
-                </View>
+                </Animated.View>
             </View>
         );
 
@@ -119,8 +119,6 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         const forms_book_style = {
             transform: [
-                {rotate: '-25deg'},
-                {translateX: 32},
                 {translateY: book_animated_value}
             ]
         };
@@ -135,9 +133,9 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
                 </View>
 
                 <View style={styles.header_forms_title_container}>
-                    <Default_Text font_size={font_sizes.xxxxx_large} font_weight={'bold'}>THE</Default_Text>
-                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>REFORMED</Default_Text>
-                    <Default_Text font_size={font_sizes.xxx_large} font_weight={'bold'}>FORMS</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
+                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxx_large}>FORMS</Default_Text>
                 </View>
             </View>
         );
@@ -154,10 +152,7 @@ const select_book = (navigator) => (dispatch) => (library_type_index) => (select
     dispatch(lock_in_creed(library_type_index)(selected_index)(levels_deep));
     navigator.push({
         screen: 'Creeds_Categories',
-        navigatorStyle: {
-            drawUnderNavBar: true,
-            navBarTranslucent: true
-        },
+        navigatorStyle: navigator_style_push,
         backButtonTitle: (library_type_index === 0) ? 'Creeds' : 'Forms'
     });
 };
@@ -240,24 +235,27 @@ const select_tab = (dispatch) => (index) => () => {
     book_image_bounce_animation.bounce();
 };
 
-const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index) => {
+const creeds_or_forms_chooser = ({dispatch, Dimensions, os}) => (library_type_index) => {
     const {width, height}      = Dimensions.get('window');
     const creeds_chooser_style = {
-        width: width * 2 / 3,
+        width: Math.floor(width * 2 / 3),
     };
 
-    const button_renderer = (dispatch) => (_library_type_index) => (text, index) => {
+    const button_renderer = (dispatch) => (os) => (_library_type_index) => (text, index) => {
         const is_selected    = (index === _library_type_index);
         const bg_color_obj   = {backgroundColor: (is_selected) ? colors.blue : 'transparent'};
-        const underlay_color = (is_selected) ? colors.ocean : 'transparent';
+        const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
         const key            = `library-chooser-${text}-${index}`;
+
+        const line_height = os === 'ios' ? 2 : 1.3;
+
         return (
             <TouchableHighlight key={key}
                                 style={[{flex: 1}, bg_color_obj]}
                                 underlayColor={underlay_color}
                                 onPress={select_tab(dispatch)(index)}>
-                <View>
-                    <Default_Text line_height={2} text_align={'center'}>
+                <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Default_Text line_height={line_height} text_align={'center'}>
                         {text}
                     </Default_Text>
                 </View>
@@ -268,7 +266,7 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions}) => (library_type_index)
     const buttons = [
         'Confessions',
         'Forms'
-    ].map(button_renderer(dispatch)(library_type_index));
+    ].map(button_renderer(dispatch)(os)(library_type_index));
 
     return (
         <View style={[styles.creeds_chooser, creeds_chooser_style]}>
@@ -282,6 +280,13 @@ onNavigatorEvent = (e) => {
     if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
 };
 
+const select_tab_action = (navigator) => (dispatch) => (index) => () => {
+    navigator.switchToTab({
+        tabIndex: index
+    });
+    dispatch(select_tab_index(index));
+};
+
 class Creeds extends Component {
 
     componentDidMount() {
@@ -290,6 +295,15 @@ class Creeds extends Component {
 
     render() {
         //random, styles, images, Dimensions, navigator, dispatch
+
+        const {
+            dispatch
+            , navigator
+            , library_type_index
+            , creeds_library
+            , tab_bar_selected_index
+        } = this.props;
+
         const component_obj = {
             random: Math.random,
             styles,
@@ -299,18 +313,24 @@ class Creeds extends Component {
                 churches_images_array
             },
             Dimensions,
-            navigator: this.props.navigator,
-            dispatch: this.props.dispatch
+            navigator: navigator,
+            dispatch: dispatch,
+            os: Platform.OS
         };
 
-        const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(this.props.library_type_index);
+
+
+        const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(library_type_index);
+
+        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)()()(tab_bar_selected_index);
 
         return (
-            <Default_bg style={styles.default_bg}>
-                {list_header_component(component_obj)(this.props.library_type_index)}
-                {creeds_menu_flatlist(creeds_menu_renderer_loaded)(this.props.library_type_index)(this.props.creeds_library)}
-                {creeds_or_forms_chooser(component_obj)(this.props.library_type_index)}
-            </Default_bg>
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props} style={styles.default_bg} >
+
+                {list_header_component(component_obj)(library_type_index)}
+                {creeds_menu_flatlist(creeds_menu_renderer_loaded)(library_type_index)(creeds_library)}
+                {creeds_or_forms_chooser(component_obj)(library_type_index)}
+            </Default_Bg>
         );
     }
 };
@@ -318,8 +338,9 @@ class Creeds extends Component {
 
 function mapStateToProps(state) {
     return {
-        library_type_index: state.creeds_library_type_index,
-        creeds_library: state.creeds_library
+        library_type_index: state.creeds_library_type_index
+        , creeds_library: state.creeds_library
+        , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }
 

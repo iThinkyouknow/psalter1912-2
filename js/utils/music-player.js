@@ -53,7 +53,7 @@ const _music_player_fn = (Player) => {
     };
 
     // in render function
-    const when_psalter_change = (dispatch) => (file_name) => {
+    const when_psalter_change = (dispatch) => (file_name) => () => {
         if (file_name !== current_music_file_name) {
             current_music_file_name = file_name;
             reset_timer(dispatch)(interval);

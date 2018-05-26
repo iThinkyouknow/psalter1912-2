@@ -11,8 +11,11 @@ export const native_elements = {
 export const colors = {
     white: 'rgb(255, 255, 255)',
     ocean: 'rgb(0, 84, 147)',
+    dark_cerulean: 'rgb(0, 64, 128)',
     black: 'rgb(0, 0, 0)',
-    blue: 'rgb(0, 122, 255)'
+    blue: 'rgb(0, 122, 255)',
+    grey: 'rgb(142, 142, 147)',
+    gold: 'rgb(218, 165, 32)'
 };
 
 export const sizes = {
@@ -57,16 +60,17 @@ export const font_weight_fn = (weight) => {
 };
 
 export const font_sizes = {
-    x_small: 12,
-    small: 14,
-    default: 16,
-    large: 18,
-    x_large: 20,
-    xx_large: 24,
-    xxx_large: 28,
-    xxx_large: 32,
-    xxxx_large: 36,
-    xxxxx_large: 40
+    xx_small: 10,
+    x_small: 14,
+    small: 16,
+    default: 18,
+    large: 20,
+    x_large: 22,
+    xx_large: 26,
+    xxx_large: 30,
+    xxxx_large: 34,
+    xxxxx_large: 38,
+    xxxxxx_large: 42
 };
 
 export const font_size_fn = (size) => {

@@ -1,6 +1,16 @@
 import {SEARCH_ACTIONS} from '../actions/search-actions';
 import psalterSearchJson from '../../../data/PsalterSearchJSON.json';
 
+const sp_char_n_space_handler = char => {
+    const code = char.charCodeAt(0);
+    if (code === 32) {
+        return `(?:\\,|\\.|\\'|\\"|\\;)? `;
+    } else {
+        return (code >= 33 && code <= 47 || code >= 58 && code <= 64 || code >= 91 && code <= 96 || code >= 123 && code <= 126 ) ? `\\${char}` : char;
+    }
+
+};
+
 
 const  _psalter_search_results = psalter_search_result_cache => (state = [], action = {}) => {
     if (action.type === SEARCH_ACTIONS.SEARCH_PSALTER) {
@@ -8,10 +18,7 @@ const  _psalter_search_results = psalter_search_result_cache => (state = [], act
         if (typeof action.search_text !== 'string') return state;
         const search_text = action.search_text
             .split('')
-            .map(char => {
-                const code = char.charCodeAt(0);
-                return (code >= 33 && code <= 47 || code >= 58 && code <= 64 || code >= 91 && code <= 96 || code >= 123 && code <= 126 ) ? `\\${char}` : char;
-            })
+            .map(sp_char_n_space_handler)
             .join('');
             // .join('(\\w|\\s|\\d|,)*');
 
