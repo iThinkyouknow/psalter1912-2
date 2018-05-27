@@ -35,7 +35,45 @@ icon & splash screen √
 text selectable √
 
 
-swipe for android
-adjust layout for keyboard (android)
+swipe for android √
+adjust layout for keyboard (android) - partial
 alert for search √
 text animation √
+
+===========
+Feature Ideas
+- Sync across the board
+- Aggregated Data
+- Settings
+-- Background Color
+-- Text Color
+-- Photos & overlay
+-- Default Text Size
+
+- Zoom
+- Better PDF for iOS
+- Android specific navigation
+- lower data required
+-- images removal
+-- "minify" data
+-- specific start and end times for audio
+===========
+
+v2.1.
+---------
+Adjustments
+vulnerability fix
+Fix swipe width requirement
+Consider better text input support for android
+
+Features
+Donate Promo
+Settings
+
+Under the Hood
+Refactor
+Styling
+Functions
+Components
+Unit Tests
+Typescript?
