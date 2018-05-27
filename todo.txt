@@ -62,6 +62,7 @@ Feature Ideas
 v2.1.
 ---------
 Adjustments
+HOEK'S VULNERABILITY
 Fix swipe width requirement
 Consider better text input support for android
 
