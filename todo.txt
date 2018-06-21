@@ -42,6 +42,7 @@ text animation √
 
 ===========
 Feature Ideas
+- Auto dark mode
 - Sync across the board
 - Aggregated Data
 - Settings

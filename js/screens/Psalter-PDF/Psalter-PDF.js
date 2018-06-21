@@ -27,7 +27,7 @@ import Tab_Bar from '../../common/Tab-bar';
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
 import {set_keyboard_toolbar} from '../../utils/keyboard';
 
-import {is_present_type, no_op, debounce} from '../../utils/functions';
+import {is_present_type, no_op, getter} from '../../utils/functions';
 
 import {
     get_bible_chapter_list
@@ -195,7 +195,7 @@ class Psalter_PDF extends Component {
                          scale={1}
                          style={pdf_style}
                          horizontal={true}
-                         page={psalter_score_page || 14}
+                         page={psalter_score_page}
                          onScaleChanged={on_scale}
                          onPageChanged={on_page_change(dispatch)}/>
                 </View>
@@ -213,8 +213,8 @@ class Psalter_PDF extends Component {
 function mapStateToProps(state) {
     return {
         psalter_index: state.psalter.index
-        , psalter_score_page: state.psalter.content.scoreRef
-        , psalter_psalm: state.psalter.content.psalm
+        , psalter_score_page: state.psalter.content.scoreRef || 14
+        , psalter_psalm: state.psalter.content.psalm || 1
         , pdf_page_to_psalter_index_obj: state.pdf_page_to_psalter_index_obj
         // state reducer
         , psalter_pdf_input: state.psalter_pdf_input

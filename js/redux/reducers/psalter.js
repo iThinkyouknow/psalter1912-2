@@ -49,7 +49,7 @@ export function psalter(state = {}, action = {}) {
     }
 
     return {
-        content: state.content || [],
+        content: state.content || {},
         index: isNaN(state.index) ? -1 : state.index,
         current_sung_dates: state.current_sung_dates,
         all_sung_dates: state.all_sung_dates || {}
