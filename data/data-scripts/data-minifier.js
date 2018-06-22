@@ -33,7 +33,7 @@ const deminify = (fileNames) => fileNames
     ]));
 
 
-minify(fileNames);
+// minify(fileNames.slice(1, 2));
 // deminify(fileNames.slice(1, 2));
 
 
