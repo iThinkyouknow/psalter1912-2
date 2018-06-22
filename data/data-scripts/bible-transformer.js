@@ -166,4 +166,4 @@ const transformed_bible = bible_transformer(book_names)(bible_json);
 
 // jlog(transformed_bible);
 
-fs.writeFile('data/Bible-KJV.json', JSON.stringify(transformed_bible, null, 4));
+// fs.writeFile('data/Bible-KJV.json', JSON.stringify(transformed_bible, null, 4));
