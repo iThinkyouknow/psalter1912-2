@@ -81,7 +81,7 @@ import {set_keyboard_toolbar} from '../../utils/keyboard';
 
 
 
-const psalter_text_fade_anim = fade_animation(200)(0);
+const psalter_text_fade_anim = fade_animation(100)(0);
 
 const more_section_slide_animation = slide_down_animation(500)(12);
 const more_section_slide_position = more_section_slide_animation.animated_value;
@@ -126,9 +126,10 @@ const render_psalter_text = (fade_anim) => ({item, index}) => {
 };
 
 export const on_psalter_change = (dispatch) => (next_val) => () => {
-    dispatch(lock_in(next_val));
-
     psalter_text_fade_anim.fade_in();
+
+    setTimeout(() => dispatch(lock_in(next_val)), 10);
+    // dispatch(lock_in(next_val));
     set_keyboard_toolbar(true);
 
     music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
@@ -136,11 +137,11 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
 
 const swipe_action = (dispatch) => (screen_width) => (index) => (e, gestureState) => {
     const change_psalter = on_psalter_change(dispatch);
-    const one_quarter_screen_width = Math.floor(screen_width / 4);
+    const one_third_screen_width = Math.floor(screen_width / 3);
 
-    if (gestureState.dx < -(one_quarter_screen_width)) {
+    if (gestureState.dx < -(one_third_screen_width)) {
         change_psalter(index + 1)();
-    } else if (gestureState.dx > one_quarter_screen_width) {
+    } else if (gestureState.dx > one_third_screen_width) {
         change_psalter(index - 1)();
     }
 };
