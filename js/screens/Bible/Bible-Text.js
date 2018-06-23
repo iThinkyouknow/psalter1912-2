@@ -9,6 +9,7 @@ import {
     , SectionList
     , TouchableHighlight
     , Image
+    , PanResponder
 } from 'react-native';
 
 // import styles from './creeds-text.styles';
@@ -37,10 +38,10 @@ import {Rounded_Button} from '../../common/Rounded-Button';
 import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
-import {is_present_type, no_op} from '../../utils/functions';
-import {swipe, swipe_side_action, scroll_swipe_actions} from '../../utils/touch-gestures';
+import {is_present_type, no_op, composer} from '../../utils/functions';
+import {swipe, swipe_side_action, scroll_swipe_actions, tap_to_change_font_size} from '../../utils/touch-gestures';
 
-import {bible_toggle_back_to_book_buttons} from '../../redux/actions/state-actions';
+import {bible_toggle_back_to_book_buttons, bible_text_set_new_font_size} from '../../redux/actions/state-actions';
 
 import {
     get_bible_chapter_list
@@ -63,21 +64,20 @@ const Header_Text_Component = (font_size) => (font_family) => (other_style) => (
         <Animated_Text text_align={'center'}
                        font_size={font_size}
                        font_family={font_family}
-                       style={other_style}
-                       >
+                       style={other_style} >
             {text}
         </Animated_Text>
     );
 };
 
-const list_header_component = (title) => (description) => {
+const list_header_component = (title) => (description) => (font_size) => {
     return (
         <View style={{
             paddingHorizontal: sizes.large * 1.5,
             paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
-            {Header_Text_Component(font_sizes.xxxxx_large)('Durwent')()(title)}
+            {Header_Text_Component(font_size + 20)('Durwent')()(title)}
             {(description.length > 0) && Header_Text_Component(font_sizes.x_large)()({marginTop: sizes.default})(description)}
         </View>
     );
@@ -85,26 +85,31 @@ const list_header_component = (title) => (description) => {
 
 const bible_key_extractor = (item, index) => `${item.title}-${index}`;
 
-const bible_body_component = ({item, index}) => {
+const bible_body_component = (font_size) => ({item, index}) => {
     const text_component = (
-        <Animated_Text text_align={'justify'} style={{marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5}}>
-            <Default_Text>{`${index + 1}. `}</Default_Text>
-            {text_formatter(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
+        <Animated_Text font_size={font_size} text_align={'justify'}
+                       style={{marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5}}>
+            <Default_Text font_size={font_size}>{`${index + 1}. `}</Default_Text>
+            {text_formatter(font_size)(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
         </Animated_Text>
     );
 
     return text_component;
 };
-
-const Bible_Text_Component = (swipe) => (scroll_swipe_actions) => (chapter) => {
+let taps = 0;
+let fontSize = 18;
+let timeout = 0;
+const Bible_Text_Component = (touch_actions) => (scroll_swipe_actions) => (chapter) => (font_size) => {
 
     return (
         <FlatList data={chapter.content.slice(1)}
-                  ListHeaderComponent={list_header_component(chapter.title)(chapter.description)}
+                  ListHeaderComponent={list_header_component(chapter.title)(chapter.description)(font_size)}
                   keyExtractor={bible_key_extractor}
-                  renderItem={bible_body_component}
+                  renderItem={bible_body_component(font_size)}
+                  scrollEnabled={true}
                   onScrollEndDrag={scroll_swipe_actions}
-                  {...swipe.panHandlers} />
+                  {...touch_actions.panHandlers}
+                   />
     );
 };
 
@@ -346,6 +351,17 @@ const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_
     }
 };
 
+const tap_to_change_font_size_action = tap_to_change_font_size();
+
+const set_font_size = (dispatch) => (new_font_size) => {
+    composer([
+        bible_text_set_new_font_size,
+        dispatch
+    ])(new_font_size);
+};
+
+
+
 
 class Bible_Text extends Component {
 
@@ -380,6 +396,7 @@ class Bible_Text extends Component {
             , first_psalter_index_of_each_psalm_obj
             , per_book_ch_last_index_array
             , bible_should_show_back_to_books_button
+            , bible_text_font_size
         } = this.props;
 
         const library_dynamic_style = {
@@ -444,6 +461,18 @@ class Bible_Text extends Component {
 
         const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
 
+        const set_font_size_wo_font_size = set_font_size(dispatch);
+
+
+
+        const touch_actions = PanResponder.create({
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onPanResponderRelease: swipe_side_action_loaded,
+            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(bible_text_font_size)
+        });
+
+
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
             ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
             : no_op;
@@ -455,7 +484,7 @@ class Bible_Text extends Component {
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <Animated.View style={[library_style, library_dynamic_style]}>
                     <Animated.View style={bible_library_container_style}>
                         {bible_library(book_list)(book_buttons_section_header_loaded)}
@@ -464,7 +493,8 @@ class Bible_Text extends Component {
 
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
-                {Bible_Text_Component(swipe(swipe_side_action_loaded))(scroll_swipe_actions_loaded)(bible_passage)}
+
+                {Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)}
 
                 <View style={{
                     flexDirection: 'row',
@@ -479,7 +509,7 @@ class Bible_Text extends Component {
             </Default_Bg>
         );
     }
-};
+}
 
 
 function mapStateToProps(state) {
@@ -495,7 +525,9 @@ function mapStateToProps(state) {
         , psalter_psalm: state.psalter.content.psalm
         , first_psalter_index_of_each_psalm_obj: state.first_psalter_index_of_each_psalm_obj
         , per_book_ch_last_index_array: state.bible_per_book_ch_last_index_array
-        , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button // state reducer
+        // state reducer
+        , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
+        , bible_text_font_size: state.bible_text_font_size
     };
 }
 

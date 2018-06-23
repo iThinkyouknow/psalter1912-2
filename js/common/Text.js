@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
 
 
 // text utils
-export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (was_n) => (combined_text_array) => {
+
+export const text_formatter = (font_size) => (body = [{text: ''}]) => (i) => (key_prefix) => (was_n) => (combined_text_array) => {
     const {text} = body[i];
 
     const get_text_component = (body) => (i) => (key_prefix) => (was_n) => {
@@ -143,7 +144,8 @@ export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (w
             );
         } else {
             return (
-                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                <Animated_Text font_size={font_size}
+                               key={`creed-${key_prefix}-para-${i}`}
                                font_weight={is_bold ? 'bold' : 'normal'}
                                style={text_style}>
                     {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
@@ -159,5 +161,5 @@ export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (w
 
     if (new_index >= body.length) return new_combined_text_array;
 
-    return text_formatter(body)(new_index)(key_prefix)(new_was_n)(new_combined_text_array);
+    return text_formatter(font_size)(body)(new_index)(key_prefix)(new_was_n)(new_combined_text_array);
 };

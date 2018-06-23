@@ -1,4 +1,6 @@
 import {STATE_ACTIONS} from '../actions/state-actions';
+import {font_sizes} from '../../common/common.styles';
+import {is_number} from '../../utils/functions';
 
 export function psalter_text_input(state = "", action = {}) {
     if (action.type === STATE_ACTIONS.PSALTER_TEXT_INPUT) {
@@ -67,6 +69,14 @@ export function creeds_chapters_curr_level(state = 1, action = {}) {
     return state;
 }
 
+export function creeds_text_font_size(state = font_sizes.default, action = {}) {
+    if (action.type === STATE_ACTIONS.CREEDS_TEXT_SET_NEW_FONT_SIZE) {
+        return is_number(action.new_font_size) ? action.new_font_size : state;
+    }
+
+    return state;
+};
+
 export function bible_should_show_back_to_books_button(state = false, action = {}) {
     if (action.type === STATE_ACTIONS.BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS) {
         return action.bible_should_show_back_to_books_button
@@ -74,6 +84,18 @@ export function bible_should_show_back_to_books_button(state = false, action = {
 
     return state;
 };
+
+
+
+export function bible_text_font_size(state = font_sizes.default, action = {}) {
+    if (action.type === STATE_ACTIONS.BIBLE_TEXT_SET_NEW_FONT_SIZE) {
+        return is_number(action.new_font_size) ? action.new_font_size : state;
+    }
+
+    return state;
+};
+
+
 
 export function psalter_pdf_input(state = "", action = {}) {
     if (action.type === STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT) {
@@ -105,4 +127,12 @@ export function statistics_selected_tab_index(state = 0 , action ={}) {
         return action.selected_index;
     }
     return state;
-}
+};
+
+export function credits_text_font_size(state = font_sizes.default, action = {}) {
+    if (action.type === STATE_ACTIONS.CREDITS_TEXT_SET_NEW_FONT_SIZE) {
+        return is_number(action.new_font_size) ? action.new_font_size : state;
+    }
+
+    return state;
+};
