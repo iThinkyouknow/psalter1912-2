@@ -50,26 +50,17 @@ Feature Ideas
 -- Text Color
 -- Photos & overlay
 -- Default Text Size
+-- Donate Promo
 
-- Zoom
+- Zoom √
 - Better PDF for iOS
 - Android specific navigation
 - lower data required
 -- images removal
 -- "minify" data √
 -- specific start and end times for audio
-===========
-
-v2.1.
----------
-Adjustments
-vulnerability fix
-Fix swipe width requirement
-Consider better text input support for android
-
-Features
-Donate Promo
-Settings
+-- vulnerability fix
+-- Consider better text input support for android
 
 Under the Hood
 Refactor
@@ -78,3 +69,18 @@ Functions
 Components
 Unit Tests
 Typescript?
+===========
+
+
+v 2.1.
+---------
+Fix swipe width requirement √
+Zoom √
+Crash √
+Missing Psalter Verse √
+Snappier fade ins √
+
+
+
+
+
