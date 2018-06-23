@@ -192,7 +192,7 @@ const swipe_left = (dispatch) => (library_books_info) => (library_type_index) =>
                 dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(next_ch_index)(0));
 
             } else if (selected_chapter_index === last_ch_index) {
-                if (selected_creed_index < library_books_info[library_type_index].length) {
+                if (selected_creed_index < library_books_info[library_type_index].length - 1) {
                     go_to_next_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
                 }
             }
@@ -204,7 +204,7 @@ const swipe_left = (dispatch) => (library_books_info) => (library_type_index) =>
             dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index + 1)());
 
         } else if (selected_chapter_index === last_ch_index) {
-            if (selected_creed_index < library_books_info[library_type_index].length) {
+            if (selected_creed_index < library_books_info[library_type_index].length - 1) {
                 go_to_next_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
             }
         }
