@@ -29,13 +29,19 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
-import {is_present_type, no_op} from '../../utils/functions';
+import {is_present_type, no_op, composer} from '../../utils/functions';
 
-import {swipe_side_action, swipe, scroll_swipe_actions} from '../../utils/touch-gestures'
+import {
+    swipe_side_action
+    , swipe
+    , scroll_swipe_actions
+    , tap_to_change_font_size
+} from '../../utils/touch-gestures'
 
 import styles from './Creeds-Text.styles';
 
 import {lock_in_creed_body} from '../../redux/actions/creeds-actions'
+import {creeds_text_set_new_font_size} from '../../redux/actions/state-actions'
 
 
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
@@ -51,31 +57,31 @@ const Header_Text_Component = (font_size) => (other_style) => (text) => {
     );
 };
 
-const Creeds_Body_Component = (section_header) => ({item, index}) => {
+const Creeds_Body_Component = (section_header) => (font_size) => ({item, index}) => {
     const [title, body, extra] = item.content;
 
     const title_text = title.map(({text}) => text).join(' ');
 
     const title_component = (section_header !== title_text) ?
-        Header_Text_Component(font_sizes.large)({marginTop: sizes.large})(title_text)
+        Header_Text_Component(font_size + 2)({marginTop: sizes.large})(title_text)
         : null;
 
-    const body_para_component = text_formatter(body)(0)(`body`)(false)([]);
+    const body_para_component = text_formatter(font_size)(body)(0)(`body`)(false)([]);
 
     const extra_para_component = (Array.isArray(extra) && extra.length > 0)
-        ? text_formatter(extra)(0)(`extra`)(false)([])
+        ? text_formatter(font_size)(extra)(0)(`extra`)(false)([])
         : null;
 
     const component_wrapper = (text_component) => (
-        <Animated_Text text_align={'justify'} style={{paddingVertical: sizes.default}}>
+        <Animated_Text font_size={font_size} text_align={'justify'} style={{paddingVertical: sizes.default}}>
             {text_component}
         </Animated_Text>
     );
 
     const [
-              body_component,
-              extra_component
-          ] = [body_para_component, extra_para_component].map(component => is_present_type('object')(component) ? component_wrapper(component) : null);
+        body_component,
+        extra_component
+    ] = [body_para_component, extra_para_component].map(component => is_present_type('object')(component) ? component_wrapper(component) : null);
 
 
     return (
@@ -88,13 +94,13 @@ const Creeds_Body_Component = (section_header) => ({item, index}) => {
 };
 
 
-const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles) => (title) => (description) => (body) => {
+const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles) => (title) => (description) => (body) => (font_size) => {
 
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
-            {(title !== body.header) && Header_Text_Component(font_sizes.x_large)()(title)}
-            {description.length > 0 && Header_Text_Component(font_sizes.large)()(description)}
-            {Header_Text_Component(font_sizes.xx_large)({marginTop: sizes.default})(body.header)}
+            {(title !== body.header) && Header_Text_Component(font_size + 4)()(title)}
+            {description.length > 0 && Header_Text_Component(font_size + 2)()(description)}
+            {Header_Text_Component(font_size + 8)({marginTop: sizes.default})(body.header)}
         </View>
     );
 
@@ -102,7 +108,7 @@ const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles
         <FlatList data={body.content}
                   ListHeaderComponent={Creeds_Body_Header}
                   keyExtractor={key_extractor}
-                  renderItem={Creeds_Body_Component(body.header)} style={styles.flatlist_padding_horizontal}
+                  renderItem={Creeds_Body_Component(body.header)(font_size)} style={styles.flatlist_padding_horizontal}
                   onScrollEndDrag={scroll_swipe_actions}
                   {...swipe_action.panHandlers} />
     );
@@ -205,8 +211,14 @@ const swipe_left = (dispatch) => (library_books_info) => (library_type_index) =>
     }
 };
 
+const set_font_size = (dispatch) => (new_font_size) => {
+    composer([
+        creeds_text_set_new_font_size,
+        dispatch
+    ])(new_font_size);
+};
 
-
+const tap_to_change_font_size_action = tap_to_change_font_size();
 
 class Creeds_Text extends Component {
 
@@ -221,6 +233,7 @@ class Creeds_Text extends Component {
             , selected_creed_index
             , selected_chapter_index
             , selected_article_index
+            , creeds_text_font_size
             , navigator
             , dispatch
         } = this.props;
@@ -234,9 +247,15 @@ class Creeds_Text extends Component {
         const swipe_right_loaded = swipe_right(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
         const swipe_left_loaded = swipe_left(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
 
-        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 4))(swipe_right_loaded)(swipe_left_loaded);
+        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
 
-        const swipe_action_loaded = swipe(on_swipe_loaded);
+        const set_font_size_wo_font_size = set_font_size(dispatch);
+
+        const touch_actions = PanResponder.create({
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onPanResponderRelease: on_swipe_loaded,
+            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(creeds_text_font_size)
+        });
 
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
             ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
@@ -245,13 +264,14 @@ class Creeds_Text extends Component {
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
-                {Creeds_Text_Flatlist(swipe_action_loaded)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)}
+            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
+                {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(creeds_text_font_size)}
             </Default_Bg>
         );
     }
 
-};
+}
+
 
 
 function mapStateToProps(state) {
@@ -266,6 +286,8 @@ function mapStateToProps(state) {
         , selected_creed_index: state.creed_body.selected_creed_index
         , selected_chapter_index: state.creed_body.selected_chapter_index
         , selected_article_index: state.creed_body.selected_article_index
+        // state reducer
+        , creeds_text_font_size: state.creeds_text_font_size
     };
 }
 

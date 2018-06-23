@@ -1,11 +1,11 @@
 export const no_op = () => {};
 
-export const compose = (acc, fn) => {
+export const apply = (acc, fn) => {
     return fn(acc);
 };
 
 export const composer = (array_of_fns) => (initial_value) => {
-    return array_of_fns.reduce(compose, initial_value);
+    return array_of_fns.reduce(apply, initial_value);
 };
 
 export const getter = (obj) => (property_string = '') => (fallback = '') => {
@@ -37,6 +37,14 @@ export const is_present_type = (type = 'string') => (thing) => {
     }
 };
 
+export const is_string = is_present_type('string');
+export const is_number = is_present_type('number');
+export const is_array = is_present_type('array');
+export const is_function = is_present_type('function');
+export const is_object = is_present_type('object');
+export const is_boolean = is_present_type('boolean');
+
+
 export const debounce = (func, wait, immediate) => {
     var timeout;
     return function() {
@@ -51,3 +59,8 @@ export const debounce = (func, wait, immediate) => {
         if (callNow) func.apply(context, args);
     };
 };
+
+export const minus = by => a => a - by;
+export const add = a => b => a + b;
+export const multiply = a => b => a * b;
+export const divide = by => a => a / by;

@@ -56,7 +56,7 @@ Feature Ideas
 - Android specific navigation
 - lower data required
 -- images removal
--- "minify" data
+-- "minify" data √
 -- specific start and end times for audio
 ===========
 
