@@ -25,6 +25,7 @@ import {
     , native_elements
     , buttons
     , border_radii
+    , is_iPhone_X
 } from '../../common/common.styles';
 
 import {
@@ -35,7 +36,6 @@ import {
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar, {select_tab_action} from '../../common/Tab-bar';
 import Segmented_Buttons from '../../common/Segmented-Buttons';
-
 
 
 import {select_statistics_tab} from '../../redux/actions/state-actions';
@@ -230,7 +230,6 @@ const flatlist_item_layout = (height) => (data, index) => {
 };
 
 
-
 const neglected_book_button = ({width, height}) => (on_press = no_op) => ({item, index}) => { //work on
     const box_width = Math.floor(width / 6);
 
@@ -404,7 +403,10 @@ class Statistics extends Component {
                     )
                 }
 
-                <View style={{position: 'absolute', bottom: sizes.default + native_elements.tab_bar}}>
+                <View style={{
+                    position: 'absolute',
+                    bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0)
+                }}>
                     {Segmented_Buttons(seg_buttons_width)(seg_buttons_array)()(selected_tab_index)}
                 </View>
 
