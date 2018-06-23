@@ -22,7 +22,7 @@ import KeyboardManager from 'react-native-keyboard-manager'
 import RNShakeEvent from 'react-native-shake-event';
 
 import styles from './index.styles';
-import {colors, sizes, font_sizes, zIndex, native_elements, buttons} from '../../common/common.styles';
+import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';
 
 import {
     Default_Text,
@@ -480,12 +480,13 @@ const Text_input_search = (props) => {
 const Search_result_view = (props) => {
     const {width, height} = Dimensions.get('window');
 
-    const top = native_elements.status_bar;
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar;
+    const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
 
     const search_results_view_dynamic_style = {
         width: width - sizes.large * 2,
-        height: height - native_elements.status_bar - native_elements.tab_bar - 37 - sizes.default * 2,
-        top: top,
+        height: height - statusBarHeight - native_elements.tab_bar - 37 - sizes.default * 2 - bottomPadding,
+        top: statusBarHeight,
         transform: [
             {
                 translateX: slide_right_pos
