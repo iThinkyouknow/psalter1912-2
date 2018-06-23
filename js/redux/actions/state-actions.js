@@ -6,6 +6,7 @@ export const STATE_ACTIONS = {
     , SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER'
     , SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH'
     , PSALTER_SET_CAN_SEARCH: 'PSALTER_SET_CAN_SEARCH'
+    , PSALTER_TEXT_SET_NEW_FONT_SIZE: 'PSALTER_TEXT_SET_NEW_FONT_SIZE'
     , SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
     , CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
     , CREEDS_TEXT_SET_NEW_FONT_SIZE: 'CREEDS_TEXT_SET_NEW_FONT_SIZE'
@@ -68,6 +69,13 @@ export const psalter_pdf_text_input = (val) => {
     return {
         type: STATE_ACTIONS.PSALTER_PDF_TEXT_INPUT,
         val
+    }
+};
+
+export const psalter_text_set_new_font_size = (new_font_size) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_TEXT_SET_NEW_FONT_SIZE
+        , new_font_size
     }
 };
 

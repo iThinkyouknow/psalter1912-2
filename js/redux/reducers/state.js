@@ -54,6 +54,14 @@ export function psalter_can_search(state = true, action) {
     return state;
 }
 
+export function psalter_text_font_size(state = font_sizes.default, action = {}) {
+    if (action.type === STATE_ACTIONS.PSALTER_TEXT_SET_NEW_FONT_SIZE) {
+        return is_number(action.new_font_size) ? action.new_font_size : state;
+    }
+
+    return state;
+};
+
 
 export function creeds_library_type_index(state = 0, action) {
     if (action.type === STATE_ACTIONS.SELECT_LIBRARY_TYPE) {

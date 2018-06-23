@@ -52,6 +52,7 @@ import {
     , toggle_text_as_valid
     , set_input_as_search
     , set_can_search
+    , psalter_text_set_new_font_size
 } from '../../redux/actions/state-actions';
 
 import {
@@ -63,7 +64,7 @@ import {
 } from '../../redux/actions/bible-actions';
 
 import music_player from '../../utils/music-player';
-import {is_present_type, no_op} from '../../utils/functions';
+import {is_present_type, no_op, composer} from '../../utils/functions';
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
 import {
     string_input_error_alert,
@@ -74,6 +75,7 @@ import {
 
 import {
     scroll_swipe_actions
+    , tap_to_change_font_size
 } from '../../utils/touch-gestures';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
@@ -88,7 +90,7 @@ const more_section_slide_position = more_section_slide_animation.animated_value;
 const more_section_slide = more_section_slide_animation.slide;
 
 
-const header = (fade_anim) => (psalter) => (index) => {
+const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
     const {no, title, content, meter, psalm, score_ref, ref} = psalter;
 
@@ -98,20 +100,20 @@ const header = (fade_anim) => (psalter) => (index) => {
 
     return (((index >= 0) &&
         <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
-            {is_present_type('number')(no) && main_title(`Psalter ${no}`)}
-            {is_present_type('string')(title) && sub_title(title)}
-            {is_present_type('number')(psalm) && sub_title(`Psalm ${psalm}`)}
-            {is_present_type('string')(meter) && meter_text(`Meter: ${meter}`)}
+            {is_present_type('number')(no) && main_title(font_size + 12)()({color: colors.gold})(`Psalter ${no}`)}
+            {is_present_type('string')(title) && sub_title(font_size + 2)()()(title)}
+            {is_present_type('number')(psalm) && sub_title(font_size + 2)()()(`Psalm ${psalm}`)}
+            {is_present_type('string')(meter) && meter_text(font_size - 4)()()(`Meter: ${meter}`)}
         </Animated.View>
     ));
 };
 
 const psalter_key_extractor = (item, i) => `psalter-text-${i}`;
 
-const render_psalter_text = (fade_anim) => ({item, index}) => {
+const render_psalter_text = (fade_anim) => (font_size) => ({item, index}) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
-        return normal_text(`line-${i}`)()(line_to_render);
+        return normal_text(font_size)(`line-${i}`)()(line_to_render);
     }) : item;
 
     const fade_in_style = {
@@ -280,7 +282,7 @@ const psalter_refs_section = ({item, index}) => {
 
     const texts = Array.isArray(item.text_array)
         ? item.text_array.map(ref_text_comp(psalm))
-        : normal_text(`ref-line-${index}`)()(`${psalm} - ${item.text_array}`);
+        : normal_text('default')(`ref-line-${index}`)()(`${psalm} - ${item.text_array}`);
 
     return (
         <View style={styles.more_info_section_container}>
@@ -573,6 +575,15 @@ const hide_tabs_action = (navigator) => () => {
     });
 };
 
+const tap_to_change_font_size_action = tap_to_change_font_size();
+
+const set_font_size = (dispatch) => (new_font_size) => {
+    composer([
+        psalter_text_set_new_font_size,
+        dispatch
+    ])(new_font_size);
+};
+
 /**
  *
  *
@@ -622,6 +633,7 @@ class App extends Component {
             , text_input_as_search
             , psalter_search_results
             , tab_bar_selected_index
+            , psalter_text_font_size
         } = this.props;
 
         add_count(dispatch)(Date)(psalter.no)(sung_dates);
@@ -682,6 +694,17 @@ class App extends Component {
             }
         };
 
+        const swipe_action_loaded = swipe_action(dispatch)(Dimensions.get('window').width)(index);
+
+        const set_font_size_wo_font_size = set_font_size(dispatch);
+
+        const touch_actions = PanResponder.create({
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onPanResponderRelease: swipe_action_loaded,
+            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
+        });
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <More_Stuff_Section_List
@@ -699,11 +722,11 @@ class App extends Component {
                                     navigator={navigator}/>
 
                 <FlatList data={psalter.content}
-                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)}
-                          renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)}
+                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(psalter_text_font_size)}
+                          renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(psalter_text_font_size)}
                           keyExtractor={psalter_key_extractor}
                           onScrollEndDrag={scroll_swipe_actions_loaded}
-                          {...panResponder(dispatch)(Dimensions.get('window').width)(index).panHandlers}  />
+                          {...touch_actions.panHandlers}  />
 
                 <View style={{
                     bottom: 0,
@@ -758,6 +781,7 @@ function mapStateToProps(state) {
         , current_music_timer: state.music_timer.current
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
+        , psalter_text_font_size: state.psalter_text_font_size
         //search reducer
         , psalter_search_results: state.psalter_search_results
         // tab reducer
