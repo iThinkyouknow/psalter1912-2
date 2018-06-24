@@ -18,10 +18,10 @@ export const tap_to_change_font_size = () => {
         taps += 1;
 
         if (taps > 1) {
-            if (font_size < 50) {
-                set_font_size(font_size + 8);
+            if (font_size < 36) {
+                set_font_size(font_size + 9);
 
-            } else if (font_size > 49) {
+            } else if (font_size > 35) {
                 set_font_size(font_sizes.default)
             }
         }

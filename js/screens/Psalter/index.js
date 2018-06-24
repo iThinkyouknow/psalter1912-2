@@ -338,8 +338,17 @@ const More_Stuff_Section_List = (props) => {
             ],
             renderItem: music_section(props.music_slider),
             keyExtractor: more_info_section_key_extractor
-        },
-        {
+        }
+        , {
+            data: [
+                {
+                    title: is_present_type('number')(props.sung_count) ? `Count: ${props.sung_count}` : ''
+                }
+            ],
+            renderItem: count_section,
+            keyExtractor: more_info_section_key_extractor
+        }
+        , {
             data: [
                 {
                     title: 'Cross References',
@@ -348,15 +357,6 @@ const More_Stuff_Section_List = (props) => {
                 }
             ],
             renderItem: psalter_refs_section,
-            keyExtractor: more_info_section_key_extractor
-        },
-        {
-            data: [
-                {
-                    title: is_present_type('number')(props.sung_count) ? `Count: ${props.sung_count}` : ''
-                }
-            ],
-            renderItem: count_section,
             keyExtractor: more_info_section_key_extractor
         }
     ];

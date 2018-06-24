@@ -59,7 +59,7 @@ export default styles = StyleSheet.create({
         marginTop: sizes.default
     },
     more_info_section_container: {
-        marginTop: sizes.default
+        marginVertical: sizes.default
     },
     search_results_view: {
         backgroundColor: colors.black,
