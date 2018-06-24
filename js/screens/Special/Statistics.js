@@ -386,7 +386,6 @@ class Statistics extends Component {
                         ListFooterComponent={Footer()}
                         contentContainerStyle={content_container_style}
                         keyExtractor={per_sect_key_extractor(title)}
-                        getItemLayout={flatlist_item_layout(100)}
                         ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}/>
                 )
                 }
