@@ -106,6 +106,7 @@ class Credits extends Component {
         const set_font_size_wo_font_size = set_font_size(dispatch);
         const touch_actions = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
             onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(credits_text_font_size)
         });
         return (
