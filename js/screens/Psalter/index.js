@@ -100,7 +100,7 @@ const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
     return (((index >= 0) &&
         <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
-            {is_present_type('number')(no) && main_title(font_size + 12)()({color: colors.gold})(`Psalter ${no}`)}
+            {is_present_type('number')(no) && main_title(font_size + 18)()({color: colors.gold})(`Psalter ${no}`)}
             {is_present_type('string')(title) && sub_title(font_size + 2)()()(title)}
             {is_present_type('number')(psalm) && sub_title(font_size + 2)()()(`Psalm ${psalm}`)}
             {is_present_type('string')(meter) && meter_text(font_size - 4)()()(`Meter: ${meter}`)}

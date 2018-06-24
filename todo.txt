@@ -79,6 +79,7 @@ Zoom √
 Crash √
 Missing Psalter Verse √
 Snappier fade ins √
+iPhone X layouts √
 
 
 

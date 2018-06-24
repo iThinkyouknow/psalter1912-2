@@ -89,7 +89,7 @@ const composable_default_text = (text_align) => (font_weight) => (font_family) =
 export const centered_text = composable_default_text('center');
 export const bold_centered_text = centered_text('bold');
 export const main_title = centered_text()('Durwent')();
-export const main_title_2 = bold_centered_text()()('x-large')()();
+export const main_title_2 = bold_centered_text()()('x_large')()();
 export const sub_title = bold_centered_text()();
 export const meter_text = centered_text()()();
 export const normal_text = centered_text('normal')()(1.3);
