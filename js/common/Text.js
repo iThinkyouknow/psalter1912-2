@@ -70,7 +70,7 @@ export function Animated_Text(props = {}) {
     );
 };
 
-const composable_default_text = (text_align) => (font_weight) => (font_size) => (font_family) => (line_height) => (key) => (style) => (children) => {
+const composable_default_text = (text_align) => (font_weight) => (font_family) => (line_height) => (font_size) => (key) => (style) => (children) => {
 
     return (
         <Default_Text text_align={text_align}
@@ -88,11 +88,11 @@ const composable_default_text = (text_align) => (font_weight) => (font_size) => 
 // export const centered_text = composable_anim_text('center');
 export const centered_text = composable_default_text('center');
 export const bold_centered_text = centered_text('bold');
-export const main_title = centered_text()('xxxxx_large')('Durwent')()()({color: colors.gold});
-export const main_title_2 = bold_centered_text('x_large')()()()();
-export const sub_title = bold_centered_text('large')()()()();
-export const meter_text = centered_text()('x_small')()()()();
-export const normal_text = centered_text('normal')('default')()(1.3);
+export const main_title = centered_text()('Durwent')();
+export const main_title_2 = bold_centered_text()()('x_large')()();
+export const sub_title = bold_centered_text()();
+export const meter_text = centered_text()()();
+export const normal_text = centered_text('normal')()(1.3);
 
 
 const styles = StyleSheet.create({
@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
 
 
 // text utils
-export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (was_n) => (combined_text_array) => {
+
+export const text_formatter = (font_size) => (body = [{text: ''}]) => (i) => (key_prefix) => (was_n) => (combined_text_array) => {
     const {text} = body[i];
 
     const get_text_component = (body) => (i) => (key_prefix) => (was_n) => {
@@ -143,7 +144,8 @@ export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (w
             );
         } else {
             return (
-                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                <Animated_Text font_size={font_size}
+                               key={`creed-${key_prefix}-para-${i}`}
                                font_weight={is_bold ? 'bold' : 'normal'}
                                style={text_style}>
                     {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
@@ -159,5 +161,5 @@ export const text_formatter = (body = [{text: ''}]) => (i) => (key_prefix) => (w
 
     if (new_index >= body.length) return new_combined_text_array;
 
-    return text_formatter(body)(new_index)(key_prefix)(new_was_n)(new_combined_text_array);
+    return text_formatter(font_size)(body)(new_index)(key_prefix)(new_was_n)(new_combined_text_array);
 };

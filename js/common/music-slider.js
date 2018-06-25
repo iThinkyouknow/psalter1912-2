@@ -22,8 +22,7 @@ import {
 
 import {
     Default_Text,
-    Animated_Text,
-    main_title
+    Animated_Text
 } from './Text';
 
 import Default_bg from './Default-bg';

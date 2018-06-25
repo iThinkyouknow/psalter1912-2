@@ -11,6 +11,7 @@ import {
     colors,
     line_height_fn,
     buttons
+    , is_iPhone_X
 } from '../../common/common.styles';
 
 
@@ -58,7 +59,7 @@ export default styles = StyleSheet.create({
         marginTop: sizes.default
     },
     more_info_section_container: {
-        marginTop: sizes.default
+        marginVertical: sizes.default
     },
     search_results_view: {
         backgroundColor: colors.black,
