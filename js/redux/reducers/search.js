@@ -22,7 +22,7 @@ const  _psalter_search_results = psalter_search_result_cache => (state = [], act
             .join('');
             // .join('(\\w|\\s|\\d|,)*');
 
-        const regex = new RegExp(search_text, 'ig');
+        const regex = new RegExp(search_text, 'i');
 
         const cache_key = regex.toString().toLowerCase();
 
@@ -40,7 +40,7 @@ const  _psalter_search_results = psalter_search_result_cache => (state = [], act
 
             const result_context_str = result_array.input.slice(start_index, end_index);
 
-            const exact_search_string_regex = new RegExp(search_text, 'ig');
+            const exact_search_string_regex = new RegExp(search_text, 'i');
             const search_string_result_wi_context = exact_search_string_regex.exec(result_context_str);
             const exact_string_start_range = (search_string_result_wi_context !== null) ? search_string_result_wi_context.index : 20;
             const exact_string_end_range = exact_string_start_range +  search_text.length;
