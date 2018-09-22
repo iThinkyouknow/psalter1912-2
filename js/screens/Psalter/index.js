@@ -137,22 +137,29 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
     music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
 };
 
-const swipe_action = (dispatch) => (screen_width) => (index) => (e, gestureState) => {
-    const change_psalter = on_psalter_change(dispatch);
-    const one_third_screen_width = Math.floor(screen_width / 3);
+const tap_to_change_font_size_action = tap_to_change_font_size();
 
-    if (gestureState.dx < -(one_third_screen_width)) {
-        change_psalter(index + 1)();
-    } else if (gestureState.dx > one_third_screen_width) {
-        change_psalter(index - 1)();
-    }
+const set_font_size = (dispatch) => (new_font_size) => {
+    composer([
+        psalter_text_set_new_font_size,
+        dispatch
+    ])(new_font_size);
 };
 
+const change_psalter_by = (on_psalter_change) => (curr_index = 0) => (change_by = 0) => on_psalter_change(curr_index + change_by)();
 
-const panResponder = (dispatch) => (screen_width) => (index) => PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: swipe_action(dispatch)(screen_width)(index)
-});
+const touch_release_actions = (change_psalter_by) => (tap_to_change_font_size_action) => (one_third_screen_width) => (e, gestureState) => {
+    if (Math.abs(gestureState.dy) < 30) {
+        if (gestureState.dx < -(one_third_screen_width)) {
+            change_psalter_by(1)
+        } else if (gestureState.dx > one_third_screen_width) {
+            change_psalter_by(-1)
+        } else {
+            tap_to_change_font_size_action()
+        }
+    }
+    
+}
 
 
 const set_text_input_value = (dispatch) => (value) => {
@@ -576,14 +583,7 @@ const hide_tabs_action = (navigator) => () => {
     });
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
 
-const set_font_size = (dispatch) => (new_font_size) => {
-    composer([
-        psalter_text_set_new_font_size,
-        dispatch
-    ])(new_font_size);
-};
 
 /**
  *
@@ -695,15 +695,19 @@ class App extends Component {
             }
         };
 
-        const swipe_action_loaded = swipe_action(dispatch)(Dimensions.get('window').width)(index);
-
         const set_font_size_wo_font_size = set_font_size(dispatch);
+
+        const change_psalter_w_curr_index = change_psalter_by(on_psalter_change(dispatch))(index);
+
+        const tap_to_change_font_size_action_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
+
+        const one_third_screen_width = Math.round(Dimensions.get('window').width / 3)
+        const touch_release_actions_loaded = touch_release_actions(change_psalter_w_curr_index)(tap_to_change_font_size_action_loaded)(one_third_screen_width)
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
             onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderRelease: swipe_action_loaded,
-            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
+            onPanResponderRelease: touch_release_actions_loaded
         });
 
         return (
