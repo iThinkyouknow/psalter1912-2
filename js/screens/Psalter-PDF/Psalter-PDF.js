@@ -149,7 +149,7 @@ const on_page_change = (dispatch) => (pg, num) => {
 class Psalter_PDF extends Component {
 
     componentDidMount() {
-        setTimeout(() => this.props.dispatch(set_file_name_init()), 1500);
+        setTimeout(() => this.props.dispatch(set_file_name_init()), 1000);
     }
 
     render() {
