@@ -76,6 +76,7 @@ import {
 import {
     scroll_swipe_actions
     , tap_to_change_font_size
+    , touch_release_actions
 } from '../../utils/touch-gestures';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
@@ -137,22 +138,14 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
     music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
 };
 
-const swipe_action = (dispatch) => (screen_width) => (index) => (e, gestureState) => {
-    const change_psalter = on_psalter_change(dispatch);
-    const one_third_screen_width = Math.floor(screen_width / 3);
+const tap_to_change_font_size_action = tap_to_change_font_size();
 
-    if (gestureState.dx < -(one_third_screen_width)) {
-        change_psalter(index + 1)();
-    } else if (gestureState.dx > one_third_screen_width) {
-        change_psalter(index - 1)();
-    }
+const set_font_size = (dispatch) => (new_font_size) => {
+    composer([
+        psalter_text_set_new_font_size,
+        dispatch
+    ])(new_font_size);
 };
-
-
-const panResponder = (dispatch) => (screen_width) => (index) => PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: swipe_action(dispatch)(screen_width)(index)
-});
 
 
 const set_text_input_value = (dispatch) => (value) => {
@@ -231,18 +224,6 @@ const get_random_psalter = (dispatch) => (count) => () => {
     const random = Math.floor(Math.random() * count);
     on_psalter_change(dispatch)(random)();
 };
-
-// const set_keyboard_toolbar = (should_show_toolbar) => {
-//
-//     if (should_show_toolbar) {
-//         KeyboardManager.setEnableAutoToolbar(true);
-//         KeyboardManager.setToolbarDoneBarButtonItemText("Go Forth!");
-//         KeyboardManager.setShouldToolbarUsesTextFieldTintColor(true);
-//         KeyboardManager.setShouldShowTextFieldPlaceholder(false);
-//     } else {
-//         KeyboardManager.setEnableAutoToolbar(false);
-//     }
-// };
 
 const more_stuff_list_header = () => {
     return (
@@ -576,14 +557,7 @@ const hide_tabs_action = (navigator) => () => {
     });
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
 
-const set_font_size = (dispatch) => (new_font_size) => {
-    composer([
-        psalter_text_set_new_font_size,
-        dispatch
-    ])(new_font_size);
-};
 
 /**
  *
@@ -636,6 +610,8 @@ class App extends Component {
             , tab_bar_selected_index
             , psalter_text_font_size
         } = this.props;
+
+        const on_psalter_change_dispatch = on_psalter_change(dispatch);
 
         add_count(dispatch)(Date)(psalter.no)(sung_dates);
         //music_player.when_psalter_change(dispatch)(`Psalter-${psalter.no}.mp3`)();
@@ -695,15 +671,19 @@ class App extends Component {
             }
         };
 
-        const swipe_action_loaded = swipe_action(dispatch)(Dimensions.get('window').width)(index);
-
         const set_font_size_wo_font_size = set_font_size(dispatch);
+
+        const tap_to_change_font_size_action_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
+
+        const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
+
+        const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change_dispatch(index + change_by));
+        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(tap_to_change_font_size_action_loaded)(one_third_screen_width)
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
             onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderRelease: swipe_action_loaded,
-            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
+            onPanResponderRelease: touch_release_actions_loaded
         });
 
         return (

@@ -27,7 +27,7 @@ import Tab_Bar from '../../common/Tab-bar';
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
 import {set_keyboard_toolbar} from '../../utils/keyboard';
 
-import {is_present_type, no_op, getter} from '../../utils/functions';
+import { is_present_type, is_number, is_object, no_op, getter} from '../../utils/functions';
 
 import {
     get_bible_chapter_list
@@ -39,6 +39,10 @@ import {
 } from '../../redux/actions/psalter-actions';
 
 import {
+    set_file_source_init
+} from '../../redux/actions/psalter-pdf-actions';
+
+import {
     psalter_pdf_text_input
     , toggle_psalter_pdf_text_input_valid
     , set_temp_psalter_pdf_page_no
@@ -46,11 +50,6 @@ import {
 } from '../../redux/actions/state-actions';
 
 import Pdf from 'react-native-pdf';
-
-
-const pdf_file = (Platform.OS === 'ios')
-    ? require('../../../data/The_Psalter_PDF.pdf')
-    : {uri: "bundle-assets://The_Psalter_PDF.pdf", cache: true};
 
 
 const _Number_input = (os) => (end_text_action) => (change_text_action) => (text_is_valid) => (value) => (style) => (props) => {
@@ -148,6 +147,11 @@ const on_page_change = (dispatch) => (pg, num) => {
 };
 
 class Psalter_PDF extends Component {
+
+    componentDidMount() {
+        setTimeout(() => this.props.dispatch(set_file_source_init()), 1000);
+    }
+
     render() {
 
         const {
@@ -161,6 +165,7 @@ class Psalter_PDF extends Component {
             , valid_psalter_pdf_text_input
             , temp_psalter_pdf_page_number_for_pdf
             , tab_bar_selected_index
+            , psalter_pdf_file_source
         } = this.props;
 
         const pdf_style = {
@@ -188,16 +193,18 @@ class Psalter_PDF extends Component {
 
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
+        const can_load_pdf = (is_number(psalter_pdf_file_source) || is_object(psalter_pdf_file_source));
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <View style={{flex: 1, justifyContent: 'center'}}>
-                    <Pdf source={pdf_file}
+                    {can_load_pdf && <Pdf source={psalter_pdf_file_source}
                          scale={1}
                          style={pdf_style}
                          horizontal={true}
                          page={psalter_score_page}
                          onScaleChanged={on_scale}
-                         onPageChanged={on_page_change(dispatch)}/>
+                         onPageChanged={on_page_change(dispatch)}/>}
                 </View>
                 <View style={{paddingHorizontal: sizes.large, paddingVertical: sizes.default, flexDirection: 'row'}}>
                     {num_input_field}
@@ -207,7 +214,6 @@ class Psalter_PDF extends Component {
         );
     }
 }
-;
 
 
 function mapStateToProps(state) {
@@ -216,6 +222,7 @@ function mapStateToProps(state) {
         , psalter_score_page: state.psalter.content.scoreRef || 14
         , psalter_psalm: state.psalter.content.psalm || 1
         , pdf_page_to_psalter_index_obj: state.pdf_page_to_psalter_index_obj
+        , psalter_pdf_file_source: state.psalter_pdf_file_source
         // state reducer
         , psalter_pdf_input: state.psalter_pdf_input
         , valid_psalter_pdf_text_input: state.valid_psalter_pdf_text_input
