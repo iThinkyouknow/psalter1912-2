@@ -40,7 +40,14 @@ export const swipe_side_action = (swipe_width) => (swipe_right_action = no_op) =
     if (gestureState.dx < -swipe_width) return is_present_type('function')(swipe_left_action) ? swipe_left_action() : swipe_right_action();
 };
 
-export const swipe = (on_swipe) => PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: on_swipe
-});
+export const touch_release_actions = (swipe_right_action) => (swipe_left_action) => (tap_to_change_font_size_action) => (one_third_screen_width) => (e, gestureState) => {
+    if (Math.abs(gestureState.dy) < 30) {
+        if (gestureState.dx < -(one_third_screen_width)) {
+            swipe_left_action();
+        } else if (gestureState.dx > one_third_screen_width) {
+            swipe_right_action();
+        } else {
+            tap_to_change_font_size_action();
+        }
+    }
+};

@@ -32,16 +32,15 @@ import {} from '../../utils/alert';
 import {is_present_type, no_op, composer} from '../../utils/functions';
 
 import {
-    swipe_side_action
-    , swipe
+    touch_release_actions
     , scroll_swipe_actions
     , tap_to_change_font_size
-} from '../../utils/touch-gestures'
+} from '../../utils/touch-gestures';
 
 import styles from './Creeds-Text.styles';
 
-import {lock_in_creed_body} from '../../redux/actions/creeds-actions'
-import {creeds_text_set_new_font_size} from '../../redux/actions/state-actions'
+import {lock_in_creed_body} from '../../redux/actions/creeds-actions';
+import {creeds_text_set_new_font_size} from '../../redux/actions/state-actions';
 
 
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
@@ -220,6 +219,8 @@ const set_font_size = (dispatch) => (new_font_size) => {
 
 const tap_to_change_font_size_action = tap_to_change_font_size();
 
+
+
 class Creeds_Text extends Component {
 
     render() {
@@ -244,17 +245,21 @@ class Creeds_Text extends Component {
             select_tab_wo_tab_index
         ];
 
-        const swipe_right_loaded = swipe_right(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
-        const swipe_left_loaded = swipe_left(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index);
+        const [swipe_right_loaded, swipe_left_loaded] = [
+            swipe_right,
+            swipe_left
+        ].map(swipe_action => swipe_action(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index));
 
-        const on_swipe_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
-
+        const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
+
+        const tap_to_change_font_size_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(creeds_text_font_size);
+
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(tap_to_change_font_size_loaded)(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderRelease: on_swipe_loaded,
-            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(creeds_text_font_size)
+            onPanResponderRelease: touch_release_actions_loaded
         });
 
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
