@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
     , ...require('./bible')
     , ...require('./tab-bar')
     , ...require('./statistics')
+    , ...require('./psalter-pdf')
 });
 
 export default rootReducer;
