@@ -27,7 +27,7 @@ import Tab_Bar from '../../common/Tab-bar';
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
 import {set_keyboard_toolbar} from '../../utils/keyboard';
 
-import { is_present_type, is_number, no_op, getter} from '../../utils/functions';
+import { is_present_type, is_number, is_object, no_op, getter} from '../../utils/functions';
 
 import {
     get_bible_chapter_list
@@ -39,7 +39,7 @@ import {
 } from '../../redux/actions/psalter-actions';
 
 import {
-    set_file_name_init
+    set_file_source_init
 } from '../../redux/actions/psalter-pdf-actions';
 
 import {
@@ -149,7 +149,7 @@ const on_page_change = (dispatch) => (pg, num) => {
 class Psalter_PDF extends Component {
 
     componentDidMount() {
-        setTimeout(() => this.props.dispatch(set_file_name_init()), 1000);
+        setTimeout(() => this.props.dispatch(set_file_source_init()), 1000);
     }
 
     render() {
@@ -165,7 +165,7 @@ class Psalter_PDF extends Component {
             , valid_psalter_pdf_text_input
             , temp_psalter_pdf_page_number_for_pdf
             , tab_bar_selected_index
-            , psalter_pdf_file_name
+            , psalter_pdf_file_source
         } = this.props;
 
         const pdf_style = {
@@ -193,10 +193,12 @@ class Psalter_PDF extends Component {
 
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
+        const can_load_pdf = (is_number(psalter_pdf_file_source) || is_object(psalter_pdf_file_source));
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <View style={{flex: 1, justifyContent: 'center'}}>
-                    {is_number(psalter_pdf_file_name) && <Pdf source={psalter_pdf_file_name}
+                    {can_load_pdf && <Pdf source={psalter_pdf_file_source}
                          scale={1}
                          style={pdf_style}
                          horizontal={true}
@@ -220,7 +222,7 @@ function mapStateToProps(state) {
         , psalter_score_page: state.psalter.content.scoreRef || 14
         , psalter_psalm: state.psalter.content.psalm || 1
         , pdf_page_to_psalter_index_obj: state.pdf_page_to_psalter_index_obj
-        , psalter_pdf_file_name: state.psalter_pdf_file_name
+        , psalter_pdf_file_source: state.psalter_pdf_file_source
         // state reducer
         , psalter_pdf_input: state.psalter_pdf_input
         , valid_psalter_pdf_text_input: state.valid_psalter_pdf_text_input
