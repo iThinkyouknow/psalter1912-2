@@ -18,8 +18,8 @@ import {
     , Slider
 } from 'react-native';
 import {connect} from 'react-redux';
-import KeyboardManager from 'react-native-keyboard-manager'
-import RNShakeEvent from 'react-native-shake-event';
+
+
 
 import styles from './index.styles';
 import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';
@@ -80,6 +80,8 @@ import {
 } from '../../utils/touch-gestures';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
+
+
 
 
 
@@ -568,6 +570,8 @@ const hide_tabs_action = (navigator) => () => {
 class App extends Component {
     constructor(props) {
         super(props);
+        console.log('psalter page start');
+        const RNShakeEvent = require('react-native-shake-event');
         RNShakeEvent.addEventListener('shake', get_random_psalter(props.dispatch)(props.psalters_count));
         // AsyncStorage.clear();
         const count_all_keys_array = Array.from(new Array(props.psalters_count), (item, index) => `psalter-${index + 1}`);
