@@ -369,7 +369,7 @@ class Bible_Text extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(get_bible_init());
+        setTimeout(() => this.props.dispatch(get_bible_init()), 1000);
     }
 
     componentWillUnmount() {
