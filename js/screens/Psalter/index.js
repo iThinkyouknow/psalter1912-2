@@ -131,13 +131,15 @@ const render_psalter_text = (fade_anim) => (font_size) => ({item, index}) => {
 };
 
 export const on_psalter_change = (dispatch) => (next_val) => () => {
-    psalter_text_fade_anim.fade_in();
+    if (!Number.isNaN(next_val)) {
+        psalter_text_fade_anim.fade_in();
 
-    setTimeout(() => dispatch(lock_in(next_val)), 10);
-    // dispatch(lock_in(next_val));
-    set_keyboard_toolbar(true);
+        setTimeout(() => dispatch(lock_in(next_val)), 10);
+        // dispatch(lock_in(next_val));
+        set_keyboard_toolbar(true);
 
-    music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
+        music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
+    }
 };
 
 const tap_to_change_font_size_action = tap_to_change_font_size();
