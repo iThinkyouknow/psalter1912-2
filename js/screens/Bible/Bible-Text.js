@@ -39,7 +39,7 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, no_op, composer} from '../../utils/functions';
-import {swipe, swipe_side_action, scroll_swipe_actions, tap_to_change_font_size} from '../../utils/touch-gestures';
+import { touch_release_actions, swipe_side_action, scroll_swipe_actions, tap_to_change_font_size} from '../../utils/touch-gestures';
 
 import {bible_toggle_back_to_book_buttons, bible_text_set_new_font_size} from '../../redux/actions/state-actions';
 
@@ -238,9 +238,7 @@ const chapter_library = (chapter_header_loaded) => (book_chapters_array = []) =>
                   numColumns={6}
                   style={bible_library_style}/>
     );
-
 };
-
 
 const close_library_button = ({width}) => {
     const child_component = (
@@ -264,12 +262,10 @@ const back_to_books_btn = ({width}) => {
     );
 
     return Rounded_Button(child_component)(library_container_slide_anim.slide)(width)
-
 };
 
 const _library_bottom_buttons_container = (width) => (close_library_button) => (back_to_books_button) => {
     const library_bottom_container_style = {
-        // flexShrink: 0,
         width,
         justifyContent: 'space-around',
         position: 'absolute',
@@ -365,11 +361,6 @@ const set_font_size = (dispatch) => (new_font_size) => {
 
 class Bible_Text extends Component {
 
-    // static navigatorStyle = {
-    //     navBarHidden: true,
-    //     // tabBarHidden: true
-    // };
-
     constructor(props) {
         super(props);
         library_container_slide_anim.animated_value.addListener(show_back_to_books_button(Dimensions.get('window').width)(props.dispatch));
@@ -455,23 +446,18 @@ class Bible_Text extends Component {
             : () => () => {
         };
 
-        const swipe_right_loaded = swipe_right_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index);
-
-        const swipe_left_loaded = swipe_left_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index);
-
-        const swipe_side_action_loaded = swipe_side_action(Math.floor(Dimensions.get('window').width / 3))(swipe_right_loaded)(swipe_left_loaded);
+        const [swipe_right_loaded, swipe_left_loaded] = [swipe_right_action, swipe_left_action].map(swipe_action => swipe_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index));
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-
+        const tap_to_change_font_size_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(bible_text_font_size);
+        const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(tap_to_change_font_size_loaded)(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderRelease: swipe_side_action_loaded,
-            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(bible_text_font_size)
+            onPanResponderRelease: touch_release_actions_loaded
         });
-
 
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
             ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)

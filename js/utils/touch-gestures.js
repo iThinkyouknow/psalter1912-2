@@ -29,9 +29,13 @@ export const tap_to_change_font_size = () => {
 };
 
 export const scroll_swipe_actions = (scroll_swipe_left) => (scroll_swipe_right) => (e) => {
-    console.log(e.nativeEvent.velocity.x);
-    if (e.nativeEvent.velocity.x > 5) scroll_swipe_right();
-    if (e.nativeEvent.velocity.x < -5) scroll_swipe_left();
+    console.log('x ' + e.nativeEvent.velocity.x);
+    console.log('y ' + e.nativeEvent.velocity.y);
+    if (Math.abs(e.nativeEvent.velocity.y) < 7) {
+        if (e.nativeEvent.velocity.x > 5) scroll_swipe_right();
+        if (e.nativeEvent.velocity.x < -5) scroll_swipe_left();
+    }
+    
 };
 
 export const swipe_side_action = (swipe_width) => (swipe_right_action = no_op) => (swipe_left_action) => (e, gestureState) => {
@@ -40,7 +44,14 @@ export const swipe_side_action = (swipe_width) => (swipe_right_action = no_op) =
     if (gestureState.dx < -swipe_width) return is_present_type('function')(swipe_left_action) ? swipe_left_action() : swipe_right_action();
 };
 
-export const swipe = (on_swipe) => PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: on_swipe
-});
+export const touch_release_actions = (swipe_right_action) => (swipe_left_action) => (tap_to_change_font_size_action) => (one_third_screen_width) => (e, gestureState) => {
+    if (Math.abs(gestureState.dy) < 30) {
+        if (gestureState.dx < -(one_third_screen_width)) {
+            swipe_left_action();
+        } else if (gestureState.dx > one_third_screen_width) {
+            swipe_right_action();
+        } else {
+            tap_to_change_font_size_action();
+        }
+    }
+};

@@ -6,7 +6,7 @@ import {is_present_type} from '../../utils/functions';
 
 export function psalter(state = {}, action = {}) {
     if (action.type === PSALTER_ACTIONS.LOCK_IN) {
-        if (isNaN(action.next_val)) return state;
+        if (Number.isNaN(action.next_val)) return state;
 
         const next_val = ((_next_val) => {
           if (_next_val < -1) return -1;
