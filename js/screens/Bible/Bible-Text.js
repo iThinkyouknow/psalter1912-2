@@ -485,7 +485,10 @@ class Bible_Text extends Component {
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
 
-                {is_string(bible_passage.title) && Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)}
+                {is_string(bible_passage.title) 
+                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)
+                    : <View style={{flex:1}} />
+                }
 
                 <View style={{
                     flexDirection: 'row',
