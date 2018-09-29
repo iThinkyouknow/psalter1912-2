@@ -18,8 +18,8 @@ import {
     , Slider
 } from 'react-native';
 import {connect} from 'react-redux';
-import KeyboardManager from 'react-native-keyboard-manager'
-import RNShakeEvent from 'react-native-shake-event';
+
+
 
 import styles from './index.styles';
 import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';
@@ -84,6 +84,8 @@ import {set_keyboard_toolbar} from '../../utils/keyboard';
 
 
 
+
+
 const psalter_text_fade_anim = fade_animation(100)(0);
 
 const more_section_slide_animation = slide_down_animation(500)(12);
@@ -129,13 +131,15 @@ const render_psalter_text = (fade_anim) => (font_size) => ({item, index}) => {
 };
 
 export const on_psalter_change = (dispatch) => (next_val) => () => {
-    psalter_text_fade_anim.fade_in();
+    if (!Number.isNaN(next_val)) {
+        psalter_text_fade_anim.fade_in();
 
-    setTimeout(() => dispatch(lock_in(next_val)), 10);
-    // dispatch(lock_in(next_val));
-    set_keyboard_toolbar(true);
+        setTimeout(() => dispatch(lock_in(next_val)), 10);
+        // dispatch(lock_in(next_val));
+        set_keyboard_toolbar(true);
 
-    music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
+        music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
+    }
 };
 
 const tap_to_change_font_size_action = tap_to_change_font_size();
@@ -568,6 +572,8 @@ const hide_tabs_action = (navigator) => () => {
 class App extends Component {
     constructor(props) {
         super(props);
+        console.log('psalter page start');
+        const RNShakeEvent = require('react-native-shake-event');
         RNShakeEvent.addEventListener('shake', get_random_psalter(props.dispatch)(props.psalters_count));
         // AsyncStorage.clear();
         const count_all_keys_array = Array.from(new Array(props.psalters_count), (item, index) => `psalter-${index + 1}`);

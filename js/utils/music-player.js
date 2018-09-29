@@ -1,15 +1,10 @@
 import {
-    Player,
-    Recorder,
-    MediaStates
-} from 'react-native-audio-toolkit';
-
-import {
     set_max_music_timer,
     set_music_timer
 } from '../redux/actions/state-actions';
 
-const _music_player_fn = (Player) => {
+const _music_player_fn = () => {
+    const Player = require('react-native-audio-toolkit').Player;
     // state machine
     let current_music_file_name = '';
     let music_player;
@@ -113,6 +108,6 @@ const _music_player_fn = (Player) => {
     };
 };
 
-const play_music = _music_player_fn(Player);
+const play_music = _music_player_fn();
 
 export default play_music;

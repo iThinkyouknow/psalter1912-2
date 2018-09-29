@@ -25,13 +25,12 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
-import {set_keyboard_toolbar} from '../../utils/keyboard';
+// import {set_keyboard_toolbar} from '../../utils/keyboard';
 
 import { is_present_type, is_number, is_object, no_op, getter} from '../../utils/functions';
 
 import {
-    get_bible_chapter_list
-    , get_bible_passage
+    get_bible_passage
 } from '../../redux/actions/bible-actions';
 
 import {
@@ -48,8 +47,6 @@ import {
     , set_temp_psalter_pdf_page_no
     , reset_temp_psalter_pdf_page_no
 } from '../../redux/actions/state-actions';
-
-import Pdf from 'react-native-pdf';
 
 
 const _Number_input = (os) => (end_text_action) => (change_text_action) => (text_is_valid) => (value) => (style) => (props) => {
@@ -146,9 +143,12 @@ const on_page_change = (dispatch) => (pg, num) => {
     dispatch(set_temp_psalter_pdf_page_no(pg));
 };
 
+let Pdf = () => {};
+
 class Psalter_PDF extends Component {
 
     componentDidMount() {
+        Pdf = require('react-native-pdf').default;
         setTimeout(() => this.props.dispatch(set_file_source_init()), 1000);
     }
 
