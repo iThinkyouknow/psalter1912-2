@@ -106,7 +106,7 @@ def getPassword(String currentUser, String keyChain) {
     stdout.toString().trim()
 }
 
-def pass = getPassword("android_keystore","android_keystore")
+def pass = getPassword("android_keystore_real","android_keystore_real")
 
 android {
     compileSdkVersion 25
