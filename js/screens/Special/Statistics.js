@@ -47,7 +47,7 @@ import {
 
 import {
     on_psalter_change
-} from '../Psalter';
+} from '../Psalter/Psalter';
 
 import {neglected_alert} from '../../utils/alert';
 import {is_present_type, no_op, composer} from '../../utils/functions';
