@@ -1,7 +1,5 @@
 import { BIBLE_ACTIONS } from '../actions/bible-actions';
 
-// import bible_text from '../../../data/Bible-KJV.json';
-
 import { is_present_type, is_array } from '../../utils/functions'
 
 const get_bible_passage = (bible_text) => (book_index) => (chapter_index) => {
@@ -20,24 +18,6 @@ const get_bible_passage = (bible_text) => (book_index) => (chapter_index) => {
     }
 };
 
-
-// const _bible_passage = (bible_text) => (cache) => (state = get_bible_passage(bible_text)(18)(0), action) => {
-
-//     if (action.type === BIBLE_ACTIONS.GET_BIBLE_PASSAGE) {
-//         return get_bible_passage(bible_text)(action.book_selected_index)(action.chapter_selected_index);
-//     };
-
-
-//     return state;
-// };
-
-// export const bible_passage = _bible_passage(bible_text)({});
-
-
-
-// export const bible_book_list = (state, action) => {
-//     return bible_text.content.map(book => book.abbrev_header[0]);
-// };
 
 const _selection_bible_chapter_list = (cache) => (bible_text) => (book_selected_index) => {
 
@@ -64,12 +44,6 @@ const _selection_bible_chapter_list = (cache) => (bible_text) => (book_selected_
 };
 
 const selection_bible_chapter_list = _selection_bible_chapter_list({});
-
-// export const bible_per_book_ch_last_index_array = (state, action) => {
-//     return bible_text.content.map(({content}) => content.length - 1);
-// };
-
-// bible_text, bible_passage, selection_bible_chapter_list, bible_per_book_ch_last_index_array'
 
 const default_state = {
     bible: {}
