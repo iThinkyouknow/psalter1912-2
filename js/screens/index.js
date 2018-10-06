@@ -3,7 +3,7 @@ import { Navigation } from 'react-native-navigation';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
-    Navigation.registerComponent('Psalter', () => require('./Psalter/index').default, store, Provider);
+    Navigation.registerComponent('Psalter', () => require('./Psalter/Psalter').default, store, Provider);
 
     Navigation.registerComponent('Psalter_PDF', () => require('./Psalter-PDF/Psalter-PDF').default, store, Provider);
 

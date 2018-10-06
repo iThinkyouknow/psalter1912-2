@@ -38,13 +38,14 @@ import {Rounded_Button} from '../../common/Rounded-Button';
 import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
-import {is_present_type, no_op, composer} from '../../utils/functions';
+import {is_present_type, is_string, no_op, composer} from '../../utils/functions';
 import { touch_release_actions, swipe_side_action, scroll_swipe_actions, tap_to_change_font_size} from '../../utils/touch-gestures';
 
 import {bible_toggle_back_to_book_buttons, bible_text_set_new_font_size} from '../../redux/actions/state-actions';
 
 import {
     get_bible_chapter_list
+    , get_bible_init
     , get_bible_passage
 } from '../../redux/actions/bible-actions';
 
@@ -54,7 +55,7 @@ import {
 
 import {
     on_psalter_change
-} from '../Psalter'
+} from '../Psalter/Psalter'
 
 
 // import styles from './Creeds-Text.styles';
@@ -367,6 +368,10 @@ class Bible_Text extends Component {
 
     }
 
+    componentDidMount() {
+        setTimeout(() => this.props.dispatch(get_bible_init()), 1000);
+    }
+
     componentWillUnmount() {
         library_container_slide_anim.animated_value.removeListener();
     }
@@ -376,16 +381,16 @@ class Bible_Text extends Component {
             navigator
             , dispatch
             , book_list
-            , bible_passage
-            , current_book_index
-            , current_chapter_index
-            , selection_chapter_list
-            , selection_selected_book_title
-            , selection_book_index
-            , tab_bar_selected_index
-            , psalter_psalm
-            , first_psalter_index_of_each_psalm_obj
-            , per_book_ch_last_index_array
+            , bible_passage = {}
+            , current_book_index = NaN
+            , current_chapter_index = NaN
+            , selection_chapter_list = []
+            , selection_selected_book_title = ''
+            , selection_book_index = NaN
+            , tab_bar_selected_index = NaN
+            , psalter_psalm = NaN
+            , first_psalter_index_of_each_psalm_obj = {}
+            , per_book_ch_last_index_array = []
             , bible_should_show_back_to_books_button
             , bible_text_font_size
         } = this.props;
@@ -480,7 +485,10 @@ class Bible_Text extends Component {
                     {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
                 </Animated.View>
 
-                {Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)}
+                {is_string(bible_passage.title) 
+                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)
+                    : <View style={{flex:1}} />
+                }
 
                 <View style={{
                     flexDirection: 'row',
@@ -500,17 +508,18 @@ class Bible_Text extends Component {
 
 function mapStateToProps(state) {
     return {
-        book_list: state.bible_book_list
-        , bible_passage: state.bible_passage
-        , current_book_index: state.bible_passage.book_index
-        , current_chapter_index: state.bible_passage.chapter_index
-        , selection_chapter_list: state.selection_bible_chapter_list.chapter_list
-        , selection_selected_book_title: state.selection_bible_chapter_list.title
-        , selection_book_index: state.selection_bible_chapter_list.book_index
+        book_list: state.bible.bible_book_list
+        , bible_passage: state.bible.bible_passage
+        , current_book_index: state.bible.bible_passage.book_index
+        , current_chapter_index: state.bible.bible_passage.chapter_index
+        , selection_chapter_list: state.bible.selection_bible_chapter_list.chapter_list
+        , selection_selected_book_title: state.bible.selection_bible_chapter_list.title
+        , selection_book_index: state.bible.selection_bible_chapter_list.book_index
+        , per_book_ch_last_index_array: state.bible.bible_per_book_ch_last_index_array
         , tab_bar_selected_index: state.tab_bar_selected_index
         , psalter_psalm: state.psalter.content.psalm
-        , first_psalter_index_of_each_psalm_obj: state.first_psalter_index_of_each_psalm_obj
-        , per_book_ch_last_index_array: state.bible_per_book_ch_last_index_array
+        , first_psalter_index_of_each_psalm_obj: state.psalter.first_psalter_index_of_each_psalm_obj
+        
         // state reducer
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
         , bible_text_font_size: state.bible_text_font_size

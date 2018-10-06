@@ -106,7 +106,7 @@ def getPassword(String currentUser, String keyChain) {
     stdout.toString().trim()
 }
 
-def pass = getPassword("android_keystore","android_keystore")
+def pass = getPassword("android_keystore_real","android_keystore_real")
 
 android {
     compileSdkVersion 25
@@ -116,8 +116,8 @@ android {
         applicationId "com.the_psalter_1912_2"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
-        versionName "2.1.3"
+        versionCode 6
+        versionName "2.1.4"
         ndk {
 //            abiFilters "armeabi-v7a", "x86"
         }

@@ -1,6 +1,7 @@
 import {SEARCH_ACTIONS} from '../actions/search-actions';
-import psalterSearchJson from '../../../data/PsalterSearchJSON.json';
-
+let a = Date.now()
+let psalterSearchJson =  require('../../../data/PsalterSearchJSON.json');
+console.log(Date.now() - a);
 const sp_char_n_space_handler = char => {
     const code = char.charCodeAt(0);
     if (code === 32) {

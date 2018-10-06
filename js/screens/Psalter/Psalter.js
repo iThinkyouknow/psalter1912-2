@@ -42,6 +42,7 @@ import {Rounded_Button} from '../../common/Rounded-Button';
 import music_slider from '../../common/music-slider';
 
 import {
+    psalter_init,
     lock_in,
     set_sung_count_all,
     set_sung_date
@@ -587,6 +588,7 @@ class App extends Component {
         });
 
         set_keyboard_toolbar(true);
+        props.dispatch(psalter_init());
     }
 
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
@@ -757,8 +759,7 @@ function mapStateToProps(state) {
     return {
         psalter: state.psalter.content
         , index: state.psalter.index
-        , psalters_count: state.psalters_count
-        // , should_display_go_forth_bar: state.should_display_go_forth_bar
+        , psalters_count: state.psalter.psalters_count
         // state reducer
         , can_search: state.psalter_can_search
         , psalter_text_input: state.psalter_text_input
