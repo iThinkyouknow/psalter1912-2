@@ -760,7 +760,6 @@ function mapStateToProps(state) {
         psalter: state.psalter.content
         , index: state.psalter.index
         , psalters_count: state.psalter.psalters_count
-        // , should_display_go_forth_bar: state.should_display_go_forth_bar
         // state reducer
         , can_search: state.psalter_can_search
         , psalter_text_input: state.psalter_text_input
