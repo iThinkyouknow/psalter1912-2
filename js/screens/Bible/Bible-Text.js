@@ -55,7 +55,7 @@ import {
 
 import {
     on_psalter_change
-} from '../Psalter'
+} from '../Psalter/Psalter'
 
 
 // import styles from './Creeds-Text.styles';
@@ -518,7 +518,7 @@ function mapStateToProps(state) {
         , per_book_ch_last_index_array: state.bible.bible_per_book_ch_last_index_array
         , tab_bar_selected_index: state.tab_bar_selected_index
         , psalter_psalm: state.psalter.content.psalm
-        , first_psalter_index_of_each_psalm_obj: state.first_psalter_index_of_each_psalm_obj
+        , first_psalter_index_of_each_psalm_obj: state.psalter.first_psalter_index_of_each_psalm_obj
         
         // state reducer
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button

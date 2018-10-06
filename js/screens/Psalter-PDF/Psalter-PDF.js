@@ -221,7 +221,7 @@ function mapStateToProps(state) {
         psalter_index: state.psalter.index
         , psalter_score_page: state.psalter.content.scoreRef || 14
         , psalter_psalm: state.psalter.content.psalm || 1
-        , pdf_page_to_psalter_index_obj: state.pdf_page_to_psalter_index_obj
+        , pdf_page_to_psalter_index_obj: state.psalter.pdf_page_to_psalter_index_obj
         , psalter_pdf_file_source: state.psalter_pdf_file_source
         // state reducer
         , psalter_pdf_input: state.psalter_pdf_input

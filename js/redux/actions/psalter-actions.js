@@ -1,9 +1,16 @@
 
 export const PSALTER_ACTIONS = {
+    PSALTER_INIT: 'PSALTER_INIT',
     LOCK_IN: 'LOCK_IN',
     SET_SUNG_DATE: 'SET_SUNG_DATE',
     GET_SUNG_COUNT: 'GET_SUNG_COUNT',
     SET_SUNG_COUNT_ALL: 'SET_SUNG_COUNT_ALL',
+};
+
+export const psalter_init = () => {
+    return {
+        type: PSALTER_ACTIONS.PSALTER_INIT
+    }
 };
 
 export const lock_in = (next_val) => {
