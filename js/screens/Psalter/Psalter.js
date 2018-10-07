@@ -573,15 +573,23 @@ const hide_tabs_action = (navigator) => () => {
 class App extends Component {
     constructor(props) {
         super(props);
+        
+
+        set_keyboard_toolbar(true);
+    }
+
+    componentDidMount() {
         const RNShakeEvent = require('react-native-shake-event');
 
         // let a = Date.now();
         const psalter_json = require('../../../data/PsalterJSON.json');
         // console.log(Date.now() - a);
 
-        props.dispatch(psalter_init(psalter_json));
+        this.props.dispatch(psalter_init(psalter_json));
+
         const psalters_count = psalter_json.length;
-        RNShakeEvent.addEventListener('shake', get_random_psalter(props.dispatch)(psalters_count));
+
+        RNShakeEvent.addEventListener('shake', get_random_psalter(this.props.dispatch)(psalters_count));
         // AsyncStorage.clear(); // for dev only
         const count_all_keys_array = Array.from(new Array(psalters_count), (item, index) => `psalter-${index + 1}`);
 
@@ -590,10 +598,8 @@ class App extends Component {
                 .filter(([key, value]) => is_present_type('string')(value))
                 .map(([key, value]) => [key, JSON.parse(value)]);
 
-            props.dispatch(set_sung_count_all(arr_w_value || []));
+            this.props.dispatch(set_sung_count_all(arr_w_value || []));
         });
-
-        set_keyboard_toolbar(true);
     }
     
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
