@@ -7,9 +7,10 @@ export const PSALTER_ACTIONS = {
     SET_SUNG_COUNT_ALL: 'SET_SUNG_COUNT_ALL',
 };
 
-export const psalter_init = () => {
+export const psalter_init = (psalter_json) => {
     return {
-        type: PSALTER_ACTIONS.PSALTER_INIT
+        type: PSALTER_ACTIONS.PSALTER_INIT,
+        psalter_json
     }
 };
 

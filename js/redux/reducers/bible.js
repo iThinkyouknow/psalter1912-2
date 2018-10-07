@@ -56,9 +56,9 @@ const default_state = {
 
 export const bible = (state = default_state, action = {}) => {
     if (action.type === BIBLE_ACTIONS.GET_BIBLE_INIT) {
-        let a = Date.now();
+        // let a = Date.now();
         const bible = require('../../../data/Bible-KJV.json');
-        console.log(Date.now() - a);
+        // console.log(Date.now() - a);
         const bible_book_list = bible.content.map(book => book.abbrev_header[0]);
         const bible_passage = get_bible_passage(bible)(18)(0);
         const selection_bible_chapter_list = {

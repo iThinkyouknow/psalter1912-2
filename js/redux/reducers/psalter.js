@@ -15,9 +15,9 @@ const default_psalter_obj = {
 
 export function psalter(state = default_psalter_obj, action = {}) {
     if (action.type === PSALTER_ACTIONS.PSALTER_INIT) {
-        let a = Date.now();
-        const psalter_json = require('../../../data/PsalterJSON.json');
-        console.log(Date.now() - a);
+        
+        const {psalter_json} = action;
+        
         const psalters_count = psalter_json.length;
         const first_psalter_index_of_each_psalm_obj = psalter_json.reduce((acc, psalter, index) => {
             return (acc[psalter.psalm] === undefined)
