@@ -14,12 +14,9 @@ import {
     , TouchableHighlight
     , Image
     , StyleSheet
-    , AsyncStorage
-    , Slider
 } from 'react-native';
 import {connect} from 'react-redux';
-
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 import styles from './index.styles';
 import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';

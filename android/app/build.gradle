@@ -163,6 +163,9 @@ android {
 }
 
 dependencies {
+    implementation project(':rn-fetch-blob')
+    implementation project(':@react-native-community_slider')
+    implementation project(':@react-native-community_async-storage')
     compile project(':react-native-shake-event')
     compile project(':react-native-pdf')
     compile project(':react-native-fetch-blob')
