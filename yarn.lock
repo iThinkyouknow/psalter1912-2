@@ -1284,6 +1284,7 @@ balanced-match@^1.0.0:
 base-64@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
+  integrity sha1-eAqZyE59YAJgNhURxId2E78k9rs=
 
 base64-js@^1.1.2:
   version "1.2.1"
@@ -2425,6 +2426,7 @@ glob-parent@^2.0.0:
 glob@7.0.6:
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.0.6.tgz#211bafaf49e525b8cd93260d14ab136152b3f57a"
+  integrity sha1-IRuvr0nlJbjNkyYNFKsTYVKz9Xo=
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -3571,14 +3573,14 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-lodash@4.x.x, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
-
-lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.5:
+lodash@4.x.x, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.5:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
+lodash@^4.13.1, lodash@^4.14.0, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
   version "1.3.1"
@@ -4678,9 +4680,10 @@ react-native-keyboard-manager@^4.0.13-12:
   resolved "https://registry.yarnpkg.com/react-native-keyboard-manager/-/react-native-keyboard-manager-4.0.13-12.tgz#169b08c6154f78cc930fc84d5324153890fd2d55"
   integrity sha512-8gtY9LKM7z82tPDHlQkBgnM6nc16mWAuSZkLqc3gwp+7QNVoQnaWxXdgPIGVUDhvkaYMO8eUS+Qjfg986Sk6eg==
 
-react-native-navigation@^1.1.295:
-  version "1.1.295"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.295.tgz#3ee6b2fc4f94671246498ed285f3592355c063d3"
+react-native-navigation@^1.1:
+  version "1.1.493"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.493.tgz#01d57dd9822ac603cd04d4529abacf193bbbcdac"
+  integrity sha512-CbzeU4ET+/lSMCqrgHXbetv8xhvrUJ15qFr8LkfXfmXpcaCAhOyfJlqpKmVkhHUrPwlWVXAC+ndD0miPTEKF5Q==
   dependencies:
     lodash "4.x.x"
 
@@ -5078,10 +5081,10 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
 
-rn-fetch-blob@^0.10:
-  version "0.10.16"
-  resolved "https://registry.yarnpkg.com/rn-fetch-blob/-/rn-fetch-blob-0.10.16.tgz#bd54f66c94f7a8e06c213077483646478ae8d230"
-  integrity sha512-hZV+nF0HK4CWmspXGMw7/G8Q8qugpS/wbKiNLsFpdBZR8XYzjFZNvBWgGyC0F5JWQn3sjmK2w/FJjBlwdQWNQg==
+rn-fetch-blob@0.10.15:
+  version "0.10.15"
+  resolved "https://registry.yarnpkg.com/rn-fetch-blob/-/rn-fetch-blob-0.10.15.tgz#3526860c1c57e0bf4c09bdbe409c919264afffba"
+  integrity sha512-/m/gurTaPAvR3J843uehHhznj5k89x7XClyO5ejmbspNLNQ4ByF+kZs80wiiKGWntj+Wqo0jJu1goArXEfc0kA==
   dependencies:
     base-64 "0.1.0"
     glob "7.0.6"

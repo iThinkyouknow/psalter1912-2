@@ -20,7 +20,7 @@
 		"react-native": "0.59.10",
 		"react-native-audio-toolkit": "^1.0.6",
 		"react-native-keyboard-manager": "^4.0.13-12",
-		"react-native-navigation": "^1.1.295",
+		"react-native-navigation": "^1.1",
 		"react-native-pdf": "^5",
 		"react-native-shake-event": "^4.0.1",
 		"react-redux": "^5.0.6",
@@ -28,7 +28,7 @@
 		"redux-devtools": "^3.4.1",
 		"redux-immutable-state-invariant": "^2.1.0",
 		"redux-logger": "^3.0.6",
-		"rn-fetch-blob": "^0.10"
+		"rn-fetch-blob": "0.10.15"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.4.5",
