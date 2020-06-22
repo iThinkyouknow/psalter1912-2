@@ -3,6 +3,9 @@ package com.the_psalter_1912_2;
 //import android.app.Application;
 
 //import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.reactnativecommunity.slider.ReactSliderPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.jadsonlourenco.RNShakeEvent.RNShakeEventPackage;
 import org.wonday.pdf.RCTPdfView;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -35,7 +38,9 @@ public class MainApplication extends NavigationApplication {
             new AudioPackage(),
             new RCTPdfView(),
             new RNFetchBlobPackage(),
-            new RNShakeEventPackage()
+            new RNShakeEventPackage(),
+            new ReactSliderPackage(),
+            new AsyncStoragePackage()
     );
   }
 

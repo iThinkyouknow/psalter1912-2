@@ -15,12 +15,10 @@ import {
     TouchableHighlight,
     Image,
     ImageBackground,
-    StyleSheet,
-    AsyncStorage,
-    Slider
+    StyleSheet
 } from 'react-native';
 
-import {navigator_style_push} from '../../../index'
+import {navigator_style_push} from '../../../NavigatorStyles'
 
 import styles from './Creeds.styles';
 import {

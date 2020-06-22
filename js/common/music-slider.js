@@ -4,11 +4,12 @@ import {
     View,
     FlatList,
     Animated,
-    Slider,
     TouchableHighlight,
     Image,
     StyleSheet
 } from 'react-native';
+
+import Slider from '@react-native-community/slider';
 
 // import styles from './music-slider.styles';
 import {

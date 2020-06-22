@@ -23,6 +23,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		2727D1C97DF645B891FE472E /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 854E26264DA24350A9234772 /* libRNCAsyncStorage.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -35,6 +36,7 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* The_Psalter_1912_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* The_Psalter_1912_2Tests.m */; };
+		3172B771BB55424992C30D00 /* libRNCSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C66800D094754554A8FB0D79 /* libRNCSlider.a */; };
 		3DA4A43098E74B5DB631981D /* libReactNativeKeyboardManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07082D7CB5AE4B6CA8FC1ADA /* libReactNativeKeyboardManager.a */; };
 		4B6A37ED052E4E3E8FC3D304 /* libRNShakeEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -477,6 +479,7 @@
 		DBD1AAB02098429F0025CBFB /* psalter_370.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A8FE2098429E0025CBFB /* psalter_370.mp3 */; };
 		DBD1AAB12098429F0025CBFB /* psalter_222.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A8FF2098429E0025CBFB /* psalter_222.mp3 */; };
 		DBD1AAB22098429F0025CBFB /* psalter_127.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A9002098429E0025CBFB /* psalter_127.mp3 */; };
+		DBF775ED24A0952B002713CA /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBF775B524A0952A002713CA /* JavaScriptCore.framework */; };
 		EC8986EDC98F4EC4AAD4147A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
@@ -656,20 +659,6 @@
 			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
 			remoteInfo = "cxxreact-tvOS";
 		};
-		3DAD3EAC1DF850E9000B6D8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
-			remoteInfo = jschelpers;
-		};
-		3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
-			remoteInfo = "jschelpers-tvOS";
-		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -747,20 +736,6 @@
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
 		};
-		DB5E0CE51FD1808800C617E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
-			remoteInfo = privatedata;
-		};
-		DB5E0CE71FD1808800C617E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
-			remoteInfo = "privatedata-tvOS";
-		};
 		DB5E0D1F1FD1A01700C617E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2BC4AE31B2F4EC2AB14F83B /* ReactNativeKeyboardManager.xcodeproj */;
@@ -782,6 +757,62 @@
 			remoteGlobalIDString = 20D8E03F1C8E946C00039823;
 			remoteInfo = RCTPdf;
 		};
+		DBF775DC24A0952A002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		DBF775DE24A0952A002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
+		DBF775E024A0952A002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EDEBC6D6214B3E7000DD5AC8;
+			remoteInfo = jsi;
+		};
+		DBF775E224A0952A002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EDEBC73B214B45A300DD5AC8;
+			remoteInfo = jsiexecutor;
+		};
+		DBF775E424A0952A002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED296FB6214C9A0900B7C4FE;
+			remoteInfo = "jsi-tvOS";
+		};
+		DBF775E624A0952A002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED296FEE214C9CF800B7C4FE;
+			remoteInfo = "jsiexecutor-tvOS";
+		};
+		DBF7762E24A0A4C7002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 136BD9B96DBF413181B17F0E /* RNCAsyncStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCAsyncStorage;
+		};
+		DBF7767224A0A6EB002713CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6C22CA341200481AB0255CD7 /* RNCSlider.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28C79A09220DC4CC0061DE82;
+			remoteInfo = RNCSlider;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -797,6 +828,7 @@
 		00E356F21AD99517003FC87E /* The_Psalter_1912_2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = The_Psalter_1912_2Tests.m; sourceTree = "<group>"; };
 		01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		07082D7CB5AE4B6CA8FC1ADA /* libReactNativeKeyboardManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeKeyboardManager.a; sourceTree = "<group>"; };
+		136BD9B96DBF413181B17F0E /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCAsyncStorage.xcodeproj; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* The_Psalter_1912_2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = The_Psalter_1912_2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -812,12 +844,15 @@
 		2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		31DEF0497B04472FAFB0160A /* libRCTPdf.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTPdf.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		6C22CA341200481AB0255CD7 /* RNCSlider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCSlider.xcodeproj; path = "../node_modules/@react-native-community/slider/ios/RNCSlider.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		854E26264DA24350A9234772 /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCAsyncStorage.a; sourceTree = "<group>"; };
 		8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShakeEvent.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B3DC38E3C9554770866DC8BD /* Durwent.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Durwent.ttf; path = ../assets/Durwent.ttf; sourceTree = "<group>"; };
 		C2BC4AE31B2F4EC2AB14F83B /* ReactNativeKeyboardManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeKeyboardManager.xcodeproj; path = "../node_modules/react-native-keyboard-manager/ios/ReactNativeKeyboardManager.xcodeproj"; sourceTree = "<group>"; };
+		C66800D094754554A8FB0D79 /* libRNCSlider.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCSlider.a; sourceTree = "<group>"; };
 		DB09B6BE202097E6000E5F1D /* ReactNativeAudioToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAudioToolkit.xcodeproj; path = "../node_modules/react-native-audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit.xcodeproj"; sourceTree = "<group>"; };
 		DBD1A74F209842450025CBFB /* psalter_93.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_93.mp3; path = "../../Music-Files/psalter_93.mp3"; sourceTree = "<group>"; };
 		DBD1A750209842460025CBFB /* psalter_74.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_74.mp3; path = "../../Music-Files/psalter_74.mp3"; sourceTree = "<group>"; };
@@ -1253,6 +1288,7 @@
 		DBD1A8FE2098429E0025CBFB /* psalter_370.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_370.mp3; path = "../../Music-Files/psalter_370.mp3"; sourceTree = "<group>"; };
 		DBD1A8FF2098429E0025CBFB /* psalter_222.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_222.mp3; path = "../../Music-Files/psalter_222.mp3"; sourceTree = "<group>"; };
 		DBD1A9002098429E0025CBFB /* psalter_127.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_127.mp3; path = "../../Music-Files/psalter_127.mp3"; sourceTree = "<group>"; };
+		DBF775B524A0952A002713CA /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTPdf.xcodeproj; path = "../node_modules/react-native-pdf/ios/RCTPdf.xcodeproj"; sourceTree = "<group>"; };
 		F59092BA6A124A248160F0BA /* RNShakeEvent.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShakeEvent.xcodeproj; path = "../node_modules/react-native-shake-event/ios/RNShakeEvent.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1270,6 +1306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBF775ED24A0952B002713CA /* JavaScriptCore.framework in Frameworks */,
 				DB09B6EA202097FA000E5F1D /* libReactNativeAudioToolkit.a in Frameworks */,
 				00CDE5971FC80B180076F178 /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -1289,6 +1326,8 @@
 				EC8986EDC98F4EC4AAD4147A /* libRNFetchBlob.a in Frameworks */,
 				C0035A0E354A448D9C94D858 /* libRCTPdf.a in Frameworks */,
 				4B6A37ED052E4E3E8FC3D304 /* libRNShakeEvent.a in Frameworks */,
+				2727D1C97DF645B891FE472E /* libRNCAsyncStorage.a in Frameworks */,
+				3172B771BB55424992C30D00 /* libRNCSlider.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1370,6 +1409,7 @@
 		00CDE5961FC80B180076F178 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DBF775B524A0952A002713CA /* JavaScriptCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1435,14 +1475,16 @@
 				3DAD3EA71DF850E9000B6D8A /* libyoga.a */,
 				3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
-				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
-				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+				DBF775DD24A0952A002713CA /* libjsinspector.a */,
+				DBF775DF24A0952A002713CA /* libjsinspector-tvOS.a */,
 				DB5E0CDE1FD1808800C617E7 /* libthird-party.a */,
 				DB5E0CE01FD1808800C617E7 /* libthird-party.a */,
 				DB5E0CE21FD1808800C617E7 /* libdouble-conversion.a */,
 				DB5E0CE41FD1808800C617E7 /* libdouble-conversion.a */,
-				DB5E0CE61FD1808800C617E7 /* libprivatedata.a */,
-				DB5E0CE81FD1808800C617E7 /* libprivatedata-tvOS.a */,
+				DBF775E124A0952A002713CA /* libjsi.a */,
+				DBF775E324A0952A002713CA /* libjsiexecutor.a */,
+				DBF775E524A0952A002713CA /* libjsi-tvOS.a */,
+				DBF775E724A0952A002713CA /* libjsiexecutor-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1486,6 +1528,8 @@
 				01273EEF36B34D44AE80FE47 /* RNFetchBlob.xcodeproj */,
 				E8DEA5B717CB4A60B868CA3F /* RCTPdf.xcodeproj */,
 				F59092BA6A124A248160F0BA /* RNShakeEvent.xcodeproj */,
+				136BD9B96DBF413181B17F0E /* RNCAsyncStorage.xcodeproj */,
+				6C22CA341200481AB0255CD7 /* RNCSlider.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1566,6 +1610,8 @@
 				2E21A6FADC4E4388AF6D5528 /* libRNFetchBlob.a */,
 				31DEF0497B04472FAFB0160A /* libRCTPdf.a */,
 				8E50A1EC575E43088E3C7A2D /* libRNShakeEvent.a */,
+				854E26264DA24350A9234772 /* libRNCAsyncStorage.a */,
+				C66800D094754554A8FB0D79 /* libRNCSlider.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -2035,6 +2081,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DBF7762B24A0A4C7002713CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DBF7762F24A0A4C7002713CA /* libRNCAsyncStorage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DBF7766F24A0A6EB002713CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DBF7767324A0A6EB002713CA /* libRNCSlider.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2144,6 +2206,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -2214,6 +2277,14 @@
 				{
 					ProductGroup = 00CDE5911FC80AB90076F178 /* Products */;
 					ProjectRef = 00CDE5901FC80AB90076F178 /* ReactNativeNavigation.xcodeproj */;
+				},
+				{
+					ProductGroup = DBF7762B24A0A4C7002713CA /* Products */;
+					ProjectRef = 136BD9B96DBF413181B17F0E /* RNCAsyncStorage.xcodeproj */;
+				},
+				{
+					ProductGroup = DBF7766F24A0A6EB002713CA /* Products */;
+					ProjectRef = 6C22CA341200481AB0255CD7 /* RNCSlider.xcodeproj */;
 				},
 				{
 					ProductGroup = DBE4859720786CC400AB6E47 /* Products */;
@@ -2396,20 +2467,6 @@
 			remoteRef = 3DAD3EAA1DF850E9000B6D8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = 3DAD3EAC1DF850E9000B6D8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2487,20 +2544,6 @@
 			remoteRef = DB5E0CE31FD1808800C617E7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DB5E0CE61FD1808800C617E7 /* libprivatedata.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libprivatedata.a;
-			remoteRef = DB5E0CE51FD1808800C617E7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DB5E0CE81FD1808800C617E7 /* libprivatedata-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libprivatedata-tvOS.a";
-			remoteRef = DB5E0CE71FD1808800C617E7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		DB5E0D201FD1A01700C617E7 /* libReactNativeKeyboardManager.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2520,6 +2563,62 @@
 			fileType = archive.ar;
 			path = libRCTPdf.a;
 			remoteRef = DBE485D820786CD800AB6E47 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF775DD24A0952A002713CA /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = DBF775DC24A0952A002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF775DF24A0952A002713CA /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = DBF775DE24A0952A002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF775E124A0952A002713CA /* libjsi.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsi.a;
+			remoteRef = DBF775E024A0952A002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF775E324A0952A002713CA /* libjsiexecutor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsiexecutor.a;
+			remoteRef = DBF775E224A0952A002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF775E524A0952A002713CA /* libjsi-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsi-tvOS.a";
+			remoteRef = DBF775E424A0952A002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF775E724A0952A002713CA /* libjsiexecutor-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsiexecutor-tvOS.a";
+			remoteRef = DBF775E624A0952A002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF7762F24A0A4C7002713CA /* libRNCAsyncStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCAsyncStorage.a;
+			remoteRef = DBF7762E24A0A4C7002713CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DBF7767324A0A6EB002713CA /* libRNCSlider.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCSlider.a;
+			remoteRef = DBF7767224A0A6EB002713CA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3102,12 +3201,16 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -3131,12 +3234,16 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -3163,6 +3270,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3193,6 +3302,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3227,11 +3338,15 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 				INFOPLIST_FILE = "The_Psalter_1912_2-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -3264,11 +3379,15 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-shake-event/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 				INFOPLIST_FILE = "The_Psalter_1912_2-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -3299,6 +3418,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.The_Psalter_1912_2-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3323,6 +3444,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.The_Psalter_1912_2-tvOSTests";
