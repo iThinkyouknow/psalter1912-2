@@ -2,8 +2,8 @@ const fs     = require('fs');
 const {log}  = console;
 const ffmpeg = require('ffmpeg');
 
-const dir = '/Users/notforyoutouse/psalter1912-2/Music-Files';
-const output_dir = '/Users/notforyoutouse/psalter1912-2/Music-Files';
+const dir = '~/psalter1912-2/Music-Files';
+const output_dir = '~/psalter1912-2/Music-Files';
 
 const files_array = fs.readdirSync(dir);
 // log(files_array);
