@@ -35,7 +35,7 @@ console.log(`time: ${(t1 - t0)}`);
 
 const searchJSON_json = JSON.stringify(searchJSON_array, null, 4);
 
-fs.writeFile('data/PsalterSearchJSON.json', searchJSON_json, 'utf8', (err) => {
+fs.writeFile('../PsalterSearchJSON.json', searchJSON_json, 'utf8', (err) => {
 
     console.log(err);
 });
