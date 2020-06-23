@@ -12,7 +12,7 @@ const compose = (fns) => (val) => fns.reduce(apply, val);
 
 const getFile = (fileName) => ({obj: require(`../${fileName}`), fileName});
 const stringify = (indent) => ({obj, fileName}) => ({str: JSON.stringify(obj, null, indent), fileName});
-const writeToFile = ({str, fileName}) => fs.writeFile(`${__dirname}/../${fileName}`, str);
+const writeToFile = ({str, fileName}) => fs.writeFileSync(`${__dirname}/../${fileName}`, str);
 
 const trace = (obj) => console.dir(obj, {colors: true, depth: null});
 
