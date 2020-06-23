@@ -2,8 +2,8 @@ const fs     = require('fs');
 const {log}  = console;
 const ffmpeg = require('ffmpeg');
 
-const dir        = '/Users/notforyoutouse/Desktop/Music-Files';
-const output_dir = '/Users/notforyoutouse/Desktop/output';
+const dir = '/Users/notforyoutouse/psalter1912-2/Music-Files';
+const output_dir = '/Users/notforyoutouse/psalter1912-2/Music-Files';
 
 const files_array = fs.readdirSync(dir);
 // log(files_array);
@@ -21,6 +21,7 @@ const audio_converter_fn = (file) => {
         // log(file);
 
         const duration = (vid.metadata.duration.seconds >= 100) ? Math.round(vid.metadata.duration.seconds / 3) : vid.metadata.duration.seconds;
+        vid.addCommand('-ar', '8000');
         return vid
         // .setDisableVideo()
             .setVideoStartTime(3)
