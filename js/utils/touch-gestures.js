@@ -2,13 +2,10 @@ import {no_op, is_present_type} from './functions'
 
 
 export const scroll_swipe_actions = (scroll_swipe_left) => (scroll_swipe_right) => (e) => {
-    console.log('x ' + e.nativeEvent.velocity.x);
-    console.log('y ' + e.nativeEvent.velocity.y);
     if (Math.abs(e.nativeEvent.velocity.y) < 7) {
         if (e.nativeEvent.velocity.x > 5) scroll_swipe_right();
         if (e.nativeEvent.velocity.x < -5) scroll_swipe_left();
     }
-    
 };
 
 export const swipe_side_action = (swipe_width) => (swipe_right_action = no_op) => (swipe_left_action) => (e, gestureState) => {
