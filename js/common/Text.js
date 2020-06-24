@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
         color: colors.white,
         opacity: 1,
         ...font_size_fn('default'),
-        ...text_align_fn('left'),
         ...font_weight_fn('normal'),
         ...line_height_fn(line_heights.default)(font_sizes['default'])
     }

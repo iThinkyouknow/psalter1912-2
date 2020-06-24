@@ -50,8 +50,6 @@ export const touch_release_actions = (swipe_right_action) => (swipe_left_action)
             swipe_left_action();
         } else if (gestureState.dx > one_third_screen_width) {
             swipe_right_action();
-        } else {
-            tap_to_change_font_size_action();
         }
     }
 };

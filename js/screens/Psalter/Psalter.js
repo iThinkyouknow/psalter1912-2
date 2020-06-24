@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-
 import styles from './index.styles';
 import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';
 
@@ -32,6 +31,8 @@ import {
     meter_text,
     normal_text
 } from '../../common/Text';
+
+import FontSlider from '../../common/Font-slider';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
@@ -101,10 +102,10 @@ const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
     return (((index >= 0) &&
         <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
-            {is_present_type('number')(no) && main_title(font_size + 18)()({color: colors.gold})(`Psalter ${no}`)}
-            {is_present_type('string')(title) && sub_title(font_size + 2)()()(title)}
-            {is_present_type('number')(psalm) && sub_title(font_size + 2)()()(`Psalm ${psalm}`)}
-            {is_present_type('string')(meter) && meter_text(font_size - 4)()()(`Meter: ${meter}`)}
+            {is_present_type('number')(no) && main_title(font_size * 2)()({color: colors.gold})(`Psalter ${no}`)}
+            {is_present_type('string')(title) && sub_title(font_size * 1.1)()()(title)}
+            {is_present_type('number')(psalm) && sub_title(font_size * 1.1)()()(`Psalm ${psalm}`)}
+            {is_present_type('string')(meter) && meter_text(font_size * 0.8)()()(`Meter: ${meter}`)}
         </Animated.View>
     ));
 };
@@ -688,12 +689,10 @@ class App extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const tap_to_change_font_size_action_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
-
         const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
 
         const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change_dispatch(index + change_by));
-        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(tap_to_change_font_size_action_loaded)(one_third_screen_width)
+        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(() => {})(one_third_screen_width)
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
@@ -723,7 +722,11 @@ class App extends Component {
                           keyExtractor={psalter_key_extractor}
                           onScrollEndDrag={scroll_swipe_actions_loaded}
                           {...touch_actions.panHandlers}  />
-
+                
+                <FontSlider onSlidingComplete={(e) => {
+                    set_font_size_wo_font_size(e * font_sizes.default)
+                }} />
+        
                 <View style={{
                     bottom: 0,
                     zIndex: zIndex.small,

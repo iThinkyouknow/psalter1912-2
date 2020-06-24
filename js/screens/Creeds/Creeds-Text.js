@@ -27,6 +27,7 @@ import {
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
+import FontSlider from '../../common/Font-slider';
 
 import {} from '../../utils/alert';
 import {is_present_type, no_op, composer} from '../../utils/functions';
@@ -97,9 +98,9 @@ const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles
 
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
-            {(title !== body.header) && Header_Text_Component(font_size + 4)()(title)}
-            {description.length > 0 && Header_Text_Component(font_size + 2)()(description)}
-            {Header_Text_Component(font_size + 8)({marginTop: sizes.default})(body.header)}
+            {(title !== body.header) && Header_Text_Component(font_size * 1.2)()(title)}
+            {description.length > 0 && Header_Text_Component(font_size * 1.1)()(description)}
+            {Header_Text_Component(font_size * 1.45)({marginTop: sizes.default})(body.header)}
         </View>
     );
 
@@ -217,9 +218,6 @@ const set_font_size = (dispatch) => (new_font_size) => {
     ])(new_font_size);
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
-
-
 
 class Creeds_Text extends Component {
 
@@ -253,9 +251,7 @@ class Creeds_Text extends Component {
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const tap_to_change_font_size_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(creeds_text_font_size);
-
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(tap_to_change_font_size_loaded)(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
@@ -271,6 +267,9 @@ class Creeds_Text extends Component {
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(creeds_text_font_size)}
+                <FontSlider onSlidingComplete={(e) => {
+                    set_font_size_wo_font_size(e * font_sizes.default);
+                }} />
             </Default_Bg>
         );
     }

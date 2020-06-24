@@ -27,6 +27,7 @@ import {
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
+import FontSlider from '../../common/Font-slider';
 
 import {} from '../../utils/alert';
 import {is_present_type, composer} from '../../utils/functions';
@@ -59,12 +60,12 @@ const Thanks_Party_Component = (font_size) => ({item, index}) => {
     const desc = text_formatter(font_size)(item.description)(0)(`thanks-body`)(false)([]);
 
     return (
-        <View style={{padding: sizes.large}}>
+        <View style={{padding: sizes.large * 1.5}}>
             <Default_Text text_align={'center'} font_weight={'bold'} font_size={font_size + 4}>{item.title}</Default_Text>
             {is_present_type('string')(item.source) &&
             <Default_Text font_size={font_size} style={{marginTop: sizes.default}} text_align={'center'}>
                 Source:&nbsp;
-                <Default_Text font_size={font_size} font_weight="bold">
+                <Default_Text font_size={font_size} text_align={'center'} font_weight="bold">
                     {item.source}
                 </Default_Text>
             </Default_Text>
@@ -81,8 +82,6 @@ const select_tab = (tab_4_actions) => (tab_index) => () => {
         tab_4_actions();
     }
 };
-
-const tap_to_change_font_size_action = tap_to_change_font_size();
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
@@ -104,24 +103,21 @@ class Credits extends Component {
 
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
         const set_font_size_wo_font_size = set_font_size(dispatch);
-        const touch_actions = PanResponder.create({
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(credits_text_font_size)
-        });
+        
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <FlatList ListHeaderComponent={Intro_Component(credits_text_font_size)}
                           data={credits_text}
                           keyExtractor={key_extractor}
-                          renderItem={Thanks_Party_Component(credits_text_font_size)}
-                          {...touch_actions.panHandlers}/>
+                          renderItem={Thanks_Party_Component(credits_text_font_size)} />
 
+                <FontSlider onSlidingComplete={(e) => {
+                    set_font_size_wo_font_size(e * font_sizes.default);
+                }} />
             </Default_Bg>
         );
     }
 }
-;
 
 
 function mapStateToProps(state) {

@@ -29,6 +29,8 @@ import {
     text_formatter
 } from '../../common/Text';
 
+import FontSlider from '../../common/Font-slider';
+
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
@@ -78,8 +80,8 @@ const list_header_component = (title) => (description) => (font_size) => {
             paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
-            {Header_Text_Component(font_size + 20)('Durwent')()(title)}
-            {(description.length > 0) && Header_Text_Component(font_sizes.x_large)()({marginTop: sizes.default})(description)}
+            {Header_Text_Component(font_size * 2)('Durwent')()(title)}
+            {(description.length > 0) && Header_Text_Component(font_size * 1.2)()({marginTop: sizes.default})(description)}
         </View>
     );
 };
@@ -90,16 +92,14 @@ const bible_body_component = (font_size) => ({item, index}) => {
     const text_component = (
         <Animated_Text font_size={font_size} text_align={'justify'}
                        style={{marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5}}>
-            <Default_Text font_size={font_size}>{`${index + 1}. `}</Default_Text>
+            <Default_Text text_align={'justify'} font_size={font_size}>{`${index + 1}. `}</Default_Text>
             {text_formatter(font_size)(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
         </Animated_Text>
     );
 
     return text_component;
 };
-let taps = 0;
-let fontSize = 18;
-let timeout = 0;
+
 const Bible_Text_Component = (touch_actions) => (scroll_swipe_actions) => (chapter) => (font_size) => {
 
     return (
@@ -348,8 +348,6 @@ const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_
     }
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
-
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
         bible_text_set_new_font_size,
@@ -455,9 +453,8 @@ class Bible_Text extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const tap_to_change_font_size_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(bible_text_font_size);
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(tap_to_change_font_size_loaded)(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
@@ -500,6 +497,7 @@ class Bible_Text extends Component {
                     {Rounded_Button(<Default_Text
                         text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
+                <FontSlider onSlidingComplete={(e) => set_font_size_wo_font_size(e * font_sizes.default)} />
             </Default_Bg>
         );
     }

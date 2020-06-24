@@ -17,8 +17,7 @@ import {
 export default styles = StyleSheet.create({
     creeds_body_header: {
         justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: native_elements.status_bar + native_elements.nav_bar_std
+        alignItems: 'center'
     },
     flatlist_padding_horizontal: {paddingHorizontal: sizes.large * 1.5}
 });
