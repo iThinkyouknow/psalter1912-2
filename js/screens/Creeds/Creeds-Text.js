@@ -58,10 +58,10 @@ const Creeds_Body_Component = (section_header) => (font_size) => ({item, index})
         Header_Text_Component(font_size + 2)({marginTop: sizes.large})(title_text)
         : null;
 
-    const body_para_component = text_formatter(font_size)(body)(0)(`body`)(false)([]);
+    const body_para_component = text_formatter(font_size)(body)(`body`);
 
     const extra_para_component = (Array.isArray(extra) && extra.length > 0)
-        ? text_formatter(font_size)(extra)(0)(`extra`)(false)([])
+        ? text_formatter(font_size)(extra)(`extra`)
         : null;
 
     const component_wrapper = (text_component) => (

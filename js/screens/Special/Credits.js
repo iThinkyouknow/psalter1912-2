@@ -48,7 +48,7 @@ const key_extractor = (item, index) => `thanks-${item.title}-${index}`;
 
 
 const Thanks_Party_Component = (font_size) => ({item, index}) => {
-    const desc = text_formatter(font_size)(item.description)(0)(`thanks-body`)(false)([]);
+    const desc = text_formatter(font_size)(item.description)(`thanks-body`);
 
     return (
         <View style={{padding: sizes.large * 1.5}}>

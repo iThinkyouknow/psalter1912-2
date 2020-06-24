@@ -86,7 +86,7 @@ const bible_body_component = (font_size) => ({item, index}) => {
         <Animated_Text font_size={font_size} text_align={'justify'}
                        style={{marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5}}>
             <Default_Text text_align={'justify'} font_size={font_size}>{`${index + 1}. `}</Default_Text>
-            {text_formatter(font_size)(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
+            {text_formatter(font_size)(item.filter(text => !text.is_footnote))(`bible-text`)}
         </Animated_Text>
     );
 

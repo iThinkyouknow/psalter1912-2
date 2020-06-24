@@ -108,13 +108,10 @@ const styles = StyleSheet.create({
 
 // text utils
 
-export const text_formatter = (font_size) => (body = [{text: ''}]) => (i) => (key_prefix) => (was_n) => (combined_text_array) => {
-    const {text} = body[i];
-
-    const get_text_component = (body) => (i) => (key_prefix) => (was_n) => {
-        const current_text = body[i];
-        const {is_bold, is_superscript, is_italics, is_list, text} = current_text;
-
+export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_prefix) => {
+    const textElements = body.reduce((texts_array, text_attrib, i) => {
+        const { is_bold, is_superscript, is_italics, text } = text_attrib;
+        let was_n = /\n/.test((body[0, i - 1] || {}).text);
         const text_style = {
             fontStyle: is_italics ? 'italic' : 'normal',
             textAlignVertical: is_superscript ? 'top' : 'center'
@@ -124,41 +121,35 @@ export const text_formatter = (font_size) => (body = [{text: ''}]) => (i) => (ke
         const is_start_w_punctuation = punctuation_regex.test(text);
 
         if (is_superscript && Platform.OS === 'ios') {
-            return (
-                <View key={`creed-${key_prefix}-para-${i}`} style={{marginTop: 0, alignItems: 'flex-start', width: 8 * text.length, height: 14}}>
+            texts_array.push(
+                <View key={`creed-${key_prefix}-para-${i}`} style={{ marginTop: 0, alignItems: 'flex-start', width: 8 * text.length, height: 14 }}>
                     <Animated_Text font_size={font_sizes.x_small}
-                                   font_weight={is_bold ? 'bold' : 'normal'}
-                                   style={text_style}>
+                        font_weight={is_bold ? 'bold' : 'normal'}
+                        style={text_style}>
                         {text}
                     </Animated_Text>
                 </View>
             );
         } else if (is_superscript && Platform.OS === 'android') {
-            return (
+            texts_array.push(
                 <Animated_Text key={`creed-${key_prefix}-para-${i}`}
-                               font_weight={is_bold ? 'bold' : 'normal'}
-                               style={text_style}>
+                    font_weight={is_bold ? 'bold' : 'normal'}
+                    style={text_style}>
                     {`[${text}]`}
                 </Animated_Text>
             );
         } else {
-            return (
+            texts_array.push(
                 <Animated_Text font_size={font_size}
-                               key={`creed-${key_prefix}-para-${i}`}
-                               font_weight={is_bold ? 'bold' : 'normal'}
-                               style={text_style}>
+                    key={`creed-${key_prefix}-para-${i}`}
+                    font_weight={is_bold ? 'bold' : 'normal'}
+                    style={text_style}>
                     {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
                 </Animated_Text>
             );
         }
-    };
+        return texts_array;
+    }, []);
 
-    const text_component = get_text_component(body)(i)(key_prefix)(was_n);
-    const new_combined_text_array = [...combined_text_array, text_component];
-    const new_was_n = /\n/.test(text);
-    const new_index = i + 1;
-
-    if (new_index >= body.length) return new_combined_text_array;
-
-    return text_formatter(font_size)(body)(new_index)(key_prefix)(new_was_n)(new_combined_text_array);
-};
+    return textElements;
+}
