@@ -41,7 +41,7 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, is_string, no_op, composer} from '../../utils/functions';
-import { touch_release_actions, swipe_side_action, scroll_swipe_actions, tap_to_change_font_size} from '../../utils/touch-gestures';
+import { touch_release_actions, scroll_swipe_actions} from '../../utils/touch-gestures';
 
 import {bible_toggle_back_to_book_buttons, bible_text_set_new_font_size} from '../../redux/actions/state-actions';
 
@@ -52,15 +52,8 @@ import {
 } from '../../redux/actions/bible-actions';
 
 import {
-    lock_in
-} from '../../redux/actions/psalter-actions';
-
-import {
     on_psalter_change
 } from '../Psalter/Psalter'
-
-
-// import styles from './Creeds-Text.styles';
 
 const Header_Text_Component = (font_size) => (font_family) => (other_style) => (text) => {
     return (
@@ -126,7 +119,7 @@ const select_book_action = (dispatch) => (book_index) => () => {
 };
 
 
-const book_button = ({width, height}) => (selected_index) => (select_book_action) => (book_start_index) => (item, index) => { //work on
+const book_button = ({width}) => (selected_index) => (select_book_action) => (book_start_index) => (item, index) => { //work on
     const box_width = Math.floor(width / 6);
 
     const true_index = is_present_type('number')(book_start_index) ? book_start_index + index : index;
@@ -439,8 +432,6 @@ class Bible_Text extends Component {
 
         const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
-        //(dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () =>
-
         const change_psalter_on_tab_action = (
             current_book_index === 18
             && current_chapter_index + 1 !== psalter_psalm
@@ -454,7 +445,7 @@ class Bible_Text extends Component {
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,

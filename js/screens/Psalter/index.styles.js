@@ -11,7 +11,6 @@ import {
     colors,
     line_height_fn,
     buttons
-    , is_iPhone_X
 } from '../../common/common.styles';
 
 

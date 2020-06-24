@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {
     View,
     FlatList,
-    Animated,
     Dimensions,
     Image,
     TouchableHighlight
@@ -15,16 +14,11 @@ import styles from './Creeds-Categories.styles';
 import {
     colors,
     sizes,
-    font_sizes,
-    zIndex,
-    native_elements,
-    buttons,
-    border_radii
+    font_sizes
 } from '../../common/common.styles';
 
 import {
-    Default_Text,
-    Animated_Text
+    Default_Text
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
@@ -32,8 +26,7 @@ import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {
-    no_op,
-    composer
+    no_op
 } from '../../utils/functions';
 
 import {change_creeds_chapter_lv} from '../../redux/actions/state-actions';

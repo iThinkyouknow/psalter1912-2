@@ -1,21 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-    Alert,
     View,
     FlatList,
-    SectionList,
-    PanResponder,
     Animated,
-    TextInput,
     Dimensions,
-    KeyboardAvoidingView,
-    Keyboard,
     Platform,
     TouchableHighlight,
-    Image,
-    ImageBackground,
-    StyleSheet
+    Image
 } from 'react-native';
 
 import {navigator_style_push} from '../../../NavigatorStyles'
@@ -25,21 +17,14 @@ import {
     colors,
     sizes,
     font_sizes,
-    zIndex,
-    native_elements,
-    buttons,
-    border_radii
 } from '../../common/common.styles';
 
 import {
     Default_Text,
-    Animated_Text
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
-
-import {} from '../../utils/alert';
 
 import {
     creeds_images_array,
@@ -156,7 +141,7 @@ const select_book = (navigator) => (dispatch) => (library_type_index) => (select
 };
 
 const creeds_menu_renderer = ({navigator, dispatch, random, images, Dimensions}) => (library_type_index) => ({item, index}) => {
-    const {height, width}    = Dimensions.get('window');
+    const {width}    = Dimensions.get('window');
     const should_margin_left = (index % 2 > 0);
 
     const get_image = (library_type_index) => (i) => {
@@ -276,13 +261,6 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions, os}) => (library_type_in
 
 onNavigatorEvent = (e) => {
     if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
-};
-
-const select_tab_action = (navigator) => (dispatch) => (index) => () => {
-    navigator.switchToTab({
-        tabIndex: index
-    });
-    dispatch(select_tab_index(index));
 };
 
 class Creeds extends Component {

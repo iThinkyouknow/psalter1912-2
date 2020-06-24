@@ -4,7 +4,6 @@ import {
     View
     , Image
     , FlatList
-    , Animated
     , TouchableHighlight
     , Dimensions
     , Linking
@@ -16,10 +15,6 @@ import {navigator_style_push} from '../../../NavigatorStyles'
 import {
     colors,
     sizes,
-    font_sizes,
-    zIndex,
-    native_elements,
-    buttons,
     border_radii
 } from '../../common/common.styles';
 
@@ -83,9 +78,6 @@ const renderer = (width) => (navigate) => ({item, index}) => {
     const on_press_action = (is_present_type('string')(item.link))
         ? link_to(item.link)
         : navigate(item.nav_to);
-
-
-//<TouchableHighlight underlayColor={'transparent'} onPress={navigate(item.nav_to)}>
 
     return (
         <TouchableHighlight underlayColor={'transparent'} onPress={on_press_action}>

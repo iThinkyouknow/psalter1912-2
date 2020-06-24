@@ -3,25 +3,17 @@ import {connect} from 'react-redux';
 import {
     View
     , FlatList
-    , Animated
-    , Image
-    , PanResponder
 } from 'react-native';
 
 //import styles from './Credits.styles';
 import {
-    colors
-    , sizes
+    sizes
     , font_sizes
-    , zIndex
     , native_elements
-    , buttons
-    , border_radii
 } from '../../common/common.styles';
 
 import {
     Default_Text
-    , Animated_Text
     , text_formatter
 } from '../../common/Text';
 
@@ -31,7 +23,6 @@ import FontSlider from '../../common/Font-slider';
 
 import {} from '../../utils/alert';
 import {is_present_type, composer} from '../../utils/functions';
-import {tap_to_change_font_size} from '../../utils/touch-gestures';
 
 import credits_text from '../../../data/Credits-Texts.json';
 import {credits_text_set_new_font_size} from '../../redux/actions/state-actions'

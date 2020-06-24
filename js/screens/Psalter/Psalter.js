@@ -1,19 +1,15 @@
 import React, {Component} from 'react';
 import {
-    Alert
-    , View
+    View
     , FlatList
     , SectionList
     , PanResponder
     , Animated
     , TextInput
     , Dimensions
-    , KeyboardAvoidingView
-    , Keyboard
     , Platform
     , TouchableHighlight
     , Image
-    , StyleSheet
 } from 'react-native';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -22,9 +18,6 @@ import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X
 
 import {
     Default_Text,
-    Animated_Text,
-    centered_text,
-    bold_centered_text,
     main_title,
     main_title_2,
     sub_title,
@@ -74,7 +67,6 @@ import {
 
 import {
     scroll_swipe_actions
-    , tap_to_change_font_size
     , touch_release_actions
 } from '../../utils/touch-gestures';
 
@@ -94,7 +86,7 @@ const more_section_slide = more_section_slide_animation.slide;
 
 const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
-    const {no, title, content, meter, psalm, score_ref, ref} = psalter;
+    const {no, title, content, meter, psalm} = psalter;
 
     const fade_in_style = {
         opacity: fade_anim
@@ -134,14 +126,11 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
         psalter_text_fade_anim.fade_in();
 
         setTimeout(() => dispatch(lock_in(next_val)), 10);
-        // dispatch(lock_in(next_val));
         set_keyboard_toolbar(true);
 
         music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
     }
 };
-
-const tap_to_change_font_size_action = tap_to_change_font_size();
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
@@ -278,7 +267,7 @@ const psalter_refs_section = ({item, index}) => {
     );
 };
 
-const count_section = ({item, index}) => {
+const count_section = ({item}) => {
     const {title} = item;
 
     if (!is_present_type('string')(title)) return null;
@@ -415,15 +404,15 @@ const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     return dispatch(set_input_as_search(!text_input_as_search));
 };
 
-const on_search_button_press = (dispatch) => (navigator) => (text_input_as_search) => (slide_right_pos) => () => {
+const on_search_button_press = (dispatch) => (text_input_as_search) => (slide_right_pos) => () => {
     // search_results_animation.slide();
     set_text_input_as_search(dispatch)(text_input_as_search)();
     setTimeout(search_results_animation.slide, 100);
     set_keyboard_toolbar(text_input_as_search);
 };
 
-const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
-    on_search_button_press(dispatch)(navigator)(true)(slide_right_pos)();
+const get_psalter_for_search = (dispatch) => (input_int) => () => {
+    on_search_button_press(dispatch)(true)(slide_right_pos)();
     on_psalter_change(dispatch)(input_int)();
 };
 
@@ -505,7 +494,7 @@ const Search_result_view = (props) => {
 
         return (
             <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}}
-                                onPress={get_psalter_for_search(dispatch)(navigator)(item.index)}>
+                                onPress={get_psalter_for_search(dispatch)(item.index)}>
                 <View >
                     <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
                     <Default_Text>
@@ -613,12 +602,10 @@ class App extends Component {
             , psalter
             , index
             , psalters_count
-// , should_display_go_forth_bar
             , can_search
             , psalter_text_input
             , valid_text_input
             , sung_dates
-            , sung_dates_all
             , current_music_timer
             , max_music_timer
             , text_input_as_search
@@ -692,11 +679,11 @@ class App extends Component {
         const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
 
         const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change_dispatch(index + change_by));
-        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(() => {})(one_third_screen_width)
+        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(one_third_screen_width)
 
         const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: () => true,
+            onStartShouldSetPanResponder: () => true,
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -740,7 +727,7 @@ class App extends Component {
                     {get_text_input(text_input_as_search)}
 
                     <TouchableHighlight style={styles.bottom_button_container}
-                                        onPress={on_search_button_press(dispatch)(navigator)(text_input_as_search)(slide_right_pos)}
+                                        onPress={on_search_button_press(dispatch)(text_input_as_search)(slide_right_pos)}
                                         underlayColor={colors.dark_cerulean}
                                         disabled={!can_search}>
                         {(can_search)

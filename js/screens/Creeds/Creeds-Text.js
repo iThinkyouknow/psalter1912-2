@@ -3,24 +3,17 @@ import {connect} from 'react-redux';
 import {
     View
     , FlatList
-    , Animated
     , Platform
     , PanResponder
     , Dimensions
 } from 'react-native';
 
-// import styles from './creeds-text.styles';
 import {
-    colors,
     sizes,
-    font_sizes,
-    zIndex,
-    native_elements,
-    buttons
+    font_sizes
 } from '../../common/common.styles';
 
 import {
-    Default_Text,
     Animated_Text,
     text_formatter
 } from '../../common/Text';
@@ -35,7 +28,6 @@ import {is_present_type, no_op, composer} from '../../utils/functions';
 import {
     touch_release_actions
     , scroll_swipe_actions
-    , tap_to_change_font_size
 } from '../../utils/touch-gestures';
 
 import styles from './Creeds-Text.styles';
@@ -134,7 +126,6 @@ const go_to_prev_creed = (dispatch) => (library_books_info) => (library_type_ind
 };
 
 const swipe_right = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => (selected_chapter_index) => (selected_article_index) => () => {
-    //library_type_index => selected_creed_index => selected_chapter_index => selected_article_index =>
 
     if (is_present_type('number')(selected_article_index)) {
         if (selected_article_index > 0) {
@@ -251,10 +242,10 @@ class Creeds_Text extends Component {
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: () => true,
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -275,7 +266,6 @@ class Creeds_Text extends Component {
     }
 
 }
-
 
 
 function mapStateToProps(state) {
