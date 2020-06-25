@@ -43,7 +43,7 @@ import {slide_down_animation, slide_side_animation} from '../../utils/animation'
 import {is_present_type, is_string, no_op, composer} from '../../utils/functions';
 import { touch_release_actions, scroll_swipe_actions} from '../../utils/touch-gestures';
 
-import {bible_toggle_back_to_book_buttons, bible_text_set_new_font_size} from '../../redux/actions/state-actions';
+import { bible_toggle_back_to_book_buttons, set_new_font_size } from '../../redux/actions/state-actions';
 
 import {
     get_bible_chapter_list
@@ -343,7 +343,7 @@ const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        bible_text_set_new_font_size,
+        set_new_font_size,
         dispatch
     ])(new_font_size);
 };
@@ -383,7 +383,7 @@ class Bible_Text extends Component {
             , first_psalter_index_of_each_psalm_obj = {}
             , per_book_ch_last_index_array = []
             , bible_should_show_back_to_books_button
-            , bible_text_font_size
+            , text_font_size
         } = this.props;
 
         const library_dynamic_style = {
@@ -474,7 +474,7 @@ class Bible_Text extends Component {
                 </Animated.View>
 
                 {is_string(bible_passage.title) 
-                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)
+                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(text_font_size)
                     : <View style={{flex:1}} />
                 }
 
@@ -488,7 +488,7 @@ class Bible_Text extends Component {
                     {Rounded_Button(<Default_Text
                         text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
-                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }
@@ -508,10 +508,10 @@ function mapStateToProps(state) {
         , tab_bar_selected_index: state.tab_bar_selected_index
         , psalter_psalm: state.psalter.content.psalm
         , first_psalter_index_of_each_psalm_obj: state.psalter.first_psalter_index_of_each_psalm_obj
-        
+
         // state reducer
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
-        , bible_text_font_size: state.bible_text_font_size
+        , text_font_size: state.text_font_size
     };
 }
 

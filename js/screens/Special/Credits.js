@@ -25,7 +25,7 @@ import {} from '../../utils/alert';
 import {is_present_type, composer} from '../../utils/functions';
 
 import credits_text from '../../../data/Credits-Texts.json';
-import {credits_text_set_new_font_size} from '../../redux/actions/state-actions'
+import { set_new_font_size } from '../../redux/actions/state-actions'
 
 const Intro_Component = (font_size) => () => {
     const style = {
@@ -76,7 +76,7 @@ const select_tab = (tab_4_actions) => (tab_index) => () => {
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        credits_text_set_new_font_size,
+        set_new_font_size,
         dispatch
     ])(new_font_size);
 };
@@ -87,7 +87,7 @@ class Credits extends Component {
             dispatch
             , navigator
             , tab_bar_selected_index
-            , credits_text_font_size
+            , text_font_size
         } = this.props;
 
         const tab_actions = [select_tab(tab_4_actions(navigator))];
@@ -97,12 +97,12 @@ class Credits extends Component {
         
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
-                <FlatList ListHeaderComponent={Intro_Component(credits_text_font_size)}
+                <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
                           data={credits_text}
                           keyExtractor={key_extractor}
-                          renderItem={Thanks_Party_Component(credits_text_font_size)} />
+                          renderItem={Thanks_Party_Component(text_font_size)} />
 
-                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }
@@ -114,7 +114,7 @@ function mapStateToProps(state) {
         // tab_bar_reducer
         tab_bar_selected_index: state.tab_bar_selected_index
         // state reducer
-        , credits_text_font_size: state.credits_text_font_size
+        , text_font_size: state.text_font_size
     };
 }
 

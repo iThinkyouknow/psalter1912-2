@@ -33,7 +33,7 @@ import {
 import styles from './Creeds-Text.styles';
 
 import {lock_in_creed_body} from '../../redux/actions/creeds-actions';
-import {creeds_text_set_new_font_size} from '../../redux/actions/state-actions';
+import {set_new_font_size} from '../../redux/actions/state-actions';
 
 
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
@@ -204,7 +204,7 @@ const swipe_left = (dispatch) => (library_books_info) => (library_type_index) =>
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        creeds_text_set_new_font_size,
+        set_new_font_size,
         dispatch
     ])(new_font_size);
 };
@@ -223,7 +223,7 @@ class Creeds_Text extends Component {
             , selected_creed_index
             , selected_chapter_index
             , selected_article_index
-            , creeds_text_font_size
+            , text_font_size
             , navigator
             , dispatch
         } = this.props;
@@ -257,8 +257,8 @@ class Creeds_Text extends Component {
 
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
-                {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(creeds_text_font_size)}
-                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
+                {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(text_font_size)}
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }
@@ -279,7 +279,7 @@ function mapStateToProps(state) {
         , selected_chapter_index: state.creed_body.selected_chapter_index
         , selected_article_index: state.creed_body.selected_article_index
         // state reducer
-        , creeds_text_font_size: state.creeds_text_font_size
+        , text_font_size: state.text_font_size
     };
 }
 

@@ -10,7 +10,7 @@ import {
     sizes, font_sizes
 } from './common.styles';
 
-export default FontSlider = ({ onSlidingComplete = Utils.no_op, style }) => {
+export default FontSlider = ({ onSlidingComplete = Utils.no_op, style, value = font_sizes.default }) => {
     const screenHeight = Dimensions.get('window').height;
     return (
         <Slider
@@ -20,7 +20,7 @@ export default FontSlider = ({ onSlidingComplete = Utils.no_op, style }) => {
                 position: 'absolute'
             }, style]}
             step={0.1 * font_sizes.default}
-            value={font_sizes.default}
+            value={value}
             minimumValue={0.5 * font_sizes.default}
             maximumValue={5 * font_sizes.default}
             onSlidingComplete={onSlidingComplete}>

@@ -44,7 +44,7 @@ import {
     , toggle_text_as_valid
     , set_input_as_search
     , set_can_search
-    , psalter_text_set_new_font_size
+    , set_new_font_size
 } from '../../redux/actions/state-actions';
 
 import {
@@ -134,7 +134,7 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        psalter_text_set_new_font_size,
+        set_new_font_size,
         dispatch
     ])(new_font_size);
 };
@@ -611,7 +611,7 @@ class App extends Component {
             , text_input_as_search
             , psalter_search_results
             , tab_bar_selected_index
-            , psalter_text_font_size
+            , text_font_size
         } = this.props;
 
         const on_psalter_change_dispatch = on_psalter_change(dispatch);
@@ -704,14 +704,14 @@ class App extends Component {
                                     navigator={navigator}/>
 
                 <FlatList data={psalter.content}
-                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(psalter_text_font_size)}
-                          renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(psalter_text_font_size)}
-                          keyExtractor={psalter_key_extractor}
-                          onScrollEndDrag={scroll_swipe_actions_loaded}
-                          {...touch_actions.panHandlers}  />
-                
-                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
-        
+                    ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
+                    renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
+                    keyExtractor={psalter_key_extractor}
+                    onScrollEndDrag={scroll_swipe_actions_loaded}
+                    {...touch_actions.panHandlers} />
+
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+
                 <View style={{
                     bottom: 0,
                     zIndex: zIndex.small,
@@ -764,7 +764,7 @@ function mapStateToProps(state) {
         , current_music_timer: state.music_timer.current
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
-        , psalter_text_font_size: state.psalter_text_font_size
+        , text_font_size: state.text_font_size
         //search reducer
         , psalter_search_results: state.psalter_search_results
         // tab reducer
