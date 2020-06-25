@@ -710,9 +710,7 @@ class App extends Component {
                           onScrollEndDrag={scroll_swipe_actions_loaded}
                           {...touch_actions.panHandlers}  />
                 
-                <FontSlider onSlidingComplete={(e) => {
-                    set_font_size_wo_font_size(e * font_sizes.default)
-                }} />
+                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
         
                 <View style={{
                     bottom: 0,

@@ -102,9 +102,7 @@ class Credits extends Component {
                           keyExtractor={key_extractor}
                           renderItem={Thanks_Party_Component(credits_text_font_size)} />
 
-                <FontSlider onSlidingComplete={(e) => {
-                    set_font_size_wo_font_size(e * font_sizes.default);
-                }} />
+                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }

@@ -488,7 +488,7 @@ class Bible_Text extends Component {
                     {Rounded_Button(<Default_Text
                         text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
-                <FontSlider onSlidingComplete={(e) => set_font_size_wo_font_size(e * font_sizes.default)} />
+                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }

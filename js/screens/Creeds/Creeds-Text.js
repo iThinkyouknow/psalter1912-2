@@ -258,9 +258,7 @@ class Creeds_Text extends Component {
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(creeds_text_font_size)}
-                <FontSlider onSlidingComplete={(e) => {
-                    set_font_size_wo_font_size(e * font_sizes.default);
-                }} />
+                <FontSlider onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }

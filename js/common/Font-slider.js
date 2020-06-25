@@ -7,7 +7,7 @@ import Slider from '@react-native-community/slider';
 
 import Utils from '../utils/functions';
 import {
-    sizes
+    sizes, font_sizes
 } from './common.styles';
 
 export default FontSlider = ({ onSlidingComplete = Utils.no_op, style }) => {
@@ -19,10 +19,10 @@ export default FontSlider = ({ onSlidingComplete = Utils.no_op, style }) => {
                 width: screenHeight * 0.5,
                 position: 'absolute'
             }, style]}
-            step={0.1}
-            value={1}
-            minimumValue={0.5}
-            maximumValue={5}
+            step={0.1 * font_sizes.default}
+            value={font_sizes.default}
+            minimumValue={0.5 * font_sizes.default}
+            maximumValue={5 * font_sizes.default}
             onSlidingComplete={onSlidingComplete}>
         </Slider>
     );
