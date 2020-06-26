@@ -242,7 +242,7 @@ class Creeds_Text extends Component {
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: () => true,

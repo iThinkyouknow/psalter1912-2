@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
     , ...require('./tab-bar')
     , ...require('./statistics')
     , ...require('./psalter-pdf')
+    , ...require('./copy')
 });
 
 export default rootReducer;

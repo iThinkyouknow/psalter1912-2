@@ -37,6 +37,17 @@ export function music_timer(state = {current: 0, max: 0}, action = {}) {
     return state;
 }
 
+export function copy_share_btn_props(state, action = {}) {
+    if (action.type === STATE_ACTIONS.SET_COPY_SHARE_BTN) {
+        return action.properties;
+    }
+    return state || {
+        top: -100,
+        left: -100,
+        isHidden: true
+    };
+};
+
 export function text_input_as_search(state = false, action) {
     if (action.type === STATE_ACTIONS.SET_INPUT_AS_SEARCH) {
         if (typeof action.should_search !== "boolean") return state;

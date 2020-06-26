@@ -14,15 +14,15 @@ import {
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './index.styles';
-import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';
+import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii} from '../../common/common.styles';
 
 import {
-    Default_Text,
-    main_title,
-    main_title_2,
-    sub_title,
-    meter_text,
-    normal_text
+    Default_Text
+    , main_title
+    , main_title_2
+    , sub_title
+    , meter_text
+    , normal_text
 } from '../../common/Text';
 
 import FontSlider from '../../common/Font-slider';
@@ -31,12 +31,13 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 import {Rounded_Button} from '../../common/Rounded-Button';
 import music_slider from '../../common/music-slider';
+import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
 import {
-    psalter_init,
-    lock_in,
-    set_sung_count_all,
-    set_sung_date
+    psalter_init
+    , lock_in
+    , set_sung_count_all
+    , set_sung_date
 } from '../../redux/actions/psalter-actions';
 
 import {
@@ -45,6 +46,7 @@ import {
     , set_input_as_search
     , set_can_search
     , set_new_font_size
+    , set_copy_share_btn
 } from '../../redux/actions/state-actions';
 
 import {
@@ -59,20 +61,22 @@ import music_player from '../../utils/music-player';
 import {is_present_type, no_op, composer} from '../../utils/functions';
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
 import {
-    string_input_error_alert,
-    wrong_number_error_alert,
-    not_enough_characters_search_alert
+    string_input_error_alert
+    , wrong_number_error_alert
+    , not_enough_characters_search_alert
     , perhaps_change_to_psalter_input_alert
 } from '../../utils/alert';
 
 import {
     scroll_swipe_actions
     , touch_release_actions
+    , long_press_actions
 } from '../../utils/touch-gestures';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
 
-
+import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
 
 
@@ -134,11 +138,17 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
 
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        set_new_font_size,
-        dispatch
+        set_new_font_size
+        , dispatch
     ])(new_font_size);
 };
 
+const set_copy_share_btn_props = (dispatch) => (props) => {
+    composer([
+        set_copy_share_btn
+        , dispatch
+    ])(props);
+} 
 
 const set_text_input_value = (dispatch) => (value) => {
     dispatch(psalter_text_input(value));
@@ -228,8 +238,10 @@ const Bottom_Buttons = (props) => {
 
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
-            {Rounded_Button(<Default_Text text_align={'center'}>I'm
-                Done</Default_Text>)(more_section_slide)(props.width)}
+            {Rounded_Button(
+            <Default_Text text_align={'center'}>
+                I'm Done
+            </Default_Text>)(more_section_slide)(props.width)}
         </View>
 
     );
@@ -556,7 +568,7 @@ const hide_tabs_action = (navigator) => () => {
  *
  *
  * **/
-
+const longPressFns = long_press_actions();
 class App extends Component {
     constructor(props) {
         super(props);
@@ -612,6 +624,7 @@ class App extends Component {
             , psalter_search_results
             , tab_bar_selected_index
             , text_font_size
+            , copy_share_btn_props
         } = this.props;
 
         const on_psalter_change_dispatch = on_psalter_change(dispatch);
@@ -679,11 +692,20 @@ class App extends Component {
         const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
 
         const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change_dispatch(index + change_by));
-        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(one_third_screen_width)
+        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(longPressFns.onPanResponderRelease())(one_third_screen_width);
 
+        const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: () => true,
             onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: longPressFns.onPanResponderGrant(),
+            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
+                set_copy_share_btn_props_loaded({
+                    top: e.nativeEvent.pageY
+                    , left: e.nativeEvent.pageX
+                    , isHidden: false
+                });
+            }),
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -711,15 +733,28 @@ class App extends Component {
                     {...touch_actions.panHandlers} />
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+                
+                {!copy_share_btn_props.isHidden &&
+                    (<Copy_Share_Tooltip
+                        onPress={() => {
+                            set_copy_share_btn_props_loaded();
+                        navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
+                        }}
+                        onCancel={() => {
+                            set_copy_share_btn_props_loaded();
+                        }}
+                        top={copy_share_btn_props.top - 2 * sizes.x_large}
+                        left={copy_share_btn_props.left - 50} />)
+                }
 
                 <View style={{
-                    bottom: 0,
-                    zIndex: zIndex.small,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingHorizontal: sizes.large,
-                    paddingVertical: sizes.default,
+                    bottom: 0
+                    , zIndex: zIndex.small
+                    , flexDirection: 'row'
+                    , alignItems: 'center'
+                    , justifyContent: 'space-between'
+                    , paddingHorizontal: sizes.large
+                    , paddingVertical: sizes.default
                 }}>
 
                     {get_text_input(text_input_as_search)}
@@ -748,7 +783,7 @@ class App extends Component {
         );
     }
 }
-;
+
 
 function mapStateToProps(state) {
     return {
@@ -765,6 +800,7 @@ function mapStateToProps(state) {
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
         , text_font_size: state.text_font_size
+        , copy_share_btn_props: state.copy_share_btn_props
         //search reducer
         , psalter_search_results: state.psalter_search_results
         // tab reducer

@@ -50,7 +50,7 @@ export function Default_Text(props = {}) {
     const extra_styles = extra_styles_fn(props);
 
     return (
-        <Text selectable allowFontScaling={false} style={[styles.default, extra_styles]}>
+        <Text allowFontScaling={false} style={[styles.default, extra_styles]}>
             {text}
             {children}
         </Text>
@@ -63,7 +63,7 @@ export function Animated_Text(props = {}) {
     const extra_styles = extra_styles_fn(props);
 
     return (
-        <Animated.Text selectable allowFontScaling={false} style={[styles.default, extra_styles]}>
+        <Animated.Text allowFontScaling={false} style={[styles.default, extra_styles]}>
             {text}
             {children}
         </Animated.Text>

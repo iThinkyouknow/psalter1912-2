@@ -9,7 +9,7 @@ import {
     , Linking
 } from 'react-native';
 
-import {navigator_style_push} from '../../../NavigatorStyles'
+import { navigator_style_push } from '../../../Navigator-Common'
 
 // import styles from './Special.styles';
 import {
@@ -82,7 +82,7 @@ const renderer = (width) => (navigate) => ({item, index}) => {
     return (
         <TouchableHighlight underlayColor={'transparent'} onPress={on_press_action}>
             <View style={[renderer_style, dyn_style]}>
-                <Image style={[imageStyle, dyn_style]} source={item.image}/>
+                <Image style={[imageStyle, dyn_style]} source={item.image} />
                 <View style={text_cont_style}>
                     <Default_Text font_size={'xxx_large'}>{item.title}</Default_Text>
                 </View>
