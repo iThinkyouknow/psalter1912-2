@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
     View
-    , FlatList
-    , Animated
     , Platform
     , TextInput
 } from 'react-native';
@@ -14,9 +12,6 @@ import {
     colors
     , sizes
     , font_sizes
-    , zIndex
-    , native_elements
-    , buttons
     , border_radii
     , line_height_fn
 } from '../../common/common.styles';
@@ -25,9 +20,8 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
-// import {set_keyboard_toolbar} from '../../utils/keyboard';
 
-import { is_present_type, is_number, is_object, no_op, getter} from '../../utils/functions';
+import { is_present_type, is_number, is_object, no_op} from '../../utils/functions';
 
 import {
     get_bible_passage

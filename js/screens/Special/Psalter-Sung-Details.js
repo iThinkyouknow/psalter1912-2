@@ -3,33 +3,23 @@ import {connect} from 'react-redux';
 import {
     View
     , FlatList
-    , Animated
-    , Image
     , Dimensions
     , TouchableHighlight
 } from 'react-native';
 
 //import styles from './Psalter-Sung-Details.styles';
 import {
-    colors
-    , sizes
-    , font_sizes
-    , zIndex
+    sizes
     , native_elements
-    , buttons
     , border_radii
 } from '../../common/common.styles';
 
 import {
     Default_Text
-    , Animated_Text
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
-
-import {} from '../../utils/alert';
-
 
 
 const Sung_Details_Header = (title) => () => {
@@ -44,7 +34,7 @@ const Sung_Details_Header = (title) => () => {
     );
 };
 
-const Date_Details_Component = (screen_width) => ({item, index}) => {
+const Date_Details_Component = (screen_width) => ({item}) => {
     const dyn_style = {
         width: screen_width - sizes.large * 2
     };

@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import configureStore from './js/redux/configureStore';
 import {colors} from './js/common/common.styles';
-import { default_navigator_style } from './NavigatorStyles';
+import { default_navigator_style } from './Navigator-Common';
 const store = configureStore();
 
 registerScreens(store, Provider); // this is where you register all of your app's screens

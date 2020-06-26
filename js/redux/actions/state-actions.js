@@ -6,19 +6,17 @@ export const STATE_ACTIONS = {
     , SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER'
     , SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH'
     , PSALTER_SET_CAN_SEARCH: 'PSALTER_SET_CAN_SEARCH'
-    , PSALTER_TEXT_SET_NEW_FONT_SIZE: 'PSALTER_TEXT_SET_NEW_FONT_SIZE'
+    , SET_NEW_FONT_SIZE: 'SET_NEW_FONT_SIZE'
     , SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
     , CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
-    , CREEDS_TEXT_SET_NEW_FONT_SIZE: 'CREEDS_TEXT_SET_NEW_FONT_SIZE'
     , BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS: 'BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS'
-    , BIBLE_TEXT_SET_NEW_FONT_SIZE: 'BIBLE_TEXT_SET_NEW_FONT_SIZE'
     , TOGGLE_PSALTER_PDF_TEXT_INPUT_VALID: 'TOGGLE_PSALTER_PDF_TEXT_INPUT_VALID'
     , SET_TEMP_PSALTER_PDF_PAGE_NO: 'SET_TEMP_PSALTER_PDF_PAGE_NO'
     , RESET_TEMP_PSALTER_PDF_PAGE_NO: 'RESET_TEMP_PSALTER_PDF_PAGE_NO'
 
     , SELECT_STATISTICS_TAB: 'SELECT_STATISTICS_TAB'
 
-    , CREDITS_TEXT_SET_NEW_FONT_SIZE: 'CREDITS_TEXT_SET_NEW_FONT_SIZE'
+    , SET_COPY_SHARE_BTN: 'SET_COPY_SHARE_BTN'
 };
 
 export const psalter_text_input = (val) => {
@@ -72,9 +70,9 @@ export const psalter_pdf_text_input = (val) => {
     }
 };
 
-export const psalter_text_set_new_font_size = (new_font_size) => {
+export const set_new_font_size = (new_font_size) => {
     return {
-        type: STATE_ACTIONS.PSALTER_TEXT_SET_NEW_FONT_SIZE
+        type: STATE_ACTIONS.SET_NEW_FONT_SIZE
         , new_font_size
     }
 };
@@ -93,24 +91,10 @@ export const change_creeds_chapter_lv = (lv) => {
     };
 };
 
-export const creeds_text_set_new_font_size = (new_font_size) => {
-    return {
-        type: STATE_ACTIONS.CREEDS_TEXT_SET_NEW_FONT_SIZE
-        , new_font_size
-    }
-};
-
 export const bible_toggle_back_to_book_buttons = (bible_should_show_back_to_books_button) => {
     return {
         type: STATE_ACTIONS.BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS,
         bible_should_show_back_to_books_button
-    }
-};
-
-export const bible_text_set_new_font_size = (new_font_size) => {
-    return {
-        type: STATE_ACTIONS.BIBLE_TEXT_SET_NEW_FONT_SIZE
-        , new_font_size
     }
 };
 
@@ -147,4 +131,11 @@ export const credits_text_set_new_font_size = (new_font_size) => {
         , new_font_size
     }
 };
+
+export const set_copy_share_btn = (properties = {top: 0, left: 0, isHidden: true}) => {
+    return {
+        type: STATE_ACTIONS.SET_COPY_SHARE_BTN
+        , properties
+    }
+}
 

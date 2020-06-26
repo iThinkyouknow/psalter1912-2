@@ -19,4 +19,6 @@ export function registerScreens(store, Provider) {
     Navigation.registerComponent('Resources', () => require('./Special/Resources').default, store, Provider);
     Navigation.registerComponent('Statistics', () => require('./Special/Statistics').default, store, Provider);
     Navigation.registerComponent('Psalter_Sung_Details', () => require('./Special/Psalter-Sung-Details').default, store, Provider);
+
+    Navigation.registerComponent('MiscActions', () => require('./Misc-Actions-Screen/Misc-Actions-Screen').default, store, Provider);
 }

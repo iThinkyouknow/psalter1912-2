@@ -11,7 +11,6 @@ import {
     colors,
     line_height_fn,
     buttons
-    , is_iPhone_X
 } from '../../common/common.styles';
 
 
@@ -76,7 +75,6 @@ export default styles = StyleSheet.create({
         height: buttons.large,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        // backgroundColor: 'red'
     },
     search_results_separator: {
         alignSelf: 'center',

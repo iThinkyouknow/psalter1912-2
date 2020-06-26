@@ -29,6 +29,8 @@ import {
     text_formatter
 } from '../../common/Text';
 
+import FontSlider from '../../common/Font-slider';
+
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
@@ -39,9 +41,18 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, is_string, no_op, composer} from '../../utils/functions';
-import { touch_release_actions, swipe_side_action, scroll_swipe_actions, tap_to_change_font_size} from '../../utils/touch-gestures';
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
+import { 
+    touch_release_actions
+    , scroll_swipe_actions
+    , long_press_actions
+} from '../../utils/touch-gestures';
 
-import {bible_toggle_back_to_book_buttons, bible_text_set_new_font_size} from '../../redux/actions/state-actions';
+import { 
+    bible_toggle_back_to_book_buttons
+    , set_new_font_size
+    , set_copy_share_btn
+ } from '../../redux/actions/state-actions';
 
 import {
     get_bible_chapter_list
@@ -50,15 +61,10 @@ import {
 } from '../../redux/actions/bible-actions';
 
 import {
-    lock_in
-} from '../../redux/actions/psalter-actions';
-
-import {
     on_psalter_change
 } from '../Psalter/Psalter'
+import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
-
-// import styles from './Creeds-Text.styles';
 
 const Header_Text_Component = (font_size) => (font_family) => (other_style) => (text) => {
     return (
@@ -78,8 +84,8 @@ const list_header_component = (title) => (description) => (font_size) => {
             paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
-            {Header_Text_Component(font_size + 20)('Durwent')()(title)}
-            {(description.length > 0) && Header_Text_Component(font_sizes.x_large)()({marginTop: sizes.default})(description)}
+            {Header_Text_Component(font_size * 2)('Durwent')()(title)}
+            {(description.length > 0) && Header_Text_Component(font_size * 1.2)()({marginTop: sizes.default})(description)}
         </View>
     );
 };
@@ -90,16 +96,14 @@ const bible_body_component = (font_size) => ({item, index}) => {
     const text_component = (
         <Animated_Text font_size={font_size} text_align={'justify'}
                        style={{marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5}}>
-            <Default_Text font_size={font_size}>{`${index + 1}. `}</Default_Text>
-            {text_formatter(font_size)(item.filter(text => !text.is_footnote))(0)(`bible-text`)(false)([])}
+            <Default_Text text_align={'justify'} font_size={font_size}>{`${index + 1}. `}</Default_Text>
+            {text_formatter(font_size)(item.filter(text => !text.is_footnote))(`bible-text`)}
         </Animated_Text>
     );
 
     return text_component;
 };
-let taps = 0;
-let fontSize = 18;
-let timeout = 0;
+
 const Bible_Text_Component = (touch_actions) => (scroll_swipe_actions) => (chapter) => (font_size) => {
 
     return (
@@ -126,7 +130,7 @@ const select_book_action = (dispatch) => (book_index) => () => {
 };
 
 
-const book_button = ({width, height}) => (selected_index) => (select_book_action) => (book_start_index) => (item, index) => { //work on
+const book_button = ({width}) => (selected_index) => (select_book_action) => (book_start_index) => (item, index) => { //work on
     const box_width = Math.floor(width / 6);
 
     const true_index = is_present_type('number')(book_start_index) ? book_start_index + index : index;
@@ -348,16 +352,21 @@ const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_
     }
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
-
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        bible_text_set_new_font_size,
+        set_new_font_size,
         dispatch
     ])(new_font_size);
 };
 
+const set_copy_share_btn_props = (dispatch) => (props) => {
+    composer([
+        set_copy_share_btn
+        , dispatch
+    ])(props);
+};
 
+const longPressFns = long_press_actions();
 
 
 class Bible_Text extends Component {
@@ -392,7 +401,8 @@ class Bible_Text extends Component {
             , first_psalter_index_of_each_psalm_obj = {}
             , per_book_ch_last_index_array = []
             , bible_should_show_back_to_books_button
-            , bible_text_font_size
+            , copy_share_btn_props
+            , text_font_size
         } = this.props;
 
         const library_dynamic_style = {
@@ -441,8 +451,6 @@ class Bible_Text extends Component {
 
         const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
-        //(dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () =>
-
         const change_psalter_on_tab_action = (
             current_book_index === 18
             && current_chapter_index + 1 !== psalter_psalm
@@ -455,12 +463,22 @@ class Bible_Text extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const tap_to_change_font_size_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(bible_text_font_size);
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(tap_to_change_font_size_loaded)(one_third_screen_width);
-
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(longPressFns.onPanResponderRelease())(one_third_screen_width);
+        
+        const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
+        
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: longPressFns.onPanResponderGrant(),
+            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
+                set_copy_share_btn_props_loaded({
+                    top: e.nativeEvent.pageY
+                    , left: e.nativeEvent.pageX
+                    , isHidden: false
+                });
+            }),
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -486,7 +504,7 @@ class Bible_Text extends Component {
                 </Animated.View>
 
                 {is_string(bible_passage.title) 
-                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(bible_text_font_size)
+                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(text_font_size)
                     : <View style={{flex:1}} />
                 }
 
@@ -500,6 +518,21 @@ class Bible_Text extends Component {
                     {Rounded_Button(<Default_Text
                         text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
+
+                {!copy_share_btn_props.isHidden &&
+                    (<Copy_Share_Tooltip
+                        onPress={() => {
+                            set_copy_share_btn_props_loaded();
+                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.BIBLE));
+                        }}
+                        onCancel={() => {
+                            set_copy_share_btn_props_loaded();
+                        }}
+                        top={copy_share_btn_props.top - 2 * sizes.x_large}
+                        left={copy_share_btn_props.left - 50} />)
+                }
+
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }
@@ -519,10 +552,11 @@ function mapStateToProps(state) {
         , tab_bar_selected_index: state.tab_bar_selected_index
         , psalter_psalm: state.psalter.content.psalm
         , first_psalter_index_of_each_psalm_obj: state.psalter.first_psalter_index_of_each_psalm_obj
-        
+
         // state reducer
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
-        , bible_text_font_size: state.bible_text_font_size
+        , text_font_size: state.text_font_size
+        , copy_share_btn_props: state.copy_share_btn_props
     };
 }
 

@@ -4,10 +4,6 @@ import {connect} from 'react-redux';
 import {
     View
     , FlatList
-    , Animated
-    , Image
-    , SectionList
-    , ScrollView
     , Dimensions
     , TouchableHighlight
 } from 'react-native';
@@ -20,17 +16,13 @@ import moment from 'moment';
 import {
     colors
     , sizes
-    , font_sizes
-    , zIndex
     , native_elements
-    , buttons
     , border_radii
     , is_iPhone_X
 } from '../../common/common.styles';
 
 import {
     Default_Text
-    , Animated_Text
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
@@ -42,15 +34,11 @@ import {select_statistics_tab} from '../../redux/actions/state-actions';
 import {set_sung_psalter_details} from '../../redux/actions/statistics-actions';
 
 import {
-    lock_in
-} from '../../redux/actions/psalter-actions';
-
-import {
     on_psalter_change
 } from '../Psalter/Psalter';
 
 import {neglected_alert} from '../../utils/alert';
-import {is_present_type, no_op, composer} from '../../utils/functions';
+import {no_op} from '../../utils/functions';
 
 import neglected_texts_array from '../../../data/Neglected-Texts.json'
 
@@ -230,7 +218,7 @@ const flatlist_item_layout = (height) => (data, index) => {
 };
 
 
-const neglected_book_button = ({width, height}) => (on_press = no_op) => ({item, index}) => { //work on
+const neglected_book_button = ({width}) => (on_press = no_op) => ({item, index}) => { //work on
     const box_width = Math.floor(width / 6);
 
     const button = {

@@ -3,6 +3,7 @@ package com.the_psalter_1912_2;
 //import android.app.Application;
 
 //import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.clipboard.ClipboardPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -37,10 +38,11 @@ public class MainApplication extends NavigationApplication {
             // eg. new VectorIconsPackage()
             new AudioPackage(),
             new RCTPdfView(),
-            new RNFetchBlobPackage(),
             new RNShakeEventPackage(),
             new ReactSliderPackage(),
-            new AsyncStoragePackage()
+            new AsyncStoragePackage(),
+            new ClipboardPackage(),
+            new RNFetchBlobPackage(),
     );
   }
 

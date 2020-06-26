@@ -1,28 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-    View
-    , FlatList
-    , Animated
-    , Image
-    , WebView
+    WebView
 } from 'react-native';
-
-//import styles from './Website.styles';
-import {
-    colors
-    , sizes
-    , font_sizes
-    , zIndex
-    , native_elements
-    , buttons
-    , border_radii
-} from '../../common/common.styles';
-
-import {
-    Default_Text
-    , Animated_Text
-} from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';

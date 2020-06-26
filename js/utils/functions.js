@@ -8,7 +8,7 @@ export const composer = (array_of_fns) => (initial_value) => {
     return array_of_fns.reduce(apply, initial_value);
 };
 
-export const getter = (obj) => (property_string = '') => (fallback = '') => {
+export const getty = (obj) => (property_string = '') => (fallback = '') => {
     const properties = property_string.split('.');
     const value = properties.reduce((acc, property) => {
         if (typeof acc !== 'object') return undefined;

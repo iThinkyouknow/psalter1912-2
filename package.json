@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@react-native-community/async-storage": "^1.11.0",
+		"@react-native-community/clipboard": "^1.2.2",
 		"@react-native-community/slider": "^1",
 		"ffmpeg": "^0.0.4",
 		"moment": "^2.22.1",

@@ -1,45 +1,30 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-    Alert,
     View,
     FlatList,
-    SectionList,
-    PanResponder,
     Animated,
-    TextInput,
     Dimensions,
-    KeyboardAvoidingView,
-    Keyboard,
     Platform,
     TouchableHighlight,
-    Image,
-    ImageBackground,
-    StyleSheet
+    Image
 } from 'react-native';
 
-import {navigator_style_push} from '../../../NavigatorStyles'
+import { navigator_style_push } from '../../../Navigator-Common'
 
 import styles from './Creeds.styles';
 import {
     colors,
     sizes,
     font_sizes,
-    zIndex,
-    native_elements,
-    buttons,
-    border_radii
 } from '../../common/common.styles';
 
 import {
     Default_Text,
-    Animated_Text
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
-
-import {} from '../../utils/alert';
 
 import {
     creeds_images_array,
@@ -100,8 +85,8 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         return (
             <View style={[styles.header_container, container_style]}>
-                <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'}/>
-                <View style={[styles.header_img_mask, img_mask_style]}/>
+                <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'} />
+                <View style={[styles.header_img_mask, img_mask_style]} />
                 <View style={[styles.header_title_container, header_title_container_x_style]}>
                     <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
                     <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
@@ -141,8 +126,8 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 };
 
 const book_image_bounce_animation = bounce_animation(1000)(3)(25)(-48);
-const book_img_animated_value     = book_image_bounce_animation.animated_value;
-const list_header_component       = list_header_component_wo_animated_val(book_img_animated_value);
+const book_img_animated_value = book_image_bounce_animation.animated_value;
+const list_header_component = list_header_component_wo_animated_val(book_img_animated_value);
 
 
 const select_book = (navigator) => (dispatch) => (library_type_index) => (selected_index) => (levels_deep) => () => {
@@ -156,7 +141,7 @@ const select_book = (navigator) => (dispatch) => (library_type_index) => (select
 };
 
 const creeds_menu_renderer = ({navigator, dispatch, random, images, Dimensions}) => (library_type_index) => ({item, index}) => {
-    const {height, width}    = Dimensions.get('window');
+    const {width}    = Dimensions.get('window');
     const should_margin_left = (index % 2 > 0);
 
     const get_image = (library_type_index) => (i) => {
@@ -211,7 +196,7 @@ const creeds_menu_flatlist = (renderer) => (library_type_index) => (library) => 
 
     const ListFooterComponent = (styles) => () => {
         return (
-            <View style={styles.footer_component}/>
+            <View style={styles.footer_component} />
         );
     };
 
@@ -233,26 +218,26 @@ const select_tab = (dispatch) => (index) => () => {
     book_image_bounce_animation.bounce();
 };
 
-const creeds_or_forms_chooser = ({dispatch, Dimensions, os}) => (library_type_index) => {
-    const {width, height}      = Dimensions.get('window');
+const creeds_or_forms_chooser = ({ dispatch, Dimensions, os }) => (library_type_index) => {
+    const { width, height } = Dimensions.get('window');
     const creeds_chooser_style = {
         width: Math.floor(width * 2 / 3),
     };
 
     const button_renderer = (dispatch) => (os) => (_library_type_index) => (text, index) => {
-        const is_selected    = (index === _library_type_index);
-        const bg_color_obj   = {backgroundColor: (is_selected) ? colors.blue : 'transparent'};
+        const is_selected = (index === _library_type_index);
+        const bg_color_obj = { backgroundColor: (is_selected) ? colors.blue : 'transparent' };
         const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
-        const key            = `library-chooser-${text}-${index}`;
+        const key = `library-chooser-${text}-${index}`;
 
         const line_height = os === 'ios' ? 2 : 1.3;
 
         return (
             <TouchableHighlight key={key}
-                                style={[{flex: 1}, bg_color_obj]}
-                                underlayColor={underlay_color}
-                                onPress={select_tab(dispatch)(index)}>
-                <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                style={[{ flex: 1 }, bg_color_obj]}
+                underlayColor={underlay_color}
+                onPress={select_tab(dispatch)(index)}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Default_Text line_height={line_height} text_align={'center'}>
                         {text}
                     </Default_Text>
@@ -274,15 +259,8 @@ const creeds_or_forms_chooser = ({dispatch, Dimensions, os}) => (library_type_in
 
 };
 
-onNavigatorEvent = (e) => {
+const onNavigatorEvent = (e) => {
     if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
-};
-
-const select_tab_action = (navigator) => (dispatch) => (index) => () => {
-    navigator.switchToTab({
-        tabIndex: index
-    });
-    dispatch(select_tab_index(index));
 };
 
 class Creeds extends Component {
