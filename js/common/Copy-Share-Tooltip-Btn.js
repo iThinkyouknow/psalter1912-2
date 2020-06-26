@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 
 import {
-    Dimensions
-    , TouchableOpacity
+    TouchableOpacity
     , StyleSheet
 } from  'react-native';
 
@@ -25,6 +24,7 @@ const tooltip_style = StyleSheet.create({
         , top: 0
         , position: 'absolute'
         , zIndex: zIndex.xx_large
+        , ...StyleSheet.absoluteFill
     },
     tooltip: {
         position: 'absolute'
@@ -47,10 +47,7 @@ export default Copy_Share_Tooltip = (props) => {
     return (
         <TouchableOpacity onPress={onCancel}
             activeOpacity={0}
-            style={[tooltip_style.cancel_layer, {
-                width: Dimensions.get('window').width
-                , height: Dimensions.get('window').height
-            }]}>
+            style={[tooltip_style.cancel_layer]}>
             <TouchableOpacity style={[tooltip_style.tooltip, {
                 top: top
                 , left: left
