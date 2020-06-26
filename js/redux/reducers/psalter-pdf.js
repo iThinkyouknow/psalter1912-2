@@ -5,7 +5,7 @@ import {Platform} from 'react-native';
 
 const _psalter_pdf_file_source = (state = "", action) => {
     if (action.type === PSALTER_PDF_ACTIONS.SET_FILE_SOURCE_INIT) {
-        return { uri: "bundle-assets://The_Psalter_PDF.pdf", cache: true };
+        return { uri: "bundle-assets://The_Psalter_PDF.pdf" };
     }
 
     return state;
