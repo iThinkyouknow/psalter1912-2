@@ -190,6 +190,7 @@ const MiscActions = (props) => {
     return (
         <Default_Bg>
             <TextInput style={[styles.text_input, { fontSize: text_font_size}]}
+            underlineColorAndroid={'transparent'}
             textAlignVertical={'top'}
             multiline={true}
             selectable={true}
