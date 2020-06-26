@@ -42,7 +42,7 @@ public class MainApplication extends NavigationApplication {
             new ReactSliderPackage(),
             new AsyncStoragePackage(),
             new ClipboardPackage(),
-            new RNFetchBlobPackage(),
+            new RNFetchBlobPackage()
     );
   }
 
