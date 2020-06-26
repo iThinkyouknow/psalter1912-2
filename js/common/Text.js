@@ -17,6 +17,13 @@ import {
     line_heights,
 } from './common.styles';
 
+import Superscript_chars from '../../data/Superscript-Chars.json';
+import { is_string
+    , is_array
+    , is_function
+    , getty
+ } from '../utils/functions';
+
 const extra_styles_fn = (props) => {
     const {
         text_align,
@@ -108,6 +115,22 @@ const styles = StyleSheet.create({
 
 // text utils
 
+const replace_with_superscript = (string) => {
+    if (!is_string(string)) {
+        return ""
+    }
+
+    let str_arr = string.split('');
+    if (str_arr.some((c) => Superscript_chars[c] === undefined)) {
+        return `[${string}]`;
+    } else {
+        return str_arr.reduce((acc, char) => {
+            acc += Superscript_chars[char];
+            return acc;
+        }, '');
+    }
+}
+
 export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_prefix) => {
     const textElements = body.reduce((texts_array, text_attrib, i) => {
         const { is_bold, is_superscript, is_italics, text } = text_attrib;
@@ -120,22 +143,13 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
         const punctuation_regex = /^(?:\.|\;|\,|\?|\:| |\!)/i;
         const is_start_w_punctuation = punctuation_regex.test(text);
 
-        if (is_superscript && Platform.OS === 'ios') {
-            texts_array.push(
-                <View key={`creed-${key_prefix}-para-${i}`} style={{ marginTop: 0, alignItems: 'flex-start', width: 8 * text.length, height: 14 }}>
-                    <Animated_Text font_size={font_sizes.x_small}
-                        font_weight={is_bold ? 'bold' : 'normal'}
-                        style={text_style}>
-                        {text}
-                    </Animated_Text>
-                </View>
-            );
-        } else if (is_superscript && Platform.OS === 'android') {
+        if (is_superscript) {
             texts_array.push(
                 <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                    font_size={font_size * 1}
                     font_weight={is_bold ? 'bold' : 'normal'}
                     style={text_style}>
-                    {`[${text}]`}
+                    {replace_with_superscript(text)}
                 </Animated_Text>
             );
         } else {
@@ -153,3 +167,96 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
 
     return textElements;
 }
+
+export const format_psalter_no = (no) => {
+    return `Psalter ${no}`;
+}
+
+export const format_text = (formatted_no, title, content, psalm, meter) => {
+    const joinedContent = content.map((para) => {
+        return para.join('\n')
+    }).join('\n\n');
+    return [formatted_no, `${title}`, `Psalm ${psalm}`, `Meter: ${meter}\n`, joinedContent].join('\n')
+};
+
+export const format_psalter_texts = ({ psalter }) => {
+    const { title, content, psalm, meter, no } = psalter;
+    const formatted_psalter_no = format_psalter_no(no);
+    const text = is_array(content) ? format_text(formatted_psalter_no, title, content, psalm, meter) : '';
+    const share_subject = `${formatted_psalter_no} - ${title}`;
+
+    return {
+        text, share_subject
+    };
+};
+
+export const format_creeds_text = ({
+    creed_body_title
+    , creed_body_description
+    , creed_body
+}) => {
+
+    const { header, content } = creed_body;
+
+    const content_text = content.map(({ content }) => {
+        let to_format_content = getty(content)('0.0.text')('') === header
+            ? content.slice(1)
+            : content;
+
+        const content_text = to_format_content
+            .map((para) => {
+                return para
+                    .map(({ text, is_superscript }) => {
+                        return is_superscript === true
+                            ? replace_with_superscript(text)
+                            : text
+                    })
+                    .join(' ');
+            }).join('\n\n');
+
+        return content_text;
+    }).join('\n\n\n');
+
+
+
+    const text = [
+        (creed_body_title !== header) ? creed_body_title : ""
+        , creed_body_description
+        , `${header}\n`
+        , content_text
+    ]
+        .filter(text => is_string(text))
+        .join('\n').trim();
+
+    const share_subject = `${creed_body_title} - ${header}`;
+
+    return {
+        text, share_subject
+    };
+};
+
+export const format_bible_text = (props) => {
+    const { bible_passage } = props;
+    const { title, content } = bible_passage;
+
+    const body_content = content
+        .slice(1)
+        .map((texts, verseIndex) => {
+            return texts
+                .filter(({ is_footnote }) => is_footnote !== true)
+                .map(({ text }, textIndex) => {
+                    return textIndex === 0
+                        ? `${verseIndex + 1}. ${text}`
+                        : text
+                })
+                .join(' ');
+        })
+        .join('\n\n');
+
+    const text = [
+        title,
+        body_content
+    ].join('\n\n');
+
+    return { text, share_subject: title };
+};

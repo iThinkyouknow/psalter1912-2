@@ -19,14 +19,14 @@ import psalter_styles from '../Psalter/index.styles';
 import styles from './Misc-Actions-Screen.styles';
 import {
     Default_Text
+    , format_psalter_texts
+    , format_creeds_text
+    , format_bible_text
 } from '../../common/Text';
+
 import { 
-    is_array
-    , is_function
-    , is_string
-    , composer
+    composer
     , no_op
-    , getty
 } from '../../utils/functions';
 
 export const MISC_ACTION_TEXT_TYPES = {
@@ -35,94 +35,7 @@ export const MISC_ACTION_TEXT_TYPES = {
     , BIBLE: 'BIBLE'
 };
 
-const format_psalter_no = (no) => {
-    return `Psalter ${no}`;
-}
-const format_text = (formatted_no, title, content, psalm, meter) => {
-    const joinedContent = content.map((para) => {
-        return para.join('\n')
-    }).join('\n\n');
-    return [formatted_no, `${title}`, `Psalm ${psalm}`, `Meter: ${meter}\n`, joinedContent].join('\n') 
-};
 
-const format_psalter_texts = ({psalter}) => {
-    const { title, content, psalm, meter, no } = psalter;
-    const formatted_psalter_no = format_psalter_no(no);
-    const text = is_array(content) ? format_text(formatted_psalter_no, title, content, psalm, meter) : '';
-    const share_subject = `${formatted_psalter_no} - ${title}`;
-
-    return {
-        text, share_subject
-    };
-};
-
-const format_creeds_text = ({
-    creed_body_title
-    , creed_body_description
-    , creed_body
-}) => {
-
-    const {header, content}  = creed_body;
-
-    const content_text = content.map(({content}) => {
-        let to_format_content = getty(content)('0.0.text')('') === header
-            ? content.slice(1)
-            : content;
-
-        const content_text = to_format_content
-            .map((para) => {
-                return para
-                    .filter(({ is_superscript }) => is_superscript !== true)
-                    .map(({ text }) => text)
-                    .join(' ');
-            }).join('\n\n');
-
-        return content_text;
-    }).join('\n\n\n');
-
-    
-
-    const text = [
-        (creed_body_title !== header) ? creed_body_title : ""
-        , creed_body_description
-        , `${header}\n`
-        , content_text
-    ]
-        .filter(text => is_string(text))
-        .join('\n').trim();
-
-    const share_subject = `${creed_body_title} - ${header}`;
-
-    return {
-        text, share_subject
-    };
-};
-
-const format_bible_text = (props) => {
-    const { bible_passage } = props;
-    const {title, content} = bible_passage;
-
-    const body_content = content
-        .slice(1)
-        .map((texts, verseIndex) => {
-            return texts
-                .filter(({ is_footnote }) => is_footnote !== true)
-                .map(({ text }, textIndex) => {
-                    return textIndex === 0
-                        ? `${verseIndex + 1}. ${text}`
-                        : text
-                })
-                .join(' ');
-        })
-        .join('\n\n');
-    
-    const text = [
-        title,
-        body_content
-    ].join('\n\n');
-
-    return {text, share_subject: title};
-};
 
 const formatters = {
     [MISC_ACTION_TEXT_TYPES.PSALTER]: format_psalter_texts
