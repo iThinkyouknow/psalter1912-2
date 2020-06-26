@@ -41,9 +41,18 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, is_string, no_op, composer} from '../../utils/functions';
-import { touch_release_actions, scroll_swipe_actions} from '../../utils/touch-gestures';
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
+import { 
+    touch_release_actions
+    , scroll_swipe_actions
+    , long_press_actions
+} from '../../utils/touch-gestures';
 
-import { bible_toggle_back_to_book_buttons, set_new_font_size } from '../../redux/actions/state-actions';
+import { 
+    bible_toggle_back_to_book_buttons
+    , set_new_font_size
+    , set_copy_share_btn
+ } from '../../redux/actions/state-actions';
 
 import {
     get_bible_chapter_list
@@ -54,6 +63,8 @@ import {
 import {
     on_psalter_change
 } from '../Psalter/Psalter'
+import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
+
 
 const Header_Text_Component = (font_size) => (font_family) => (other_style) => (text) => {
     return (
@@ -348,7 +359,14 @@ const set_font_size = (dispatch) => (new_font_size) => {
     ])(new_font_size);
 };
 
+const set_copy_share_btn_props = (dispatch) => (props) => {
+    composer([
+        set_copy_share_btn
+        , dispatch
+    ])(props);
+};
 
+const longPressFns = long_press_actions();
 
 
 class Bible_Text extends Component {
@@ -383,6 +401,7 @@ class Bible_Text extends Component {
             , first_psalter_index_of_each_psalm_obj = {}
             , per_book_ch_last_index_array = []
             , bible_should_show_back_to_books_button
+            , copy_share_btn_props
             , text_font_size
         } = this.props;
 
@@ -445,10 +464,21 @@ class Bible_Text extends Component {
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
-
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(longPressFns.onPanResponderRelease())(one_third_screen_width);
+        
+        const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
+        
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: longPressFns.onPanResponderGrant(),
+            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
+                set_copy_share_btn_props_loaded({
+                    top: e.nativeEvent.pageY
+                    , left: e.nativeEvent.pageX
+                    , isHidden: false
+                });
+            }),
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -488,6 +518,20 @@ class Bible_Text extends Component {
                     {Rounded_Button(<Default_Text
                         text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
                 </View>
+
+                {!copy_share_btn_props.isHidden &&
+                    (<Copy_Share_Tooltip
+                        onPress={() => {
+                            set_copy_share_btn_props_loaded();
+                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.BIBLE));
+                        }}
+                        onCancel={() => {
+                            set_copy_share_btn_props_loaded();
+                        }}
+                        top={copy_share_btn_props.top - 2 * sizes.x_large}
+                        left={copy_share_btn_props.left - 50} />)
+                }
+
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
@@ -512,6 +556,7 @@ function mapStateToProps(state) {
         // state reducer
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
         , text_font_size: state.text_font_size
+        , copy_share_btn_props: state.copy_share_btn_props
     };
 }
 

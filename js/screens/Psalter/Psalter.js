@@ -561,14 +561,14 @@ const hide_tabs_action = (navigator) => () => {
     });
 };
 
-
+const longPressFns = long_press_actions();
 
 /**
  *
  *
  *
  * **/
-const longPressFns = long_press_actions();
+
 class App extends Component {
     constructor(props) {
         super(props);

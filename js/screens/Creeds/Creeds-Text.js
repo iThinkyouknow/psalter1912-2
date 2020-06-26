@@ -21,19 +21,26 @@ import {
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 import FontSlider from '../../common/Font-slider';
+import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
-import {} from '../../utils/alert';
 import {is_present_type, no_op, composer} from '../../utils/functions';
 
 import {
     touch_release_actions
     , scroll_swipe_actions
+    , long_press_actions
 } from '../../utils/touch-gestures';
+
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
 
 import styles from './Creeds-Text.styles';
 
 import {lock_in_creed_body} from '../../redux/actions/creeds-actions';
-import {set_new_font_size} from '../../redux/actions/state-actions';
+import {
+    set_new_font_size
+    , set_copy_share_btn
+} from '../../redux/actions/state-actions';
+import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
 
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
@@ -209,6 +216,14 @@ const set_font_size = (dispatch) => (new_font_size) => {
     ])(new_font_size);
 };
 
+const set_copy_share_btn_props = (dispatch) => (props) => {
+    composer([
+        set_copy_share_btn
+        , dispatch
+    ])(props);
+};
+
+const longPressFns = long_press_actions();
 
 class Creeds_Text extends Component {
 
@@ -224,6 +239,7 @@ class Creeds_Text extends Component {
             , selected_chapter_index
             , selected_article_index
             , text_font_size
+            , copy_share_btn_props
             , navigator
             , dispatch
         } = this.props;
@@ -242,10 +258,21 @@ class Creeds_Text extends Component {
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)()(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(longPressFns.onPanResponderRelease())(one_third_screen_width);
+
+        const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
 
         const touch_actions = PanResponder.create({
             onMoveShouldSetPanResponder: () => true,
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: longPressFns.onPanResponderGrant(),
+            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
+                set_copy_share_btn_props_loaded({
+                    top: e.nativeEvent.pageY
+                    , left: e.nativeEvent.pageX
+                    , isHidden: false
+                });
+            }),
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -258,6 +285,20 @@ class Creeds_Text extends Component {
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(text_font_size)}
+
+                {!copy_share_btn_props.isHidden &&
+                    (<Copy_Share_Tooltip
+                        onPress={() => {
+                            set_copy_share_btn_props_loaded();
+                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.CREEDS));
+                        }}
+                        onCancel={() => {
+                            set_copy_share_btn_props_loaded();
+                        }}
+                        top={copy_share_btn_props.top - 2 * sizes.x_large}
+                        left={copy_share_btn_props.left - 50} />)
+                }
+
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
@@ -280,6 +321,7 @@ function mapStateToProps(state) {
         , selected_article_index: state.creed_body.selected_article_index
         // state reducer
         , text_font_size: state.text_font_size
+        , copy_share_btn_props: state.copy_share_btn_props
     };
 }
 

@@ -21,7 +21,7 @@ import Tab_Bar from '../../common/Tab-bar';
 
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
 
-import { is_present_type, is_number, is_object, no_op, getter} from '../../utils/functions';
+import { is_present_type, is_number, is_object, no_op} from '../../utils/functions';
 
 import {
     get_bible_passage

@@ -36,7 +36,7 @@ export const show_misc_actions_modal_obj = (type) => {
         screen: 'MiscActions'
         , navigatorStyle: navigator_style_modal
         , passProps: {
-            type: type
+            type
         }
         , title: 'Copy & Share'
         , navigatorButtons: {

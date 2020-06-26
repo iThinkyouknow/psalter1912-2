@@ -75,7 +75,6 @@ export default styles = StyleSheet.create({
         height: buttons.large,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        // backgroundColor: 'red'
     },
     search_results_separator: {
         alignSelf: 'center',
