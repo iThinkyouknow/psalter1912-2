@@ -173,8 +173,12 @@ export const format_psalter_no = (no) => {
 }
 
 export const format_text = (formatted_no, title, content, psalm, meter) => {
-    const joinedContent = content.map((para) => {
-        return para.join('\n')
+    const joinedContent = content.map((para, stanzaIndex) => {
+        return para.map((text, lineIndex) => {
+            return lineIndex === 0
+                ? `${stanzaIndex + 1}. ${text}`
+                : text
+        }).join('\n');
     }).join('\n\n');
     return [formatted_no, `${title}`, `Psalm ${psalm}`, `Meter: ${meter}\n`, joinedContent].join('\n')
 };

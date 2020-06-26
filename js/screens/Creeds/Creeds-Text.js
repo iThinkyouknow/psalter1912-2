@@ -244,6 +244,11 @@ class Creeds_Text extends Component {
             , dispatch
         } = this.props;
 
+        navigator.toggleTabs({
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+            animated: true // does the toggle have transition animation or does it happen immediately (optional)
+        });
+
         const select_tab_wo_tab_index = select_tab(tab_2_actions(navigator));
 
         const tab_actions = [
