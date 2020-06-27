@@ -19,6 +19,7 @@ export default FontSlider = ({ onSlidingComplete = Utils.no_op, style, value = f
                 width: screenHeight * 0.5,
                 position: 'absolute'
             }, style]}
+            thumbTintColor={colors.white}
             step={0.1 * font_sizes.default}
             value={value}
             minimumTrackTintColor={colors.blue}
