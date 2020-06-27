@@ -4,22 +4,17 @@ import {
     View
     , Image
     , FlatList
-    , Animated
     , TouchableHighlight
     , Dimensions
     , Linking
 } from 'react-native';
 
-import {navigator_style_push} from '../../../index'
+import { navigator_style_push } from '../../../Navigator-Common'
 
 // import styles from './Special.styles';
 import {
     colors,
     sizes,
-    font_sizes,
-    zIndex,
-    native_elements,
-    buttons,
     border_radii
 } from '../../common/common.styles';
 
@@ -84,13 +79,10 @@ const renderer = (width) => (navigate) => ({item, index}) => {
         ? link_to(item.link)
         : navigate(item.nav_to);
 
-
-//<TouchableHighlight underlayColor={'transparent'} onPress={navigate(item.nav_to)}>
-
     return (
         <TouchableHighlight underlayColor={'transparent'} onPress={on_press_action}>
             <View style={[renderer_style, dyn_style]}>
-                <Image style={[imageStyle, dyn_style]} source={item.image}/>
+                <Image style={[imageStyle, dyn_style]} source={item.image} />
                 <View style={text_cont_style}>
                     <Default_Text font_size={'xxx_large'}>{item.title}</Default_Text>
                 </View>

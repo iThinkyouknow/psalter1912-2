@@ -37,6 +37,17 @@ export function music_timer(state = {current: 0, max: 0}, action = {}) {
     return state;
 }
 
+export function copy_share_btn_props(state, action = {}) {
+    if (action.type === STATE_ACTIONS.SET_COPY_SHARE_BTN) {
+        return action.properties;
+    }
+    return state || {
+        top: -100,
+        left: -100,
+        isHidden: true
+    };
+};
+
 export function text_input_as_search(state = false, action) {
     if (action.type === STATE_ACTIONS.SET_INPUT_AS_SEARCH) {
         if (typeof action.should_search !== "boolean") return state;
@@ -54,8 +65,8 @@ export function psalter_can_search(state = true, action) {
     return state;
 }
 
-export function psalter_text_font_size(state = font_sizes.default, action = {}) {
-    if (action.type === STATE_ACTIONS.PSALTER_TEXT_SET_NEW_FONT_SIZE) {
+export function text_font_size(state = font_sizes.default, action = {}) {
+    if (action.type === STATE_ACTIONS.SET_NEW_FONT_SIZE) {
         return is_number(action.new_font_size) ? action.new_font_size : state;
     }
 
@@ -77,27 +88,9 @@ export function creeds_chapters_curr_level(state = 1, action = {}) {
     return state;
 }
 
-export function creeds_text_font_size(state = font_sizes.default, action = {}) {
-    if (action.type === STATE_ACTIONS.CREEDS_TEXT_SET_NEW_FONT_SIZE) {
-        return is_number(action.new_font_size) ? action.new_font_size : state;
-    }
-
-    return state;
-};
-
 export function bible_should_show_back_to_books_button(state = false, action = {}) {
     if (action.type === STATE_ACTIONS.BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS) {
         return action.bible_should_show_back_to_books_button
-    }
-
-    return state;
-};
-
-
-
-export function bible_text_font_size(state = font_sizes.default, action = {}) {
-    if (action.type === STATE_ACTIONS.BIBLE_TEXT_SET_NEW_FONT_SIZE) {
-        return is_number(action.new_font_size) ? action.new_font_size : state;
     }
 
     return state;
@@ -130,17 +123,9 @@ export function temp_psalter_pdf_page_number_for_pdf(state = NaN, action = {}) {
     return state
 };
 
-export function statistics_selected_tab_index(state = 0 , action ={}) {
+export function statistics_selected_tab_index(state = 0, action = {}) {
     if (action.type === STATE_ACTIONS.SELECT_STATISTICS_TAB) {
         return action.selected_index;
     }
-    return state;
-};
-
-export function credits_text_font_size(state = font_sizes.default, action = {}) {
-    if (action.type === STATE_ACTIONS.CREDITS_TEXT_SET_NEW_FONT_SIZE) {
-        return is_number(action.new_font_size) ? action.new_font_size : state;
-    }
-
     return state;
 };

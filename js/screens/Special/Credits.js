@@ -3,37 +3,29 @@ import {connect} from 'react-redux';
 import {
     View
     , FlatList
-    , Animated
-    , Image
-    , PanResponder
 } from 'react-native';
 
 //import styles from './Credits.styles';
 import {
-    colors
-    , sizes
+    sizes
     , font_sizes
-    , zIndex
     , native_elements
-    , buttons
-    , border_radii
 } from '../../common/common.styles';
 
 import {
     Default_Text
-    , Animated_Text
     , text_formatter
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
+import FontSlider from '../../common/Font-slider';
 
 import {} from '../../utils/alert';
 import {is_present_type, composer} from '../../utils/functions';
-import {tap_to_change_font_size} from '../../utils/touch-gestures';
 
 import credits_text from '../../../data/Credits-Texts.json';
-import {credits_text_set_new_font_size} from '../../redux/actions/state-actions'
+import { set_new_font_size } from '../../redux/actions/state-actions'
 
 const Intro_Component = (font_size) => () => {
     const style = {
@@ -56,15 +48,15 @@ const key_extractor = (item, index) => `thanks-${item.title}-${index}`;
 
 
 const Thanks_Party_Component = (font_size) => ({item, index}) => {
-    const desc = text_formatter(font_size)(item.description)(0)(`thanks-body`)(false)([]);
+    const desc = text_formatter(font_size)(item.description)(`thanks-body`);
 
     return (
-        <View style={{padding: sizes.large}}>
+        <View style={{padding: sizes.large * 1.5}}>
             <Default_Text text_align={'center'} font_weight={'bold'} font_size={font_size + 4}>{item.title}</Default_Text>
             {is_present_type('string')(item.source) &&
             <Default_Text font_size={font_size} style={{marginTop: sizes.default}} text_align={'center'}>
                 Source:&nbsp;
-                <Default_Text font_size={font_size} font_weight="bold">
+                <Default_Text font_size={font_size} text_align={'center'} font_weight="bold">
                     {item.source}
                 </Default_Text>
             </Default_Text>
@@ -82,11 +74,9 @@ const select_tab = (tab_4_actions) => (tab_index) => () => {
     }
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
-
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        credits_text_set_new_font_size,
+        set_new_font_size,
         dispatch
     ])(new_font_size);
 };
@@ -97,31 +87,26 @@ class Credits extends Component {
             dispatch
             , navigator
             , tab_bar_selected_index
-            , credits_text_font_size
+            , text_font_size
         } = this.props;
 
         const tab_actions = [select_tab(tab_4_actions(navigator))];
 
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
         const set_font_size_wo_font_size = set_font_size(dispatch);
-        const touch_actions = PanResponder.create({
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderGrant: tap_to_change_font_size_action(set_font_size_wo_font_size)(credits_text_font_size)
-        });
+        
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
-                <FlatList ListHeaderComponent={Intro_Component(credits_text_font_size)}
+                <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
                           data={credits_text}
                           keyExtractor={key_extractor}
-                          renderItem={Thanks_Party_Component(credits_text_font_size)}
-                          {...touch_actions.panHandlers}/>
+                          renderItem={Thanks_Party_Component(text_font_size)} />
 
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
         );
     }
 }
-;
 
 
 function mapStateToProps(state) {
@@ -129,7 +114,7 @@ function mapStateToProps(state) {
         // tab_bar_reducer
         tab_bar_selected_index: state.tab_bar_selected_index
         // state reducer
-        , credits_text_font_size: state.credits_text_font_size
+        , text_font_size: state.text_font_size
     };
 }
 

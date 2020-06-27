@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
     View
-    , FlatList
-    , Animated
     , Platform
     , TextInput
 } from 'react-native';
@@ -14,9 +12,6 @@ import {
     colors
     , sizes
     , font_sizes
-    , zIndex
-    , native_elements
-    , buttons
     , border_radii
     , line_height_fn
 } from '../../common/common.styles';
@@ -25,9 +20,8 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
 import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
-// import {set_keyboard_toolbar} from '../../utils/keyboard';
 
-import { is_present_type, is_number, is_object, no_op, getter} from '../../utils/functions';
+import { is_present_type, is_number, is_object, no_op} from '../../utils/functions';
 
 import {
     get_bible_passage
@@ -145,6 +139,16 @@ const on_page_change = (dispatch) => (pg, num) => {
 
 let Pdf = () => {};
 
+const pdf_style = {
+    paddingTop: sizes.large
+    , backgroundColor: colors.white
+    , flex: 1
+};
+
+const on_scale = (scale) => {
+    scale;
+};
+
 class Psalter_PDF extends Component {
 
     componentDidMount() {
@@ -168,15 +172,10 @@ class Psalter_PDF extends Component {
             , psalter_pdf_file_source
         } = this.props;
 
-        const pdf_style = {
-            paddingTop: sizes.large
-            , backgroundColor: colors.white
-            , flex: 1
-        };
-
-        const on_scale = (scale) => {
-            scale;
-        };
+        navigator.toggleTabs({
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+            animated: false // does the toggle have transition animation or does it happen immediately (optional)
+        });
 
         const on_psalter_selected = on_select_psalter_action(dispatch)(valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(dispatch)(413);
@@ -198,13 +197,17 @@ class Psalter_PDF extends Component {
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <View style={{flex: 1, justifyContent: 'center'}}>
-                    {can_load_pdf && <Pdf source={psalter_pdf_file_source}
-                         scale={1}
-                         style={pdf_style}
-                         horizontal={true}
-                         page={psalter_score_page}
-                         onScaleChanged={on_scale}
-                         onPageChanged={on_page_change(dispatch)}/>}
+                    {can_load_pdf && 
+                        <Pdf source={psalter_pdf_file_source}
+                            minScale={0.5}
+                            maxScale={3}
+                            scale={1.2}
+                            style={pdf_style}
+                            horizontal={true}
+                            page={psalter_score_page}
+                            enablePaging={true}
+                            onScaleChanged={on_scale}
+                            onPageChanged={on_page_change(dispatch)}/>}
                 </View>
                 <View style={{paddingHorizontal: sizes.large, paddingVertical: sizes.default, flexDirection: 'row'}}>
                     {num_input_field}

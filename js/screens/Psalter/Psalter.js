@@ -1,51 +1,43 @@
 import React, {Component} from 'react';
 import {
-    Alert
-    , View
+    View
     , FlatList
     , SectionList
     , PanResponder
     , Animated
     , TextInput
     , Dimensions
-    , KeyboardAvoidingView
-    , Keyboard
     , Platform
     , TouchableHighlight
     , Image
-    , StyleSheet
-    , AsyncStorage
-    , Slider
 } from 'react-native';
 import {connect} from 'react-redux';
-
-
-
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './index.styles';
-import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X} from '../../common/common.styles';
+import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii} from '../../common/common.styles';
 
 import {
-    Default_Text,
-    Animated_Text,
-    centered_text,
-    bold_centered_text,
-    main_title,
-    main_title_2,
-    sub_title,
-    meter_text,
-    normal_text
+    Default_Text
+    , main_title
+    , main_title_2
+    , sub_title
+    , meter_text
+    , normal_text
 } from '../../common/Text';
+
+import FontSlider from '../../common/Font-slider';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 import {Rounded_Button} from '../../common/Rounded-Button';
 import music_slider from '../../common/music-slider';
+import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
 import {
-    psalter_init,
-    lock_in,
-    set_sung_count_all,
-    set_sung_date
+    psalter_init
+    , lock_in
+    , set_sung_count_all
+    , set_sung_date
 } from '../../redux/actions/psalter-actions';
 
 import {
@@ -53,7 +45,8 @@ import {
     , toggle_text_as_valid
     , set_input_as_search
     , set_can_search
-    , psalter_text_set_new_font_size
+    , set_new_font_size
+    , set_copy_share_btn
 } from '../../redux/actions/state-actions';
 
 import {
@@ -68,21 +61,22 @@ import music_player from '../../utils/music-player';
 import {is_present_type, no_op, composer} from '../../utils/functions';
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
 import {
-    string_input_error_alert,
-    wrong_number_error_alert,
-    not_enough_characters_search_alert
+    string_input_error_alert
+    , wrong_number_error_alert
+    , not_enough_characters_search_alert
     , perhaps_change_to_psalter_input_alert
 } from '../../utils/alert';
 
 import {
     scroll_swipe_actions
-    , tap_to_change_font_size
     , touch_release_actions
+    , long_press_actions
 } from '../../utils/touch-gestures';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
 
-
+import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
 
 
@@ -96,7 +90,7 @@ const more_section_slide = more_section_slide_animation.slide;
 
 const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
-    const {no, title, content, meter, psalm, score_ref, ref} = psalter;
+    const {no, title, content, meter, psalm} = psalter;
 
     const fade_in_style = {
         opacity: fade_anim
@@ -104,10 +98,10 @@ const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
     return (((index >= 0) &&
         <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
-            {is_present_type('number')(no) && main_title(font_size + 18)()({color: colors.gold})(`Psalter ${no}`)}
-            {is_present_type('string')(title) && sub_title(font_size + 2)()()(title)}
-            {is_present_type('number')(psalm) && sub_title(font_size + 2)()()(`Psalm ${psalm}`)}
-            {is_present_type('string')(meter) && meter_text(font_size - 4)()()(`Meter: ${meter}`)}
+            {is_present_type('number')(no) && main_title(font_size * 2)()({color: colors.gold})(`Psalter ${no}`)}
+            {is_present_type('string')(title) && sub_title(font_size * 1.1)()()(title)}
+            {is_present_type('number')(psalm) && sub_title(font_size * 1.1)()()(`Psalm ${psalm}`)}
+            {is_present_type('string')(meter) && meter_text(font_size * 0.8)()()(`Meter: ${meter}`)}
         </Animated.View>
     ));
 };
@@ -136,22 +130,25 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
         psalter_text_fade_anim.fade_in();
 
         setTimeout(() => dispatch(lock_in(next_val)), 10);
-        // dispatch(lock_in(next_val));
         set_keyboard_toolbar(true);
 
         music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
     }
 };
 
-const tap_to_change_font_size_action = tap_to_change_font_size();
-
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
-        psalter_text_set_new_font_size,
-        dispatch
+        set_new_font_size
+        , dispatch
     ])(new_font_size);
 };
 
+const set_copy_share_btn_props = (dispatch) => (props) => {
+    composer([
+        set_copy_share_btn
+        , dispatch
+    ])(props);
+} 
 
 const set_text_input_value = (dispatch) => (value) => {
     dispatch(psalter_text_input(value));
@@ -241,8 +238,10 @@ const Bottom_Buttons = (props) => {
 
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
-            {Rounded_Button(<Default_Text text_align={'center'}>I'm
-                Done</Default_Text>)(more_section_slide)(props.width)}
+            {Rounded_Button(
+            <Default_Text text_align={'center'}>
+                I'm Done
+            </Default_Text>)(more_section_slide)(props.width)}
         </View>
 
     );
@@ -280,7 +279,7 @@ const psalter_refs_section = ({item, index}) => {
     );
 };
 
-const count_section = ({item, index}) => {
+const count_section = ({item}) => {
     const {title} = item;
 
     if (!is_present_type('string')(title)) return null;
@@ -417,15 +416,15 @@ const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
     return dispatch(set_input_as_search(!text_input_as_search));
 };
 
-const on_search_button_press = (dispatch) => (navigator) => (text_input_as_search) => (slide_right_pos) => () => {
+const on_search_button_press = (dispatch) => (text_input_as_search) => (slide_right_pos) => () => {
     // search_results_animation.slide();
     set_text_input_as_search(dispatch)(text_input_as_search)();
     setTimeout(search_results_animation.slide, 100);
     set_keyboard_toolbar(text_input_as_search);
 };
 
-const get_psalter_for_search = (dispatch) => (navigator) => (input_int) => () => {
-    on_search_button_press(dispatch)(navigator)(true)(slide_right_pos)();
+const get_psalter_for_search = (dispatch) => (input_int) => () => {
+    on_search_button_press(dispatch)(true)(slide_right_pos)();
     on_psalter_change(dispatch)(input_int)();
 };
 
@@ -507,7 +506,7 @@ const Search_result_view = (props) => {
 
         return (
             <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}}
-                                onPress={get_psalter_for_search(dispatch)(navigator)(item.index)}>
+                                onPress={get_psalter_for_search(dispatch)(item.index)}>
                 <View >
                     <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
                     <Default_Text>
@@ -562,7 +561,7 @@ const hide_tabs_action = (navigator) => () => {
     });
 };
 
-
+const longPressFns = long_press_actions();
 
 /**
  *
@@ -615,18 +614,17 @@ class App extends Component {
             , psalter
             , index
             , psalters_count
-// , should_display_go_forth_bar
             , can_search
             , psalter_text_input
             , valid_text_input
             , sung_dates
-            , sung_dates_all
             , current_music_timer
             , max_music_timer
             , text_input_as_search
             , psalter_search_results
             , tab_bar_selected_index
-            , psalter_text_font_size
+            , text_font_size
+            , copy_share_btn_props
         } = this.props;
 
         const on_psalter_change_dispatch = on_psalter_change(dispatch);
@@ -691,16 +689,23 @@ class App extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const tap_to_change_font_size_action_loaded = tap_to_change_font_size_action(set_font_size_wo_font_size)(psalter_text_font_size || 18)
-
         const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
 
         const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change_dispatch(index + change_by));
-        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(tap_to_change_font_size_action_loaded)(one_third_screen_width)
+        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(longPressFns.onPanResponderRelease())(one_third_screen_width);
 
+        const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
         const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: () => true,
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderGrant: longPressFns.onPanResponderGrant(),
+            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
+                set_copy_share_btn_props_loaded({
+                    top: e.nativeEvent.pageY
+                    , left: e.nativeEvent.pageX
+                    , isHidden: false
+                });
+            }),
             onPanResponderRelease: touch_release_actions_loaded
         });
 
@@ -721,26 +726,41 @@ class App extends Component {
                                     navigator={navigator}/>
 
                 <FlatList data={psalter.content}
-                          ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(psalter_text_font_size)}
-                          renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(psalter_text_font_size)}
-                          keyExtractor={psalter_key_extractor}
-                          onScrollEndDrag={scroll_swipe_actions_loaded}
-                          {...touch_actions.panHandlers}  />
+                    ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
+                    renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
+                    keyExtractor={psalter_key_extractor}
+                    onScrollEndDrag={scroll_swipe_actions_loaded}
+                    {...touch_actions.panHandlers} />
+
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+                
+                {!copy_share_btn_props.isHidden &&
+                    (<Copy_Share_Tooltip
+                        onPress={() => {
+                            set_copy_share_btn_props_loaded();
+                        navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
+                        }}
+                        onCancel={() => {
+                            set_copy_share_btn_props_loaded();
+                        }}
+                        top={copy_share_btn_props.top - 2 * sizes.x_large}
+                        left={copy_share_btn_props.left - 50} />)
+                }
 
                 <View style={{
-                    bottom: 0,
-                    zIndex: zIndex.small,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingHorizontal: sizes.large,
-                    paddingVertical: sizes.default,
+                    bottom: 0
+                    , zIndex: zIndex.small
+                    , flexDirection: 'row'
+                    , alignItems: 'center'
+                    , justifyContent: 'space-between'
+                    , paddingHorizontal: sizes.large
+                    , paddingVertical: sizes.default
                 }}>
 
                     {get_text_input(text_input_as_search)}
 
                     <TouchableHighlight style={styles.bottom_button_container}
-                                        onPress={on_search_button_press(dispatch)(navigator)(text_input_as_search)(slide_right_pos)}
+                                        onPress={on_search_button_press(dispatch)(text_input_as_search)(slide_right_pos)}
                                         underlayColor={colors.dark_cerulean}
                                         disabled={!can_search}>
                         {(can_search)
@@ -763,7 +783,7 @@ class App extends Component {
         );
     }
 }
-;
+
 
 function mapStateToProps(state) {
     return {
@@ -779,7 +799,8 @@ function mapStateToProps(state) {
         , current_music_timer: state.music_timer.current
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
-        , psalter_text_font_size: state.psalter_text_font_size
+        , text_font_size: state.text_font_size
+        , copy_share_btn_props: state.copy_share_btn_props
         //search reducer
         , psalter_search_results: state.psalter_search_results
         // tab reducer

@@ -3,14 +3,9 @@ import {
 } from 'react-native';
 
 import {
-    native_elements,
     sizes,
-    zIndex,
     border_radii,
-    font_sizes,
-    colors,
-    line_height_fn,
-    buttons
+    colors
 } from '../../common/common.styles';
 
 const _styles = {
