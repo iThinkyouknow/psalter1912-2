@@ -7,7 +7,7 @@ import Slider from '@react-native-community/slider';
 
 import Utils from '../utils/functions';
 import {
-    sizes, font_sizes
+    sizes, font_sizes, colors
 } from './common.styles';
 
 export default FontSlider = ({ onSlidingComplete = Utils.no_op, style, value = font_sizes.default }) => {
@@ -19,8 +19,10 @@ export default FontSlider = ({ onSlidingComplete = Utils.no_op, style, value = f
                 width: screenHeight * 0.5,
                 position: 'absolute'
             }, style]}
+            thumbTintColor={colors.white}
             step={0.1 * font_sizes.default}
             value={value}
+            minimumTrackTintColor={colors.blue}
             minimumValue={0.5 * font_sizes.default}
             maximumValue={5 * font_sizes.default}
             onSlidingComplete={onSlidingComplete}>

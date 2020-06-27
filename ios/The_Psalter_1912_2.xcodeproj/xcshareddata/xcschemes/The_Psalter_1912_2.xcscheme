@@ -28,23 +28,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "The_Psalter_1912_2.app"
-               BlueprintName = "The_Psalter_1912_2"
-               ReferencedContainer = "container:The_Psalter_1912_2.xcodeproj">
+               BlueprintIdentifier = "95AF302523BEF5FD001AC7C4"
+               BuildableName = "libRNCClipboard.a"
+               BlueprintName = "RNCClipboard"
+               ReferencedContainer = "container:../node_modules/@react-native-community/clipboard/ios/RNCClipboard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "The_Psalter_1912_2Tests.xctest"
-               BlueprintName = "The_Psalter_1912_2Tests"
+               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+               BuildableName = "The_Psalter_1912_2.app"
+               BlueprintName = "The_Psalter_1912_2"
                ReferencedContainer = "container:The_Psalter_1912_2.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -65,16 +65,6 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "The_Psalter_1912_2Tests.xctest"
-               BlueprintName = "The_Psalter_1912_2Tests"
-               ReferencedContainer = "container:The_Psalter_1912_2.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

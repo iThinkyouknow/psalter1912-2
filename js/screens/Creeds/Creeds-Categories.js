@@ -8,7 +8,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import {navigator_style_push} from '../../../index'
+import {navigator_style_push} from '../../../Navigator-Common'
 
 import styles from './Creeds-Categories.styles';
 import {

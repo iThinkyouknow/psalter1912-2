@@ -13,7 +13,7 @@ import {
 } from '../../redux/actions/copy-actions';
 
 import Default_Bg from '../../common/Default-bg';
-import { sizes, colors } from '../../common/common.styles';
+import { sizes, colors, font_sizes } from '../../common/common.styles';
 import { Rounded_Button } from '../../common/Rounded-Button';
 import psalter_styles from '../Psalter/index.styles';
 import styles from './Misc-Actions-Screen.styles';
@@ -115,7 +115,7 @@ const MiscActions = (props) => {
             >
             </TextInput>
             <View style={styles.pro_tip_container}>
-                <Default_Text text_align='center'>
+                <Default_Text font_size={font_sizes.small} text_align='center'>
                     {`Pro Tip: You may also edit, share, etc. directly by selecting the text above`}
                 </Default_Text>
             </View>

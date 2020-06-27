@@ -12,8 +12,8 @@ export default styles = StyleSheet.create({
         , color: colors.white
     }
     , pro_tip_container: {
-        paddingVertical: sizes.x_large
-        , paddingHorizontal: sizes.x_large * 3
+        paddingVertical: sizes.default
+        , paddingHorizontal: sizes.x_large
         , alignItems: 'center'
     }
     , bottom_buttons_container_extra: { 

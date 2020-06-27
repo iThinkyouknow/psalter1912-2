@@ -47,6 +47,7 @@
 		B2A1492851B1490A8CE6AED9 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF1B6FD7734ED3B644C57F /* libRNFetchBlob.a */; };
 		C0035A0E354A448D9C94D858 /* libRCTPdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DEF0497B04472FAFB0160A /* libRCTPdf.a */; };
 		DB09B6EA202097FA000E5F1D /* libReactNativeAudioToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB09B6E6202097E6000E5F1D /* libReactNativeAudioToolkit.a */; };
+		DB41AFD824A64EE400817CDC /* The_Psalter_PDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DB41AF9324A648CC00817CDC /* The_Psalter_PDF.pdf */; };
 		DBD1A9012098429E0025CBFB /* psalter_93.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A74F209842450025CBFB /* psalter_93.mp3 */; };
 		DBD1A9022098429E0025CBFB /* psalter_74.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A750209842460025CBFB /* psalter_74.mp3 */; };
 		DBD1A9032098429E0025CBFB /* psalter_237.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBD1A751209842460025CBFB /* psalter_237.mp3 */; };
@@ -863,6 +864,7 @@
 		C66800D094754554A8FB0D79 /* libRNCSlider.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCSlider.a; sourceTree = "<group>"; };
 		CABF1B6FD7734ED3B644C57F /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		DB09B6BE202097E6000E5F1D /* ReactNativeAudioToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAudioToolkit.xcodeproj; path = "../node_modules/react-native-audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit.xcodeproj"; sourceTree = "<group>"; };
+		DB41AF9324A648CC00817CDC /* The_Psalter_PDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = The_Psalter_PDF.pdf; path = ../data/The_Psalter_PDF.pdf; sourceTree = "<group>"; };
 		DBD1A74F209842450025CBFB /* psalter_93.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_93.mp3; path = "../../Music-Files/psalter_93.mp3"; sourceTree = "<group>"; };
 		DBD1A750209842460025CBFB /* psalter_74.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_74.mp3; path = "../../Music-Files/psalter_74.mp3"; sourceTree = "<group>"; };
 		DBD1A751209842460025CBFB /* psalter_237.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = psalter_237.mp3; path = "../../Music-Files/psalter_237.mp3"; sourceTree = "<group>"; };
@@ -1558,6 +1560,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				DB41AF9324A648CC00817CDC /* The_Psalter_PDF.pdf */,
 				13B07FAE1A68108700A75B9A /* The_Psalter_1912_2 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* The_Psalter_1912_2Tests */,
@@ -2667,6 +2670,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB41AFD824A64EE400817CDC /* The_Psalter_PDF.pdf in Resources */,
 				DBD1A9DF2098429F0025CBFB /* psalter_313.mp3 in Resources */,
 				DBD1AA7A2098429F0025CBFB /* psalter_221.mp3 in Resources */,
 				DBD1AA3C2098429F0025CBFB /* psalter_402.mp3 in Resources */,
@@ -3311,6 +3315,7 @@
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 2.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3345,6 +3350,7 @@
 				);
 				INFOPLIST_FILE = The_Psalter_1912_2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 2.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

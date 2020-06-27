@@ -172,7 +172,10 @@ class Psalter_PDF extends Component {
             , psalter_pdf_file_source
         } = this.props;
 
-        
+        navigator.toggleTabs({
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+            animated: false // does the toggle have transition animation or does it happen immediately (optional)
+        });
 
         const on_psalter_selected = on_select_psalter_action(dispatch)(valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(dispatch)(413);
@@ -197,7 +200,7 @@ class Psalter_PDF extends Component {
                     {can_load_pdf && 
                         <Pdf source={psalter_pdf_file_source}
                             minScale={0.5}
-                            maxScale={999}
+                            maxScale={3}
                             scale={1.2}
                             style={pdf_style}
                             horizontal={true}

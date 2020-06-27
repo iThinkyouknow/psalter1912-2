@@ -230,15 +230,13 @@ const creeds_or_forms_chooser = ({ dispatch, Dimensions, os }) => (library_type_
         const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
         const key = `library-chooser-${text}-${index}`;
 
-        const line_height = os === 'ios' ? 2 : 1.3;
-
         return (
             <TouchableHighlight key={key}
                 style={[{ flex: 1 }, bg_color_obj]}
                 underlayColor={underlay_color}
                 onPress={select_tab(dispatch)(index)}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Default_Text line_height={line_height} text_align={'center'}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Default_Text text_align={'center'}>
                         {text}
                     </Default_Text>
                 </View>
