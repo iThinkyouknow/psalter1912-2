@@ -2,21 +2,24 @@ import {no_op, is_present_type} from './functions'
 
 export const long_press_actions = (duration = 500) => {
     let startTime = 0;
-    let canAction = true;
+    let can_action = true;
+    const cancel_distance = 25;
     return {
         onPanResponderGrant: (actions = no_op) => (e) => {
             startTime = e.nativeEvent.timestamp;
             actions();
         },
-        onPanResponderMove: (actions = no_op) => (e) => {
-            if (canAction === true && e.nativeEvent.timestamp - startTime > duration) {
-                canAction = false;
-                actions(e);
+        onPanResponderMove: (trigger_action = no_op) => (cancel_action = no_op) => (e, gestureState) => {
+            if (can_action === false && Math.abs(gestureState.dx) > cancel_distance || Math.abs(gestureState.dy) > cancel_distance) {
+                cancel_action();
+            } else if (can_action === true && e.nativeEvent.timestamp - startTime > duration) {
+                can_action = false;
+                trigger_action(e);
             }
         },
         onPanResponderRelease: (actions = no_op) => () => {
             startTime = 0;
-            canAction = true;
+            can_action = true;
             actions();
         }
     }

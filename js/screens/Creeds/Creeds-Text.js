@@ -277,6 +277,10 @@ class Creeds_Text extends Component {
                     , left: e.nativeEvent.pageX
                     , isHidden: false
                 });
+            })(() => {
+                if (!copy_share_btn_props.isHidden) {
+                    set_copy_share_btn_props_loaded();
+                }
             }),
             onPanResponderRelease: touch_release_actions_loaded
         });
