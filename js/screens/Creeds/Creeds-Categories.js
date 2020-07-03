@@ -8,7 +8,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import {navigator_style_push} from '../../../Navigator-Common'
+import {navigator_style_push, hide_tabs_action} from '../../../Navigator-Common'
 
 import styles from './Creeds-Categories.styles';
 import {
@@ -155,10 +155,11 @@ class Creeds_Categories extends Component {
             , selected_creed_index
             , creed_articles_title
             , creed_articles_content
-            , creed_articles_level
             , selected_chapter_index
             , tab_bar_selected_index
         } = this.props;
+
+        hide_tabs_action(navigator)();
 
         const component_obj = {
             styles,

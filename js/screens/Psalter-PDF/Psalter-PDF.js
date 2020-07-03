@@ -42,6 +42,7 @@ import {
     , reset_temp_psalter_pdf_page_no
 } from '../../redux/actions/state-actions';
 
+import { hide_tabs_action } from '../../../Navigator-Common';
 
 const _Number_input = (os) => (end_text_action) => (change_text_action) => (text_is_valid) => (value) => (style) => (props) => {
     const keyboard_type = (os === 'ios') ? 'number-pad' : 'numeric';
@@ -172,10 +173,7 @@ class Psalter_PDF extends Component {
             , psalter_pdf_file_source
         } = this.props;
 
-        navigator.toggleTabs({
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-            animated: false // does the toggle have transition animation or does it happen immediately (optional)
-        });
+        hide_tabs_action(navigator)();
 
         const on_psalter_selected = on_select_psalter_action(dispatch)(valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(dispatch)(413);
