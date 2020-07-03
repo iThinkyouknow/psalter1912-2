@@ -11,6 +11,7 @@ export const long_press_actions = (duration = 500) => {
         },
         onPanResponderMove: (trigger_action = no_op) => (cancel_action = no_op) => (e, gestureState) => {
             if (can_action === false && Math.abs(gestureState.dx) > cancel_distance || Math.abs(gestureState.dy) > cancel_distance) {
+                can_action = false;
                 cancel_action();
             } else if (can_action === true && e.nativeEvent.timestamp - startTime > duration) {
                 can_action = false;
