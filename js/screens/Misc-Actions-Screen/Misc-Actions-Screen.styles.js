@@ -10,6 +10,7 @@ export default styles = StyleSheet.create({
         flex: 1
         , padding: sizes.large
         , color: colors.white
+        , minHeight: 200
     }
     , pro_tip_container: {
         paddingVertical: sizes.default

@@ -10,7 +10,7 @@ import {
     Image
 } from 'react-native';
 
-import { navigator_style_push } from '../../../Navigator-Common'
+import { navigator_style_push, hide_tabs_action } from '../../../Navigator-Common'
 
 import styles from './Creeds.styles';
 import {
@@ -277,6 +277,8 @@ class Creeds extends Component {
             , creeds_library
             , tab_bar_selected_index
         } = this.props;
+        
+        hide_tabs_action(navigator)();
 
         const component_obj = {
             random: Math.random,

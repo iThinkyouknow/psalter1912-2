@@ -74,7 +74,7 @@ import {
 } from '../../utils/touch-gestures';
 
 import {set_keyboard_toolbar} from '../../utils/keyboard';
-import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
+import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
@@ -554,12 +554,7 @@ const on_action = (actions_array) => () => {
     actions_array.map((action) => action());
 };
 
-const hide_tabs_action = (navigator) => () => {
-    return navigator.toggleTabs({
-        to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        animated: false // does the toggle have transition animation or does it happen immediately (optional)
-    });
-};
+
 
 const longPressFns = long_press_actions();
 
@@ -572,8 +567,6 @@ const longPressFns = long_press_actions();
 class App extends Component {
     constructor(props) {
         super(props);
-        
-
         set_keyboard_toolbar(true);
     }
 
@@ -627,6 +620,9 @@ class App extends Component {
             , copy_share_btn_props
         } = this.props;
 
+        const hide_tabs_action_loaded = hide_tabs_action(navigator);
+        hide_tabs_action_loaded();
+
         const on_psalter_change_dispatch = on_psalter_change(dispatch);
 
         add_count(dispatch)(Date)(psalter.no)(sung_dates);
@@ -646,7 +642,7 @@ class App extends Component {
         const num_input_set_can_search_w_dispatch = num_input_set_can_search(dispatch);
 
         const num_input_on_blur_actions_array = [
-            hide_tabs_action(navigator)
+            hide_tabs_action_loaded
             , num_input_set_can_search_w_dispatch(true)
         ];
 
@@ -659,11 +655,12 @@ class App extends Component {
         const get_text_input = (text_input_as_search) => {
             if (Platform.OS === 'ios') {
                 return (text_input_as_search)
-                    ? <Text_input_search dispatch={dispatch}
-                                            style={[styles.text_input_style]}
-                                            valid_text_input={true}
-                                            search_results={psalter_search_results}
-                                            onBlur={hide_tabs_action(navigator)}/>
+                    ? <Text_input_search 
+                        dispatch={dispatch}
+                        style={[styles.text_input_style]}
+                        valid_text_input={true}
+                        search_results={psalter_search_results}
+                        onBlur={hide_tabs_action_loaded}/>
 
                     : <Number_input psalters_count={psalters_count}
                                     value={psalter_text_input}

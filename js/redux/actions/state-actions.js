@@ -17,6 +17,7 @@ export const STATE_ACTIONS = {
     , SELECT_STATISTICS_TAB: 'SELECT_STATISTICS_TAB'
 
     , SET_COPY_SHARE_BTN: 'SET_COPY_SHARE_BTN'
+    , SET_MISC_ACTIONS_TEXT_INPUT_POINTER_EVENTS: 'SET_MISC_ACTIONS_TEXT_INPUT_POINTER_EVENTS'
 };
 
 export const psalter_text_input = (val) => {
@@ -136,6 +137,13 @@ export const set_copy_share_btn = (properties = {top: 0, left: 0, isHidden: true
     return {
         type: STATE_ACTIONS.SET_COPY_SHARE_BTN
         , properties
+    }
+}
+
+export const set_misc_actions_text_input_pointer_events = (pointer_events = 'none') => {
+    return {
+        type: STATE_ACTIONS.SET_MISC_ACTIONS_TEXT_INPUT_POINTER_EVENTS
+        , pointer_events
     }
 }
 
