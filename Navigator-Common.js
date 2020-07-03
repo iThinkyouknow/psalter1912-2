@@ -12,7 +12,7 @@ export const default_navigator_style = {
     drawUnderNavBar: true,
     drawUnderTabBar: true,
     navBarHidden: true,
-    //tabBarBackgroundColor: colors.dark_cerulean,
+    tabBarBackgroundColor: colors.dark_cerulean,
     tabBarHidden: true
 };
 
@@ -29,6 +29,7 @@ export const navigator_style_modal = {
     navBarTransparent: false,
     navBarTranslucent: false,
     navBarBackgroundColor: colors.dark_cerulean,
+    tabBarHidden: true
 };
 
 export const show_misc_actions_modal_obj = (type) => {
@@ -46,4 +47,11 @@ export const show_misc_actions_modal_obj = (type) => {
             }]
         }
     })
+};
+
+export const hide_tabs_action = (navigator) => () => {
+    return navigator.toggleTabs({
+        to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        animated: false // does the toggle have transition animation or does it happen immediately (optional)
+    });
 };

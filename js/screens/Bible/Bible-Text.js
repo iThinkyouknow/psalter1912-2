@@ -41,7 +41,7 @@ import {} from '../../utils/alert';
 import {slide_down_animation, slide_side_animation} from '../../utils/animation';
 
 import {is_present_type, is_string, no_op, composer} from '../../utils/functions';
-import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
+import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 import { 
     touch_release_actions
     , scroll_swipe_actions
@@ -405,6 +405,8 @@ class Bible_Text extends Component {
             , text_font_size
         } = this.props;
 
+        hide_tabs_action(navigator)();
+
         const library_dynamic_style = {
             height: Dimensions.get('window').height,
             width: Dimensions.get('window').width,
@@ -478,6 +480,10 @@ class Bible_Text extends Component {
                     , left: e.nativeEvent.pageX
                     , isHidden: false
                 });
+            })(() => {
+                if (!copy_share_btn_props.isHidden) {
+                    set_copy_share_btn_props_loaded();
+                }
             }),
             onPanResponderRelease: touch_release_actions_loaded
         });

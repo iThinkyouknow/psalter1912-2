@@ -31,7 +31,7 @@ import {
     , long_press_actions
 } from '../../utils/touch-gestures';
 
-import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
+import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common'
 
 import styles from './Creeds-Text.styles';
 
@@ -244,10 +244,7 @@ class Creeds_Text extends Component {
             , dispatch
         } = this.props;
 
-        navigator.toggleTabs({
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-            animated: true // does the toggle have transition animation or does it happen immediately (optional)
-        });
+        hide_tabs_action(navigator)()
 
         const select_tab_wo_tab_index = select_tab(tab_2_actions(navigator));
 
@@ -277,6 +274,10 @@ class Creeds_Text extends Component {
                     , left: e.nativeEvent.pageX
                     , isHidden: false
                 });
+            })(() => {
+                if (!copy_share_btn_props.isHidden) {
+                    set_copy_share_btn_props_loaded();
+                }
             }),
             onPanResponderRelease: touch_release_actions_loaded
         });

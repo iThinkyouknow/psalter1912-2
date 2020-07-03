@@ -129,3 +129,10 @@ export function statistics_selected_tab_index(state = 0, action = {}) {
     }
     return state;
 };
+
+export function misc_actions_text_input_pointer_events(state = 'none', action = {}) {
+    if (action.type === STATE_ACTIONS.SET_MISC_ACTIONS_TEXT_INPUT_POINTER_EVENTS) {
+        return action.pointer_events;
+    }
+    return state;
+}
