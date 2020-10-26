@@ -33,8 +33,8 @@ const deminify = (fileNames) => fileNames
     ]));
 
 
-minify(fileNames);
-// deminify(fileNames.slice(1, 2));
+// minify(fileNames);
+// deminify(fileNames);
 
 
 
