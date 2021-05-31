@@ -722,20 +722,7 @@ class App extends Component {
         
 
         heartbeat(this.props.navigator);
-        /**
-         * Inform
-         * 1. Check version version -- from storage, else in app
-         * 2. ask permission to check if updated? no, yes
-         * if no, check psalter etc. storage and use storage, else, use in app
-         * if yes, fetch version
-         * 3. retrieve version from storage, else in app
-         * if no change -- do nothing
-         * if change
-         * 4. Pop up ask for permission to retrieve changed
-         * if no, do nothing
-         * if yes collect what has changed and fetch
-         * update local storage
-         */
+
         get_informed_of_connection().then((informed) => {
             if (!informed) {
                 new_over_the_air_update_alert(() => {
