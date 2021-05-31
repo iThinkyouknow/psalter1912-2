@@ -50,12 +50,24 @@ import {
 } from '../../redux/actions/state-actions';
 
 import {
-    search_psalter
+    psaltersearchjson_init
+    , search_psalter
 } from '../../redux/actions/search-actions';
 
 import {
-    get_bible_passage
+    get_bible_init
+    , get_bible_passage
 } from '../../redux/actions/bible-actions';
+
+import {
+    creeds_forms_library_init
+} from '../../redux/actions/creeds-actions';
+
+import { credits_texts_init } from '../../redux/actions/credits-actions';
+import { 
+    neglected_texts_init
+    , neglected_alert_texts_init
+} from '../../redux/actions/statistics-actions';
 
 import music_player from '../../utils/music-player';
 import {is_present_type, no_op, composer} from '../../utils/functions';
@@ -65,6 +77,8 @@ import {
     , wrong_number_error_alert
     , not_enough_characters_search_alert
     , perhaps_change_to_psalter_input_alert
+    , new_over_the_air_update_alert
+    , new_data_present_alert
 } from '../../utils/alert';
 
 import {
@@ -77,6 +91,7 @@ import {set_keyboard_toolbar} from '../../utils/keyboard';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
+import { creeds } from '../../redux/reducers/creeds-and-forms';
 
 
 
@@ -229,7 +244,7 @@ const get_random_psalter = (dispatch) => (count) => () => {
 
 const more_stuff_list_header = () => {
     return (
-        <View style={styles.more_stuff_list_header}/>
+        <View style={styles.more_stuff_list_header} />
     );
 };
 
@@ -554,9 +569,92 @@ const on_action = (actions_array) => () => {
     actions_array.map((action) => action());
 };
 
-
-
 const longPressFns = long_press_actions();
+
+const heartbeat = (navigator) => {
+    setInterval(hide_tabs_action(navigator), 3000)
+};
+
+const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
+
+    const keyMap = {
+        'PsalterJSON': psalter_init
+        , 'Bible-KJV': get_bible_init
+        , 'Credits-Texts': credits_texts_init
+        , 'Neglected-Texts': neglected_texts_init
+        , 'Neglected-Alert-Texts': neglected_alert_texts_init
+        , 'PsalterSearchJSON': psaltersearchjson_init
+    };
+    const { dispatch, creeds } = instance.props;
+    keyJsonStringsMapped
+        .filter(([key]) => keyMap[key])
+        .forEach(([key, json_string]) => {
+            const set_function = keyMap[key];
+            const json = JSON.parse(json_string);
+            dispatch(set_function(json));
+            
+        });
+    const documents = {
+        ...creeds.documents
+    };
+    const creedsToBeUpdated = keyJsonStringsMapped
+        .filter(([key]) => creeds.documents && creeds.documents[key]);
+    if (creedsToBeUpdated.length > 0) {
+        creedsToBeUpdated.forEach(([key, json_string]) => {
+            documents[key] = JSON.parse(json_string);
+        });
+        dispatch(creeds_forms_library_init(documents));
+    }
+    // need to fix _version.json
+};
+
+const get_version_file = () => {
+    return AsyncStorage.getItem('version')
+        .then((string) => {
+            return JSON.parse(string) || require('../../../data/version');
+        })
+        .then((local_version) => {
+            return fetch(local_version.version.url)
+                .then(res => res.json())
+                .then((online_version) => {       
+                    const promise = new Promise((resolve, reject) => {
+                        if (online_version.version.version > local_version.version.version) {
+                            AsyncStorage.setItem('version', JSON.stringify(online_version)).catch(console.err);
+                            
+                            const update_keys = Object.keys(online_version)
+                                .filter((key) => {                                
+                                    return key !== 'version' && online_version[key].version > local_version[key].version
+                            });                        
+
+                            // alert
+                            new_data_present_alert(() => {
+                                const requests = update_keys
+                                    .map((key) => fetch(online_version[key].url)
+                                    .then(res => res.text()));
+                                Promise.all(requests)
+                                    .then((responses) => {                     
+                                        const keyResponsesMapped = update_keys
+                                            .map((key, index) => [key, responses[index]]);         
+                                        AsyncStorage.multiSet(keyResponsesMapped); //save new jsons to storage
+                                        resolve(keyResponsesMapped);
+                                    });
+                            })(update_keys.length);
+                        } else {
+                            resolve([]);
+                        }
+                    });
+                    return promise;
+                })
+                .catch(console.error)
+        })
+        .catch(console.error)
+};
+
+const save_informed_of_connection = () => {
+    return AsyncStorage.setItem('informed_connection', '1')
+};
+// AsyncStorage.removeItem('informed_connection'); // remove when over
+const get_informed_of_connection = () => AsyncStorage.getItem('informed_connection');
 
 /**
  *
@@ -572,25 +670,73 @@ class App extends Component {
 
     componentDidMount() {
         const RNShakeEvent = require('react-native-shake-event');
+        const storage_psalter_key = 'PsalterJSON';
+        AsyncStorage.getItem(storage_psalter_key)
+            .then(json_string => {
+                const psalter_json = JSON.parse(json_string) || require('../../../data/PsalterJSON.json');
+                
+                this.props.dispatch(psalter_init(psalter_json));
 
-        // let a = Date.now();
-        const psalter_json = require('../../../data/PsalterJSON.json');
-        // console.log(Date.now() - a);
+                const psalters_count = psalter_json.length;
 
-        this.props.dispatch(psalter_init(psalter_json));
+                RNShakeEvent.addEventListener('shake', get_random_psalter(this.props.dispatch)(psalters_count));
+                // AsyncStorage.clear(); // for dev only
+                const count_all_keys_array = Array.from(new Array(psalters_count), (item, index) => `psalter-${index + 1}`);
 
-        const psalters_count = psalter_json.length;
+                AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
+                    const arr_w_value = arr
+                        .filter(([key, value]) => is_present_type('string')(value))
+                        .map(([key, value]) => [key, JSON.parse(value)]);
 
-        RNShakeEvent.addEventListener('shake', get_random_psalter(this.props.dispatch)(psalters_count));
-        // AsyncStorage.clear(); // for dev only
-        const count_all_keys_array = Array.from(new Array(psalters_count), (item, index) => `psalter-${index + 1}`);
+                    this.props.dispatch(set_sung_count_all(arr_w_value || []));
+                });
 
-        AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
-            const arr_w_value = arr
-                .filter(([key, value]) => is_present_type('string')(value))
-                .map(([key, value]) => [key, JSON.parse(value)]);
+                if (!json_string) {
+                    AsyncStorage.setItem(storage_psalter_key, psalter_json);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        
+        const psalter_search_json_storage_key = 'PsalterSearchJSON';
+        AsyncStorage.getItem(psalter_search_json_storage_key)
+            .then(json_string => {                
+                const json = JSON.parse(json_string) || require('../../../data/PsalterSearchJSON.json');
+                this.props.dispatch(psaltersearchjson_init(json));
 
-            this.props.dispatch(set_sung_count_all(arr_w_value || []));
+                if (!json_string) {
+                    AsyncStorage.setItem(psalter_search_json_storage_key, JSON.stringify(json))
+                        .catch(err => console.error('get Psalter Search Json Error with error:', err))
+                }
+            })
+            .catch(err => console.error('get Psalter Search Json Error with error:', err));
+        
+
+        heartbeat(this.props.navigator);
+        /**
+         * Inform
+         * 1. Check version version -- from storage, else in app
+         * 2. ask permission to check if updated? no, yes
+         * if no, check psalter etc. storage and use storage, else, use in app
+         * if yes, fetch version
+         * 3. retrieve version from storage, else in app
+         * if no change -- do nothing
+         * if change
+         * 4. Pop up ask for permission to retrieve changed
+         * if no, do nothing
+         * if yes collect what has changed and fetch
+         * update local storage
+         */
+        get_informed_of_connection().then((informed) => {
+            if (!informed) {
+                new_over_the_air_update_alert(() => {
+                    save_informed_of_connection();
+                    get_version_file().then(repopulateDataFiles(this));
+                })
+            } else {
+                get_version_file().then(repopulateDataFiles(this));
+            }
         });
     }
     
@@ -803,9 +949,11 @@ function mapStateToProps(state) {
         , text_font_size: state.text_font_size
         , copy_share_btn_props: state.copy_share_btn_props
         //search reducer
-        , psalter_search_results: state.psalter_search_results
+        , psalter_search_results: state.psalter_search_results.search_results
         // tab reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
+        // creeds
+        , creeds: state.creeds
     };
 }
 

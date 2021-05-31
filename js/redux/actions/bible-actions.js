@@ -20,4 +20,7 @@ export const get_bible_passage = (book_selected_index) => (chapter_selected_inde
 };
 
 
-export const get_bible_init = () => ({ type: BIBLE_ACTIONS.GET_BIBLE_INIT});
+export const get_bible_init = (bible) => ({
+    type: BIBLE_ACTIONS.GET_BIBLE_INIT,
+    bible
+});

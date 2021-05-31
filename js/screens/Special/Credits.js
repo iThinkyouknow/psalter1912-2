@@ -4,6 +4,7 @@ import {
     View
     , FlatList
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 //import styles from './Credits.styles';
 import {
@@ -24,7 +25,7 @@ import FontSlider from '../../common/Font-slider';
 import {} from '../../utils/alert';
 import {is_present_type, composer} from '../../utils/functions';
 
-import credits_text from '../../../data/Credits-Texts.json';
+import { credits_texts_init } from '../../redux/actions/credits-actions';
 import { set_new_font_size } from '../../redux/actions/state-actions'
 
 const Intro_Component = (font_size) => () => {
@@ -82,6 +83,21 @@ const set_font_size = (dispatch) => (new_font_size) => {
 };
 
 class Credits extends Component {
+    componentDidMount() {
+        const creditsStorageKey = 'Credits-Texts';
+        AsyncStorage.getItem(creditsStorageKey)
+            .then(json_string => {
+                const json = JSON.parse(json_string) || require('../../../data/Credits-Texts.json');
+                this.props.dispatch(credits_texts_init(json));
+                if (!json_string) {
+                    AsyncStorage.setItem(creditsStorageKey, json.stringify(json))
+                        .then(() => {})
+                        .catch((err) => console.error('set credits text storage error:', err));
+                }
+            })
+            .catch(err => console.error('get credits text storage error:', err))
+    }
+
     render() {
         const {
             dispatch
@@ -98,7 +114,7 @@ class Credits extends Component {
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
-                          data={credits_text}
+                          data={this.props.credits_text || []}
                           keyExtractor={key_extractor}
                           renderItem={Thanks_Party_Component(text_font_size)} />
 
@@ -111,8 +127,9 @@ class Credits extends Component {
 
 function mapStateToProps(state) {
     return {
+        credits_text: state.credits.credits
         // tab_bar_reducer
-        tab_bar_selected_index: state.tab_bar_selected_index
+        , tab_bar_selected_index: state.tab_bar_selected_index
         // state reducer
         , text_font_size: state.text_font_size
     };

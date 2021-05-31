@@ -27,6 +27,7 @@ import Tab_Bar from '../../common/Tab-bar';
 import {} from '../../utils/alert';
 import {
     no_op
+    , getty
 } from '../../utils/functions';
 
 import {change_creeds_chapter_lv} from '../../redux/actions/state-actions';
@@ -211,16 +212,16 @@ class Creeds_Categories extends Component {
 
 function mapStateToProps(state) {
     return {
-        creed_content: state.creed.content
-        , creed_level: state.creed.levels_deep || 0
-        , creed_title: state.creed.title
+        creed_content: state.creeds.creed.content
+        , creed_level: state.creeds.creed.levels_deep || 0
+        , creed_title: state.creeds.creed.title
         , creeds_chapters_curr_level: state.creeds_chapters_curr_level
-        , library_type_index: state.creed.library_type_index
-        , selected_creed_index: state.creed.selected_index
-        , creed_articles_title: state.creed_level_2.title
-        , creed_articles_content: state.creed_level_2.content
-        , creed_articles_level: state.creed_level_2.levels_deep
-        , selected_chapter_index: state.creed_level_2.selected_chapter_index
+        , library_type_index: state.creeds.creed.library_type_index
+        , selected_creed_index: state.creeds.creed.selected_index
+        , creed_articles_title: getty(state)('creeds.creed_level_2.title')() || ''
+        , creed_articles_content: getty(state)('creeds.creed_level_2.content')() || []
+        , creed_articles_level: getty(state)('creeds.creed_level_2.levels_deep')() || 0
+        , selected_chapter_index: getty(state)('creeds.creed_level_2.selected_chapter_index')() || 0
         , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }

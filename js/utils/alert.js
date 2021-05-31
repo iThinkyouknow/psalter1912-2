@@ -72,53 +72,7 @@ Apologize Now! 😡`,
     );
 };
 
-export const neglected_alert = (random) => (on_yes) => (on_no) => (index) => () => {
-    const texts = [
-        [
-            `Sorely Neglected`
-            , `Your neglect is disappointing
-Sing me now!`
-        ]
-        , [
-            `Conveniently Neglected`
-            , `It must have been really easy...
-Sing me now!`
-        ]
-        , [
-            `Conveniently Neglected`
-            , `Have you ever wonder how I felt?
-Sing me now!`
-        ]
-        , [
-            `Wow!`
-            , `I am amazed at how you never realize that I am always by your side
-Sing me now!`
-        ]
-        , [
-            `Thoughts...`
-            , `of me springing up in your mind every hour
-is what I wish you would do
-Sing me now!`
-        ]
-        , [
-            `Can you believe`
-            , `that you don't even know me?
-Sing me now!`
-        ]
-        , [
-            `Best friends`
-            , `We could be best friends
-Sing me now!`
-        ]
-        , [
-            `Come On!`
-            , `Sing me now!`
-        ]
-        , [
-            `Senpai noticed me!`
-            , `Sing me now!`
-        ]
-    ];
+export const neglected_alert = (texts) => (random) => (on_yes) => (on_no) => (index) => () => {
 
     const magic_number = Math.floor(random() * texts.length);
 
@@ -139,4 +93,37 @@ Sing me now!`
         ]
         , { cancelable: true }
     );
+};
+
+export const new_over_the_air_update_alert = (on_yes) => {
+    Alert.alert(
+        `Look, I can touch the clouds!`
+        , `I have a new function! Ask me about it. Yes! I can now fetch the latest data from the internet. That means that you'd have lesser opportunities to be embarrassed by wrong lyrics. If you do not wish for me to check for updates, stop me by going to your phone settings and disabling data or wifi or internet or something.`
+        , [
+            {
+                text: 'Okay fine... whatever I guess...'
+                , onPress: on_yes
+            }
+            , {
+                text: 'YES PLEASE!!! I have been waiting!'
+                , onPress: on_yes
+            }
+        ]
+    )
+};
+
+export const new_data_present_alert = (on_yes) => (num_of_outdated_files = 0) => {
+    Alert.alert(
+        `Outdated files`
+        , `Uh oh, you have some serious problems. You have ${num_of_outdated_files} outdated files that will do neither you nor your dog no good! Words that are wrong are here, there, everywhere! Update those files now!`
+        , [
+            {
+                text: 'Not now'
+            },
+            {
+                text: 'Yes Please!'
+                , onPress: on_yes
+            }
+        ]
+    )
 };

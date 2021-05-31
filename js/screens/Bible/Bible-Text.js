@@ -12,6 +12,8 @@ import {
     , PanResponder
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 // import styles from './creeds-text.styles';
 import {
     colors,
@@ -378,9 +380,23 @@ class Bible_Text extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => this.props.dispatch(get_bible_init()), 1000);
-    }
+        setTimeout(() => {
+            const bible_storage_key = 'Bible-KJV';
+            AsyncStorage.getItem(bible_storage_key)
+                .then(json_string => {                    
+                    const json = JSON.parse(json_string) || require('../../../data/Bible-KJV.json');
+                    this.props.dispatch(get_bible_init(json));
 
+                    if (!json_string) {
+                        AsyncStorage.setItem(bible_storage_key, JSON.stringify(json));
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }, 1000);
+    }
+        
     componentWillUnmount() {
         library_container_slide_anim.animated_value.removeListener();
     }
