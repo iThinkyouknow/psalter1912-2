@@ -591,7 +591,12 @@ const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
         .forEach(([key, json_string]) => {
             const set_function = keyMap[key];
             const json = JSON.parse(json_string);
-            dispatch(set_function(json));
+
+            if (set_function) {
+                dispatch(set_function(json));
+            } else {
+                console.log('no set function:', key, set_function);
+            }
             
         });
     const documents = {
@@ -605,11 +610,11 @@ const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
         });
         dispatch(creeds_forms_library_init(documents));
     }
-    // need to fix _version.json
 };
 
 const get_version_file = () => {
-    return AsyncStorage.getItem('version')
+    const version_storage_key = 'version';
+    return AsyncStorage.getItem(version_storage_key)
         .then((string) => {
             return JSON.parse(string) || require('../../../data/version');
         })
@@ -619,7 +624,6 @@ const get_version_file = () => {
                 .then((online_version) => {       
                     const promise = new Promise((resolve, reject) => {
                         if (online_version.version.version > local_version.version.version) {
-                            AsyncStorage.setItem('version', JSON.stringify(online_version)).catch(console.err);
                             
                             const update_keys = Object.keys(online_version)
                                 .filter((key) => {                                
@@ -634,10 +638,14 @@ const get_version_file = () => {
                                 Promise.all(requests)
                                     .then((responses) => {                     
                                         const keyResponsesMapped = update_keys
-                                            .map((key, index) => [key, responses[index]]);         
-                                        AsyncStorage.multiSet(keyResponsesMapped); //save new jsons to storage
+                                            .map((key, index) => [key, responses[index]]);
+
+                                        AsyncStorage.multiSet(keyResponsesMapped).then(() => {
+                                            AsyncStorage.setItem(version_storage_key, JSON.stringify(online_version)).catch(console.err);
+                                        });
                                         resolve(keyResponsesMapped);
-                                    });
+                                    })
+                                    .catch(err => console.error(err));
                             })(update_keys.length);
                         } else {
                             resolve([]);
@@ -692,7 +700,7 @@ class App extends Component {
                 });
 
                 if (!json_string) {
-                    AsyncStorage.setItem(storage_psalter_key, psalter_json);
+                    AsyncStorage.setItem(storage_psalter_key, JSON.stringify(psalter_json));
                 }
             })
             .catch(err => {
