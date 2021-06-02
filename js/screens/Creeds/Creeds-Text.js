@@ -315,16 +315,16 @@ class Creeds_Text extends Component {
 
 function mapStateToProps(state) {
     return {
-        creed_body_title: state.creed_body.title
-        , creed_body_description: state.creed_body.description
-        , creed_body: state.creed_body.body
-        , creed_levels: state.creed.levels_deep || 0
-        , creeds_library: state.creeds_library
+        creed_body_title: state.creeds.creed_body.title
+        , creed_body_description: state.creeds.creed_body.description
+        , creed_body: state.creeds.creed_body.body
+        , creed_levels: state.creeds.creed.levels_deep || 0
+        , creeds_library: state.creeds.creeds_library
         , tab_bar_selected_index: state.tab_bar_selected_index
-        , library_type_index: state.creed_body.library_type_index
-        , selected_creed_index: state.creed_body.selected_creed_index
-        , selected_chapter_index: state.creed_body.selected_chapter_index
-        , selected_article_index: state.creed_body.selected_article_index
+        , library_type_index: state.creeds.creed_body.library_type_index
+        , selected_creed_index: state.creeds.creed_body.selected_creed_index
+        , selected_chapter_index: state.creeds.creed_body.selected_chapter_index
+        , selected_article_index: state.creeds.creed_body.selected_article_index
         // state reducer
         , text_font_size: state.text_font_size
         , copy_share_btn_props: state.copy_share_btn_props

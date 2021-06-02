@@ -11,7 +11,6 @@ import { default_navigator_style } from './Navigator-Common';
 const store = configureStore();
 
 registerScreens(store, Provider); // this is where you register all of your app's screens
-
 // start the app
 Navigation.startTabBasedApp({
     tabs: [

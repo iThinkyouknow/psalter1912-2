@@ -1,8 +1,16 @@
 export const CREEDS_ACTIONS = {
+    CREEDS_FORMS_LIBRARY_INIT: 'CREEDS_FORMS_LIBRARY_INIT',
     LOCK_IN_CREED: 'LOCK_IN_CREED',
     LOCK_IN_CREED_LEVEL_2: 'LOCK_IN_CREED_LEVEL_2',
     LOCK_IN_CREED_BODY: 'LOCK_IN_CREED_BODY'
 };
+
+export const creeds_forms_library_init = (documents) => {
+    return {
+        type: CREEDS_ACTIONS.CREEDS_FORMS_LIBRARY_INIT
+        , documents
+    };
+}
 
 export const lock_in_creed = (library_type_index) => (selected_index) => (levels_deep) => {
     return {

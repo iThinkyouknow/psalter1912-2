@@ -1,0 +1,3 @@
+[submodule "data"]
+	path = data
+	url = https://github.com/iThinkyouknow/psalter1912-data.git

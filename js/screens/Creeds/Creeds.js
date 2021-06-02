@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-    View,
-    FlatList,
-    Animated,
-    Dimensions,
-    Platform,
-    TouchableHighlight,
-    Image
+    View
+    , FlatList
+    , Animated
+    , Dimensions
+    , Platform
+    , TouchableHighlight
+    , Image
 } from 'react-native';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { navigator_style_push, hide_tabs_action } from '../../../Navigator-Common'
 
@@ -42,7 +44,8 @@ import {
 } from '../../redux/actions/state-actions';
 
 import {
-    lock_in_creed
+    creeds_forms_library_init
+    , lock_in_creed
 } from '../../redux/actions/creeds-actions';
 
 const list_header_component_wo_animated_val = (book_animated_value) => ({random, styles, images, Dimensions}) => (selected_index) => {
@@ -264,6 +267,36 @@ const onNavigatorEvent = (e) => {
 class Creeds extends Component {
 
     componentDidMount() {
+        AsyncStorage.multiGet(this.props.title_order).then(stringArray /* [[key, string]] */ => {
+            const creedsForms = {
+                'The-Heidelberg-Catechism(by-LD)': JSON.parse(stringArray[0][1]) || require('../../../data/The-Heidelberg-Catechism(by-LD).json')
+                , 'The-Belgic-Confession': JSON.parse(stringArray[1][1]) || require('../../../data/The-Belgic-Confession.json')
+                , 'The-Canons-of-Dordt': JSON.parse(stringArray[2][1]) || require('../../../data/The-Canons-of-Dordt.json')
+                , 'The-Apostles-Creed': JSON.parse(stringArray[3][1]) || require('../../../data/The-Apostles-Creed.json')
+                , 'The-Nicene-Creed': JSON.parse(stringArray[4][1]) || require('../../../data/The-Nicene-Creed.json')
+                , 'The-Athanasian-Creed': JSON.parse(stringArray[5][1]) || require('../../../data/The-Athanasian-Creed.json')
+                , 'The-Creed-of-Chalcedon': JSON.parse(stringArray[6][1]) || require('../../../data/The-Creed-of-Chalcedon.json')
+                , 'Form-for-the-Administration-of-Baptism': JSON.parse(stringArray[7][1]) || require('../../../data/Form-for-the-Administration-of-Baptism.json')
+                , 'Form-for-Public-Confession-of-Faith': JSON.parse(stringArray[8][1]) || require('../../../data/Form-for-Public-Confession-of-Faith.json')
+                , 'Form-for-the-Administration-of-the-Lords-Supper': JSON.parse(stringArray[9][1]) || require('../../../data/Form-for-the-Administration-of-the-Lords-Supper.json')
+                , 'Form-for-Excommunication': JSON.parse(stringArray[10][1]) || require('../../../data/Form-for-Excommunication.json')
+                , 'Form-for-Readmitting-Excommunicated-Persons': JSON.parse(stringArray[11][1]) || require('../../../data/Form-for-Readmitting-Excommunicated-Persons.json')
+                , 'Form-of-Ordination-(or-Installation)-of-Ministers-of-Gods-Word': JSON.parse(stringArray[12][1]) || require('../../../data/Form-of-Ordination-(or-Installation)-of-Ministers-of-Gods-Word.json')
+                , 'Form-of-Ordination-of-Elders-and-Deacons': JSON.parse(stringArray[13][1]) || require('../../../data/Form-of-Ordination-of-Elders-and-Deacons.json')
+                , 'Form-for-the-Installation-of-Professors-of-Theology': JSON.parse(stringArray[14][1]) || require('../../../data/Form-for-the-Installation-of-Professors-of-Theology.json')
+                , 'Form-for-the-Ordination-(or-Installation)-of-Missionaries': JSON.parse(stringArray[15][1]) || require('../../../data/Form-for-the-Ordination-(or-Installation)-of-Missionaries.json')
+                , 'Form-for-the-Confirmation-of-Marriage-before-the-Church': JSON.parse(stringArray[16][1]) || require('../../../data/Form-for-the-Confirmation-of-Marriage-before-the-Church.json')
+                , 'Formula-of-Subscription-(PRCA)': JSON.parse(stringArray[17][1]) || require('../../../data/Formula-of-Subscription-(PRCA).json')
+                , 'The-Church-Order': JSON.parse(stringArray[18][1]) || require('../../../data/The-Church-Order.json')
+            };
+
+            this.props.dispatch(creeds_forms_library_init(creedsForms)); // todo next
+        }).catch(errArray => {
+            Array.isArray(errArray)
+                ? errArray.forEach(([key, err]) => console.log(key, err))
+                : console.log(errArray);
+        });
+        
         this.props.navigator.setOnNavigatorEvent(onNavigatorEvent);
     }
 
@@ -304,7 +337,7 @@ class Creeds extends Component {
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} style={styles.default_bg} >
 
                 {list_header_component(component_obj)(library_type_index)}
-                {creeds_menu_flatlist(creeds_menu_renderer_loaded)(library_type_index)(creeds_library)}
+                {creeds_library && creeds_menu_flatlist(creeds_menu_renderer_loaded)(library_type_index)(creeds_library)}
                 {creeds_or_forms_chooser(component_obj)(library_type_index)}
             </Default_Bg>
         );
@@ -314,8 +347,9 @@ class Creeds extends Component {
 
 function mapStateToProps(state) {
     return {
-        library_type_index: state.creeds_library_type_index
-        , creeds_library: state.creeds_library
+        title_order: state.creeds.title_order
+        , library_type_index: state.creeds_library_type_index
+        , creeds_library: state.creeds.creeds_library
         , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }

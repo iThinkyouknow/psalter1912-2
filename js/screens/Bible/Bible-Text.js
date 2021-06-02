@@ -12,6 +12,8 @@ import {
     , PanResponder
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 // import styles from './creeds-text.styles';
 import {
     colors,
@@ -368,7 +370,6 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
 
 const longPressFns = long_press_actions();
 
-
 class Bible_Text extends Component {
 
     constructor(props) {
@@ -378,9 +379,34 @@ class Bible_Text extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => this.props.dispatch(get_bible_init()), 1000);
-    }
+        setTimeout(() => {
+            const bible_storage_key = 'Bible-KJV';
+            const divisions = 4;
+            const keys = Array.from({length: divisions}, (_, i) => `${bible_storage_key}${i}`);
+            AsyncStorage.multiGet(keys)
+                .then(key_strings => {
 
+                    const json_string = key_strings
+                        .filter(([_, string]) => string)
+                        .map(([_, string]) => string)
+                        .join('');
+                    
+                    let json;
+                    try {
+                        json = JSON.parse(json_string);
+                    } catch (error) {
+                        console.log('unable to parse bible json error:', error);
+                        json = require('../../../data/Bible-KJV.json');
+                    }
+                    
+                    json && this.props.dispatch(get_bible_init(json));                    
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }, 1000);
+    }
+        
     componentWillUnmount() {
         library_container_slide_anim.animated_value.removeListener();
     }
