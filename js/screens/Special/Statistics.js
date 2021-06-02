@@ -311,11 +311,6 @@ class Statistics extends Component {
             .then(json_string => {
                 const json = JSON.parse(json_string) || require('../../../data/Neglected-Texts.json');
                 this.props.dispatch(neglected_texts_init(json));
-
-                if (!json_string) {
-                    AsyncStorage.setItem(neglected_texts_storage_key, JSON.stringify(json))
-                        .catch(err => console.error('set neglected texts storage error:', err));
-                }
             })
             .catch(err => console.error('get neglected texts storage error:', err));
         
@@ -324,11 +319,6 @@ class Statistics extends Component {
             .then(json_string => {
                 const json = JSON.parse(json_string) || require('../../../data/Neglected-Alert-Texts.json');
                 this.props.dispatch(neglected_alert_texts_init(json));
-
-                if (!json_string) {
-                    AsyncStorage.setItem(neglected_alert_storage_key, JSON.stringify(json))
-                        .catch(err => console.error('set neglected alert texts storage error:', err));
-                }
             })
             .catch(err => console.error('get neglected alert texts storage error:', err));
     }

@@ -64,3 +64,4 @@ export const minus = by => a => a - by;
 export const add = a => b => a + b;
 export const multiply = a => b => a * b;
 export const divide = by => a => a / by;
+export const not = (bool) => !bool;

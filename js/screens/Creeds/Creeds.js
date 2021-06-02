@@ -291,16 +291,6 @@ class Creeds extends Component {
             };
 
             this.props.dispatch(creeds_forms_library_init(creedsForms)); // todo next
-
-            const fallbacksToStore = stringArray
-                .map(([key, string], index) => [key, string, index])
-                .filter(([key, string]) => !string)
-                .map(([key, string, index]) => {
-                    const fallback = creedsForms[key];
-                    return [key, JSON.stringify(fallback)];
-                });
-
-            AsyncStorage.multiSet(fallbacksToStore).then((obj) => console.log('saved', obj)).catch(err => console.log('save creeds', err));
         }).catch(errArray => {
             Array.isArray(errArray)
                 ? errArray.forEach(([key, err]) => console.log(key, err))

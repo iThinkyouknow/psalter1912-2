@@ -70,7 +70,14 @@ import {
 } from '../../redux/actions/statistics-actions';
 
 import music_player from '../../utils/music-player';
-import {is_present_type, no_op, composer} from '../../utils/functions';
+
+import {
+    is_present_type
+    , no_op
+    , composer
+    , not
+} from '../../utils/functions';
+
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
 import {
     string_input_error_alert
@@ -91,9 +98,6 @@ import {set_keyboard_toolbar} from '../../utils/keyboard';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
-import { creeds } from '../../redux/reducers/creeds-and-forms';
-
-
 
 
 const psalter_text_fade_anim = fade_animation(100)(0);
@@ -612,8 +616,62 @@ const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
     }
 };
 
-const get_version_file = () => {
-    const version_storage_key = 'version';
+const key_is_bible = key => key === 'Bible-KJV';
+
+const get_bible_storage_keys_content = (key) => (bible_string) => {
+    const divisions = 4;
+    const segment_length = ~~(bible_string.length / divisions);
+    const slice_index = Array.from({length: divisions}, (_, i) => i * segment_length);
+    const bible_key_map = slice_index.map((currIndex, i, arr) => {
+        return [`${key}${i}`, bible_string.slice(currIndex, arr[i + 1])]
+    });
+    return bible_key_map;
+};
+
+const version_storage_key = 'version';
+
+const get_online_version_compare_and_update_data = (local_version) => (online_version) => {
+    const promise = new Promise((resolve, reject) => {
+        if (online_version.version.version > local_version.version.version) {
+
+            const update_keys = Object.keys(online_version)
+                .filter((key) => {
+                    return key !== 'version' && online_version[key].version > local_version[key].version
+                });
+
+            // alert
+            new_data_present_alert(() => {
+                const requests = update_keys
+                    .map((key) => fetch(online_version[key].url)
+                        .then(res => res.text()));
+                Promise.all(requests)
+                    .then((responses) => {
+                        const key_responses_mapped = update_keys
+                            .map((key, index) => [key, responses[index]]);
+
+                        let key_responses_to_save = key_responses_mapped.filter(composer([key_is_bible, not]));
+
+                        const bible_key_index = update_keys.findIndex(key_is_bible);
+                        if (~bible_key_index) {
+                            const bible_storage_keys_content = get_bible_storage_keys_content(update_keys[bible_key_index])(responses[bible_key_index]);
+                            key_responses_to_save = key_responses_to_save.concat(bible_storage_keys_content);
+                        }
+
+                        AsyncStorage.multiSet(key_responses_to_save).then(() => {
+                            AsyncStorage.setItem(version_storage_key, JSON.stringify(online_version)).catch(console.err);
+                        });
+                        resolve(key_responses_mapped);
+                    })
+                    .catch(err => console.error(err));
+            })(update_keys.length);
+        } else {
+            resolve([]);
+        }
+    });
+    return promise;
+};
+
+const get_version_file_compare_and_save_updated = () => {
     return AsyncStorage.getItem(version_storage_key)
         .then((string) => {
             return JSON.parse(string) || require('../../../data/version');
@@ -621,38 +679,7 @@ const get_version_file = () => {
         .then((local_version) => {
             return fetch(local_version.version.url)
                 .then(res => res.json())
-                .then((online_version) => {       
-                    const promise = new Promise((resolve, reject) => {
-                        if (online_version.version.version > local_version.version.version) {
-                            
-                            const update_keys = Object.keys(online_version)
-                                .filter((key) => {                                
-                                    return key !== 'version' && online_version[key].version > local_version[key].version
-                            });                        
-
-                            // alert
-                            new_data_present_alert(() => {
-                                const requests = update_keys
-                                    .map((key) => fetch(online_version[key].url)
-                                    .then(res => res.text()));
-                                Promise.all(requests)
-                                    .then((responses) => {                     
-                                        const keyResponsesMapped = update_keys
-                                            .map((key, index) => [key, responses[index]]);
-
-                                        AsyncStorage.multiSet(keyResponsesMapped).then(() => {
-                                            AsyncStorage.setItem(version_storage_key, JSON.stringify(online_version)).catch(console.err);
-                                        });
-                                        resolve(keyResponsesMapped);
-                                    })
-                                    .catch(err => console.error(err));
-                            })(update_keys.length);
-                        } else {
-                            resolve([]);
-                        }
-                    });
-                    return promise;
-                })
+                .then(get_online_version_compare_and_update_data(local_version))
                 .catch(console.error)
         })
         .catch(console.error)
@@ -698,10 +725,6 @@ class App extends Component {
 
                     this.props.dispatch(set_sung_count_all(arr_w_value || []));
                 });
-
-                if (!json_string) {
-                    AsyncStorage.setItem(storage_psalter_key, JSON.stringify(psalter_json));
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -712,11 +735,6 @@ class App extends Component {
             .then(json_string => {                
                 const json = JSON.parse(json_string) || require('../../../data/PsalterSearchJSON.json');
                 this.props.dispatch(psaltersearchjson_init(json));
-
-                if (!json_string) {
-                    AsyncStorage.setItem(psalter_search_json_storage_key, JSON.stringify(json))
-                        .catch(err => console.error('get Psalter Search Json Error with error:', err))
-                }
             })
             .catch(err => console.error('get Psalter Search Json Error with error:', err));
         
@@ -727,12 +745,12 @@ class App extends Component {
             if (!informed) {
                 new_over_the_air_update_alert(() => {
                     save_informed_of_connection();
-                    get_version_file().then(repopulateDataFiles(this));
+                    get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
                 })
             } else {
-                get_version_file().then(repopulateDataFiles(this));
+                get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
             }
-        });
+        });        
     }
     
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);

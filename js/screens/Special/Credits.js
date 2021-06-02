@@ -88,12 +88,7 @@ class Credits extends Component {
         AsyncStorage.getItem(creditsStorageKey)
             .then(json_string => {
                 const json = JSON.parse(json_string) || require('../../../data/Credits-Texts.json');
-                this.props.dispatch(credits_texts_init(json));
-                if (!json_string) {
-                    AsyncStorage.setItem(creditsStorageKey, json.stringify(json))
-                        .then(() => {})
-                        .catch((err) => console.error('set credits text storage error:', err));
-                }
+                this.props.dispatch(credits_texts_init(json));                
             })
             .catch(err => console.error('get credits text storage error:', err))
     }

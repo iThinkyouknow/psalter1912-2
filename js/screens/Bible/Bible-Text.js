@@ -370,7 +370,6 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
 
 const longPressFns = long_press_actions();
 
-
 class Bible_Text extends Component {
 
     constructor(props) {
@@ -382,14 +381,25 @@ class Bible_Text extends Component {
     componentDidMount() {
         setTimeout(() => {
             const bible_storage_key = 'Bible-KJV';
-            AsyncStorage.getItem(bible_storage_key)
-                .then(json_string => {                    
-                    const json = JSON.parse(json_string) || require('../../../data/Bible-KJV.json');
-                    this.props.dispatch(get_bible_init(json));
+            const divisions = 4;
+            const keys = Array.from({length: divisions}, (_, i) => `${bible_storage_key}${i}`);
+            AsyncStorage.multiGet(keys)
+                .then(key_strings => {
 
-                    if (!json_string) {
-                        AsyncStorage.setItem(bible_storage_key, JSON.stringify(json));
+                    const json_string = key_strings
+                        .filter(([_, string]) => string)
+                        .map(([_, string]) => string)
+                        .join('');
+                    
+                    let json;
+                    try {
+                        json = JSON.parse(json_string);
+                    } catch (error) {
+                        console.log('unable to parse bible json error:', error);
+                        json = require('../../../data/Bible-KJV.json');
                     }
+                    
+                    json && this.props.dispatch(get_bible_init(json));                    
                 })
                 .catch((err) => {
                     console.error(err);
