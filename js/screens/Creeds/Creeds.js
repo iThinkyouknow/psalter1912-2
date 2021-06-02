@@ -290,7 +290,7 @@ class Creeds extends Component {
                 , 'The-Church-Order': JSON.parse(stringArray[18][1]) || require('../../../data/The-Church-Order.json')
             };
 
-            this.props.dispatch(creeds_forms_library_init(creedsForms)); // todo next
+            this.props.dispatch(creeds_forms_library_init(creedsForms));
         }).catch(errArray => {
             Array.isArray(errArray)
                 ? errArray.forEach(([key, err]) => console.log(key, err))
