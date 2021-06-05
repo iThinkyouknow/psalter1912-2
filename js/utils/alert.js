@@ -97,7 +97,7 @@ export const neglected_alert = (texts) => (random) => (on_yes) => (on_no) => (in
 
 export const new_over_the_air_update_alert = (on_yes) => {
     Alert.alert(
-        `Look, I can touch the clouds!`
+        `Look, I can touch the Cloud!`
         , `I have a new function! Ask me about it. Yes! I can now fetch the latest data from the internet. That means that you'd have lesser opportunities to be embarrassed by wrong lyrics. If you do not wish for me to check for updates, stop me by going to your phone settings and disabling data or wifi or internet or something.`
         , [
             {
