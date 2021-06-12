@@ -16,5 +16,25 @@ export const statistics_sung_psalter_date_details = (state = {}, action) => {
         };
     }
 
+    
+
+    return state;
+};
+
+export const neglected_texts = (state = {}, action = {}) => {
+    if (action.type === STATISTICS_ACTIONS.NEGLECTED_TEXTS_INIT) {
+        return {
+            ...state,
+            neglected_texts: action.neglected_texts
+        }
+    }
+
+    if (action.type === STATISTICS_ACTIONS.NEGLECTED_ALERT_TEXTS_INIT) {
+        return {
+            ...state,
+            neglected_alert_texts: action.neglected_alert_texts
+        }
+    }
+
     return state;
 };

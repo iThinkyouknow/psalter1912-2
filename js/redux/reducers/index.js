@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
     , ...require('./statistics')
     , ...require('./psalter-pdf')
     , ...require('./copy')
+    , ...require('./credits')
 });
 
 export default rootReducer;

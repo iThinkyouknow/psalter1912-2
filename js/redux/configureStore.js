@@ -8,7 +8,7 @@ if (__DEV__) {
 	const createLogger = require('redux-logger').createLogger;
 
 	const logger = createLogger({ collapsed: true });
-	middleware = [...middleware, reduxImmutableStateInvariant, logger];
+	middleware = [...middleware, reduxImmutableStateInvariant/*, logger*/];
 } else {
 	middleware = [...middleware];
 }

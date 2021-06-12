@@ -8,6 +8,8 @@ import {
     , TouchableHighlight
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {navigator_style_push} from '../../../Navigator-Common'
 
 import moment from 'moment';
@@ -31,7 +33,11 @@ import Segmented_Buttons from '../../common/Segmented-Buttons';
 
 
 import {select_statistics_tab} from '../../redux/actions/state-actions';
-import {set_sung_psalter_details} from '../../redux/actions/statistics-actions';
+import {
+    set_sung_psalter_details
+    , neglected_texts_init
+    , neglected_alert_texts_init
+} from '../../redux/actions/statistics-actions';
 
 import {
     on_psalter_change
@@ -39,8 +45,6 @@ import {
 
 import {neglected_alert} from '../../utils/alert';
 import {no_op} from '../../utils/functions';
-
-import neglected_texts_array from '../../../data/Neglected-Texts.json'
 
 const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
     const dyn_style = {
@@ -106,16 +110,8 @@ const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
     );
 };
 
-const get_text_index_of_array = (magic_number) => {
-    if (magic_number < 30) {
-        return 1;
-    } else if (magic_number < 60) {
-        return 2;
-    } else if (magic_number < 90) {
-        return 3;
-    } else if (magic_number > 89) {
-        return 0;
-    }
+const get_text_index_of_array = (random) => (array_length) => {
+    return ~~(random() * array_length)
 };
 
 const per_sect_key_extractor = (prefix) => (item, index) => `psalter-stat-${prefix}-${index}`;
@@ -309,6 +305,24 @@ const neglected_on_press_yes = (dispatch) => (navigator) => (index) => () => {
 };
 
 class Statistics extends Component {
+    componentDidMount() {
+        const neglected_texts_storage_key = 'Neglected-Texts';
+        AsyncStorage.getItem(neglected_texts_storage_key)
+            .then(json_string => {
+                const json = JSON.parse(json_string) || require('../../../data/Neglected-Texts.json');
+                this.props.dispatch(neglected_texts_init(json));
+            })
+            .catch(err => console.error('get neglected texts storage error:', err));
+        
+        const neglected_alert_storage_key = 'Neglected-Alert-Texts';
+        AsyncStorage.getItem(neglected_alert_storage_key)
+            .then(json_string => {
+                const json = JSON.parse(json_string) || require('../../../data/Neglected-Alert-Texts.json');
+                this.props.dispatch(neglected_alert_texts_init(json));
+            })
+            .catch(err => console.error('get neglected alert texts storage error:', err));
+    }
+
     render() {
 
         const {
@@ -354,9 +368,8 @@ class Statistics extends Component {
 
         const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(dispatch)(navigator);
 
-        const magic_number = Math.floor(Math.random() * 100);
-        const text_index = get_text_index_of_array(magic_number);
-        const text_array = neglected_texts_array[text_index];
+        const text_index = get_text_index_of_array(Math.random)(this.props.neglected_texts.length);
+        const text_array = this.props.neglected_texts[text_index];
 
         const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch)(navigator);
 
@@ -386,7 +399,7 @@ class Statistics extends Component {
                                   contentContainerStyle={[content_container_style]}
                                   keyExtractor={per_sect_key_extractor(title)}
                                   getItemLayout={flatlist_item_layout(Math.floor(screen_width / 6))}
-                                  renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(Math.random)(neglected_on_press_yes_wo_index)())}/>
+                                  renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(this.props.neglected_alert_texts)(Math.random)(neglected_on_press_yes_wo_index)())}/>
                     )
                 }
 
@@ -411,6 +424,8 @@ function mapStateToProps(state) {
         , selected_tab_index: state.statistics_selected_tab_index
         // tab_bar_reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
+        , neglected_texts: state.neglected_texts.neglected_texts || []
+        , neglected_alert_texts: state.neglected_texts.neglected_alert_texts || []
     };
 }
 

@@ -50,21 +50,42 @@ import {
 } from '../../redux/actions/state-actions';
 
 import {
-    search_psalter
+    psaltersearchjson_init
+    , search_psalter
 } from '../../redux/actions/search-actions';
 
 import {
-    get_bible_passage
+    get_bible_init
+    , get_bible_passage
 } from '../../redux/actions/bible-actions';
 
+import {
+    creeds_forms_library_init
+} from '../../redux/actions/creeds-actions';
+
+import { credits_texts_init } from '../../redux/actions/credits-actions';
+import { 
+    neglected_texts_init
+    , neglected_alert_texts_init
+} from '../../redux/actions/statistics-actions';
+
 import music_player from '../../utils/music-player';
-import {is_present_type, no_op, composer} from '../../utils/functions';
+
+import {
+    is_present_type
+    , no_op
+    , composer
+    , not
+} from '../../utils/functions';
+
 import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
 import {
     string_input_error_alert
     , wrong_number_error_alert
     , not_enough_characters_search_alert
     , perhaps_change_to_psalter_input_alert
+    , new_over_the_air_update_alert
+    , new_data_present_alert
 } from '../../utils/alert';
 
 import {
@@ -77,8 +98,6 @@ import {set_keyboard_toolbar} from '../../utils/keyboard';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
-
-
 
 
 const psalter_text_fade_anim = fade_animation(100)(0);
@@ -229,7 +248,7 @@ const get_random_psalter = (dispatch) => (count) => () => {
 
 const more_stuff_list_header = () => {
     return (
-        <View style={styles.more_stuff_list_header}/>
+        <View style={styles.more_stuff_list_header} />
     );
 };
 
@@ -554,9 +573,123 @@ const on_action = (actions_array) => () => {
     actions_array.map((action) => action());
 };
 
-
-
 const longPressFns = long_press_actions();
+
+const heartbeat = (navigator) => {
+    setInterval(hide_tabs_action(navigator), 3000)
+};
+
+const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
+
+    const keyMap = {
+        'PsalterJSON': psalter_init
+        , 'Bible-KJV': get_bible_init
+        , 'Credits-Texts': credits_texts_init
+        , 'Neglected-Texts': neglected_texts_init
+        , 'Neglected-Alert-Texts': neglected_alert_texts_init
+        , 'PsalterSearchJSON': psaltersearchjson_init
+    };
+    const { dispatch, creeds } = instance.props;
+    keyJsonStringsMapped
+        .filter(([key]) => keyMap[key])
+        .forEach(([key, json_string]) => {
+            const set_function = keyMap[key];
+            const json = JSON.parse(json_string);
+
+            if (set_function) {
+                dispatch(set_function(json));
+            } else {
+                console.log('no set function:', key, set_function);
+            }
+            
+        });
+    const documents = {
+        ...creeds.documents
+    };
+    const creedsToBeUpdated = keyJsonStringsMapped
+        .filter(([key]) => creeds.documents && creeds.documents[key]);
+    if (creedsToBeUpdated.length > 0) {
+        creedsToBeUpdated.forEach(([key, json_string]) => {
+            documents[key] = JSON.parse(json_string);
+        });
+        dispatch(creeds_forms_library_init(documents));
+    }
+};
+
+const key_is_bible = key => key === 'Bible-KJV';
+
+const get_bible_storage_keys_content = (key) => (bible_string) => {
+    const divisions = 4;
+    const segment_length = ~~(bible_string.length / divisions);
+    const slice_index = Array.from({length: divisions}, (_, i) => i * segment_length);
+    const bible_key_map = slice_index.map((currIndex, i, arr) => {
+        return [`${key}${i}`, bible_string.slice(currIndex, arr[i + 1])]
+    });
+    return bible_key_map;
+};
+
+const version_storage_key = 'version';
+
+const get_online_version_compare_and_update_data = (local_version) => (online_version) => {
+    const promise = new Promise((resolve, reject) => {
+        if (online_version.version.version > local_version.version.version) {
+
+            const update_keys = Object.keys(online_version)
+                .filter((key) => {
+                    return key !== 'version' && online_version[key].version > local_version[key].version
+                });
+
+            // alert
+            new_data_present_alert(() => {
+                const requests = update_keys
+                    .map((key) => fetch(online_version[key].url)
+                        .then(res => res.text()));
+                Promise.all(requests)
+                    .then((responses) => {
+                        const key_responses_mapped = update_keys
+                            .map((key, index) => [key, responses[index]]);
+
+                        let key_responses_to_save = key_responses_mapped.filter(composer([key_is_bible, not]));
+
+                        const bible_key_index = update_keys.findIndex(key_is_bible);
+                        if (~bible_key_index) {
+                            const bible_storage_keys_content = get_bible_storage_keys_content(update_keys[bible_key_index])(responses[bible_key_index]);
+                            key_responses_to_save = key_responses_to_save.concat(bible_storage_keys_content);
+                        }
+
+                        AsyncStorage.multiSet(key_responses_to_save).then(() => {
+                            AsyncStorage.setItem(version_storage_key, JSON.stringify(online_version)).catch(console.err);
+                        });
+                        resolve(key_responses_mapped);
+                    })
+                    .catch(err => console.error(err));
+            })(update_keys.length);
+        } else {
+            resolve([]);
+        }
+    });
+    return promise;
+};
+
+const get_version_file_compare_and_save_updated = () => {
+    return AsyncStorage.getItem(version_storage_key)
+        .then((string) => {
+            return JSON.parse(string) || require('../../../data/version');
+        })
+        .then((local_version) => {
+            return fetch(local_version.version.url)
+                .then(res => res.json())
+                .then(get_online_version_compare_and_update_data(local_version))
+                .catch(console.error)
+        })
+        .catch(console.error)
+};
+
+const save_informed_of_connection = () => {
+    return AsyncStorage.setItem('informed_connection', '1')
+};
+// AsyncStorage.removeItem('informed_connection'); // remove when over
+const get_informed_of_connection = () => AsyncStorage.getItem('informed_connection');
 
 /**
  *
@@ -572,26 +705,52 @@ class App extends Component {
 
     componentDidMount() {
         const RNShakeEvent = require('react-native-shake-event');
+        const storage_psalter_key = 'PsalterJSON';
+        AsyncStorage.getItem(storage_psalter_key)
+            .then(json_string => {
+                const psalter_json = JSON.parse(json_string) || require('../../../data/PsalterJSON.json');
+                
+                this.props.dispatch(psalter_init(psalter_json));
 
-        // let a = Date.now();
-        const psalter_json = require('../../../data/PsalterJSON.json');
-        // console.log(Date.now() - a);
+                const psalters_count = psalter_json.length;
 
-        this.props.dispatch(psalter_init(psalter_json));
+                RNShakeEvent.addEventListener('shake', get_random_psalter(this.props.dispatch)(psalters_count));
+                // AsyncStorage.clear(); // for dev only
+                const count_all_keys_array = Array.from(new Array(psalters_count), (item, index) => `psalter-${index + 1}`);
 
-        const psalters_count = psalter_json.length;
+                AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
+                    const arr_w_value = arr
+                        .filter(([key, value]) => is_present_type('string')(value))
+                        .map(([key, value]) => [key, JSON.parse(value)]);
 
-        RNShakeEvent.addEventListener('shake', get_random_psalter(this.props.dispatch)(psalters_count));
-        // AsyncStorage.clear(); // for dev only
-        const count_all_keys_array = Array.from(new Array(psalters_count), (item, index) => `psalter-${index + 1}`);
+                    this.props.dispatch(set_sung_count_all(arr_w_value || []));
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        
+        const psalter_search_json_storage_key = 'PsalterSearchJSON';
+        AsyncStorage.getItem(psalter_search_json_storage_key)
+            .then(json_string => {                
+                const json = JSON.parse(json_string) || require('../../../data/PsalterSearchJSON.json');
+                this.props.dispatch(psaltersearchjson_init(json));
+            })
+            .catch(err => console.error('get Psalter Search Json Error with error:', err));
+        
 
-        AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
-            const arr_w_value = arr
-                .filter(([key, value]) => is_present_type('string')(value))
-                .map(([key, value]) => [key, JSON.parse(value)]);
+        heartbeat(this.props.navigator);
 
-            this.props.dispatch(set_sung_count_all(arr_w_value || []));
-        });
+        get_informed_of_connection().then((informed) => {
+            if (!informed) {
+                new_over_the_air_update_alert(() => {
+                    save_informed_of_connection();
+                    get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
+                })
+            } else {
+                get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
+            }
+        });        
     }
     
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
@@ -803,9 +962,11 @@ function mapStateToProps(state) {
         , text_font_size: state.text_font_size
         , copy_share_btn_props: state.copy_share_btn_props
         //search reducer
-        , psalter_search_results: state.psalter_search_results
+        , psalter_search_results: state.psalter_search_results.search_results
         // tab reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
+        // creeds
+        , creeds: state.creeds
     };
 }
 
