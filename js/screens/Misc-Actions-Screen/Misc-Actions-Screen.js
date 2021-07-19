@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Clipboard from "@react-native-community/clipboard";
+import _ from 'lodash';
 
 import {
     set_copy_text
@@ -176,13 +177,14 @@ const MiscActions = (props) => {
 
 
 function mapStateToProps(state) {
+    const creed_body = _.get(state, 'creeds.creed_body') || {};
     return {
         psalter: state.psalter.content
         , text_font_size: state.text_font_size
         , text_to_be_copied: state.text_to_be_copied
-        , creed_body_title: state.creeds.creed_body.title
-        , creed_body_description: state.creeds.creed_body.description
-        , creed_body: state.creeds.creed_body.body
+        , creed_body_title: creed_body.title || ''
+        , creed_body_description: creed_body.description || ''
+        , creed_body: creed_body.body || {}
         , bible_passage: state.bible.bible_passage
         , text_input_pointer_events: state.misc_actions_text_input_pointer_events
     }
