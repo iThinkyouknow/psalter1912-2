@@ -42,6 +42,7 @@ import {
 } from '../../redux/actions/state-actions';
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
+let main_view_ref = null;
 
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
 
@@ -105,11 +106,12 @@ const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles
 
     return (
         <FlatList data={body.content}
-                  ListHeaderComponent={Creeds_Body_Header}
-                  keyExtractor={key_extractor}
-                  renderItem={Creeds_Body_Component(body.header)(font_size)} style={styles.flatlist_padding_horizontal}
-                  onScrollEndDrag={scroll_swipe_actions}
-                  {...swipe_action.panHandlers} />
+            ref={ref => main_view_ref = ref}
+            ListHeaderComponent={Creeds_Body_Header}
+            keyExtractor={key_extractor}
+            renderItem={Creeds_Body_Component(body.header)(font_size)} style={styles.flatlist_padding_horizontal}
+            onScrollEndDrag={scroll_swipe_actions}
+            {...swipe_action.panHandlers} />
     );
 };
 
@@ -162,6 +164,7 @@ const swipe_right = (dispatch) => (library_books_info) => (library_type_index) =
             }
         }
     }
+    main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
 
 const go_to_next_creed = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => {
@@ -207,6 +210,7 @@ const swipe_left = (dispatch) => (library_books_info) => (library_type_index) =>
             }
         }
     }
+    main_view_ref && main_view_ref.scrollToOffset({offset: 0});
 };
 
 const set_font_size = (dispatch) => (new_font_size) => {

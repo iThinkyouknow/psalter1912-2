@@ -67,6 +67,7 @@ import {
 } from '../Psalter/Psalter'
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
+let main_view_ref = null;
 
 const Header_Text_Component = (font_size) => (font_family) => (other_style) => (text) => {
     return (
@@ -110,13 +111,14 @@ const Bible_Text_Component = (touch_actions) => (scroll_swipe_actions) => (chapt
 
     return (
         <FlatList data={chapter.content.slice(1)}
-                  ListHeaderComponent={list_header_component(chapter.title)(chapter.description)(font_size)}
-                  keyExtractor={bible_key_extractor}
-                  renderItem={bible_body_component(font_size)}
-                  scrollEnabled={true}
-                  onScrollEndDrag={scroll_swipe_actions}
-                  {...touch_actions.panHandlers}
-                   />
+            ref={ref => main_view_ref = ref}
+            ListHeaderComponent={list_header_component(chapter.title)(chapter.description)(font_size)}
+            keyExtractor={bible_key_extractor}
+            renderItem={bible_body_component(font_size)}
+            scrollEnabled={true}
+            onScrollEndDrag={scroll_swipe_actions}
+            {...touch_actions.panHandlers}
+            />
     );
 };
 
@@ -297,6 +299,7 @@ const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => (
     dispatch(get_bible_passage(book_index)(chapter_index));
     library_slide_down_animation.slide();
     library_container_slide_anim.slide();
+    main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 
 };
 
@@ -337,6 +340,7 @@ const swipe_right_action = (dispatch) => (per_book_ch_last_index_array) => (book
     } else if (ch_index > 0) {
         dispatch(get_bible_passage(book_index)(ch_index - 1));
     }
+    main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
 
 const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => () => {
@@ -352,6 +356,7 @@ const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_
     } else if (ch_index < per_book_ch_last_index_array[book_index]) {
         dispatch(get_bible_passage(book_index)(ch_index + 1));
     }
+    main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
 
 const set_font_size = (dispatch) => (new_font_size) => {

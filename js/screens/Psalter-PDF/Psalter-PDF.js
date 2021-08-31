@@ -199,7 +199,7 @@ class Psalter_PDF extends Component {
                         <Pdf source={psalter_pdf_file_source}
                             minScale={0.5}
                             maxScale={3}
-                            scale={1.2}
+                            scale={1}
                             style={pdf_style}
                             horizontal={true}
                             page={psalter_score_page}
