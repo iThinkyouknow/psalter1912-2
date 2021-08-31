@@ -99,6 +99,7 @@ import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigato
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 
+let main_view_ref = null;
 
 const psalter_text_fade_anim = fade_animation(100)(0);
 
@@ -148,7 +149,12 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
     if (!Number.isNaN(next_val)) {
         psalter_text_fade_anim.fade_in();
 
-        setTimeout(() => dispatch(lock_in(next_val)), 10);
+        setTimeout(() => {
+            dispatch(lock_in(next_val));            
+            main_view_ref && main_view_ref.scrollToOffset({
+                offset: 0
+            });
+        }, 10);
         set_keyboard_toolbar(true);
 
         music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
@@ -890,6 +896,7 @@ class App extends Component {
                     renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
                     keyExtractor={psalter_key_extractor}
                     onScrollEndDrag={scroll_swipe_actions_loaded}
+                    ref={ref => main_view_ref = ref}
                     {...touch_actions.panHandlers} />
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
