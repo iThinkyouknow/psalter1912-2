@@ -191,7 +191,9 @@ class Psalter_PDF extends Component {
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
 
         const can_load_pdf = (is_number(psalter_pdf_file_source) || is_object(psalter_pdf_file_source));
-
+        const initial_scale = Platform.OS === 'ios'
+            ? 1
+            : 1.5;
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
                 <View style={{flex: 1, justifyContent: 'center'}}>
@@ -199,7 +201,7 @@ class Psalter_PDF extends Component {
                         <Pdf source={psalter_pdf_file_source}
                             minScale={0.5}
                             maxScale={3}
-                            scale={1.2}
+                            scale={initial_scale}
                             style={pdf_style}
                             horizontal={true}
                             page={psalter_score_page}
