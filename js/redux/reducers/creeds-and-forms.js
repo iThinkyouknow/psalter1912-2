@@ -1,12 +1,12 @@
-import {CREEDS_ACTIONS} from '../actions/creeds-actions';
-
-const get_lib_data = ({title, levels_deep, content}) => {
+import { CREEDS_ACTIONS } from '../actions/creeds-actions';
+import { CREEDS_COUNT } from '../../common/constants';
+const get_lib_data = ({ title, levels_deep, content }) => {
     return {
         title
         , levels_deep
         , last_ch_index: content.length - 1
         , last_article_index: (levels_deep === 2)
-            ? content.map(({content}) => content.length - 1)
+            ? content.map(({ content }) => content.length - 1)
             : []
     };
 };
@@ -40,7 +40,8 @@ const originalState = {
         , 'Form-for-the-Confirmation-of-Marriage-before-the-Church'
         , 'Formula-of-Subscription-(PRCA)'
         , 'The-Church-Order'
-    ]
+    ],
+    creeds_search_file: 'CreedsSearchJSON'
 };
 
 const _creeds = (cache = {}) => (state = originalState, action = {}) => {
@@ -48,21 +49,21 @@ const _creeds = (cache = {}) => (state = originalState, action = {}) => {
         const {
             documents = {}
         } = action;
-        
+
         const mapDocToKey = (key) => documents[key];
-        const creeds = state.title_order.slice(0, 7).map(mapDocToKey);
-        const forms = state.title_order.slice(7).map(mapDocToKey);
+        const creeds = state.title_order.slice(0, CREEDS_COUNT).map(mapDocToKey);
+        const forms = state.title_order.slice(CREEDS_COUNT).map(mapDocToKey);
 
         const library = [
             creeds,
             forms
         ];
-        
+
         let initial_state = original_creed_state(library);
         initial_state.library = library;
         initial_state.documents = documents;
         initial_state.creeds_library = library.map(doc => doc.map(get_lib_data))
-        
+
         return {
             ...state
             , ...initial_state
@@ -75,7 +76,7 @@ const _creeds = (cache = {}) => (state = originalState, action = {}) => {
         const key = `${library_type_index}${selected_index}`;
         if (cache[key] === undefined) {
             const creed = state.library[library_type_index][selected_index];
-    
+
             cache[key] = {
                 ...get_creed_content_w_header_only(creed),
                 library_type_index,
@@ -126,32 +127,32 @@ const _creeds = (cache = {}) => (state = originalState, action = {}) => {
 
     if (action.type === CREEDS_ACTIONS.LOCK_IN_CREED_LEVEL_2) {
         const { library_type_index, selected_creed_index, selected_chapter_index } = action;
-        const key = `${library_type_index}${selected_creed_index}${selected_chapter_index}`;        
+        const key = `${library_type_index}${selected_creed_index}${selected_chapter_index}`;
         if (cache[key] == undefined) {
             const creed = state.library[library_type_index][selected_creed_index];
             const chapter_header = creed.content[selected_chapter_index].header;
             const chapter_content = creed.content[selected_chapter_index].content.map(({ content }) => {
-    
+
                 const [header, body, body2] = content
                     .map(text_array => text_array.map(({ text }) => text));
-    
+
                 const header_text = header.join(' ');
-    
+
                 const is_rej_of_error = /rejection of error/i.test(header_text);
-    
+
                 const body_to_display = is_rej_of_error ? body2 : body;
-    
+
                 const joined_body = body_to_display
                     .join(' ')
                     .slice(0, 100)
                     .replace('\n\n', '');
-    
+
                 return {
                     header: header_text,
                     content: [`${joined_body}...`]
                 };
             });
-    
+
             cache[key] = {
                 title: chapter_header,
                 levels_deep: creed.levels_deep,
@@ -167,7 +168,7 @@ const _creeds = (cache = {}) => (state = originalState, action = {}) => {
             creed_level_2: cache[key]
         };
     }
-    
+
     return state;
 };
 
@@ -175,10 +176,10 @@ export const creeds = _creeds({});
 
 
 const get_creed_content_w_header_only = (creed) => {
-    const header_only_content = creed.content.map(({header, content}) => {
-        const new_content = content.map(({content}) => {
+    const header_only_content = creed.content.map(({ header, content }) => {
+        const new_content = content.map(({ content }) => {
             return content[0]
-                .map(({text}) => text)
+                .map(({ text }) => text)
                 .join(' ');
         });
 

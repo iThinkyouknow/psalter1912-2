@@ -1,0 +1,1 @@
+export const CREEDS_COUNT = 7;

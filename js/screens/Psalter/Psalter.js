@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     View
     , FlatList
@@ -11,10 +11,11 @@ import {
     , TouchableHighlight
     , Image
 } from 'react-native';
-import {connect} from 'react-redux';
+
+import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './index.styles';
-import {colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii} from '../../common/common.styles';
+import { colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii } from '../../common/common.styles';
 
 import {
     Default_Text
@@ -29,7 +30,7 @@ import FontSlider from '../../common/Font-slider';
 
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
-import {Rounded_Button} from '../../common/Rounded-Button';
+import { Rounded_Button } from '../../common/Rounded-Button';
 import music_slider from '../../common/music-slider';
 import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
@@ -64,7 +65,7 @@ import {
 } from '../../redux/actions/creeds-actions';
 
 import { credits_texts_init } from '../../redux/actions/credits-actions';
-import { 
+import {
     neglected_texts_init
     , neglected_alert_texts_init
 } from '../../redux/actions/statistics-actions';
@@ -78,7 +79,7 @@ import {
     , not
 } from '../../utils/functions';
 
-import {slide_down_animation, fade_animation, slide_side_animation} from '../../utils/animation';
+import { slide_down_animation, fade_animation, slide_side_animation } from '../../utils/animation';
 import {
     string_input_error_alert
     , wrong_number_error_alert
@@ -94,7 +95,7 @@ import {
     , long_press_actions
 } from '../../utils/touch-gestures';
 
-import {set_keyboard_toolbar} from '../../utils/keyboard';
+import { set_keyboard_toolbar } from '../../utils/keyboard';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
@@ -110,7 +111,7 @@ const more_section_slide = more_section_slide_animation.slide;
 
 const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
-    const {no, title, content, meter, psalm} = psalter;
+    const { no, title, content, meter, psalm } = psalter;
 
     const fade_in_style = {
         opacity: fade_anim
@@ -118,7 +119,7 @@ const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
     return (((index >= 0) &&
         <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
-            {is_present_type('number')(no) && main_title(font_size * 2)()({color: colors.gold})(`Psalter ${no}`)}
+            {is_present_type('number')(no) && main_title(font_size * 2)()({ color: colors.gold })(`Psalter ${no}`)}
             {is_present_type('string')(title) && sub_title(font_size * 1.1)()()(title)}
             {is_present_type('number')(psalm) && sub_title(font_size * 1.1)()()(`Psalm ${psalm}`)}
             {is_present_type('string')(meter) && meter_text(font_size * 0.8)()()(`Meter: ${meter}`)}
@@ -128,7 +129,7 @@ const header = (fade_anim) => (psalter) => (index) => (font_size) => {
 
 const psalter_key_extractor = (item, i) => `psalter-text-${i}`;
 
-const render_psalter_text = (fade_anim) => (font_size) => ({item, index}) => {
+const render_psalter_text = (fade_anim) => (font_size) => ({ item, index }) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
         return normal_text(font_size)(`line-${i}`)()(line_to_render);
@@ -150,7 +151,7 @@ export const on_psalter_change = (dispatch) => (next_val) => () => {
         psalter_text_fade_anim.fade_in();
 
         setTimeout(() => {
-            dispatch(lock_in(next_val));            
+            dispatch(lock_in(next_val));
             main_view_ref && main_view_ref.scrollToOffset({
                 offset: 0
             });
@@ -173,7 +174,7 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
         set_copy_share_btn
         , dispatch
     ])(props);
-} 
+}
 
 const set_text_input_value = (dispatch) => (value) => {
     dispatch(psalter_text_input(value));
@@ -231,18 +232,19 @@ const num_input_set_can_search = (dispatch) => (can_search) => () => {
 const Number_input = (props) => {
 
     const keyboard_type = (Platform.OS === 'ios') ? 'number-pad' : 'numeric';
-    const {psalters_count, value, dispatch, valid_text_input} = props;
+    const { psalters_count, value, dispatch, valid_text_input } = props;
 
     return (
         <TextInput keyboardType={keyboard_type}
-                   placeholder={`Psalter # (1 - ${psalters_count})`}
-                   onEndEditing={end_text_input(dispatch)(valid_text_input)}
-                   maxLength={`${psalters_count}`.length}
-                   onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
-                   value={value}
-                   autoCorrect={false}
-                   underlineColorAndroid={'transparent'}
-                   {...props} />
+            placeholder={`Psalter # (1 - ${psalters_count})`}
+            placeholderTextColor={colors.grey}
+            onEndEditing={end_text_input(dispatch)(valid_text_input)}
+            maxLength={`${psalters_count}`.length}
+            onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
+            value={value}
+            autoCorrect={false}
+            underlineColorAndroid={'transparent'}
+            {...props} />
     );
 };
 
@@ -264,9 +266,9 @@ const Bottom_Buttons = (props) => {
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
             {Rounded_Button(
-            <Default_Text text_align={'center'}>
-                I'm Done
-            </Default_Text>)(more_section_slide)(props.width)}
+                <Default_Text text_align={'center'}>
+                    I'm Done
+                </Default_Text>)(more_section_slide)(props.width)}
         </View>
 
     );
@@ -274,7 +276,7 @@ const Bottom_Buttons = (props) => {
 
 const more_info_section_key_extractor = (item, index) => `more-info-section-${item.title}-${index}`;
 
-const ref_text_comp = (psalm) => ({v, refs}, i) => {
+const ref_text_comp = (psalm) => ({ v, refs }, i) => {
     return (
         <TouchableHighlight key={`ref-line-${i}`}>
             <View>
@@ -286,8 +288,8 @@ const ref_text_comp = (psalm) => ({v, refs}, i) => {
     );
 };
 
-const psalter_refs_section = ({item, index}) => {
-    const {title, text_array, psalm} = item;
+const psalter_refs_section = ({ item, index }) => {
+    const { title, text_array, psalm } = item;
     if (!Array.isArray(text_array) || text_array.length < 1) return null;
 
     const texts = Array.isArray(item.text_array)
@@ -304,8 +306,8 @@ const psalter_refs_section = ({item, index}) => {
     );
 };
 
-const count_section = ({item}) => {
-    const {title} = item;
+const count_section = ({ item }) => {
+    const { title } = item;
 
     if (!is_present_type('string')(title)) return null;
     return (
@@ -315,7 +317,7 @@ const count_section = ({item}) => {
     );
 };
 
-const music_section = (music_slider) => ({item, index}) => {
+const music_section = (music_slider) => ({ item, index }) => {
     if (!Array.isArray(item.sources)) return null;
     if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
 
@@ -371,7 +373,7 @@ const More_Stuff_Section_List = (props) => {
         }
     ];
 
-    const {width, height} = Dimensions.get('window');
+    const { width, height } = Dimensions.get('window');
     const slide_down_view_dynamic_style = {
         width,
         height,
@@ -386,8 +388,8 @@ const More_Stuff_Section_List = (props) => {
     return (
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
             <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]}
-                         sections={sections}/>
-            <Bottom_Buttons width={width} navigator={props.navigator}/>
+                sections={sections} />
+            <Bottom_Buttons width={width} navigator={props.navigator} />
         </Animated.View>
     );
 };
@@ -453,42 +455,38 @@ const get_psalter_for_search = (dispatch) => (input_int) => () => {
     on_psalter_change(dispatch)(input_int)();
 };
 
+const used_the_wrong_text_input_regex = /^\d{1,3}$/;
 
 const search_fn = (dispatch) => (search_action) => (event) => {
     const text = event.nativeEvent.text.trim();
 
-    if (text.length > 0 && text.length < 3) {
-        const used_the_wrong_text_input_regex = /^\d{1,2}$/;
-
-        (used_the_wrong_text_input_regex.test(text))
-            ? perhaps_change_to_psalter_input_alert(text)
-            : not_enough_characters_search_alert(3);
-
-    } else if (text.length > 2) {
-        dispatch(search_action(text));
+    if (used_the_wrong_text_input_regex.test(text)) {
+        perhaps_change_to_psalter_input_alert(text)
     }
+
+    dispatch(search_action(text));
 };
 
 
 const Text_input_search = (props) => {
     const should_autofocus = !(Array.isArray(props.search_results) && props.search_results.length > 0);
     return (
-        <TextInput placeholder={`SEARCH with at least 3 characters`}
-                   onEndEditing={search_fn(props.dispatch)(search_psalter)}
-                   onChangeText={() => {
-                   }}
-                   autoCorrect={false}
-                   returnKeyType={'search'}
-                   selectTextOnFocus={true}
-                   autoFocus={should_autofocus}
-                   autoCapitalize={'none'}
-                   underlineColorAndroid={'transparent'}
-                   {...props} />
+        <TextInput placeholder={`SEARCH`}
+            onEndEditing={search_fn(props.dispatch)(search_psalter)}
+            onChangeText={() => {
+            }}
+            autoCorrect={false}
+            returnKeyType={'search'}
+            selectTextOnFocus={true}
+            autoFocus={should_autofocus}
+            autoCapitalize={'none'}
+            underlineColorAndroid={'transparent'}
+            {...props} />
     );
 };
 
 const Search_result_view = (props) => {
-    const {width, height} = Dimensions.get('window');
+    const { width, height } = Dimensions.get('window');
 
     const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar;
     const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
@@ -510,28 +508,28 @@ const Search_result_view = (props) => {
             : '';
 
         return (
-            <View style={{marginTop: sizes.medium}}>
+            <View style={{ marginTop: sizes.medium }}>
                 {main_title_2(`${search_results_count} Search Results`)}
             </View>
         );
     };
 
-    const search_result = (dispatch) => (navigator) => ({item, index}) => {
-        const text = item.search_result.map(({text, style}, i) => {
+    const search_result = (dispatch) => (navigator) => ({ item, index }) => {
+        const text = item.search_result.map(({ text, style }, i) => {
             const key = `search-result-${index}-${i}`;
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
             const color = (style === 'bold')
                 ? {
                     color: colors.blue
                 }
-            : undefined;
+                : undefined;
 
             return <Default_Text style={color} key={key} font_weight={font_weight}>{text}</Default_Text>;
         });
 
         return (
-            <TouchableHighlight style={{marginVertical: sizes.large, marginHorizontal: sizes.large}}
-                                onPress={get_psalter_for_search(dispatch)(item.index)}>
+            <TouchableHighlight style={{ marginVertical: sizes.large, marginHorizontal: sizes.large }}
+                onPress={get_psalter_for_search(dispatch)(item.index)}>
                 <View >
                     <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
                     <Default_Text>
@@ -543,15 +541,15 @@ const Search_result_view = (props) => {
     };
 
     const search_results_key_extractor = (item, index) => `search-results-${index}`;
-    const search_results_separator = (width) => ({highlighter}) => <View
-        style={[styles.search_results_separator, {width: Math.floor(width * 0.5)}]}/>;
+    const search_results_separator = (width) => ({ highlighter }) => <View
+        style={[styles.search_results_separator, { width: Math.floor(width * 0.5) }]} />;
 
     return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
-        <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results}/>}
-                  data={props.search_results}
-                  renderItem={search_result(props.dispatch)(props.navigator)}
-                  keyExtractor={search_results_key_extractor}
-                  ItemSeparatorComponent={search_results_separator(width)}/>
+        <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results} />}
+            data={props.search_results}
+            renderItem={search_result(props.dispatch)(props.navigator)}
+            keyExtractor={search_results_key_extractor}
+            ItemSeparatorComponent={search_results_separator(width)} />
 
     </Animated.View>)
 };
@@ -607,7 +605,7 @@ const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
             } else {
                 console.log('no set function:', key, set_function);
             }
-            
+
         });
     const documents = {
         ...creeds.documents
@@ -627,7 +625,7 @@ const key_is_bible = key => key === 'Bible-KJV';
 const get_bible_storage_keys_content = (key) => (bible_string) => {
     const divisions = 4;
     const segment_length = ~~(bible_string.length / divisions);
-    const slice_index = Array.from({length: divisions}, (_, i) => i * segment_length);
+    const slice_index = Array.from({ length: divisions }, (_, i) => i * segment_length);
     const bible_key_map = slice_index.map((currIndex, i, arr) => {
         return [`${key}${i}`, bible_string.slice(currIndex, arr[i + 1])]
     });
@@ -715,7 +713,7 @@ class App extends Component {
         AsyncStorage.getItem(storage_psalter_key)
             .then(json_string => {
                 const psalter_json = JSON.parse(json_string) || require('../../../data/PsalterJSON.json');
-                
+
                 this.props.dispatch(psalter_init(psalter_json));
 
                 const psalters_count = psalter_json.length;
@@ -735,15 +733,15 @@ class App extends Component {
             .catch(err => {
                 console.error(err);
             });
-        
+
         const psalter_search_json_storage_key = 'PsalterSearchJSON';
         AsyncStorage.getItem(psalter_search_json_storage_key)
-            .then(json_string => {                
+            .then(json_string => {
                 const json = JSON.parse(json_string) || require('../../../data/PsalterSearchJSON.json');
                 this.props.dispatch(psaltersearchjson_init(json));
             })
             .catch(err => console.error('get Psalter Search Json Error with error:', err));
-        
+
 
         heartbeat(this.props.navigator);
 
@@ -756,9 +754,9 @@ class App extends Component {
             } else {
                 get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
             }
-        });        
+        });
     }
-    
+
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
     // Keyboard.addListener('keyboardDidHide', keyboard_did_hide);
 
@@ -820,32 +818,32 @@ class App extends Component {
         const get_text_input = (text_input_as_search) => {
             if (Platform.OS === 'ios') {
                 return (text_input_as_search)
-                    ? <Text_input_search 
+                    ? <Text_input_search
                         dispatch={dispatch}
                         style={[styles.text_input_style]}
                         valid_text_input={true}
                         search_results={psalter_search_results}
-                        onBlur={hide_tabs_action_loaded}/>
+                        onBlur={hide_tabs_action_loaded} />
 
                     : <Number_input psalters_count={psalters_count}
-                                    value={psalter_text_input}
-                                    dispatch={dispatch}
-                                    style={[styles.text_input_style]}
-                                    valid_text_input={valid_text_input}
-                                    onBlur={on_action(num_input_on_blur_actions_array)}
-                                    onFocus={num_input_set_can_search_w_dispatch(false)} />
+                        value={psalter_text_input}
+                        dispatch={dispatch}
+                        style={[styles.text_input_style]}
+                        valid_text_input={valid_text_input}
+                        onBlur={on_action(num_input_on_blur_actions_array)}
+                        onFocus={num_input_set_can_search_w_dispatch(false)} />
 
             } else if (Platform.OS === 'android') {
                 return (text_input_as_search)
                     ? <Text_input_search dispatch={dispatch}
-                                         style={[styles.text_input_style]}
-                                         valid_text_input={true} />
+                        style={[styles.text_input_style]}
+                        valid_text_input={true} />
 
                     : <Number_input psalters_count={psalters_count}
-                                    value={psalter_text_input}
-                                    dispatch={dispatch}
-                                    style={[styles.text_input_style]}
-                                    valid_text_input={valid_text_input} />
+                        value={psalter_text_input}
+                        dispatch={dispatch}
+                        style={[styles.text_input_style]}
+                        valid_text_input={valid_text_input} />
             }
         };
 
@@ -885,11 +883,11 @@ class App extends Component {
                     psalm={psalter.psalm}
                     psalter_no={psalter.no}
                     sung_count={is_present_type('array')(sung_dates) ? sung_dates.length : NaN}
-                    music_slider={music_slider_w_data}/>
+                    music_slider={music_slider_w_data} />
 
                 <Search_result_view search_results={psalter_search_results}
-                                    dispatch={dispatch}
-                                    navigator={navigator}/>
+                    dispatch={dispatch}
+                    navigator={navigator} />
 
                 <FlatList data={psalter.content}
                     ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
@@ -900,12 +898,12 @@ class App extends Component {
                     {...touch_actions.panHandlers} />
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
-                
+
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                        navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
+                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();
@@ -927,22 +925,22 @@ class App extends Component {
                     {get_text_input(text_input_as_search)}
 
                     <TouchableHighlight style={styles.bottom_button_container}
-                                        onPress={on_search_button_press(dispatch)(text_input_as_search)(slide_right_pos)}
-                                        underlayColor={colors.dark_cerulean}
-                                        disabled={!can_search}>
+                        onPress={on_search_button_press(dispatch)(text_input_as_search)(slide_right_pos)}
+                        underlayColor={colors.dark_cerulean}
+                        disabled={!can_search}>
                         {(can_search)
                             ? <Image style={styles.button_std}
-                                     source={require('../../../images/icons/icon-search.png')}/>
+                                source={require('../../../images/icons/icon-search.png')} />
 
                             : <Image style={styles.button_std}
-                                     source={require('../../../images/icons/icon-search-grey.png')}/>
+                                source={require('../../../images/icons/icon-search-grey.png')} />
                         }
                     </TouchableHighlight>
 
                     <TouchableHighlight style={styles.bottom_button_container}
-                                        onPress={more_section_slide}
-                                        underlayColor={colors.dark_cerulean}>
-                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')}/>
+                        onPress={more_section_slide}
+                        underlayColor={colors.dark_cerulean}>
+                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')} />
 
                     </TouchableHighlight>
                 </View>
