@@ -51,6 +51,8 @@ import {
 import {
     creeds_forms_library_init
     , lock_in_creed
+    , lock_in_creed_level_2
+    , lock_in_creed_body
 } from '../../redux/actions/creeds-actions';
 
 import {
@@ -58,7 +60,7 @@ import {
     , search_creeds
 } from '../../redux/actions/search-actions';
 
-import { no_op } from '../../utils/functions';
+import { no_op, is_number } from '../../utils/functions';
 import { CREEDS_COUNT } from '../../common/constants';
 
 let search_result_flatlist_ref;
@@ -311,9 +313,24 @@ const on_press_creed_search = (props, item) => () => {
         ? item.index - CREEDS_COUNT
         : item.index;
 
-    select_book(props.navigator)(props.dispatch)(tabIndex)(index)(item.levels_deep)();
+    const { dispatch, navigator } = props;
+
+    let levels_deep = 1;
+    if (is_number(item.subIndex)) {
+        levels_deep = 2;
+        dispatch(lock_in_creed_level_2(tabIndex)(index)(item.chIndex));
+    }
+
+    dispatch(lock_in_creed(tabIndex)(index)(levels_deep));
+    dispatch(lock_in_creed_body(tabIndex)(index)(item.chIndex)(item.subIndex));
+    navigator.push({
+        screen: 'Creeds_Text',
+        navigatorStyle: navigator_style_push,
+        backButtonTitle: 'Chapters'
+    });
 
     select_tab(props.dispatch)(tabIndex)();
+
 }
 
 const search_results = (props) => {
@@ -332,7 +349,6 @@ const search_results = (props) => {
             }
         ]
     };
-    // todo: lose focus on slide out
     const Search_r_view_header = (props) => {
         const search_results_count = (Array.isArray(props.search_results) && props.search_results.length > 0)
             ? `${props.search_results.length} `
@@ -482,8 +498,6 @@ class Creeds extends Component {
 
 
     render() {
-        //random, styles, images, Dimensions, navigator, dispatch
-
         const {
             dispatch
             , navigator

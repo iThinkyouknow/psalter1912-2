@@ -5,11 +5,15 @@ const RESULT_DISPLAY_END_INDEX = 114;
 
 
 const sp_char_n_space_handler = char => {
-    const code = char.charCodeAt(0);
+    const _code = char.charCodeAt(0);
+    let code = _code;
+    if ([8216, 8217].some(c => c === _code)) {
+        code = "\'".charCodeAt(0);
+    }
     if (code === 32) {
         return `(?:\\,|\\.|\\'|\\"|\\;)? `;
     } else {
-        return (code >= 33 && code <= 47 || code >= 58 && code <= 64 || code >= 91 && code <= 96 || code >= 123 && code <= 126) ? `\\${char}` : char;
+        return (code >= 33 && code <= 47 || code >= 58 && code <= 64 || code >= 91 && code <= 96 || code >= 123 && code <= 126) ? `\\${String.fromCharCode(code)}` : char;
     }
 
 };
@@ -26,6 +30,7 @@ const _psalter_search_results = psalter_search_result_cache => (state = {}, acti
     if (action.type === SEARCH_ACTIONS.SEARCH_PSALTER) {
 
         if (typeof action.search_text !== 'string' || action.search_text.length < 1) return state;
+
         const search_text = action.search_text
             .split('')
             .map(sp_char_n_space_handler)

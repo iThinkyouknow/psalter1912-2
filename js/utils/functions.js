@@ -1,4 +1,4 @@
-export const no_op = () => {};
+export const no_op = () => { };
 
 export const apply = (acc, fn) => {
     return fn(acc);
@@ -47,9 +47,9 @@ export const is_boolean = is_present_type('boolean');
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
-    return function() {
+    return function () {
         var context = this, args = arguments;
-        var later = function() {
+        var later = function () {
             timeout = null;
             if (!immediate) func.apply(context, args);
         };
