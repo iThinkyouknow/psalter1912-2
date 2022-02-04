@@ -640,7 +640,7 @@ const get_online_version_compare_and_update_data = (local_version) => (online_ve
 
             const update_keys = Object.keys(online_version)
                 .filter((key) => {
-                    return key !== 'version' && online_version[key].version > local_version[key].version
+                    return key !== 'version' && online_version[key].version > (local_version[key] || {}).version
                 });
 
             // alert
