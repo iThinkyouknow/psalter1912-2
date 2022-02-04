@@ -131,6 +131,7 @@ export default styles = StyleSheet.create({
         bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
     },
     text_input_style: {
+        height: 42,
         padding: sizes.default,
         ...line_height_fn('default')(font_sizes.default),
         borderRadius: border_radii.default,

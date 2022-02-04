@@ -1,3 +1,6 @@
+import { font_sizes } from '../common/common.styles';
+import { font_size_key } from '../common/constants';
+
 export const no_op = () => { };
 
 export const apply = (acc, fn) => {
@@ -65,3 +68,8 @@ export const add = a => b => a + b;
 export const multiply = a => b => a * b;
 export const divide = by => a => a / by;
 export const not = (bool) => !bool;
+
+
+export const save_font_size = (AsyncStorage, font_size = font_sizes.default) => {
+    AsyncStorage.setItem(font_size_key, `${font_size}`);
+}

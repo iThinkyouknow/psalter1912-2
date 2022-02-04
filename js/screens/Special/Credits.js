@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     View
     , FlatList
@@ -22,8 +22,8 @@ import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 import FontSlider from '../../common/Font-slider';
 
-import {} from '../../utils/alert';
-import {is_present_type, composer} from '../../utils/functions';
+import { } from '../../utils/alert';
+import { is_present_type, composer, save_font_size } from '../../utils/functions';
 
 import { credits_texts_init } from '../../redux/actions/credits-actions';
 import { set_new_font_size } from '../../redux/actions/state-actions'
@@ -36,11 +36,11 @@ const Intro_Component = (font_size) => () => {
     return (
         <View style={style}>
             <Default_Text text_align={'center'} font_size={font_size + 4}>We would like to give our heartfelt</Default_Text>
-            <Default_Text  text_align={'center'} font_weight={'bold'}
-                          font_size={font_size + 12}>
+            <Default_Text text_align={'center'} font_weight={'bold'}
+                font_size={font_size + 12}>
                 GRATITUDE
             </Default_Text>
-            <Default_Text  text_align={'center'} font_size={font_size + 4}>for the following:</Default_Text>
+            <Default_Text text_align={'center'} font_size={font_size + 4}>for the following:</Default_Text>
         </View>
     );
 };
@@ -48,21 +48,21 @@ const Intro_Component = (font_size) => () => {
 const key_extractor = (item, index) => `thanks-${item.title}-${index}`;
 
 
-const Thanks_Party_Component = (font_size) => ({item, index}) => {
+const Thanks_Party_Component = (font_size) => ({ item, index }) => {
     const desc = text_formatter(font_size)(item.description)(`thanks-body`);
 
     return (
-        <View style={{padding: sizes.large * 1.5}}>
+        <View style={{ padding: sizes.large * 1.5 }}>
             <Default_Text text_align={'center'} font_weight={'bold'} font_size={font_size + 4}>{item.title}</Default_Text>
             {is_present_type('string')(item.source) &&
-            <Default_Text font_size={font_size} style={{marginTop: sizes.default}} text_align={'center'}>
-                Source:&nbsp;
-                <Default_Text font_size={font_size} text_align={'center'} font_weight="bold">
-                    {item.source}
+                <Default_Text font_size={font_size} style={{ marginTop: sizes.default }} text_align={'center'}>
+                    Source:&nbsp;
+                    <Default_Text font_size={font_size} text_align={'center'} font_weight="bold">
+                        {item.source}
+                    </Default_Text>
                 </Default_Text>
-            </Default_Text>
             }
-            <Default_Text font_size={font_size} style={{marginTop: sizes.default}} text_align={'center'}>{desc}</Default_Text>
+            <Default_Text font_size={font_size} style={{ marginTop: sizes.default }} text_align={'center'}>{desc}</Default_Text>
         </View>
     );
 };
@@ -80,6 +80,7 @@ const set_font_size = (dispatch) => (new_font_size) => {
         set_new_font_size,
         dispatch
     ])(new_font_size);
+    save_font_size(AsyncStorage, new_font_size);
 };
 
 class Credits extends Component {
@@ -88,7 +89,7 @@ class Credits extends Component {
         AsyncStorage.getItem(creditsStorageKey)
             .then(json_string => {
                 const json = JSON.parse(json_string) || require('../../../data/Credits-Texts.json');
-                this.props.dispatch(credits_texts_init(json));                
+                this.props.dispatch(credits_texts_init(json));
             })
             .catch(err => console.error('get credits text storage error:', err))
     }
@@ -105,13 +106,13 @@ class Credits extends Component {
 
         const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
         const set_font_size_wo_font_size = set_font_size(dispatch);
-        
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
-                          data={this.props.credits_text || []}
-                          keyExtractor={key_extractor}
-                          renderItem={Thanks_Party_Component(text_font_size)} />
+                    data={this.props.credits_text || []}
+                    keyExtractor={key_extractor}
+                    renderItem={Thanks_Party_Component(text_font_size)} />
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>
