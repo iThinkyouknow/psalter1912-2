@@ -35,8 +35,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location should not be needed. If you are seeing this, that is weird</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location should not be needed. If you are seeing this, that is weird</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Location should not be needed. If you are seeing this, that is weird</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Durwent.ttf</string>
