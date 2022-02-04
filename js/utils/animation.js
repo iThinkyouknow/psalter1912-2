@@ -4,7 +4,9 @@ import {
     Easing
 } from 'react-native';
 
-import {native_elements} from '../common/common.styles';
+import { native_elements } from '../common/common.styles';
+
+import { no_op } from '../utils/functions';
 
 export const slide_down_animation = (duration) => (bounciness = 0) => {
     const animated_value = new Animated.Value(0);
@@ -12,7 +14,7 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
     return {
         animated_value,
         slide: () => {
-            const {height} = Dimensions.get('window');
+            const { height } = Dimensions.get('window');
 
             Animated.spring(animated_value, {
                 toValue: (should_slide_down) ? (height) : 0,
@@ -30,13 +32,13 @@ export const slide_side_animation = (duration = 100) => (bounciness = 18) => (in
     const animated_value = new Animated.Value(initial_val);
     let should_slide = true;
 
-    const slide = () => {
+    const slide = (cb = no_op) => {
         Animated.spring(animated_value, {
             toValue: (should_slide) ? 0 : initial_val,
             duration,
             bounciness,
             useNativeDriver: true
-        }).start();
+        }).start(cb);
 
         should_slide = !should_slide;
     };
@@ -82,7 +84,7 @@ export const fade_animation = (duration) => (initial_val) => {
 };
 
 
-export const bounce_animation = (duration = 1000) =>(speed = 3) => (bounciness = 25) => (initial_val = -64) => {
+export const bounce_animation = (duration = 1000) => (speed = 3) => (bounciness = 25) => (initial_val = -64) => {
     const animated_value = new Animated.Value(initial_val);
     const bounce = () => {
         animated_value.setValue(initial_val);
