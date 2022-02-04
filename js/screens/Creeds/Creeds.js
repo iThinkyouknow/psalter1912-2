@@ -425,6 +425,7 @@ const text_input = (action = no_op) => {
                 ref={ref => text_input_ref = ref}
                 placeholder={`SEARCH`}
                 style={[styles.text_input_style]}
+                placeholderTextColor={colors.grey}
                 onEndEditing={action}
                 autoCorrect={false}
                 returnKeyType={'search'}

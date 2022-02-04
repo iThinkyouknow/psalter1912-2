@@ -17,6 +17,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from './index.styles';
 import { colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii } from '../../common/common.styles';
 
+import { font_size_key } from '../../common/constants';
+
 import {
     Default_Text
     , main_title
@@ -77,6 +79,7 @@ import {
     , no_op
     , composer
     , not
+    , save_font_size
 } from '../../utils/functions';
 
 import { slide_down_animation, fade_animation, slide_side_animation } from '../../utils/animation';
@@ -167,6 +170,7 @@ const set_font_size = (dispatch) => (new_font_size) => {
         set_new_font_size
         , dispatch
     ])(new_font_size);
+    save_font_size(AsyncStorage, new_font_size);
 };
 
 const set_copy_share_btn_props = (dispatch) => (props) => {
@@ -475,6 +479,7 @@ const Text_input_search = (props) => {
             onEndEditing={search_fn(props.dispatch)(search_psalter)}
             onChangeText={() => {
             }}
+            placeholderTextColor={colors.grey}
             autoCorrect={false}
             returnKeyType={'search'}
             selectTextOnFocus={true}
@@ -708,6 +713,15 @@ class App extends Component {
     }
 
     componentDidMount() {
+        AsyncStorage.getItem(font_size_key)
+            .then(font_size => {
+                composer([
+                    parseFloat,
+                    set_new_font_size
+                    , this.props.dispatch
+                ])(font_size);
+            })
+
         const RNShakeEvent = require('react-native-shake-event');
         const storage_psalter_key = 'PsalterJSON';
         AsyncStorage.getItem(storage_psalter_key)
