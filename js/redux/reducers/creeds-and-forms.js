@@ -38,7 +38,7 @@ const originalState = {
         , 'Form-for-the-Installation-of-Professors-of-Theology'
         , 'Form-for-the-Ordination-(or-Installation)-of-Missionaries'
         , 'Form-for-the-Confirmation-of-Marriage-before-the-Church'
-        , 'Formula-of-Subscription-(PRCA)'
+        , 'Formula-of-Subscription-(RPC)'
         , 'The-Church-Order'
     ],
     creeds_search_file: 'CreedsSearchJSON'

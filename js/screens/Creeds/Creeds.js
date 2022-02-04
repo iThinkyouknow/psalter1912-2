@@ -453,6 +453,7 @@ const onTextInputAction = (props) => (e) => {
 class Creeds extends Component {
 
     componentDidMount() {
+        AsyncStorage.removeItem('Formula-of-Subscription-(PRCA)');
         AsyncStorage.multiGet(this.props.title_order).then(stringArray /* [[key, string]] */ => {
             const creedsForms = {
                 'The-Heidelberg-Catechism(by-LD)': JSON.parse(stringArray[0][1]) || require('../../../data/The-Heidelberg-Catechism(by-LD).json')
@@ -472,7 +473,7 @@ class Creeds extends Component {
                 , 'Form-for-the-Installation-of-Professors-of-Theology': JSON.parse(stringArray[14][1]) || require('../../../data/Form-for-the-Installation-of-Professors-of-Theology.json')
                 , 'Form-for-the-Ordination-(or-Installation)-of-Missionaries': JSON.parse(stringArray[15][1]) || require('../../../data/Form-for-the-Ordination-(or-Installation)-of-Missionaries.json')
                 , 'Form-for-the-Confirmation-of-Marriage-before-the-Church': JSON.parse(stringArray[16][1]) || require('../../../data/Form-for-the-Confirmation-of-Marriage-before-the-Church.json')
-                , 'Formula-of-Subscription-(PRCA)': JSON.parse(stringArray[17][1]) || require('../../../data/Formula-of-Subscription-(PRCA).json')
+                , 'Formula-of-Subscription-(RPC)': JSON.parse(stringArray[17][1]) || require('../../../data/Formula-of-Subscription-(RPC).json')
                 , 'The-Church-Order': JSON.parse(stringArray[18][1]) || require('../../../data/The-Church-Order.json')
             };
 
