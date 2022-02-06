@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     View,
     FlatList,
@@ -8,7 +8,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import {navigator_style_push, hide_tabs_action} from '../../../Navigator-Common'
+import { navigator_style_push, hide_tabs_action } from '../../../Navigator-Common'
 
 import styles from './Creeds-Categories.styles';
 import {
@@ -24,20 +24,20 @@ import {
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
-import {} from '../../utils/alert';
+import { } from '../../utils/alert';
 import {
     no_op
     , getty
 } from '../../utils/functions';
 
-import {change_creeds_chapter_lv} from '../../redux/actions/state-actions';
-import {lock_in_creed_level_2, lock_in_creed_body} from '../../redux/actions/creeds-actions';
+import { change_creeds_chapter_lv } from '../../redux/actions/state-actions';
+import { lock_in_creed_level_2, lock_in_creed_body } from '../../redux/actions/creeds-actions';
 
-import {creeds_images_array, scenary_images_array, churches_images_array} from '../../utils/images'
+import { creeds_images_array, scenary_images_array, churches_images_array } from '../../utils/images'
 
 
-const header_banner = ({Dimensions, styles}) => (title) => {
-    const {width, height} = Dimensions.get('window');
+const header_banner = ({ Dimensions, styles }) => (title) => {
+    const { width, height } = Dimensions.get('window');
 
     const header_banner_sm_style = {
         height: height / 4
@@ -53,8 +53,8 @@ const header_banner = ({Dimensions, styles}) => (title) => {
     return (
         <View style={[styles.head_banner, header_banner_sm_style]}>
             <Image style={[styles.head_banner_image, header_banner_sm_image_style]}
-                   source={require('../../../images/Heidelberg-Catechism.jpg')} resizeMode={'cover'}/>
-            <View style={[styles.head_banner_image, header_banner_sm_image_style, styles.head_banner_mask]}/>
+                source={require('../../../images/Heidelberg-Catechism.jpg')} resizeMode={'cover'} />
+            <View style={[styles.head_banner_image, header_banner_sm_image_style, styles.head_banner_mask]} />
             <View style={[styles.text_container]}>
                 <Default_Text font_family={'Durwent'} font_size={font_size}>{title}</Default_Text>
             </View>
@@ -63,7 +63,7 @@ const header_banner = ({Dimensions, styles}) => (title) => {
 };
 
 
-const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
+const go_to_next_creed_level = ({ navigator = {}, dispatch = no_op }) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
 
     if (creed_level === 2) {
         dispatch(change_creeds_chapter_lv(2));
@@ -84,18 +84,18 @@ const go_to_next_creed_level = ({navigator = {}, dispatch = no_op}) => (library_
     }
 };
 
-const render_creed_categories = ({styles}) => (creed_level) => (selected_chapter_index) => (go_to_next_creed_level_action) => ({item, index}) => {
+const render_creed_categories = ({ styles }) => (creed_level) => (selected_chapter_index) => (go_to_next_creed_level_action) => ({ item, index }) => {
     const header_text = (<Default_Text font_size={'large'} font_weight={'bold'}>{item.header}</Default_Text>);
 
     const sub_text_component = (item.content[0] === item.header || item.content[0].length < 1 || creed_level > 1)
         ? null
         : item.content.map((text, i) => {
-        const sub_title_style = {
-            marginTop: sizes.default
-        };
+            const sub_title_style = {
+                marginTop: sizes.default
+            };
 
-        return (<Default_Text style={sub_title_style} key={`creeds-lv-1-sub-title-${i}`}>{text}</Default_Text>);
-    });
+            return (<Default_Text style={sub_title_style} key={`creeds-lv-1-sub-title-${i}`}>{text}</Default_Text>);
+        });
 
     const go_to_creeds_text = (selected_chapter_index >= 0)
         ? go_to_next_creed_level_action(selected_chapter_index)(index)
@@ -103,7 +103,7 @@ const render_creed_categories = ({styles}) => (creed_level) => (selected_chapter
 
     return (
         <TouchableHighlight underlayColor={colors.dark_cerulean}
-                            onPress={go_to_creeds_text}>
+            onPress={go_to_creeds_text}>
             <View style={[styles.categories_container]}>
                 {header_text}
                 <View style={[styles.sub_text_container]}>
@@ -121,9 +121,9 @@ const creed_categories_list = (header_banner_component) => (content) => (render_
 
     return (
         <FlatList ListHeaderComponent={header_banner_component}
-                  keyExtractor={creeds_cat_key_ext}
-                  data={content}
-                  renderItem={render_creed_categories}/>
+            keyExtractor={creeds_cat_key_ext}
+            data={content}
+            renderItem={render_creed_categories} />
     );
 };
 

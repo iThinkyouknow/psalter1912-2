@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     View
     , Platform
     , TextInput
 } from 'react-native';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 // import styles from './Psalter-PDF.styles';
 import {
@@ -19,9 +19,9 @@ import {
 import Default_Bg from '../../common/Default-bg';
 import Tab_Bar from '../../common/Tab-bar';
 
-import {string_input_error_alert, wrong_number_error_alert} from '../../utils/alert';
+import { string_input_error_alert, wrong_number_error_alert } from '../../utils/alert';
 
-import { is_present_type, is_number, is_object, no_op} from '../../utils/functions';
+import { is_present_type, is_number, is_object, no_op } from '../../utils/functions';
 
 import {
     get_bible_passage
@@ -59,21 +59,22 @@ const _Number_input = (os) => (end_text_action) => (change_text_action) => (text
 
     return (
         <TextInput keyboardType={keyboard_type}
-                   placeholder={`Psalter # (1 - 413)`}
-                   onEndEditing={end_text_action}
-                   maxLength={3}
-                   onChangeText={change_text_action}
-                   value={value}
-                   autoCorrect={false}
-                   style={[text_input_style, style]}
-                   underlineColorAndroid={'transparent'}
-                   {...props} />
+            placeholder={`Psalter # (1 - 413)`}
+            onEndEditing={end_text_action}
+            maxLength={3}
+            onChangeText={change_text_action}
+            value={value}
+            autoCorrect={false}
+            style={[text_input_style, style]}
+            placeholderTextColor={colors.grey}
+            underlineColorAndroid={'transparent'}
+            {...props} />
     );
 };
 
 const Number_input = _Number_input(Platform.OS);
 
-const on_select_psalter_action = (dispatch) =>(text_input_is_valid) => (e) => {
+const on_select_psalter_action = (dispatch) => (text_input_is_valid) => (e) => {
     const selected_index = parseInt(e.nativeEvent.text) - 1;
 
     if (is_present_type('number')(selected_index) && text_input_is_valid) {
@@ -138,7 +139,7 @@ const on_page_change = (dispatch) => (pg, num) => {
     dispatch(set_temp_psalter_pdf_page_no(pg));
 };
 
-let Pdf = () => {};
+let Pdf = () => { };
 
 const pdf_style = {
     paddingTop: sizes.large
@@ -196,8 +197,8 @@ class Psalter_PDF extends Component {
             : 1.5;
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
-                <View style={{flex: 1, justifyContent: 'center'}}>
-                    {can_load_pdf && 
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    {can_load_pdf &&
                         <Pdf source={psalter_pdf_file_source}
                             minScale={0.5}
                             maxScale={3}
@@ -207,9 +208,9 @@ class Psalter_PDF extends Component {
                             page={psalter_score_page}
                             enablePaging={true}
                             onScaleChanged={on_scale}
-                            onPageChanged={on_page_change(dispatch)}/>}
+                            onPageChanged={on_page_change(dispatch)} />}
                 </View>
-                <View style={{paddingHorizontal: sizes.large, paddingVertical: sizes.default, flexDirection: 'row'}}>
+                <View style={{ paddingHorizontal: sizes.large, paddingVertical: sizes.default, flexDirection: 'row' }}>
                     {num_input_field}
                 </View>
 

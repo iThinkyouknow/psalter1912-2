@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     View
     , FlatList
@@ -7,6 +7,8 @@ import {
     , PanResponder
     , Dimensions
 } from 'react-native';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
     sizes,
@@ -23,7 +25,7 @@ import Tab_Bar from '../../common/Tab-bar';
 import FontSlider from '../../common/Font-slider';
 import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
-import {is_present_type, no_op, composer} from '../../utils/functions';
+import { is_present_type, no_op, composer, save_font_size } from '../../utils/functions';
 
 import {
     touch_release_actions
@@ -35,7 +37,7 @@ import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigato
 
 import styles from './Creeds-Text.styles';
 
-import {lock_in_creed_body} from '../../redux/actions/creeds-actions';
+import { lock_in_creed_body } from '../../redux/actions/creeds-actions';
 import {
     set_new_font_size
     , set_copy_share_btn
@@ -49,21 +51,21 @@ const key_extractor = (item, i) => `creeds-body-text-${i}`;
 const Header_Text_Component = (font_size) => (other_style) => (text) => {
     return (
         <Animated_Text text_align={'center'}
-                       font_size={font_size}
-                       style={other_style}
-                       font_weight={'bold'}>
+            font_size={font_size}
+            style={other_style}
+            font_weight={'bold'}>
             {text}
         </Animated_Text>
     );
 };
 
-const Creeds_Body_Component = (section_header) => (font_size) => ({item, index}) => {
+const Creeds_Body_Component = (section_header) => (font_size) => ({ item, index }) => {
     const [title, body, extra] = item.content;
 
-    const title_text = title.map(({text}) => text).join(' ');
+    const title_text = title.map(({ text }) => text).join(' ');
 
     const title_component = (section_header !== title_text) ?
-        Header_Text_Component(font_size + 2)({marginTop: sizes.large})(title_text)
+        Header_Text_Component(font_size + 2)({ marginTop: sizes.large })(title_text)
         : null;
 
     const body_para_component = text_formatter(font_size)(body)(`body`);
@@ -73,7 +75,7 @@ const Creeds_Body_Component = (section_header) => (font_size) => ({item, index})
         : null;
 
     const component_wrapper = (text_component) => (
-        <Animated_Text font_size={font_size} text_align={'justify'} style={{paddingVertical: sizes.default}}>
+        <Animated_Text font_size={font_size} text_align={'justify'} style={{ paddingVertical: sizes.default }}>
             {text_component}
         </Animated_Text>
     );
@@ -100,7 +102,7 @@ const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles
         <View style={styles.creeds_body_header}>
             {(title !== body.header) && Header_Text_Component(font_size * 1.2)()(title)}
             {description.length > 0 && Header_Text_Component(font_size * 1.1)()(description)}
-            {Header_Text_Component(font_size * 1.45)({marginTop: sizes.default})(body.header)}
+            {Header_Text_Component(font_size * 1.45)({ marginTop: sizes.default })(body.header)}
         </View>
     );
 
@@ -179,7 +181,7 @@ const go_to_next_creed = (dispatch) => (library_books_info) => (library_type_ind
 
 const swipe_left = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => (selected_chapter_index) => (selected_article_index) => () => {
 
-    const {last_ch_index = NaN, last_article_index = []} = library_books_info[library_type_index][selected_creed_index];
+    const { last_ch_index = NaN, last_article_index = [] } = library_books_info[library_type_index][selected_creed_index];
 
     if (is_present_type('number')(selected_article_index)) {
         const last_article_index_int = last_article_index[selected_chapter_index];
@@ -210,7 +212,7 @@ const swipe_left = (dispatch) => (library_books_info) => (library_type_index) =>
             }
         }
     }
-    main_view_ref && main_view_ref.scrollToOffset({offset: 0});
+    main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
 
 const set_font_size = (dispatch) => (new_font_size) => {
@@ -218,6 +220,7 @@ const set_font_size = (dispatch) => (new_font_size) => {
         set_new_font_size,
         dispatch
     ])(new_font_size);
+    save_font_size(AsyncStorage, new_font_size);
 };
 
 const set_copy_share_btn_props = (dispatch) => (props) => {

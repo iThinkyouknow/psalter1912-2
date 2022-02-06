@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     View
     , FlatList
@@ -8,6 +8,7 @@ import {
     , Platform
     , TouchableHighlight
     , Image
+    , TextInput
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -19,10 +20,13 @@ import {
     colors,
     sizes,
     font_sizes,
+    is_iPhone_X,
+    native_elements
 } from '../../common/common.styles';
 
 import {
     Default_Text,
+    main_title_2
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
@@ -36,7 +40,8 @@ import {
 } from '../../utils/images';
 
 import {
-    bounce_animation
+    bounce_animation,
+    slide_side_animation
 } from '../../utils/animation';
 
 import {
@@ -46,11 +51,24 @@ import {
 import {
     creeds_forms_library_init
     , lock_in_creed
+    , lock_in_creed_level_2
+    , lock_in_creed_body
 } from '../../redux/actions/creeds-actions';
 
-const list_header_component_wo_animated_val = (book_animated_value) => ({random, styles, images, Dimensions}) => (selected_index) => {
+import {
+    creeds_search_json_init
+    , search_creeds
+} from '../../redux/actions/search-actions';
 
-    const {height, width} = Dimensions.get('window');
+import { no_op, is_number } from '../../utils/functions';
+import { CREEDS_COUNT } from '../../common/constants';
+
+let search_result_flatlist_ref;
+let text_input_ref;
+
+const list_header_component_wo_animated_val = (book_animated_value) => ({ random, styles, images, Dimensions }) => (selected_index) => {
+
+    const { height, width } = Dimensions.get('window');
     const {
         creeds_images_array,
         scenary_images_array
@@ -78,7 +96,7 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         const creeds_book_style = {
             transform: [
-                {translateY: book_animated_value}
+                { translateY: book_animated_value }
             ]
         };
 
@@ -105,17 +123,17 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({random,
 
         const forms_book_style = {
             transform: [
-                {translateY: book_animated_value}
+                { translateY: book_animated_value }
             ]
         };
 
         const image = scenary_images_array[Math.floor(random() * scenary_images_array.length)];
         return (
             <View style={[styles.header_container, container_style]}>
-                <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'}/>
-                <View style={[styles.header_img_mask, img_mask_style]}/>
+                <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'} />
+                <View style={[styles.header_img_mask, img_mask_style]} />
                 <View style={styles.header_book_container_forms}>
-                    <Animated.Image source={confessions_book_cover} style={[styles.book, styles.forms_book, forms_book_style]}/>
+                    <Animated.Image source={confessions_book_cover} style={[styles.book, styles.forms_book, forms_book_style]} />
                 </View>
 
                 <View style={styles.header_forms_title_container}>
@@ -143,8 +161,8 @@ const select_book = (navigator) => (dispatch) => (library_type_index) => (select
     });
 };
 
-const creeds_menu_renderer = ({navigator, dispatch, random, images, Dimensions}) => (library_type_index) => ({item, index}) => {
-    const {width}    = Dimensions.get('window');
+const creeds_menu_renderer = ({ navigator, dispatch, random, images, Dimensions }) => (library_type_index) => ({ item, index }) => {
+    const { width } = Dimensions.get('window');
     const should_margin_left = (index % 2 > 0);
 
     const get_image = (library_type_index) => (i) => {
@@ -179,11 +197,11 @@ const creeds_menu_renderer = ({navigator, dispatch, random, images, Dimensions})
 
     return (
         <TouchableHighlight underlayColor={'transparent'}
-                            style={[styles.library_selection, library_selection_style]}
-                            onPress={select_book(navigator)(dispatch)(library_type_index)(index)(item.levels_deep)}>
+            style={[styles.library_selection, library_selection_style]}
+            onPress={select_book(navigator)(dispatch)(library_type_index)(index)(item.levels_deep)}>
             <View>
-                <Image source={image} style={[styles.library_selection_image, library_selection_image_style]}/>
-                <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]}/>
+                <Image source={image} style={[styles.library_selection_image, library_selection_image_style]} />
+                <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]} />
                 <View style={[styles.library_text_container, text_container_style]}>
                     <Default_Text text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
                 </View>
@@ -238,7 +256,7 @@ const creeds_or_forms_chooser = ({ dispatch, Dimensions, os }) => (library_type_
                 style={[{ flex: 1 }, bg_color_obj]}
                 underlayColor={underlay_color}
                 onPress={select_tab(dispatch)(index)}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Default_Text text_align={'center'}>
                         {text}
                     </Default_Text>
@@ -260,13 +278,183 @@ const creeds_or_forms_chooser = ({ dispatch, Dimensions, os }) => (library_type_
 
 };
 
+const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
+const slide_right_pos = search_results_animation.animated_value;
+
+const search_button_action = () => {
+    if (text_input_ref && text_input_ref.isFocused()) {
+        text_input_ref.blur();
+    }
+    search_results_animation.slide()
+};
+
+const search_button = (action = no_op) => {
+    return (
+        <TouchableHighlight
+            style={[styles.bottom_button_container]}
+            onPress={action}
+            underlayColor={'transparent'}
+        >
+            <Image style={styles.button_std}
+                source={require('../../../images/icons/icon-search.png')} />
+        </TouchableHighlight>
+    )
+};
+
+const on_press_creed_search = (props, item) => () => {
+    let tabIndex = props.tab_bar_selected_index;
+    if (item.type === 'Creeds') {
+        tabIndex = 0;
+    } else if (item.type === 'Forms') {
+        tabIndex = 1;
+    }
+
+    const index = item.index >= CREEDS_COUNT
+        ? item.index - CREEDS_COUNT
+        : item.index;
+
+    const { dispatch, navigator } = props;
+
+    let levels_deep = 1;
+    if (is_number(item.subIndex)) {
+        levels_deep = 2;
+        dispatch(lock_in_creed_level_2(tabIndex)(index)(item.chIndex));
+    }
+
+    dispatch(lock_in_creed(tabIndex)(index)(levels_deep));
+    dispatch(lock_in_creed_body(tabIndex)(index)(item.chIndex)(item.subIndex));
+    navigator.push({
+        screen: 'Creeds_Text',
+        navigatorStyle: navigator_style_push,
+        backButtonTitle: 'Chapters'
+    });
+
+    select_tab(props.dispatch)(tabIndex)();
+
+}
+
+const search_results = (props) => {
+    const { width, height } = Dimensions.get('window');
+
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar;
+    const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
+
+    const search_results_view_dynamic_style = {
+        width: width - sizes.large * 2,
+        height: height - statusBarHeight - native_elements.tab_bar - 37 - sizes.default * 2 - bottomPadding,
+        top: statusBarHeight,
+        transform: [
+            {
+                translateX: slide_right_pos
+            }
+        ]
+    };
+    const Search_r_view_header = (props) => {
+        const search_results_count = (Array.isArray(props.search_results) && props.search_results.length > 0)
+            ? `${props.search_results.length} `
+            : '';
+
+        return (
+            <View style={{ marginTop: sizes.medium }}>
+                {main_title_2(`${search_results_count} Search Results`)}
+            </View>
+        );
+    };
+
+    const search_result = (dispatch) => (navigator) => ({ item, index }) => {
+        const text = item.search_result.map(({ text, style }, i) => {
+            const key = `search-result-${index}-${i}`;
+            const font_weight = (style === 'bold') ? 'bold' : 'normal';
+            const color = (style === 'bold')
+                ? {
+                    color: colors.blue
+                }
+                : undefined;
+
+            return (
+                <Default_Text style={color} key={key} font_weight={font_weight}>
+                    {text}
+                </Default_Text>
+            );
+        });
+
+
+        return (
+            <TouchableHighlight style={{ marginVertical: sizes.large, marginHorizontal: sizes.large }}
+                onPress={on_press_creed_search(props, item)}>
+                <View >
+                    <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
+                    <Default_Text font_size={font_sizes.x_small} text_align={'center'}>{item.header}</Default_Text>
+                    <Default_Text>
+                        {text}
+                    </Default_Text>
+                </View>
+            </TouchableHighlight>
+        );
+    };
+
+    const search_results_key_extractor = (item, index) => `${item.index}${item.chIndex}${item.subIndex}`;
+    const search_results_separator = (width) => ({ highlighter }) => <View
+        style={[styles.search_results_separator, { width: Math.floor(width * 0.5) }]} />;
+
+    return (
+        <Animated.View style={[styles.search_results, search_results_view_dynamic_style]}>
+            <FlatList
+                ref={ref => search_result_flatlist_ref = ref}
+                ListHeaderComponent={<Search_r_view_header search_results={props.creeds_search_results} />}
+                data={props.creeds_search_results}
+                renderItem={search_result(props.dispatch)(props.navigator)}
+                keyExtractor={search_results_key_extractor}
+                ItemSeparatorComponent={search_results_separator(width)} />
+        </Animated.View>
+    )
+}
+
+
+
+const text_input = (action = no_op) => {
+    return (
+        <Animated.View style={[styles.text_input_container, {
+            transform: [
+                {
+                    translateX: slide_right_pos
+                }
+            ]
+        }]}>
+            <TextInput
+                ref={ref => text_input_ref = ref}
+                placeholder={`SEARCH`}
+                style={[styles.text_input_style]}
+                placeholderTextColor={colors.grey}
+                onEndEditing={action}
+                autoCorrect={false}
+                returnKeyType={'search'}
+                selectTextOnFocus={true}
+                autoCapitalize={'none'}
+                underlineColorAndroid={'transparent'}
+            />
+        </Animated.View>
+    )
+};
+
 const onNavigatorEvent = (e) => {
     if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
 };
 
+const onTextInputAction = (props) => (e) => {
+    const text = e.nativeEvent.text || '';
+    props.dispatch(search_creeds(text.trim()));
+    if (search_result_flatlist_ref) {
+        search_result_flatlist_ref.scrollToOffset({
+            offset: 0
+        });
+    }
+}
+
 class Creeds extends Component {
 
     componentDidMount() {
+        AsyncStorage.removeItem('Formula-of-Subscription-(PRCA)');
         AsyncStorage.multiGet(this.props.title_order).then(stringArray /* [[key, string]] */ => {
             const creedsForms = {
                 'The-Heidelberg-Catechism(by-LD)': JSON.parse(stringArray[0][1]) || require('../../../data/The-Heidelberg-Catechism(by-LD).json')
@@ -286,7 +474,7 @@ class Creeds extends Component {
                 , 'Form-for-the-Installation-of-Professors-of-Theology': JSON.parse(stringArray[14][1]) || require('../../../data/Form-for-the-Installation-of-Professors-of-Theology.json')
                 , 'Form-for-the-Ordination-(or-Installation)-of-Missionaries': JSON.parse(stringArray[15][1]) || require('../../../data/Form-for-the-Ordination-(or-Installation)-of-Missionaries.json')
                 , 'Form-for-the-Confirmation-of-Marriage-before-the-Church': JSON.parse(stringArray[16][1]) || require('../../../data/Form-for-the-Confirmation-of-Marriage-before-the-Church.json')
-                , 'Formula-of-Subscription-(PRCA)': JSON.parse(stringArray[17][1]) || require('../../../data/Formula-of-Subscription-(PRCA).json')
+                , 'Formula-of-Subscription-(RPC)': JSON.parse(stringArray[17][1]) || require('../../../data/Formula-of-Subscription-(RPC).json')
                 , 'The-Church-Order': JSON.parse(stringArray[18][1]) || require('../../../data/The-Church-Order.json')
             };
 
@@ -296,13 +484,22 @@ class Creeds extends Component {
                 ? errArray.forEach(([key, err]) => console.log(key, err))
                 : console.log(errArray);
         });
-        
+
+        AsyncStorage.getItem(this.props.creeds_search_file)
+            .then(content_str => {
+                const creeds_search_json = JSON.parse(content_str) || require('../../../data/CreedsSearchJSON.json');
+                this.props.dispatch(creeds_search_json_init(creeds_search_json))
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
         this.props.navigator.setOnNavigatorEvent(onNavigatorEvent);
     }
 
-    render() {
-        //random, styles, images, Dimensions, navigator, dispatch
 
+
+    render() {
         const {
             dispatch
             , navigator
@@ -310,7 +507,7 @@ class Creeds extends Component {
             , creeds_library
             , tab_bar_selected_index
         } = this.props;
-        
+
         hide_tabs_action(navigator)();
 
         const component_obj = {
@@ -339,6 +536,9 @@ class Creeds extends Component {
                 {list_header_component(component_obj)(library_type_index)}
                 {creeds_library && creeds_menu_flatlist(creeds_menu_renderer_loaded)(library_type_index)(creeds_library)}
                 {creeds_or_forms_chooser(component_obj)(library_type_index)}
+                {search_button(search_button_action)}
+                {search_results(this.props)}
+                {text_input(onTextInputAction(this.props))}
             </Default_Bg>
         );
     }
@@ -348,9 +548,12 @@ class Creeds extends Component {
 function mapStateToProps(state) {
     return {
         title_order: state.creeds.title_order
+        , creeds_search_file: state.creeds.creeds_search_file
         , library_type_index: state.creeds_library_type_index
         , creeds_library: state.creeds.creeds_library
         , tab_bar_selected_index: state.tab_bar_selected_index
+        , creeds_search_results: state.creeds_search_results.search_results
+
     };
 }
 

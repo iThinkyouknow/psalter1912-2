@@ -1,5 +1,6 @@
 import {
     StyleSheet
+    , Dimensions
 } from 'react-native';
 
 import {
@@ -8,6 +9,10 @@ import {
     , border_radii
     , colors
     , is_iPhone_X
+    , buttons
+    , line_height_fn
+    , font_sizes
+    , zIndex
 } from '../../common/common.styles';
 
 export default styles = StyleSheet.create({
@@ -40,8 +45,8 @@ export default styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 0,
         transform: [
-            {translateX: -8},
-            {rotate: '-25deg'}
+            { translateX: -8 },
+            { rotate: '-25deg' }
         ]
     },
     header_book_container_forms: {
@@ -49,8 +54,8 @@ export default styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         transform: [
-            {rotate: '-25deg'},
-            {translateX: 32}
+            { rotate: '-25deg' },
+            { translateX: 32 }
         ]
     },
     forms_book: {
@@ -104,5 +109,46 @@ export default styles = StyleSheet.create({
     },
     column_wrapper: {
         marginTop: 16
-    }
+    },
+    bottom_button_container: {
+        position: 'absolute',
+        right: sizes.large,
+        bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
+        width: buttons.default,
+        height: buttons.default,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    button_std: {
+        width: buttons.default,
+        height: buttons.default
+    },
+    text_input_container: {
+        width: Dimensions.get('window').width * 0.8,
+        height: buttons.large,
+        position: 'absolute',
+        left: sizes.large,
+        bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
+    },
+    text_input_style: {
+        height: 42,
+        padding: sizes.default,
+        ...line_height_fn('default')(font_sizes.default),
+        borderRadius: border_radii.default,
+        fontSize: font_sizes.default,
+        backgroundColor: colors.white
+    },
+    search_results: {
+        backgroundColor: colors.black,
+        opacity: 0.8,
+        position: 'absolute',
+        left: sizes.large,
+        zIndex: zIndex.xxx_large,
+        borderRadius: border_radii.large
+    },
+    search_results_separator: {
+        alignSelf: 'center',
+        height: 1,
+        backgroundColor: colors.dark_cerulean
+    },
 });
