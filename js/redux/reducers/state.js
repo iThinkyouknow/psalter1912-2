@@ -1,6 +1,6 @@
-import {STATE_ACTIONS} from '../actions/state-actions';
-import {font_sizes} from '../../common/common.styles';
-import {is_number} from '../../utils/functions';
+import { STATE_ACTIONS } from '../actions/state-actions';
+import { font_sizes } from '../../common/common.styles';
+import { is_number } from '../../utils/functions';
 
 export function psalter_text_input(state = "", action = {}) {
     if (action.type === STATE_ACTIONS.PSALTER_TEXT_INPUT) {
@@ -10,6 +10,21 @@ export function psalter_text_input(state = "", action = {}) {
     return state;
 }
 
+export function psalter_scroll_details(state = {}, action = {}) {
+    if (action.type === STATE_ACTIONS.PSALTER_HEADER_SCROLL_DETAILS) {
+        return action.details
+    }
+    return state;
+}
+
+export function bible_scroll_details(state = {}, action = {}) {
+    if (action.type === STATE_ACTIONS.BIBLE_HEADER_SCROLL_DETAILS) {
+        return action.details
+    }
+    return state;
+}
+
+
 export function valid_text_input(state = true, action = {}) {
     if (action.type === STATE_ACTIONS.TOGGLE_TEXT_INPUT_VALID) {
         return action.is_valid
@@ -17,7 +32,7 @@ export function valid_text_input(state = true, action = {}) {
     return state;
 }
 
-export function music_timer(state = {current: 0, max: 0}, action = {}) {
+export function music_timer(state = { current: 0, max: 0 }, action = {}) {
     if (action.type === STATE_ACTIONS.SET_MUSIC_TIMER) {
         if (action.time === null || action.time === undefined || isNaN(action.time)) return state;
         return {

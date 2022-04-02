@@ -1,6 +1,8 @@
 export const STATE_ACTIONS = {
     PSALTER_TEXT_INPUT: 'PSALTER_TEXT_INPUT'
     , PSALTER_PDF_TEXT_INPUT: 'PSALTER_PDF_TEXT_INPUT'
+    , PSALTER_HEADER_SCROLL_DETAILS: 'PSALTER_HEADER_SCROLL_DETAILS'
+    , BIBLE_HEADER_SCROLL_DETAILS: 'BIBLE_HEADER_SCROLL_DETAILS'
     , TOGGLE_TEXT_INPUT_VALID: "TOGGLE_TEXT_INPUT_INVALID"
     , SET_MUSIC_TIMER: 'SET_MUSIC_TIMER'
     , SET_MAX_MUSIC_TIMER: 'SET_MAX_MUSIC_TIMER'
@@ -27,7 +29,19 @@ export const psalter_text_input = (val) => {
     }
 };
 
+export const set_psalter_header_scroll_details = (details) => {
+    return {
+        type: STATE_ACTIONS.PSALTER_HEADER_SCROLL_DETAILS,
+        details
+    };
+};
 
+export const set_bible_header_scroll_details = (details) => {
+    return {
+        type: STATE_ACTIONS.BIBLE_HEADER_SCROLL_DETAILS,
+        details
+    };
+};
 
 export const toggle_text_as_valid = (is_valid) => {
     return {
@@ -133,7 +147,7 @@ export const credits_text_set_new_font_size = (new_font_size) => {
     }
 };
 
-export const set_copy_share_btn = (properties = {top: 0, left: 0, isHidden: true}) => {
+export const set_copy_share_btn = (properties = { top: 0, left: 0, isHidden: true }) => {
     return {
         type: STATE_ACTIONS.SET_COPY_SHARE_BTN
         , properties
