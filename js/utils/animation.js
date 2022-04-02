@@ -5,8 +5,9 @@ import {
 } from 'react-native';
 
 import { native_elements } from '../common/common.styles';
+import { main_title_2 } from '../common/Text';
 
-import { no_op } from '../utils/functions';
+import { is_function, no_op } from '../utils/functions';
 
 export const slide_down_animation = (duration) => (bounciness = 0) => {
     const animated_value = new Animated.Value(0);
@@ -28,11 +29,35 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
     };
 };
 
+export const slide_down_to = (duration = 0) => (bounciness = 0) => (height = 0) => {
+    const animated_value = new Animated.Value(height);
+    let should_slide_down = false;
+
+    const slide = (toValue = height) => () => {
+
+        Animated.spring(animated_value, {
+            toValue,
+            duration,
+            useNativeDriver: true,
+            bounciness
+        }).start();
+
+        should_slide_down = !should_slide_down;
+    };
+    return {
+        animated_value
+        , slide_up: slide(height)
+        , slide_down: slide(0)
+        , slide
+    };
+};
+
 export const slide_side_animation = (duration = 100) => (bounciness = 18) => (initial_val = Dimensions.get('window').width * -1.2) => {
     const animated_value = new Animated.Value(initial_val);
     let should_slide = true;
 
-    const slide = (cb = no_op) => {
+    const slide = (_cb = no_op) => {
+        const cb = is_function(_cb) ? _cb : no_op;
         Animated.spring(animated_value, {
             toValue: (should_slide) ? 0 : initial_val,
             duration,

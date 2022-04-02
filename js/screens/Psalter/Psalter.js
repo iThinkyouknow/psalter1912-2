@@ -50,6 +50,7 @@ import {
     , set_can_search
     , set_new_font_size
     , set_copy_share_btn
+    , set_psalter_header_scroll_details
 } from '../../redux/actions/state-actions';
 
 import {
@@ -82,7 +83,7 @@ import {
     , save_font_size
 } from '../../utils/functions';
 
-import { slide_down_animation, fade_animation, slide_side_animation } from '../../utils/animation';
+import { slide_down_animation, fade_animation, slide_side_animation, slide_down_to } from '../../utils/animation';
 import {
     string_input_error_alert
     , wrong_number_error_alert
@@ -112,7 +113,51 @@ const more_section_slide_position = more_section_slide_animation.animated_value;
 const more_section_slide = more_section_slide_animation.slide;
 
 
-const header = (fade_anim) => (psalter) => (index) => (font_size) => {
+const floating_header_animation = slide_down_to(10)(0)(-150);
+const floating_header_animation_position = floating_header_animation.animated_value;
+const floating_header_animation_slide_up = floating_header_animation.slide_up;
+const floating_header_animation_slide_down = floating_header_animation.slide_down;
+
+const _Floating_Header = (props) => {
+    const { psalter, index, text_font_size } = props;
+
+    const { no } = psalter;
+
+    const transform_style = {
+        transform: [{ translateY: floating_header_animation_position }]
+    }
+
+    const font_size = Math.min(text_font_size * 2, 60);
+
+    return (((index >= 0) &&
+        <Animated.View style={[styles.floating_header, styles.standard_margin_horizontal, styles.main_text_padding_top, transform_style]}>
+            {is_present_type('number')(no) && main_title(font_size)()({ color: colors.gold })(`Psalter ${no}`)}
+        </Animated.View>
+    ));
+
+};
+
+const flatlist_on_scroll = (props) => (e) => {
+    const y = e.nativeEvent.contentOffset.y
+    if (y > 200) {
+        if ((props.scroll_details.y || 0) < y) {
+            floating_header_animation_slide_up();
+        } else if ((props.scroll_details.y || 0) > y) {
+            floating_header_animation_slide_down();
+        }
+    } else {
+        floating_header_animation_slide_up();
+    }
+
+};
+
+const flatlist_on_scroll_begin = (props) => (e) => {
+    props.dispatch(set_psalter_header_scroll_details({
+        ...(e.nativeEvent.contentOffset || {})
+    }));
+}
+
+const header = (props) => (fade_anim) => (psalter) => (index) => (font_size) => {
 
     const { no, title, content, meter, psalm } = psalter;
 
@@ -121,7 +166,7 @@ const header = (fade_anim) => (psalter) => (index) => (font_size) => {
     };
 
     return (((index >= 0) &&
-        <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
+        <Animated.View style={[styles.standard_margin_horizontal, styles.header_background, styles.main_text_padding_top, fade_in_style]}>
             {is_present_type('number')(no) && main_title(font_size * 2)()({ color: colors.gold })(`Psalter ${no}`)}
             {is_present_type('string')(title) && sub_title(font_size * 1.1)()()(title)}
             {is_present_type('number')(psalm) && sub_title(font_size * 1.1)()()(`Psalm ${psalm}`)}
@@ -887,6 +932,8 @@ class App extends Component {
             onPanResponderRelease: touch_release_actions_loaded
         });
 
+        const Floating_Header = _Floating_Header(this.props);
+
         return (
             <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
                 <More_Stuff_Section_List
@@ -904,12 +951,18 @@ class App extends Component {
                     navigator={navigator} />
 
                 <FlatList data={psalter.content}
-                    ListHeaderComponent={header(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
+                    scrollEventThrottle={300}
+
+                    onScroll={flatlist_on_scroll(this.props)}
+                    ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
                     renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
                     keyExtractor={psalter_key_extractor}
+                    onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
                     onScrollEndDrag={scroll_swipe_actions_loaded}
                     ref={ref => main_view_ref = ref}
                     {...touch_actions.panHandlers} />
+
+                {Floating_Header}
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
 
@@ -980,6 +1033,7 @@ function mapStateToProps(state) {
         , text_input_as_search: state.text_input_as_search
         , text_font_size: state.text_font_size
         , copy_share_btn_props: state.copy_share_btn_props
+        , scroll_details: state.psalter_scroll_details
         //search reducer
         , psalter_search_results: state.psalter_search_results.search_results
         // tab reducer
