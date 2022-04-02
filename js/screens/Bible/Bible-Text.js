@@ -40,7 +40,7 @@ import { Rounded_Button } from '../../common/Rounded-Button';
 
 
 import { } from '../../utils/alert';
-import { slide_down_animation, slide_side_animation } from '../../utils/animation';
+import { slide_down_animation, slide_side_animation, slide_down_to } from '../../utils/animation';
 
 import { is_present_type, is_string, no_op, composer, save_font_size } from '../../utils/functions';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
@@ -54,6 +54,7 @@ import {
     bible_toggle_back_to_book_buttons
     , set_new_font_size
     , set_copy_share_btn
+    , set_bible_header_scroll_details
 } from '../../redux/actions/state-actions';
 
 import {
@@ -77,6 +78,36 @@ const Header_Text_Component = (font_size) => (font_family) => (other_style) => (
             style={other_style} >
             {text}
         </Animated_Text>
+    );
+};
+
+const floating_header_animation = slide_down_to(10)(0)(-250);
+const floating_header_animation_position = floating_header_animation.animated_value;
+const floating_header_animation_slide_up = floating_header_animation.slide_up;
+const floating_header_animation_slide_down = floating_header_animation.slide_down;
+
+const _Floating_Header = (title) => (description) => (font_size) => {
+    const transform_style = {
+        transform: [{ translateY: floating_header_animation_position }]
+    }
+    const text_font_size = Math.min(font_size * 2, 60);
+    const desc_font_size = Math.min(font_size * 1.2, 40);
+
+    return (
+        <Animated.View style={[{
+            paddingHorizontal: sizes.large * 1.5
+            , paddingTop: 3 * sizes.default + native_elements.status_bar
+            , marginBottom: 0
+            , alignSelf: 'stretch'
+            , backgroundColor: colors.dark_cerulean
+            , position: 'absolute'
+            , top: 0
+            , left: 0
+            , right: 0
+        }, transform_style]}>
+            {Header_Text_Component(text_font_size)('Durwent')()(title)}
+            {(description.length > 0) && Header_Text_Component(desc_font_size)()({ marginTop: sizes.default })(description)}
+        </Animated.View>
     );
 };
 
@@ -107,15 +138,37 @@ const bible_body_component = (font_size) => ({ item, index }) => {
     return text_component;
 };
 
-const Bible_Text_Component = (touch_actions) => (scroll_swipe_actions) => (chapter) => (font_size) => {
+const flatlist_on_scroll = (props) => (e) => {
+    const y = e.nativeEvent.contentOffset.y
+    if (y > 200) {
+        if ((props.scroll_details.y || 0) < y) {
+            floating_header_animation_slide_up();
+        } else if ((props.scroll_details.y || 0) > y) {
+            floating_header_animation_slide_down();
+        }
+    } else {
+        floating_header_animation_slide_up();
+    }
+};
+
+const flatlist_on_scroll_begin = (props) => (e) => {
+    props.dispatch(set_bible_header_scroll_details({
+        ...(e.nativeEvent.contentOffset || {})
+    }));
+};
+
+const Bible_Text_Component = (props) => (touch_actions) => (scroll_swipe_actions) => (chapter) => (font_size) => {
 
     return (
         <FlatList data={chapter.content.slice(1)}
+            scrollEventThrottle={300}
             ref={ref => main_view_ref = ref}
             ListHeaderComponent={list_header_component(chapter.title)(chapter.description)(font_size)}
             keyExtractor={bible_key_extractor}
             renderItem={bible_body_component(font_size)}
             scrollEnabled={true}
+            onScrollBeginDrag={flatlist_on_scroll_begin(props)}
+            onScroll={flatlist_on_scroll(props)}
             onScrollEndDrag={scroll_swipe_actions}
             {...touch_actions.panHandlers}
         />
@@ -542,7 +595,7 @@ class Bible_Text extends Component {
                 </Animated.View>
 
                 {is_string(bible_passage.title)
-                    ? Bible_Text_Component(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(text_font_size)
+                    ? Bible_Text_Component(this.props)(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(text_font_size)
                     : <View style={{ flex: 1 }} />
                 }
 
@@ -571,6 +624,10 @@ class Bible_Text extends Component {
                 }
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+
+                {is_string(bible_passage.title) &&
+                    _Floating_Header(bible_passage.title)(bible_passage.description)(text_font_size)
+                }
             </Default_Bg>
         );
     }
@@ -595,6 +652,7 @@ function mapStateToProps(state) {
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
         , text_font_size: state.text_font_size
         , copy_share_btn_props: state.copy_share_btn_props
+        , scroll_details: state.bible_scroll_details
     };
 }
 
