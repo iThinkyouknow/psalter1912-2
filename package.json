@@ -16,7 +16,7 @@
 		"@react-native-community/clipboard": "^1.2.2",
 		"@react-native-community/slider": "^1",
 		"ffmpeg": "^0.0.4",
-		"moment": "^2.22.1",
+		"moment": "^2.29.2",
 		"react": "16.8.3",
 		"react-native": "0.59.10",
 		"react-native-audio-toolkit": "^1.0.6",
