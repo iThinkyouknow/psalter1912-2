@@ -10,6 +10,7 @@ import {
     , Platform
     , TouchableHighlight
     , Image
+    , StatusBar
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -425,7 +426,7 @@ const More_Stuff_Section_List = (props) => {
     const { width, height } = Dimensions.get('window');
     const slide_down_view_dynamic_style = {
         width,
-        height,
+        height: height + StatusBar.currentHeight,
         bottom: height,
         transform: [
             {

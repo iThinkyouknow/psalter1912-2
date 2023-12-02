@@ -10,6 +10,7 @@ import {
     , TouchableHighlight
     , Image
     , PanResponder
+    , StatusBar
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -493,7 +494,8 @@ class Bible_Text extends Component {
         hide_tabs_action(navigator)();
 
         const library_dynamic_style = {
-            height: Dimensions.get('window').height,
+            paddingTop: StatusBar.currentHeight,
+            height: Dimensions.get('window').height + StatusBar.currentHeight,
             width: Dimensions.get('window').width,
             bottom: Dimensions.get('window').height,
             // bottom: 0,
