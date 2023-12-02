@@ -426,7 +426,7 @@ const More_Stuff_Section_List = (props) => {
     const { width, height } = Dimensions.get('window');
     const slide_down_view_dynamic_style = {
         width,
-        height: height + StatusBar.currentHeight,
+        height: height + (StatusBar.currentHeight || 0),
         bottom: height,
         transform: [
             {
@@ -539,7 +539,7 @@ const Text_input_search = (props) => {
 const Search_result_view = (props) => {
     const { width, height } = Dimensions.get('window');
 
-    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar;
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + (StatusBar.currentHeight || 0);
     const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
 
     const search_results_view_dynamic_style = {

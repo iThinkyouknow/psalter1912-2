@@ -9,6 +9,7 @@ import {
     , TouchableHighlight
     , Image
     , TextInput
+    , StatusBar
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -336,7 +337,7 @@ const on_press_creed_search = (props, item) => () => {
 const search_results = (props) => {
     const { width, height } = Dimensions.get('window');
 
-    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar;
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + (StatusBar.currentHeight || 0);
     const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
 
     const search_results_view_dynamic_style = {

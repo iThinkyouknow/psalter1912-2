@@ -494,8 +494,8 @@ class Bible_Text extends Component {
         hide_tabs_action(navigator)();
 
         const library_dynamic_style = {
-            paddingTop: StatusBar.currentHeight,
-            height: Dimensions.get('window').height + StatusBar.currentHeight,
+            paddingTop: StatusBar.currentHeight || 0,
+            height: Dimensions.get('window').height + (StatusBar.currentHeight || 0),
             width: Dimensions.get('window').width,
             bottom: Dimensions.get('window').height,
             // bottom: 0,
