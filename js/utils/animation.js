@@ -10,15 +10,14 @@ import { main_title_2 } from '../common/Text';
 import { is_function, no_op } from '../utils/functions';
 
 export const slide_down_animation = (duration) => (bounciness = 0) => {
-    const animated_value = new Animated.Value(0);
+    const { height } = Dimensions.get('window');
+    const animated_value = new Animated.Value(-height);
     let should_slide_down = true;
     return {
         animated_value,
         slide: () => {
-            const { height } = Dimensions.get('window');
-
             Animated.spring(animated_value, {
-                toValue: (should_slide_down) ? (height) : 0,
+                toValue: (should_slide_down) ? (height) : -height,
                 duration,
                 useNativeDriver: true,
                 bounciness
