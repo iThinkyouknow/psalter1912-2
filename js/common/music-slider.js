@@ -29,6 +29,7 @@ import {
 import Default_bg from './Default-bg';
 
 import music_player from '../utils/music-player'
+import moment from 'moment';
 
 const styles = StyleSheet.create({
     music_slider_container: {
@@ -61,20 +62,15 @@ const styles = StyleSheet.create({
     }
 });
 
-export default music_slider = (dispatch) => (current_music_timer) => (max_music_timer) => (file_name, j) => {
-    const time = (time_in_ms) => {
-        if (time_in_ms === undefined || time_in_ms === null || isNaN(time_in_ms) || time_in_ms === -1) return `00:00`;
-        const date    = new Date(time_in_ms);
-        const minutes = (`${date.getUTCMinutes()}`.length === 2) ? `${date.getUTCMinutes()}` : `0${date.getUTCMinutes()}`;
-        const seconds = (`${date.getUTCSeconds()}`.length === 2) ? `${date.getUTCSeconds()}` : `0${date.getUTCSeconds()}`;
-        return `${minutes}:${seconds}`;
+const time = (time_seconds) => {
+        const unixTime = moment.unix(time_seconds);
+        return unixTime.format('mm:ss');
     };
 
-    const value_change = (should_stop_timer) => () => {
-        if (should_stop_timer) {
-            music_player.stopTimer();
-            should_stop_timer = false;
-        }
+export default music_slider = (dispatch) => (current_music_timer) => (max_music_timer) => (file_name, j) => {
+
+    const value_change = () => {
+        music_player.stopTimer();
     };
 
     return (max_music_timer > 0)
@@ -89,16 +85,16 @@ export default music_slider = (dispatch) => (current_music_timer) => (max_music_
                         step={Math.floor(max_music_timer / 1000)}
                         maximumValue={max_music_timer}
                         value={current_music_timer}
-                        onValueChange={value_change(true)}
+                        onValueChange={value_change}
                         onSlidingComplete={(play_at_time) => {
-                            music_player.change_timing(dispatch)(play_at_time);
+                            music_player.change_timing(dispatch, play_at_time);
                         }}/>
                 <Default_Text style={{marginLeft: sizes.default}}>
                     {time(max_music_timer)}
                 </Default_Text>
 
                 <TouchableHighlight style={styles.play_button_container}
-                                    onPress={music_player.play(dispatch)(file_name)(current_music_timer)}>
+                                    onPress={music_player.play(dispatch, file_name)}>
                     <Image style={styles.play_button}
                            source={require('../../images/icons/icon-play.png')}/>
                 </TouchableHighlight>

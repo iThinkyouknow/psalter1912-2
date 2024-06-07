@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import {
     View,
@@ -22,7 +23,6 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 
 import { } from '../../utils/alert';
 import {
@@ -63,23 +63,42 @@ const header_banner = ({ Dimensions, styles }) => (title) => {
 };
 
 
-const go_to_next_creed_level = ({ navigator = {}, dispatch = no_op }) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
+const go_to_next_creed_level = ({ dispatch = no_op, componentId = '' }) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
 
     if (creed_level === 2) {
         dispatch(change_creeds_chapter_lv(2));
         dispatch(lock_in_creed_level_2(library_type_index)(selected_creed_index)(selected_chapter_index));
-        navigator.push({
-            screen: 'Creeds_Categories',
-            navigatorStyle: navigator_style_push,
-            backButtonTitle: 'Chapters'
+        Navigation.push(componentId, {
+            component: {
+                name: 'Creeds_Categories',
+                options: {
+                    topBar: {
+                        visible: true,
+                        backButton: {
+                            title: 'Chapters',
+                            showTitle: true
+                        }
+                    }
+                }
+            }
         });
 
     } else if (creed_level === undefined || creed_level < 2) {
         dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article));
-        navigator.push({
-            screen: 'Creeds_Text',
-            navigatorStyle: navigator_style_push,
-            backButtonTitle: 'Chapters'
+
+        Navigation.push(componentId, {
+            component: {
+                name: 'Creeds_Text',
+                options: {
+                    topBar: {
+                        visible: true,
+                        backButton: {
+                            title: 'Chapters',
+                            showTitle: true
+                        }
+                    }
+                }
+            }
         });
     }
 };
@@ -119,20 +138,18 @@ const creed_categories_list = (header_banner_component) => (content) => (render_
 
     const creeds_cat_key_ext = (item, j) => `categories-${j}`;
 
+    const {
+        topBarHeight,
+    } = Navigation.constantsSync();
+
+    const {height} = Dimensions.get('window');
+
     return (
-        <FlatList ListHeaderComponent={header_banner_component}
+        <FlatList style={{top: -(topBarHeight), minHeight: height}} ListHeaderComponent={header_banner_component}
             keyExtractor={creeds_cat_key_ext}
             data={content}
             renderItem={render_creed_categories} />
     );
-};
-
-const tab_2_actions = (navigator) => () => navigator.popToRoot();
-
-const select_tab = (tab_2_actions) => (tab_index) => () => {
-    if (tab_index === 2) {
-        tab_2_actions();
-    }
 };
 
 
@@ -158,6 +175,7 @@ class Creeds_Categories extends Component {
             , creed_articles_content
             , selected_chapter_index
             , tab_bar_selected_index
+            , componentId
         } = this.props;
 
         hide_tabs_action(navigator)();
@@ -171,10 +189,9 @@ class Creeds_Categories extends Component {
             },
             random: Math.random,
             Dimensions,
-            navigator: navigator,
+            componentId,
             dispatch: dispatch
         };
-
         const header_banner_w_title = (creeds_chapters_curr_level === 2)
             ? header_banner(component_obj)(creed_articles_title)
             : header_banner(component_obj)(creed_title);
@@ -191,18 +208,8 @@ class Creeds_Categories extends Component {
             ? creed_categories_list(header_banner_w_title)(creed_articles_content)(render_creed_categories_w_data)
             : creed_categories_list(header_banner_w_title)(creed_content)(render_creed_categories_w_data);
 
-        const tab_2_w_nav = tab_2_actions(navigator);
-
-        const select_tab_wo_tab_index = select_tab(tab_2_w_nav);
-
-        const tab_actions = [
-            select_tab_wo_tab_index
-        ];
-
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
-
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
+            <Default_Bg>
                 {creed_categories_list_component}
             </Default_Bg>
         )

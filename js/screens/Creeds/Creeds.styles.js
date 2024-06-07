@@ -93,7 +93,7 @@ export default styles = StyleSheet.create({
     creeds_chooser: {
         position: 'absolute',
         flexDirection: 'row',
-        bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
+        bottom: sizes.default,
         height: 32,
         borderRadius: border_radii.default,
         borderColor: colors.blue,
@@ -113,7 +113,7 @@ export default styles = StyleSheet.create({
     bottom_button_container: {
         position: 'absolute',
         right: sizes.large,
-        bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
+        bottom: sizes.default,
         width: buttons.default,
         height: buttons.default,
         justifyContent: 'flex-start',
@@ -128,7 +128,7 @@ export default styles = StyleSheet.create({
         height: buttons.large,
         position: 'absolute',
         left: sizes.large,
-        bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0),
+        bottom: sizes.default,
     },
     text_input_style: {
         height: 42,

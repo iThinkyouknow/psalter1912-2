@@ -8,7 +8,7 @@ import {
     , TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
-import Clipboard from "@react-native-community/clipboard";
+import Clipboard from "@react-native-clipboard/clipboard";
 import _ from 'lodash';
 
 import {
@@ -35,6 +35,7 @@ import {
     composer
     , no_op
 } from '../../utils/functions';
+import { Navigation } from 'react-native-navigation';
 
 export const MISC_ACTION_TEXT_TYPES = {
     PSALTER: 'PSALTER'
@@ -75,9 +76,9 @@ const share_fn = (share_obj) => () => {
 };
 
 
-const onNavigatorEvent = (navigator) => (e) => {
-    if (e.id === 'close') {
-        navigator.dismissModal();
+const onNavigatorEvent = (Navigation) => ({buttonId, componentId}) => {
+    if (buttonId === 'close') {
+        Navigation.dismissModal(componentId);
     }
 };
 
@@ -113,7 +114,7 @@ const MiscActions = (props) => {
     }, []);
     
     useEffect(() => {
-        navigator.setOnNavigatorEvent(onNavigatorEvent(navigator));
+        Navigation.events().registerNavigationButtonPressedListener(onNavigatorEvent(Navigation));
     }, []);
 
     const dimensions = Dimensions.get('window');

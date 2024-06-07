@@ -4,7 +4,7 @@ import {
     View
     , FlatList
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //import styles from './Credits.styles';
 import {
@@ -19,7 +19,6 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 import FontSlider from '../../common/Font-slider';
 
 import { } from '../../utils/alert';
@@ -31,7 +30,7 @@ import { set_new_font_size } from '../../redux/actions/state-actions'
 const Intro_Component = (font_size) => () => {
     const style = {
         alignItems: 'center'
-        , paddingTop: native_elements.nav_bar_std + native_elements.status_bar
+        , paddingTop: 0
     };
     return (
         <View style={style}>
@@ -67,14 +66,6 @@ const Thanks_Party_Component = (font_size) => ({ item, index }) => {
     );
 };
 
-const tab_4_actions = (navigator) => () => navigator.popToRoot();
-
-const select_tab = (tab_4_actions) => (tab_index) => () => {
-    if (tab_index === 4) {
-        tab_4_actions();
-    }
-};
-
 const set_font_size = (dispatch) => (new_font_size) => {
     composer([
         set_new_font_size,
@@ -97,18 +88,13 @@ class Credits extends Component {
     render() {
         const {
             dispatch
-            , navigator
-            , tab_bar_selected_index
             , text_font_size
         } = this.props;
 
-        const tab_actions = [select_tab(tab_4_actions(navigator))];
-
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
+            <Default_Bg>
                 <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
                     data={this.props.credits_text || []}
                     keyExtractor={key_extractor}

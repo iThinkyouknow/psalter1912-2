@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import { Navigation } from 'react-native-navigation';
 import {
     View
     , FlatList
     , Image
     , TouchableHighlight
     , Linking
+    , Dimensions
 } from 'react-native';
 
 //import styles from './Resources.styles';
@@ -21,7 +23,6 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 
@@ -106,11 +107,7 @@ const resources_renderer = ({item}) => {
 };
 
 const header_component = () => {
-    const resource_header_style = {
-        paddingTop: sizes.x_large + sizes.default
-    };
-
-    return <Default_Text style={resource_header_style} text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>Resources</Default_Text>
+    return <Default_Text text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>Resources</Default_Text>
 };
 
 const tab_4_actions = (navigator) => () => navigator.popToRoot();
@@ -124,21 +121,17 @@ const select_tab = (tab_4_actions) => (tab_index) => () => {
 class Resources extends Component {
     render() {
         const {
-            dispatch
-            , navigator
-            , tab_bar_selected_index
-        } = this.props;
-
-        const tab_actions = [select_tab(tab_4_actions(navigator))];
-
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+            statusBarHeight,
+        } = Navigation.constantsSync();
+        const {height} = Dimensions.get('window');
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
+            <Default_Bg>
                 <FlatList data={data}
+                        style={{top: -(statusBarHeight), minHeight: height - statusBarHeight}}
                           keyExtractor={resources_key_ext}
                           renderItem={resources_renderer}
-                          ListHeaderComponent={header_component} contentContainerStyle={{paddingBottom: sizes.large}}/>
+                          ListHeaderComponent={header_component}/>
             </Default_Bg>
         );
     }

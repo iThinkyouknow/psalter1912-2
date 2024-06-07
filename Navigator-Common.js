@@ -4,7 +4,7 @@ export const default_navigator_style = {
     navBarNoBorder: true,
     navBarTransparent: true,
     navBarTranslucent: true, // use to make drawUnderNavBar effective
-    navBarBackgroundColor: colors.dark_cerulean,
+    navBarBackgroundColor: 'transparent',
     statusBarTextColorScheme: 'light',
     navBarButtonColor: colors.blue,
     navBarTextColor: colors.white,
@@ -33,25 +33,42 @@ export const navigator_style_modal = {
 };
 
 export const show_misc_actions_modal_obj = (type) => {
-    return ({
-        screen: 'MiscActions'
-        , navigatorStyle: navigator_style_modal
-        , passProps: {
-            type
+    
+    return {
+        stack: {
+            children: [
+                {
+                    component: {
+                        name: 'MiscActions',
+                        passProps: {
+                            type
+                        },
+                        options: {
+                            topBar: {
+                                drawBehind: false,
+                                background: {
+                                    color:  colors.dark_cerulean,
+                                },
+                                visible: true,
+                                title: {
+                                    text: 'Copy & Share'
+                                },
+                                leftButtons: [{
+                                    text: 'Close',
+                                    id: 'close'
+                                }]
+                            }
+                        }
+                    }
+                }
+            ]
         }
-        , title: 'Copy & Share'
-        , navigatorButtons: {
-            leftButtons: [{
-                title: 'Close',
-                id: 'close'
-            }]
-        }
-    })
+    }
 };
 
 export const hide_tabs_action = (navigator) => () => {
-    return navigator.toggleTabs({
-        to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        animated: false // does the toggle have transition animation or does it happen immediately (optional)
-    });
+    // return navigator.toggleTabs({
+    //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+    //     animated: false // does the toggle have transition animation or does it happen immediately (optional)
+    // });
 };

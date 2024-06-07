@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
+
 import {
     View
     , FlatList
@@ -12,7 +14,7 @@ import {
     , StatusBar
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { navigator_style_push, hide_tabs_action } from '../../../Navigator-Common'
 
@@ -31,7 +33,6 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 
 import {
     creeds_images_array,
@@ -152,17 +153,28 @@ const book_img_animated_value = book_image_bounce_animation.animated_value;
 const list_header_component = list_header_component_wo_animated_val(book_img_animated_value);
 
 
-const select_book = (navigator) => (dispatch) => (library_type_index) => (selected_index) => (levels_deep) => () => {
+const select_book = (componentId, dispatch, library_type_index, selected_index, levels_deep) => () => {
     //select book index
     dispatch(lock_in_creed(library_type_index)(selected_index)(levels_deep));
-    navigator.push({
-        screen: 'Creeds_Categories',
-        navigatorStyle: navigator_style_push,
-        backButtonTitle: (library_type_index === 0) ? 'Creeds' : 'Forms'
+    Navigation.push(componentId, {
+        component: {
+            name: 'Creeds_Categories',
+            options: {
+                topBar: {
+                    visible: true,
+                    drawBehind: true,
+                    backButton: {
+                        title: (library_type_index === 0) ? 'Creeds' : 'Forms',
+                        showTitle: true
+                    }
+                }
+    
+            }
+        },
     });
 };
 
-const creeds_menu_renderer = ({ navigator, dispatch, random, images, Dimensions }) => (library_type_index) => ({ item, index }) => {
+const creeds_menu_renderer = ({ componentId, dispatch, random, images, Dimensions }) => (library_type_index) => ({ item, index }) => {
     const { width } = Dimensions.get('window');
     const should_margin_left = (index % 2 > 0);
 
@@ -199,7 +211,7 @@ const creeds_menu_renderer = ({ navigator, dispatch, random, images, Dimensions 
     return (
         <TouchableHighlight underlayColor={'transparent'}
             style={[styles.library_selection, library_selection_style]}
-            onPress={select_book(navigator)(dispatch)(library_type_index)(index)(item.levels_deep)}>
+            onPress={select_book(componentId, dispatch, library_type_index, index, item.levels_deep)}>
             <View>
                 <Image source={image} style={[styles.library_selection_image, library_selection_image_style]} />
                 <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]} />
@@ -324,10 +336,20 @@ const on_press_creed_search = (props, item) => () => {
 
     dispatch(lock_in_creed(tabIndex)(index)(levels_deep));
     dispatch(lock_in_creed_body(tabIndex)(index)(item.chIndex)(item.subIndex));
-    navigator.push({
-        screen: 'Creeds_Text',
-        navigatorStyle: navigator_style_push,
-        backButtonTitle: 'Chapters'
+    Navigation.push(props.componentId, {
+        component: {
+            name: 'Creeds_Text',
+            options: {
+                topBar: {
+                    visible: true,
+                    drawBehind: true,
+                    backButton: {
+                        title: 'Chapters',
+                        showTitle: true
+                    }
+                }
+            }
+        }
     });
 
     select_tab(props.dispatch)(tabIndex)();
@@ -438,10 +460,6 @@ const text_input = (action = no_op) => {
     )
 };
 
-const onNavigatorEvent = (e) => {
-    if (e.id === 'didAppear' || e.id === 'bottomTabReselected') book_image_bounce_animation.bounce();
-};
-
 const onTextInputAction = (props) => (e) => {
     const text = e.nativeEvent.text || '';
     props.dispatch(search_creeds(text.trim()));
@@ -451,8 +469,12 @@ const onTextInputAction = (props) => (e) => {
         });
     }
 }
-
+let bottomTabEventListener;
 class Creeds extends Component {
+
+    componentDidAppear() {
+        book_image_bounce_animation.bounce();
+    }
 
     componentDidMount() {
         AsyncStorage.removeItem('Formula-of-Subscription-(PRCA)');
@@ -495,7 +517,17 @@ class Creeds extends Component {
                 console.log(err);
             })
 
-        this.props.navigator.setOnNavigatorEvent(onNavigatorEvent);
+        bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex }) => {
+            if (selectedTabIndex === 2) {
+                book_image_bounce_animation.bounce();
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        if (bottomTabEventListener) {
+            bottomTabEventListener.remove();
+        }
     }
 
 
@@ -507,7 +539,10 @@ class Creeds extends Component {
             , library_type_index
             , creeds_library
             , tab_bar_selected_index
+            , componentId
         } = this.props;
+
+        
 
         hide_tabs_action(navigator)();
 
@@ -520,7 +555,7 @@ class Creeds extends Component {
                 churches_images_array
             },
             Dimensions,
-            navigator: navigator,
+            componentId: componentId,
             dispatch: dispatch,
             os: Platform.OS
         };
@@ -529,10 +564,8 @@ class Creeds extends Component {
 
         const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj)(library_type_index);
 
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)()()(tab_bar_selected_index);
-
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} style={styles.default_bg} >
+            <Default_Bg style={styles.default_bg} >
 
                 {list_header_component(component_obj)(library_type_index)}
                 {creeds_library && creeds_menu_flatlist(creeds_menu_renderer_loaded)(library_type_index)(creeds_library)}

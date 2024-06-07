@@ -35,7 +35,7 @@ export default styles = StyleSheet.create({
     },
     main_text_padding_top: {
         paddingVertical: sizes.default,
-        paddingTop: 3 * sizes.default + native_elements.status_bar
+        paddingTop: 0
     },
     text_input_style: {
         flex: 1,

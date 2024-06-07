@@ -8,8 +8,8 @@ import {
     , Dimensions
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Navigation } from 'react-native-navigation';
 import {
     sizes,
     font_sizes
@@ -21,7 +21,6 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 import FontSlider from '../../common/Font-slider';
 import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
@@ -234,6 +233,10 @@ const longPressFns = long_press_actions();
 
 class Creeds_Text extends Component {
 
+    componentDidMount() {
+        main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
+    }
+
     render() {
         const {
             creed_body_title
@@ -250,14 +253,6 @@ class Creeds_Text extends Component {
             , navigator
             , dispatch
         } = this.props;
-
-        hide_tabs_action(navigator)()
-
-        const select_tab_wo_tab_index = select_tab(tab_2_actions(navigator));
-
-        const tab_actions = [
-            select_tab_wo_tab_index
-        ];
 
         const [swipe_right_loaded, swipe_left_loaded] = [
             swipe_right,
@@ -293,17 +288,15 @@ class Creeds_Text extends Component {
             ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
             : no_op;
 
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
-
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
+            <Default_Bg>
                 {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(text_font_size)}
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.CREEDS));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.CREEDS));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();

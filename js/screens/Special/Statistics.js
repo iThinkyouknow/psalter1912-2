@@ -8,9 +8,10 @@ import {
     , TouchableHighlight
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import { Navigation } from 'react-native-navigation';
 
-import {navigator_style_push} from '../../../Navigator-Common'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import moment from 'moment';
 
@@ -20,7 +21,6 @@ import {
     , sizes
     , native_elements
     , border_radii
-    , is_iPhone_X
 } from '../../common/common.styles';
 
 import {
@@ -28,11 +28,14 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar, {select_tab_action} from '../../common/Tab-bar';
 import Segmented_Buttons from '../../common/Segmented-Buttons';
 
 
 import {select_statistics_tab} from '../../redux/actions/state-actions';
+
+import {
+    select_tab_index
+} from '../../redux/actions/tab-bar-actions';
 import {
     set_sung_psalter_details
     , neglected_texts_init
@@ -188,7 +191,7 @@ const most_sung_obj_formatter = (on_press_wo_dates_psalter_title) => ([key, date
         , last_sung: moment(dates_array[0]).format('D MMM \'YY h:mm A')
         , ago: moment(dates_array[0]).fromNow()
         , sung_count: dates_array.length
-        , on_press: on_press_wo_dates_psalter_title(dates_array)(key.replace('psalter-', 'Psalter '))
+        , on_press: on_press_wo_dates_psalter_title(dates_array, key.replace('psalter-', 'Psalter '))
     }
 };
 
@@ -282,26 +285,34 @@ const get_least_sung_psalter_array = (all_sung_dates_array) => {
     return sung_dates_num_count_sorted_array;
 };
 
-const on_press_action_for_sung_psalters = (dispatch) => (navigator) => (sung_array) => (psalter_title) => () => {
+const on_press_action_for_sung_psalters = (dispatch, componentId) => (sung_array, psalter_title) => () => {
     dispatch(set_sung_psalter_details(sung_array)(psalter_title));
-    navigator.push({
-        screen: 'Psalter_Sung_Details',
-        navigatorStyle: navigator_style_push,
-        backButtonTitle: 'All'
+    Navigation.push(componentId, {
+        component: {
+            name: 'Psalter_Sung_Details',
+            options: {
+                topBar: {
+                    visible: true,
+                    drawBehind: true,
+                    backButton: {
+                        title: 'All',
+                        showTitle: true
+                    }
+                }
+    
+            }
+        },
     });
 };
 
-const tab_4_actions = (navigator) => () => navigator.popToRoot();
-
-const select_tab_bar = (tab_4_actions) => (tab_index) => () => {
-    if (tab_index === 4) {
-        tab_4_actions();
-    }
-};
-
-const neglected_on_press_yes = (dispatch) => (navigator) => (index) => () => {
-    on_psalter_change(dispatch)(index)();
-    select_tab_action(navigator)(dispatch)(0)();
+const neglected_on_press_yes = (dispatch) => (index) => () => {
+    on_psalter_change(dispatch, index)();
+    Navigation.mergeOptions('BOTTOM_TABS',{
+        bottomTabs: {
+            currentTabIndex: 0
+        }
+    });
+    dispatch(select_tab_index(0));
 };
 
 class Statistics extends Component {
@@ -327,19 +338,14 @@ class Statistics extends Component {
 
         const {
             dispatch
-            , navigator
             , all_sung_dates_obj
-            , tab_bar_selected_index
             , selected_tab_index
+            , componentId
         } = this.props;
 
         const screen_width = Dimensions.get('window').width;
 
         const sung_dates_array = Object.entries(all_sung_dates_obj);
-
-        const tab_actions = [
-            select_tab_bar(tab_4_actions(navigator))
-        ];
 
         const seg_buttons_width = Math.floor(screen_width * 9 / 10);
 
@@ -366,21 +372,25 @@ class Statistics extends Component {
             ? unsung_psalters_array
             : get_least_sung_psalter_array(sung_dates_array);
 
-        const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(dispatch)(navigator);
+        const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(dispatch, componentId);
 
         const text_index = get_text_index_of_array(Math.random)(this.props.neglected_texts.length);
         const text_array = this.props.neglected_texts[text_index];
 
-        const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch)(navigator);
+        const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch);
 
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+        const {
+            topBarHeight,
+        } = Navigation.constantsSync();
+        const {height} = Dimensions.get('window');
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} style={{alignItems: 'center'}}>
+            <Default_Bg style={{alignItems: 'center'}}>
 
                 {(selected_tab_index === 0 || selected_tab_index === 1)
                 && (
                     <FlatList
+                        style={{top: -topBarHeight, minHeight: height}}
                         data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array))(sung_dates_array)(selected_tab_index)}
                         renderItem={Psalter_Btn_Component(screen_width)}
                         ListHeaderComponent={Section_Header(title)}
@@ -392,7 +402,9 @@ class Statistics extends Component {
                 }
                 {
                     (selected_tab_index === 2) && (
-                        <FlatList data={neglected_psalters_array}
+                        <FlatList 
+                                    style={{top: -topBarHeight, minHeight: height}}    
+                                    data={neglected_psalters_array}
                                   ListHeaderComponent={Section_Header_Neglected(text_array)(title)}
                                   ListFooterComponent={Footer()}
                                   numColumns={5}
@@ -405,7 +417,7 @@ class Statistics extends Component {
 
                 <View style={{
                     position: 'absolute',
-                    bottom: sizes.default + native_elements.tab_bar + (is_iPhone_X ? native_elements.x_bottom_safe_area : 0)
+                    bottom: sizes.large
                 }}>
                     {Segmented_Buttons(seg_buttons_width)(seg_buttons_array)()(selected_tab_index)}
                 </View>
