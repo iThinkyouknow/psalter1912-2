@@ -107,28 +107,21 @@ const resources_renderer = ({item}) => {
 };
 
 const header_component = () => {
-    return <Default_Text text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>Resources</Default_Text>
-};
-
-const tab_4_actions = (navigator) => () => navigator.popToRoot();
-
-const select_tab = (tab_4_actions) => (tab_index) => () => {
-    if (tab_index === 4) {
-        tab_4_actions();
-    }
+    const {
+        statusBarHeight,
+    } = Navigation.constantsSync();
+    
+    return <Default_Text style={{marginTop: statusBarHeight}} text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>Resources</Default_Text>
 };
 
 class Resources extends Component {
     render() {
-        const {
-            statusBarHeight,
-        } = Navigation.constantsSync();
         const {height} = Dimensions.get('window');
 
         return (
             <Default_Bg>
                 <FlatList data={data}
-                        style={{top: -(statusBarHeight), minHeight: height - statusBarHeight}}
+                        style={{minHeight: height}}
                           keyExtractor={resources_key_ext}
                           renderItem={resources_renderer}
                           ListHeaderComponent={header_component}/>

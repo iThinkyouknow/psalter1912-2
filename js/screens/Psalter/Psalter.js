@@ -11,6 +11,7 @@ import {
     , TouchableHighlight
     , Image
     , StatusBar
+    , SafeAreaView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -203,7 +204,8 @@ export const on_psalter_change = (dispatch, next_val) => () => {
         setTimeout(() => {
             dispatch(lock_in(next_val));
             main_view_ref && main_view_ref.scrollToOffset({
-                offset: 0
+                offset: 0,
+                animated: true
             });
         }, 10);
         set_keyboard_toolbar(true);
@@ -429,11 +431,11 @@ const More_Stuff_Section_List = (props) => {
     ];
 
     const { width, height } = Dimensions.get('window');
-
+    const statusBarHeight = Navigation.constantsSync().statusBarHeight;
     const slide_down_view_dynamic_style = {
         width,
-        height: height + (StatusBar.currentHeight || 0),
-        bottom: 0,
+        height: height + statusBarHeight,
+        bottom: -statusBarHeight,
         
         transform: [
             {
@@ -547,7 +549,7 @@ const Text_input_search = (props) => {
 const Search_result_view = (props) => {
     const { width, height } = Dimensions.get('window');
 
-    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + (StatusBar.currentHeight || 0);
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + Navigation.constantsSync().statusBarHeight;
     const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
 
     const search_results_view_dynamic_style = {
@@ -684,7 +686,7 @@ const version_storage_key = 'version';
 
 const get_online_version_compare_and_update_data = (local_version) => (online_version) => {
     const promise = new Promise((resolve, reject) => {
-        if (online_version.version.version > local_version.version.version) {
+        if (online_version.version.version !== local_version.version.version) {
 
             const update_keys = Object.keys(online_version)
                 .filter((key) => {
@@ -968,7 +970,6 @@ class App extends Component {
 
                 <FlatList data={psalter.content}
                     scrollEventThrottle={300}
-
                     onScroll={flatlist_on_scroll(this.props)}
                     ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
                     renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
@@ -976,6 +977,7 @@ class App extends Component {
                     onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
                     onScrollEndDrag={scroll_swipe_actions_loaded}
                     ref={ref => main_view_ref = ref}
+                    contentInsetAdjustmentBehavior={"never"}
                     {...touch_actions.panHandlers} />
 
                 {Floating_Header}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
-
+import { set_keyboard_toolbar } from '../../utils/keyboard';
 import {
     View
     , FlatList
@@ -213,7 +213,9 @@ const creeds_menu_renderer = ({ componentId, dispatch, random, images, Dimension
             style={[styles.library_selection, library_selection_style]}
             onPress={select_book(componentId, dispatch, library_type_index, index, item.levels_deep)}>
             <View>
-                <Image source={image} style={[styles.library_selection_image, library_selection_image_style]} />
+                {
+                    image && <Image source={image} style={[styles.library_selection_image, library_selection_image_style]} />
+                }
                 <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]} />
                 <View style={[styles.library_text_container, text_container_style]}>
                     <Default_Text text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
@@ -249,7 +251,9 @@ const creeds_menu_flatlist = (renderer) => (library_type_index) => (library) => 
 
 const select_tab = (dispatch) => (index) => () => {
     dispatch(select_creeds_or_forms(index));
-    book_image_bounce_animation.bounce();
+    setTimeout(() => {
+        book_image_bounce_animation.bounce();
+    }, 0)
 };
 
 const creeds_or_forms_chooser = ({ dispatch, Dimensions, os }) => (library_type_index) => {
@@ -359,7 +363,7 @@ const on_press_creed_search = (props, item) => () => {
 const search_results = (props) => {
     const { width, height } = Dimensions.get('window');
 
-    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + (StatusBar.currentHeight || 0);
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + Navigation.constantsSync().statusBarHeight;
     const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
 
     const search_results_view_dynamic_style = {
@@ -477,6 +481,7 @@ class Creeds extends Component {
     }
 
     componentDidMount() {
+        set_keyboard_toolbar(false);
         AsyncStorage.removeItem('Formula-of-Subscription-(PRCA)');
         AsyncStorage.multiGet(this.props.title_order).then(stringArray /* [[key, string]] */ => {
             const creedsForms = {

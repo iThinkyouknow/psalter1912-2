@@ -72,15 +72,8 @@ const content_container_style = {
     , paddingHorizontal: sizes.large
 };
 
-const Footer = () => <View style={{height: native_elements.tab_bar}}></View>;
+const Footer = () => <View style={{height: native_elements.tab_bar + Navigation.constantsSync().statusBarHeight}}></View>;
 
-const tab_4_actions = (navigator) => () => navigator.popToRoot();
-
-const select_tab = (tab_4_actions) => (tab_index) => () => {
-    if (tab_index === 4) {
-        tab_4_actions();
-    }
-};
 
 class Psalter_Sung_Details extends Component {
     render() {
@@ -88,17 +81,12 @@ class Psalter_Sung_Details extends Component {
             sung_psalter_date_details_array
             , psalter_title
         } = this.props;
-
-        const {
-            topBarHeight,
-        } = Navigation.constantsSync();
         const {height} = Dimensions.get('window');
-
         return (
             <Default_Bg>
 
                 <FlatList data={sung_psalter_date_details_array}
-                        style={{top: -topBarHeight, minHeight: height}}
+                        style={{minHeight: height}}
                           keyExtractor={sung_details_key_extractor}
                           renderItem={Date_Details_Component(Dimensions.get('window').width)}
                           contentContainerStyle={content_container_style}

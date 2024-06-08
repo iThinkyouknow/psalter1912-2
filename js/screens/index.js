@@ -1,5 +1,7 @@
 
+import { SafeAreaView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { colors } from '../common/common.styles';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -22,9 +24,12 @@ export function registerScreens(store, Provider) {
     for (const [name, Component] of screens) {
         Navigation.registerComponent(name, () => (props) => {
             return (
+                
+
                 <Provider store={store}>
                     <Component {...props}></Component>
                 </Provider>
+                
             );
         });
     }

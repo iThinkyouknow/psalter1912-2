@@ -15,7 +15,7 @@ Overlay_Wrapper.options = (props) => {
             componentBackgroundColor: 'transparent',
           },
         overlay: {
-            interceptTouchOutside: false,
+            interceptTouchOutside: true,
         },
     };
 };

@@ -185,7 +185,7 @@ export function More_Stuff_Section_List(props) {
     const { width, height } = Dimensions.get('window');
     const slide_down_view_dynamic_style = {
         width,
-        height: height + (StatusBar.currentHeight || 0),
+        height: height + (Navigation.constantsSync().statusBarHeight),
         bottom: height,
         transform: [
             {

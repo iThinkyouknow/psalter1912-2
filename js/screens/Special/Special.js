@@ -162,6 +162,7 @@ class Special extends Component {
                     renderItem={renderer(Dimensions.get('window').width, navigate_to(componentId))}
                     keyExtractor={special_categories_key_extractor}
                     contentContainerStyle={{alignItems: 'center', padding: sizes.large * 1.5}}
+                    contentInsetAdjustmentBehavior={"never"}
                 />
 
 

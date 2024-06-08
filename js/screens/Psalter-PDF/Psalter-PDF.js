@@ -54,6 +54,7 @@ const _Number_input = (os) => (end_text_action) => (change_text_action) => (text
         , fontSize: font_sizes.default
         , borderColor: colors.dark_cerulean
         , backgroundColor: colors.white
+        , color: colors.black
     };
 
     return (

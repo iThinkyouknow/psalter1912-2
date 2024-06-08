@@ -35,7 +35,7 @@ export default styles = StyleSheet.create({
     },
     main_text_padding_top: {
         paddingVertical: sizes.default,
-        paddingTop: 0
+        paddingTop: 3 * sizes.default + native_elements.status_bar
     },
     text_input_style: {
         flex: 1,
@@ -43,7 +43,8 @@ export default styles = StyleSheet.create({
         ...line_height_fn('default')(font_sizes.default),
         borderRadius: border_radii.default,
         fontSize: font_sizes.default,
-        backgroundColor: colors.white
+        backgroundColor: colors.white,
+        color: colors.black
     },
     slide_down_view_style: {
         backgroundColor: colors.black,

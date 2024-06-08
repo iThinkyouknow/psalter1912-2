@@ -116,7 +116,7 @@ const list_header_component = (title) => (description) => (font_size) => {
     return (
         <View style={{
             paddingHorizontal: sizes.large * 1.5,
-            paddingTop: 0,
+            paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
             {Header_Text_Component(font_size * 2)('Durwent')()(title)}
@@ -171,6 +171,7 @@ const Bible_Text_Component = (props) => (touch_actions) => (scroll_swipe_actions
             onScrollBeginDrag={flatlist_on_scroll_begin(props)}
             onScroll={flatlist_on_scroll(props)}
             onScrollEndDrag={scroll_swipe_actions}
+            contentInsetAdjustmentBehavior={"never"}
             {...touch_actions.panHandlers}
         />
     );
@@ -514,14 +515,16 @@ class Bible_Text extends Component {
 
         hide_tabs_action(navigator)();
 
+        const statusBarHeight = Navigation.constantsSync().statusBarHeight;
+
         const library_dynamic_style = {
-            paddingTop: StatusBar.currentHeight || 0,
-            height: Dimensions.get('window').height + (StatusBar.currentHeight || 0),
+            paddingTop: statusBarHeight,
+            height: Dimensions.get('window').height + statusBarHeight,
             width: Dimensions.get('window').width,
             // bottom: Dimensions.get('window').height,
-            bottom: 0,
+            bottom: -statusBarHeight,
             transform: [
-                { translateY: library_slide_down_animation.animated_value }
+                { translateY: library_slide_down_animation.animated_value}
             ]
         };
 

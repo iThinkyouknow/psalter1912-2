@@ -87,6 +87,7 @@ const tabChildren = [
             ],
             options: {
                 bottomTab: {
+                    popToRoot: true,
                     icon: icon_default,
                     selectedIcon: icon_selected,
                     text: label,
@@ -102,23 +103,32 @@ const tabChildren = [
 Navigation.setDefaultOptions({
     statusBar: {
         visible: true,
-        style: 'dark'
+        style: 'light',
+        backgroundColor: 'transparent',
+        drawBehind: true
     },
     topBar: {
+        elevation: 0,
+        translucent: true,
         visible: false,
         drawBehind: true,
         title: {
-            color: default_navigator_style.navBarTextColor,
+            color: default_navigator_style.navBarTextColor
+        },
+        backButton: {
+            showTitle: true,
+            color: colors.blue
         },
         background: {
-            color: default_navigator_style.navBarBackgroundColor,
+            color: 'transparent',
         },
         noBorder: true,
         scrollEdgeAppearance: {
-            // background: {color: 'red'},
             noBorder: true,
             active: true,
         },
+        borderHeight: 0,
+        elevation: 0
 
     },
     bottomTabs: {

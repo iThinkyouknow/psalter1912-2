@@ -66,7 +66,6 @@ const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
         flexDirection: 'row'
         , justifyContent: 'space-between'
         , alignItems: 'center'
-        // , backgroundColor: 'red'
         , flex: 1
     }
 
@@ -169,7 +168,7 @@ const select_tab = (dispatch) => (index) => () => {
     dispatch(select_statistics_tab(index));
 };
 
-const Footer = () => <View style={{height: native_elements.tab_bar}}></View>;
+const Footer = () => <View style={{height: native_elements.tab_bar + Navigation.constantsSync().statusBarHeight}}></View>;
 
 const titles = [
     'Most Sung'
@@ -379,9 +378,6 @@ class Statistics extends Component {
 
         const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch);
 
-        const {
-            topBarHeight,
-        } = Navigation.constantsSync();
         const {height} = Dimensions.get('window');
 
         return (
@@ -390,7 +386,7 @@ class Statistics extends Component {
                 {(selected_tab_index === 0 || selected_tab_index === 1)
                 && (
                     <FlatList
-                        style={{top: -topBarHeight, minHeight: height}}
+                        style={{minHeight: height}}
                         data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array))(sung_dates_array)(selected_tab_index)}
                         renderItem={Psalter_Btn_Component(screen_width)}
                         ListHeaderComponent={Section_Header(title)}
@@ -403,7 +399,7 @@ class Statistics extends Component {
                 {
                     (selected_tab_index === 2) && (
                         <FlatList 
-                                    style={{top: -topBarHeight, minHeight: height}}    
+                                    style={{minHeight: height}}    
                                     data={neglected_psalters_array}
                                   ListHeaderComponent={Section_Header_Neglected(text_array)(title)}
                                   ListFooterComponent={Footer()}

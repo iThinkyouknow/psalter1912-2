@@ -138,14 +138,10 @@ const creed_categories_list = (header_banner_component) => (content) => (render_
 
     const creeds_cat_key_ext = (item, j) => `categories-${j}`;
 
-    const {
-        topBarHeight,
-    } = Navigation.constantsSync();
-
     const {height} = Dimensions.get('window');
 
     return (
-        <FlatList style={{top: -(topBarHeight), minHeight: height}} ListHeaderComponent={header_banner_component}
+        <FlatList ListHeaderComponent={header_banner_component}
             keyExtractor={creeds_cat_key_ext}
             data={content}
             renderItem={render_creed_categories} />

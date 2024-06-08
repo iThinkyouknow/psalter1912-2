@@ -2943,13 +2943,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/slider@npm:^1":
-  version: 1.1.4
-  resolution: "@react-native-community/slider@npm:1.1.4"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 10c0/b3f48a6954d5f9662a61c1eb87133a25d1b08b90aab499130b2f969474dab2ab43be8cc9cce191a25c9cfb1f8993e2940de3abc7636c3d833e28b50d4dd02b7e
+"@react-native-community/slider@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "@react-native-community/slider@npm:4.5.2"
+  checksum: 10c0/0aeef9ce4ccb1e8995e49efbe244edf68b4a6274845d8d4fefa07cf7b1bd2d3d43c6a7dc1e8a300fe18ae768c350dcd99d3c2ee88a74f854341d85c24140f80f
   languageName: node
   linkType: hard
 
@@ -3825,7 +3822,7 @@ __metadata:
     "@babel/runtime": "npm:^7.20.0"
     "@react-native-async-storage/async-storage": "npm:^1.23.1"
     "@react-native-clipboard/clipboard": "npm:^1.14.1"
-    "@react-native-community/slider": "npm:^1"
+    "@react-native-community/slider": "npm:^4.5.2"
     "@react-native/babel-preset": "npm:0.74.83"
     "@react-native/eslint-config": "npm:0.74.83"
     "@react-native/metro-config": "npm:0.74.83"

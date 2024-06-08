@@ -30,7 +30,7 @@ import { set_new_font_size } from '../../redux/actions/state-actions'
 const Intro_Component = (font_size) => () => {
     const style = {
         alignItems: 'center'
-        , paddingTop: 0
+        , paddingTop: native_elements.nav_bar_std + native_elements.status_bar
     };
     return (
         <View style={style}>

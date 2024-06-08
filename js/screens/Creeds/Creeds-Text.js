@@ -112,6 +112,7 @@ const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles
             keyExtractor={key_extractor}
             renderItem={Creeds_Body_Component(body.header)(font_size)} style={styles.flatlist_padding_horizontal}
             onScrollEndDrag={scroll_swipe_actions}
+            contentInsetAdjustmentBehavior={"never"}
             {...swipe_action.panHandlers} />
     );
 };

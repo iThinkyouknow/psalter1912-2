@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 import {
     set_max_music_timer,
     set_music_timer
@@ -48,7 +50,7 @@ const _music_player_fn = () => {
             Player.loadSoundFile(name, type);
             stopTimer()
             seek(dispatch, 0);
-            Player.setNumberOfLoops(-1);
+            Platform.OS === 'ios' && Player.setNumberOfLoops(-1);
             Player.getInfo().then((info) => {
                 if (info) {
                     dispatch(set_max_music_timer(info.duration));
