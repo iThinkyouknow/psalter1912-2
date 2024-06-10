@@ -478,10 +478,10 @@ class Creeds extends Component {
 
     componentDidAppear() {
         book_image_bounce_animation.bounce();
+        
     }
 
     componentDidMount() {
-        set_keyboard_toolbar(false);
         AsyncStorage.removeItem('Formula-of-Subscription-(PRCA)');
         AsyncStorage.multiGet(this.props.title_order).then(stringArray /* [[key, string]] */ => {
             const creedsForms = {
@@ -525,6 +525,9 @@ class Creeds extends Component {
         bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex }) => {
             if (selectedTabIndex === 2) {
                 book_image_bounce_animation.bounce();
+                set_keyboard_toolbar(false);
+            } else {
+                set_keyboard_toolbar(true);
             }
         });
     }

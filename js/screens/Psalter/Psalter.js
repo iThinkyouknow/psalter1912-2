@@ -435,8 +435,7 @@ const More_Stuff_Section_List = (props) => {
     const slide_down_view_dynamic_style = {
         width,
         height: height + statusBarHeight,
-        bottom: -statusBarHeight,
-        
+        bottom: Platform.OS === 'android' ? -statusBarHeight : 0,
         transform: [
             {
                 translateY: props.more_section_slide_position
@@ -755,10 +754,10 @@ let bottomTabEventListener;
 class App extends Component {
     constructor(props) {
         super(props);
-        set_keyboard_toolbar(true);
     }
     
     componentDidMount() {
+        
         bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
             if (unselectedTabIndex === 0) {
                 if (selectedTabIndex === 1) {
@@ -832,6 +831,7 @@ class App extends Component {
                 get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
             }
         });
+        set_keyboard_toolbar(true);
     }
 
 

@@ -72,7 +72,7 @@ const content_container_style = {
     , paddingHorizontal: sizes.large
 };
 
-const Footer = () => <View style={{height: native_elements.tab_bar + Navigation.constantsSync().statusBarHeight}}></View>;
+const Footer = () => <View style={{height: native_elements.tab_bar}}></View>;
 
 
 class Psalter_Sung_Details extends Component {
@@ -81,16 +81,16 @@ class Psalter_Sung_Details extends Component {
             sung_psalter_date_details_array
             , psalter_title
         } = this.props;
-        const {height} = Dimensions.get('window');
+
         return (
             <Default_Bg>
 
                 <FlatList data={sung_psalter_date_details_array}
-                        style={{minHeight: height}}
                           keyExtractor={sung_details_key_extractor}
                           renderItem={Date_Details_Component(Dimensions.get('window').width)}
                           contentContainerStyle={content_container_style}
                           ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}
+                          contentInsetAdjustmentBehavior={'never'}
                           ListFooterComponent={Footer()}
                           ListHeaderComponent={Sung_Details_Header(psalter_title)} />
 

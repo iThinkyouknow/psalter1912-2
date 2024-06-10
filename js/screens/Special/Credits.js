@@ -98,6 +98,7 @@ class Credits extends Component {
                 <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
                     data={this.props.credits_text || []}
                     keyExtractor={key_extractor}
+                    contentInsetAdjustmentBehavior={'never'}
                     renderItem={Thanks_Party_Component(text_font_size)} />
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />

@@ -343,8 +343,7 @@ const _library_bottom_buttons_container = (width) => (close_library_button) => (
         flexDirection: 'row',
         bottom: sizes.default,
         height: 40,
-        marginBottom: sizes.medium,
-        // backgroundColor: 'blue'
+        marginBottom: sizes.medium
     };
 
     return (
@@ -504,9 +503,6 @@ class Bible_Text extends Component {
             , selection_chapter_list = []
             , selection_selected_book_title = ''
             , selection_book_index = NaN
-            , tab_bar_selected_index = NaN
-            , psalter_psalm = NaN
-            , first_psalter_index_of_each_psalm_obj = {}
             , per_book_ch_last_index_array = []
             , bible_should_show_back_to_books_button
             , copy_share_btn_props
@@ -521,8 +517,7 @@ class Bible_Text extends Component {
             paddingTop: statusBarHeight,
             height: Dimensions.get('window').height + statusBarHeight,
             width: Dimensions.get('window').width,
-            // bottom: Dimensions.get('window').height,
-            bottom: -statusBarHeight,
+            bottom: Platform.OS === 'android' ? -statusBarHeight : 0,
             transform: [
                 { translateY: library_slide_down_animation.animated_value}
             ]
@@ -563,14 +558,6 @@ class Bible_Text extends Component {
         const chapter_lib_header = chapter_header(Dimensions.get('window').width)(selection_selected_book_title);
 
         const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
-
-        // const change_psalter_on_tab_action = (
-        //     current_book_index === 18
-        //     && current_chapter_index + 1 !== psalter_psalm
-        // )
-        //     ? on_psalter_and_score_tab_select(dispatch)(current_book_index)(current_chapter_index + 1)(psalter_psalm)(first_psalter_index_of_each_psalm_obj)
-        //     : () => () => {
-        //     };
 
         const [swipe_right_loaded, swipe_left_loaded] = [swipe_right_action, swipe_left_action].map(swipe_action => swipe_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index));
 

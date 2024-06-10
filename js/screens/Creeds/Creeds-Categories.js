@@ -144,6 +144,7 @@ const creed_categories_list = (header_banner_component) => (content) => (render_
         <FlatList ListHeaderComponent={header_banner_component}
             keyExtractor={creeds_cat_key_ext}
             data={content}
+            contentInsetAdjustmentBehavior={'never'}
             renderItem={render_creed_categories} />
     );
 };

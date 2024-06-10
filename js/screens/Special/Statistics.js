@@ -168,7 +168,7 @@ const select_tab = (dispatch) => (index) => () => {
     dispatch(select_statistics_tab(index));
 };
 
-const Footer = () => <View style={{height: native_elements.tab_bar + Navigation.constantsSync().statusBarHeight}}></View>;
+const Footer = () => <View style={{height: native_elements.tab_bar}}></View>;
 
 const titles = [
     'Most Sung'
@@ -386,34 +386,35 @@ class Statistics extends Component {
                 {(selected_tab_index === 0 || selected_tab_index === 1)
                 && (
                     <FlatList
-                        style={{minHeight: height}}
+                        
                         data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array))(sung_dates_array)(selected_tab_index)}
                         renderItem={Psalter_Btn_Component(screen_width)}
                         ListHeaderComponent={Section_Header(title)}
                         ListFooterComponent={Footer()}
                         contentContainerStyle={content_container_style}
                         keyExtractor={per_sect_key_extractor(title)}
+                        contentInsetAdjustmentBehavior={'never'}
                         ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}/>
                 )
                 }
                 {
                     (selected_tab_index === 2) && (
-                        <FlatList 
-                                    style={{minHeight: height}}    
-                                    data={neglected_psalters_array}
-                                  ListHeaderComponent={Section_Header_Neglected(text_array)(title)}
-                                  ListFooterComponent={Footer()}
-                                  numColumns={5}
-                                  contentContainerStyle={[content_container_style]}
-                                  keyExtractor={per_sect_key_extractor(title)}
-                                  getItemLayout={flatlist_item_layout(Math.floor(screen_width / 6))}
-                                  renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(this.props.neglected_alert_texts)(Math.random)(neglected_on_press_yes_wo_index)())}/>
+                        <FlatList
+                            data={neglected_psalters_array}
+                            ListHeaderComponent={Section_Header_Neglected(text_array)(title)}
+                            ListFooterComponent={Footer()}
+                            numColumns={5}
+                            contentContainerStyle={[content_container_style]}
+                            keyExtractor={per_sect_key_extractor(title)}
+                            getItemLayout={flatlist_item_layout(Math.floor(screen_width / 6))}
+                            contentInsetAdjustmentBehavior={'never'}
+                            renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(this.props.neglected_alert_texts)(Math.random)(neglected_on_press_yes_wo_index)())}/>
                     )
                 }
 
                 <View style={{
                     position: 'absolute',
-                    bottom: sizes.large
+                    bottom: sizes.medium
                 }}>
                     {Segmented_Buttons(seg_buttons_width)(seg_buttons_array)()(selected_tab_index)}
                 </View>

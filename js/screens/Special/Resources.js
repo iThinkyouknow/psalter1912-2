@@ -121,10 +121,10 @@ class Resources extends Component {
         return (
             <Default_Bg>
                 <FlatList data={data}
-                        style={{minHeight: height}}
-                          keyExtractor={resources_key_ext}
-                          renderItem={resources_renderer}
-                          ListHeaderComponent={header_component}/>
+                        keyExtractor={resources_key_ext}
+                        renderItem={resources_renderer}
+                        contentInsetAdjustmentBehavior={'never'}
+                        ListHeaderComponent={header_component}/>
             </Default_Bg>
         );
     }
