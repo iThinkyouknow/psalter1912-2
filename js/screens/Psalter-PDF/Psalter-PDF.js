@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-
+import { Navigation } from 'react-native-navigation';
 // import styles from './Psalter-PDF.styles';
 import {
     colors
@@ -17,7 +17,6 @@ import {
 } from '../../common/common.styles';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 
 import { string_input_error_alert, wrong_number_error_alert } from '../../utils/alert';
 
@@ -55,6 +54,7 @@ const _Number_input = (os) => (end_text_action) => (change_text_action) => (text
         , fontSize: font_sizes.default
         , borderColor: colors.dark_cerulean
         , backgroundColor: colors.white
+        , color: colors.black
     };
 
     return (
@@ -108,8 +108,7 @@ const on_psalter_text_change = (dispatch) => (max_value) => (value) => {
     }
 };
 
-const select_tab_0 = (dispatch) => (psalter_index) => (pdf_page_to_psalter_index_obj) => (temp_psalter_pdf_page_number_for_pdf) => () => {
-
+const select_tab_0 = (dispatch, psalter_index, pdf_page_to_psalter_index_obj, temp_psalter_pdf_page_number_for_pdf) => {
     const new_psalter_index = pdf_page_to_psalter_index_obj[temp_psalter_pdf_page_number_for_pdf]
         || pdf_page_to_psalter_index_obj[temp_psalter_pdf_page_number_for_pdf - 1] + 1;
 
@@ -124,16 +123,8 @@ const select_tab_0 = (dispatch) => (psalter_index) => (pdf_page_to_psalter_index
 
 };
 
-const select_tab_3 = (dispatch) => (psalm) => () => dispatch(get_bible_passage(18)(psalm - 1));
+const select_tab_3 = (dispatch, psalm) => dispatch(get_bible_passage(18)(psalm - 1));
 
-const select_tab = (tab_0_action = no_op) => (tab_3_action = no_op) => (tab_index) => () => {
-    if (tab_index === 0) {
-        tab_0_action();
-    } else if (tab_index === 3) {
-        // scrolling does not get the latest psalm
-        tab_3_action();
-    }
-};
 
 const on_page_change = (dispatch) => (pg, num) => {
     dispatch(set_temp_psalter_pdf_page_no(pg));
@@ -150,12 +141,32 @@ const pdf_style = {
 const on_scale = (scale) => {
     scale;
 };
-
+let bottomTabEventListener;
 class Psalter_PDF extends Component {
 
     componentDidMount() {
         Pdf = require('react-native-pdf').default;
         setTimeout(() => this.props.dispatch(set_file_source_init()), 1000);
+        bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
+            if (unselectedTabIndex !== 1) return;
+            if (selectedTabIndex === 0) {
+                select_tab_0(
+                    this.props.dispatch, 
+                    this.props.psalter_index, 
+                    this.props.pdf_page_to_psalter_index_obj, 
+                    this.props.temp_psalter_pdf_page_number_for_pdf
+                )
+            }
+
+            if (selectedTabIndex === 3) {
+                select_tab_3(this.props.dispatch, this.props.psalter_psalm)
+            }
+           
+        });
+    }
+
+    componentWillUnmount() {
+        bottomTabEventListener && bottomTabEventListener.remove();
     }
 
     render() {
@@ -174,29 +185,19 @@ class Psalter_PDF extends Component {
             , psalter_pdf_file_source
         } = this.props;
 
-        hide_tabs_action(navigator)();
+        // hide_tabs_action(navigator)();
 
         const on_psalter_selected = on_select_psalter_action(dispatch)(valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(dispatch)(413);
 
         const num_input_field = Number_input(on_psalter_selected)(on_psalter_input_change)(true)(psalter_pdf_input)()();
 
-        const select_tab_0_loaded = select_tab_0(dispatch)(psalter_index)(pdf_page_to_psalter_index_obj)(temp_psalter_pdf_page_number_for_pdf);
-
-        const select_tab_3_loaded = select_tab_3(dispatch)(psalter_psalm);
-
-        const tab_actions = [
-            select_tab(select_tab_0_loaded)(select_tab_3_loaded)
-        ];
-
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
-
         const can_load_pdf = (is_number(psalter_pdf_file_source) || is_object(psalter_pdf_file_source));
         const initial_scale = Platform.OS === 'ios'
             ? 1
             : 1.5;
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props} >
+            <Default_Bg>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     {can_load_pdf &&
                         <Pdf source={psalter_pdf_file_source}

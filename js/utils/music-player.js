@@ -1,103 +1,103 @@
+import { Platform } from 'react-native';
+
 import {
     set_max_music_timer,
     set_music_timer
 } from '../redux/actions/state-actions';
 
 const _music_player_fn = () => {
-    const Player = require('react-native-audio-toolkit').Player;
-    // state machine
+    const Player = require('react-native-sound-player').default;
+    Player.addEventListener('FinishedLoading', params => {
+        console.log({params}, 'finishedLoading');
+    });
+
     let current_music_file_name = '';
-    let music_player;
     let interval = 0;
-
-    //helper fn
-    const create_new_player = (Player_class) => (new_file_name) => {
-        const new_music_player = new Player_class(new_file_name);
-        new_music_player.looping = true;
-
-        return new_music_player;
-    };
-
-    const reset_timer = (dispatch) => (_interval) => {
-        clearInterval(_interval);
-        dispatch(set_music_timer(0));
-    };
-
-    const play_callback = (dispatch) => (play_time) => () => {
-        dispatch(set_max_music_timer(music_player.duration));
-        music_player.seek(play_time);
+    let isPlaying = false;
+    
+    const updateTimer = (dispatch) => () => {
         interval = setInterval(() => {
-            dispatch(set_music_timer(music_player.currentTime));
-            if (music_player.currentTime >= music_player.duration || music_player.currentTime === -1) {
-                clearInterval(interval);
-            }
+            Player.getInfo()
+                .then((info) => {
+                    if (!info) return;
+                    dispatch(set_music_timer(info.currentTime));
+
+                    if (info.currentTime >= info.duration || info.currentTime < 0) {
+                        clearInterval(interval);
+                    }
+                        
+                    })
+                .catch(err => {
+                    console.error("music player play: ", err);
+                });
         }, 1000);
+        
     };
-
-    // play
-    const play = (dispatch) => (music_file_name) => (current_time) => () => {
-        clearInterval(interval);
-        if (music_player) music_player.stop();
-        if (music_file_name !== current_music_file_name) {
-            current_music_file_name = music_file_name;
-            reset_timer(dispatch)(interval);
-        }
-        music_player = create_new_player(Player)(current_music_file_name);
-        const actual_current_time = (current_time < 0) ? 0 : current_time;
-        music_player.play(play_callback(dispatch)(actual_current_time));
+    
+    const play = (dispatch) => () => {
+        if (isPlaying) return;
+        Player.play();
+        isPlaying = true;
+        updateTimer(dispatch)();
     };
-
+    
     // in render function
-    const when_psalter_change = (dispatch) => (file_name) => () => {
+    const when_psalter_change = (dispatch, file_name) => () => {
         if (file_name !== current_music_file_name) {
             current_music_file_name = file_name;
-            reset_timer(dispatch)(interval);
-
-            if (music_player && music_player.isPlaying) {
-                play(dispatch)(current_music_file_name)(0)();
-
-            } else {
-                if (music_player) {
-                    music_player.stop();
+            const [name, type] = file_name.split('.');
+            Player.stop();
+            Player.loadSoundFile(name, type);
+            stopTimer()
+            seek(dispatch, 0);
+            Platform.OS === 'ios' && Player.setNumberOfLoops(-1);
+            Player.getInfo().then((info) => {
+                if (info) {
+                    dispatch(set_max_music_timer(info.duration));
                 }
-                music_player = create_new_player(Player)(current_music_file_name);
-                music_player.volume = 0;
-                music_player.play(() => {
-                    dispatch(set_max_music_timer(music_player.duration));
-                    music_player.stop();
-                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+            if (isPlaying) {
+                isPlaying = false;
+                play(dispatch)();
             }
         }
     };
+    
+    const pause = ()  => {
+        Player.pause();
+        clearInterval(interval);
+        isPlaying = false;
+    }
 
+    const seek = (dispatch, new_time) => {
+        Player.seek(new_time);
+        dispatch(set_music_timer(new_time));
+    }
+    
     // pause
     const pause_or_stop = (dispatch) => () => {
-        if (music_player) {
-            if (music_player.isPlaying) { //pause
-                clearInterval(interval);
-                dispatch(set_music_timer(music_player.currentTime));
-                music_player.stop();
-                music_player = undefined;
-            }
-        } else if (!music_player) { //stop
-            music_player = undefined;
-            reset_timer(dispatch)(interval);
+        if (!isPlaying) {    
+            seek(dispatch, 0);
         }
+        pause();
+
+        
     };
     // slide
-    const change_timing = (dispatch) => (new_time) => {
-        clearInterval(interval);
-        dispatch(set_music_timer(new_time));
-        if (music_player && music_player.isPlaying) {
-            music_player.stop();
-            play(dispatch)(current_music_file_name)(new_time)();
+    const change_timing = (dispatch, new_time) => {
+        seek(dispatch, new_time);
+        if (isPlaying) {
+            updateTimer(dispatch)();
         }
     };
-
+    
     const stopTimer = () => {
         clearInterval(interval);
     };
-
+    
     //return
     return {
         when_psalter_change,
