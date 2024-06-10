@@ -13,7 +13,7 @@ import {
     , StatusBar
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import styles from './creeds-text.styles';
 import {
@@ -35,7 +35,6 @@ import {
 import FontSlider from '../../common/Font-slider';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 
 import { Rounded_Button } from '../../common/Rounded-Button';
 
@@ -68,6 +67,7 @@ import {
     on_psalter_change
 } from '../Psalter/Psalter'
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
+import { Navigation } from 'react-native-navigation';
 
 let main_view_ref = null;
 
@@ -171,6 +171,7 @@ const Bible_Text_Component = (props) => (touch_actions) => (scroll_swipe_actions
             onScrollBeginDrag={flatlist_on_scroll_begin(props)}
             onScroll={flatlist_on_scroll(props)}
             onScrollEndDrag={scroll_swipe_actions}
+            contentInsetAdjustmentBehavior={"never"}
             {...touch_actions.panHandlers}
         />
     );
@@ -310,7 +311,14 @@ const close_library_button = ({ width }) => {
         </Default_Text>
     );
 
-    return Rounded_Button(child_component)(library_slide_down_animation.slide)(width)
+    const action = () => {
+        library_slide_down_animation.slide();
+        setTimeout(() => {
+            Navigation.dismissOverlay('Overlay_Wrapper_Bible');
+        }, 300);
+    }
+
+    return Rounded_Button(child_component)(action)(width)
 };
 
 const back_to_books_btn = ({ width }) => {
@@ -351,8 +359,11 @@ const library_bottom_buttons_container = _library_bottom_buttons_container(Dimen
 
 const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => () => {
     dispatch(get_bible_passage(book_index)(chapter_index));
-    library_slide_down_animation.slide();
     library_container_slide_anim.slide();
+    library_slide_down_animation.slide();
+    setTimeout(() => {
+        Navigation.dismissOverlay('Overlay_Wrapper_Bible');
+    }, 1000);
     main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 
 };
@@ -360,11 +371,11 @@ const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => (
 const _show_back_to_books_button = () => {
     let should_show = true;
 
-    return (width) => (dispatch) => ({ value }) => {
+    return (width, dispatch) => ({ value }) => {
         if (should_show && value < width - 20) {
             should_show = false;
             return dispatch(bible_toggle_back_to_book_buttons(true));
-
+            
         } else if (!should_show && value > width - 20) {
             should_show = true;
             return dispatch(bible_toggle_back_to_book_buttons(false));
@@ -375,9 +386,10 @@ const _show_back_to_books_button = () => {
 const show_back_to_books_button = _show_back_to_books_button();
 
 
-const on_psalter_and_score_tab_select = (dispatch) => (current_book_index) => (current_psalm) => (psalter_psalm) => (psalm_to_psalter_obj) => (tab_index) => () => {
-    if ((tab_index === 0 || tab_index === 1) && current_book_index === 18 && current_psalm !== psalter_psalm) {
-        on_psalter_change(dispatch)(psalm_to_psalter_obj[current_psalm])();
+const on_psalter_and_score_tab_select = ({dispatch, current_book_index, current_chapter_index, psalter_psalm, first_psalter_index_of_each_psalm_obj}) => {
+    const current_psalm = current_chapter_index + 1;
+    if (current_book_index === 18 && current_psalm !== psalter_psalm) {
+        on_psalter_change(dispatch, (first_psalter_index_of_each_psalm_obj)?.[current_psalm])();
     }
 };
 
@@ -429,12 +441,13 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
 };
 
 const longPressFns = long_press_actions();
-
+let libraryBackButtonId;
+let bottomTabEventListener;
 class Bible_Text extends Component {
 
     constructor(props) {
         super(props);
-        library_container_slide_anim.animated_value.addListener(show_back_to_books_button(Dimensions.get('window').width)(props.dispatch));
+        libraryBackButtonId = library_container_slide_anim.animated_value.addListener(show_back_to_books_button(Dimensions.get('window').width, props.dispatch));
 
     }
 
@@ -465,10 +478,19 @@ class Bible_Text extends Component {
                     console.error(err);
                 });
         }, 1000);
+
+        bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
+            if (unselectedTabIndex !== 3) return;
+            if ([0, 1].some(idx => selectedTabIndex === idx)) {
+                on_psalter_and_score_tab_select(this.props)
+            }
+           
+        });
     }
 
     componentWillUnmount() {
-        library_container_slide_anim.animated_value.removeListener();
+        library_container_slide_anim.animated_value.removeListener(libraryBackButtonId);
+        bottomTabEventListener && bottomTabEventListener.remove();
     }
 
     render() {
@@ -493,14 +515,16 @@ class Bible_Text extends Component {
 
         hide_tabs_action(navigator)();
 
+        const statusBarHeight = Navigation.constantsSync().statusBarHeight;
+
         const library_dynamic_style = {
-            paddingTop: StatusBar.currentHeight || 0,
-            height: Dimensions.get('window').height + (StatusBar.currentHeight || 0),
+            paddingTop: statusBarHeight,
+            height: Dimensions.get('window').height + statusBarHeight,
             width: Dimensions.get('window').width,
-            bottom: Dimensions.get('window').height,
-            // bottom: 0,
+            // bottom: Dimensions.get('window').height,
+            bottom: -statusBarHeight,
             transform: [
-                { translateY: library_slide_down_animation.animated_value }
+                { translateY: library_slide_down_animation.animated_value}
             ]
         };
 
@@ -540,13 +564,13 @@ class Bible_Text extends Component {
 
         const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
-        const change_psalter_on_tab_action = (
-            current_book_index === 18
-            && current_chapter_index + 1 !== psalter_psalm
-        )
-            ? on_psalter_and_score_tab_select(dispatch)(current_book_index)(current_chapter_index + 1)(psalter_psalm)(first_psalter_index_of_each_psalm_obj)
-            : () => () => {
-            };
+        // const change_psalter_on_tab_action = (
+        //     current_book_index === 18
+        //     && current_chapter_index + 1 !== psalter_psalm
+        // )
+        //     ? on_psalter_and_score_tab_select(dispatch)(current_book_index)(current_chapter_index + 1)(psalter_psalm)(first_psalter_index_of_each_psalm_obj)
+        //     : () => () => {
+        //     };
 
         const [swipe_right_loaded, swipe_left_loaded] = [swipe_right_action, swipe_left_action].map(swipe_action => swipe_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index));
 
@@ -579,22 +603,24 @@ class Bible_Text extends Component {
             ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
             : no_op;
 
-        const tab_actions = [
-            change_psalter_on_tab_action
-        ];
+        const LibraryComponent = (
+            <Animated.View style={[library_style, library_dynamic_style]}>
+                <Animated.View style={bible_library_container_style}>
+                    {bible_library(book_list)(book_buttons_section_header_loaded)}
+                    {chapter_library(chapter_lib_header)(selection_chapter_list)(chapter_button_component)}
+                </Animated.View>
 
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
+                {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
+            </Animated.View>
+        );
+
+        Navigation.updateProps('Overlay_Wrapper_Bible', {
+            children: LibraryComponent
+        })
 
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
-                <Animated.View style={[library_style, library_dynamic_style]}>
-                    <Animated.View style={bible_library_container_style}>
-                        {bible_library(book_list)(book_buttons_section_header_loaded)}
-                        {chapter_library(chapter_lib_header)(selection_chapter_list)(chapter_button_component)}
-                    </Animated.View>
-
-                    {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
-                </Animated.View>
+            <Default_Bg>
+                
 
                 {is_string(bible_passage.title)
                     ? Bible_Text_Component(this.props)(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(text_font_size)
@@ -608,15 +634,34 @@ class Bible_Text extends Component {
                     paddingHorizontal: sizes.large,
                     paddingVertical: sizes.default / 2
                 }}>
-                    {Rounded_Button(<Default_Text
-                        text_align={'center'}>Select</Default_Text>)(library_slide_down_animation.slide)(Dimensions.get('window').width)}
+                    {
+                        Rounded_Button(
+                            <Default_Text
+                                text_align={'center'}>
+                                    Select
+                            </Default_Text>
+                        )(() => {
+                            Navigation.showOverlay({
+                                component: {
+                                    id: 'Overlay_Wrapper_Bible',
+                                    name: 'Overlay_Wrapper',
+                                    passProps: {
+                                        children: LibraryComponent
+                                    }
+                                }
+                            });
+                            
+                            setTimeout(() => {
+                                library_slide_down_animation.slide();
+                            }, 50);
+                        })(Dimensions.get('window').width)}
                 </View>
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.BIBLE));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.BIBLE));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();

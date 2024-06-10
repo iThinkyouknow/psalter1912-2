@@ -12,7 +12,6 @@ export default function Default_Bg(props = {}) {
     return (
         <View style={[styles.background_col, styles.flex, {bottom: 0}, props.style]}>
             {props.children}
-            {(props.Tab_Bar !== undefined) && props.Tab_Bar}
         </View>
     )
 };

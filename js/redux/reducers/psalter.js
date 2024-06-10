@@ -20,18 +20,13 @@ export function psalter(state = default_psalter_obj, action = {}) {
         
         const psalters_count = psalter_json.length;
         const first_psalter_index_of_each_psalm_obj = psalter_json.reduce((acc, psalter, index) => {
-            return (acc[psalter.psalm] === undefined)
-                ? {
-                    ...acc,
-                    [psalter.psalm]: index
-                }
-                : acc;
+            acc[psalter.psalm] = acc[psalter.psalm] || index
+            return acc;
         }, {});
 
         const pdf_page_to_psalter_index_obj = psalter_json.reduce((acc, psalter, index) => {
-            return (acc[psalter.scoreRef] === undefined)
-                ? { ...acc, [psalter.scoreRef]: index }
-                : acc;
+            acc[psalter.scoreRef] = acc[psalter.scoreRef] || index;
+            return acc;
         }, {});
 
         return {
@@ -75,9 +70,10 @@ export function psalter(state = default_psalter_obj, action = {}) {
 
     } else if (action.type === PSALTER_ACTIONS.SET_SUNG_COUNT_ALL) {
         if (!Array.isArray(action.sung_record_array)) return state;
-        const sung_record_obj = action.sung_record_array.reduce((acc, [psalter_no_str, sung_dates_array]) => {
-            return {...acc, [psalter_no_str]: sung_dates_array};
-        }, {});
+
+        const sung_record_obj = Object.fromEntries(
+            action.sung_record_array.map(([psalter_no_str, sung_dates_array]) => [psalter_no_str, sung_dates_array])
+        );
 
         return {
             ...state,

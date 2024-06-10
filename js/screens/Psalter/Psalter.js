@@ -11,10 +11,11 @@ import {
     , TouchableHighlight
     , Image
     , StatusBar
+    , SafeAreaView
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './index.styles';
 import { colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii } from '../../common/common.styles';
 
@@ -32,7 +33,7 @@ import {
 import FontSlider from '../../common/Font-slider';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
+
 import { Rounded_Button } from '../../common/Rounded-Button';
 import music_slider from '../../common/music-slider';
 import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
@@ -104,6 +105,7 @@ import { set_keyboard_toolbar } from '../../utils/keyboard';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
+import { Navigation } from 'react-native-navigation';
 
 let main_view_ref = null;
 
@@ -195,19 +197,20 @@ const render_psalter_text = (fade_anim) => (font_size) => ({ item, index }) => {
     )
 };
 
-export const on_psalter_change = (dispatch) => (next_val) => () => {
+export const on_psalter_change = (dispatch, next_val) => () => {
     if (!Number.isNaN(next_val)) {
         psalter_text_fade_anim.fade_in();
 
         setTimeout(() => {
             dispatch(lock_in(next_val));
             main_view_ref && main_view_ref.scrollToOffset({
-                offset: 0
+                offset: 0,
+                animated: true
             });
         }, 10);
         set_keyboard_toolbar(true);
 
-        music_player.when_psalter_change(dispatch)(`psalter_${next_val + 1}.mp3`)();
+        music_player.when_psalter_change(dispatch, `psalter_${next_val + 1}.mp3`)();
     }
 };
 
@@ -270,7 +273,7 @@ const end_text_input = (dispatch) => (text_is_valid) => (event) => {
 
     if (text_is_valid) {
         const input_int = parseInt(event.nativeEvent.text) - 1;
-        on_psalter_change(dispatch)(input_int)();
+        on_psalter_change(dispatch, input_int)();
         set_text_input_value(dispatch)('');
     }
 };
@@ -299,9 +302,9 @@ const Number_input = (props) => {
 };
 
 
-const get_random_psalter = (dispatch) => (count) => () => {
+const get_random_psalter = (dispatch, count) => () => {
     const random = Math.floor(Math.random() * count);
-    on_psalter_change(dispatch)(random)();
+    on_psalter_change(dispatch, random)();
 };
 
 const more_stuff_list_header = () => {
@@ -312,13 +315,17 @@ const more_stuff_list_header = () => {
 
 
 const Bottom_Buttons = (props) => {
+    const action = () => {
+        more_section_slide();
+        setTimeout(() => Navigation.dismissOverlay('Overlay_Wrapper_Psalter'), 500);
+    }
 
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
             {Rounded_Button(
                 <Default_Text text_align={'center'}>
                     I'm Done
-                </Default_Text>)(more_section_slide)(props.width)}
+                </Default_Text>)(action)(props.width)}
         </View>
 
     );
@@ -386,7 +393,7 @@ const music_section = (music_slider) => ({ item, index }) => {
 };
 
 const More_Stuff_Section_List = (props) => {
-    const psalter_music_source = (props.psalter_no !== -1 && props.psalter_no !== 0 && props.psalter_no !== undefined && props.psalter_no !== null)
+    const psalter_music_source = (props.psalter_no)
         ? `psalter_${props.psalter_no}.mp3`
         : ``;
 
@@ -424,10 +431,12 @@ const More_Stuff_Section_List = (props) => {
     ];
 
     const { width, height } = Dimensions.get('window');
+    const statusBarHeight = Navigation.constantsSync().statusBarHeight;
     const slide_down_view_dynamic_style = {
         width,
-        height: height + (StatusBar.currentHeight || 0),
-        bottom: height,
+        height: height + statusBarHeight,
+        bottom: -statusBarHeight,
+        
         transform: [
             {
                 translateY: props.more_section_slide_position
@@ -435,14 +444,15 @@ const More_Stuff_Section_List = (props) => {
         ]
     };
 
-    return (
+    return ( 
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
             <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]}
                 sections={sections} />
-            <Bottom_Buttons width={width} navigator={props.navigator} />
+            <Bottom_Buttons width={width} />
         </Animated.View>
     );
 };
+
 
 const count_fn = () => {
     let current_no = 0;
@@ -502,7 +512,7 @@ const on_search_button_press = (dispatch) => (text_input_as_search) => (slide_ri
 
 const get_psalter_for_search = (dispatch) => (input_int) => () => {
     on_search_button_press(dispatch)(true)(slide_right_pos)();
-    on_psalter_change(dispatch)(input_int)();
+    on_psalter_change(dispatch, input_int)();
 };
 
 const used_the_wrong_text_input_regex = /^\d{1,3}$/;
@@ -539,7 +549,7 @@ const Text_input_search = (props) => {
 const Search_result_view = (props) => {
     const { width, height } = Dimensions.get('window');
 
-    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + (StatusBar.currentHeight || 0);
+    const statusBarHeight = is_iPhone_X ? native_elements.x_top_safe_area : native_elements.status_bar + Navigation.constantsSync().statusBarHeight;
     const bottomPadding = is_iPhone_X ? native_elements.x_bottom_safe_area : 0;
 
     const search_results_view_dynamic_style = {
@@ -605,17 +615,6 @@ const Search_result_view = (props) => {
     </Animated.View>)
 };
 
-const on_tab_select = (tab_1_action) => (tab_3_action) => (tab_index) => () => {
-    if (tab_index === 1) {
-        tab_1_action()
-    } else if (tab_index === 3) {
-        tab_3_action();
-    } else if (tab_index !== 0) {
-        counter.clear_timeout();
-    }
-
-};
-
 const on_bible_tab_select = (dispatch) => (psalm) => () => {
     dispatch(get_bible_passage(18)(psalm - 1));
 };
@@ -630,9 +629,9 @@ const on_action = (actions_array) => () => {
 
 const longPressFns = long_press_actions();
 
-const heartbeat = (navigator) => {
-    setInterval(hide_tabs_action(navigator), 3000)
-};
+// const heartbeat = (navigator) => {
+//     // setInterval(hide_tabs_action(navigator), 3000)
+// };
 
 const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
 
@@ -687,7 +686,7 @@ const version_storage_key = 'version';
 
 const get_online_version_compare_and_update_data = (local_version) => (online_version) => {
     const promise = new Promise((resolve, reject) => {
-        if (online_version.version.version > local_version.version.version) {
+        if (online_version.version.version !== local_version.version.version) {
 
             const update_keys = Object.keys(online_version)
                 .filter((key) => {
@@ -751,14 +750,32 @@ const get_informed_of_connection = () => AsyncStorage.getItem('informed_connecti
  *
  *
  * **/
-
+let shakeSubscription;
+let bottomTabEventListener;
 class App extends Component {
     constructor(props) {
         super(props);
         set_keyboard_toolbar(true);
     }
-
+    
     componentDidMount() {
+        bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
+            if (unselectedTabIndex === 0) {
+                if (selectedTabIndex === 1) {
+                    on_pdf_tab_select()
+                } else if (selectedTabIndex === 3) {
+                    const on_bible_tab_select_loaded = is_present_type('number')(this.props.psalter.psalm)
+                        ? on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
+                        : no_op;
+                    on_bible_tab_select_loaded();
+                } else if (selectedTabIndex !== 0) {
+                    counter.clear_timeout();
+                }
+            }
+        });
+
+// Unsubscribe
+
         AsyncStorage.getItem(font_size_key)
             .then(font_size => {
                 composer([
@@ -768,7 +785,7 @@ class App extends Component {
                 ])(font_size);
             })
 
-        const RNShakeEvent = require('react-native-shake-event');
+        const RNShake = require('react-native-shake').default;
         const storage_psalter_key = 'PsalterJSON';
         AsyncStorage.getItem(storage_psalter_key)
             .then(json_string => {
@@ -778,7 +795,7 @@ class App extends Component {
 
                 const psalters_count = psalter_json.length;
 
-                RNShakeEvent.addEventListener('shake', get_random_psalter(this.props.dispatch)(psalters_count));
+                shakeSubscription = RNShake.addListener(get_random_psalter(this.props.dispatch, psalters_count));
                 // AsyncStorage.clear(); // for dev only
                 const count_all_keys_array = Array.from(new Array(psalters_count), (item, index) => `psalter-${index + 1}`);
 
@@ -803,7 +820,7 @@ class App extends Component {
             .catch(err => console.error('get Psalter Search Json Error with error:', err));
 
 
-        heartbeat(this.props.navigator);
+        // heartbeat(this.props.navigator);
 
         get_informed_of_connection().then((informed) => {
             if (!informed) {
@@ -815,6 +832,12 @@ class App extends Component {
                 get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
             }
         });
+    }
+
+
+    componentWillUnmount() {
+        shakeSubscription && shakeSubscription.remove()
+        bottomTabEventListener && bottomTabEventListener.remove();
     }
 
     // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
@@ -843,36 +866,22 @@ class App extends Component {
             , copy_share_btn_props
         } = this.props;
 
-        const hide_tabs_action_loaded = hide_tabs_action(navigator);
-        hide_tabs_action_loaded();
-
-        const on_psalter_change_dispatch = on_psalter_change(dispatch);
+        // const hide_tabs_action_loaded = hide_tabs_action(navigator);
+        // hide_tabs_action_loaded();
 
         add_count(dispatch)(Date)(psalter.no)(sung_dates);
-        //music_player.when_psalter_change(dispatch)(`Psalter-${psalter.no}.mp3`)();
-        // set_nav_bar_title(navigator)(psalter.no)();
 
         const music_slider_w_data = music_slider(dispatch)(current_music_timer)(max_music_timer);
-
-        const on_bible_tab_select_loaded = is_present_type('number')(psalter.psalm)
-            ? on_bible_tab_select(dispatch)(psalter.psalm)
-            : no_op;
-
-        const tab_actions = [
-            on_tab_select(on_pdf_tab_select)(on_bible_tab_select_loaded)
-        ];
 
         const num_input_set_can_search_w_dispatch = num_input_set_can_search(dispatch);
 
         const num_input_on_blur_actions_array = [
-            hide_tabs_action_loaded
-            , num_input_set_can_search_w_dispatch(true)
+            // hide_tabs_action_loaded
+            num_input_set_can_search_w_dispatch(true)
         ];
 
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
-
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(on_psalter_change(dispatch)(index + 1))(on_psalter_change(dispatch)(index - 1))
+            ? scroll_swipe_actions(on_psalter_change(dispatch, index + 1))(on_psalter_change(dispatch, index - 1))
             : no_op;
 
         const get_text_input = (text_input_as_search) => {
@@ -883,7 +892,7 @@ class App extends Component {
                         style={[styles.text_input_style]}
                         valid_text_input={true}
                         search_results={psalter_search_results}
-                        onBlur={hide_tabs_action_loaded} />
+                         />
 
                     : <Number_input psalters_count={psalters_count}
                         value={psalter_text_input}
@@ -911,7 +920,7 @@ class App extends Component {
 
         const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
 
-        const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change_dispatch(index + change_by));
+        const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change(dispatch, index + change_by));
         const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(longPressFns.onPanResponderRelease())(one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
@@ -935,9 +944,8 @@ class App extends Component {
 
         const Floating_Header = _Floating_Header(this.props);
 
-        return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
-                <More_Stuff_Section_List
+        const More_Stuff_Section_List_Component = (
+            <More_Stuff_Section_List
                     dispatch={dispatch}
                     navigator={navigator}
                     more_section_slide_position={more_section_slide_position}
@@ -946,6 +954,15 @@ class App extends Component {
                     psalter_no={psalter.no}
                     sung_count={is_present_type('array')(sung_dates) ? sung_dates.length : NaN}
                     music_slider={music_slider_w_data} />
+            );
+
+        Navigation.updateProps('Overlay_Wrapper_Psalter', {
+            children: More_Stuff_Section_List_Component
+        });
+
+        return (
+            <Default_Bg>
+                {/* {More_Stuff_Section_List_Component} */}
 
                 <Search_result_view search_results={psalter_search_results}
                     dispatch={dispatch}
@@ -953,7 +970,6 @@ class App extends Component {
 
                 <FlatList data={psalter.content}
                     scrollEventThrottle={300}
-
                     onScroll={flatlist_on_scroll(this.props)}
                     ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
                     renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
@@ -961,6 +977,7 @@ class App extends Component {
                     onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
                     onScrollEndDrag={scroll_swipe_actions_loaded}
                     ref={ref => main_view_ref = ref}
+                    contentInsetAdjustmentBehavior={"never"}
                     {...touch_actions.panHandlers} />
 
                 {Floating_Header}
@@ -971,7 +988,7 @@ class App extends Component {
                     (<Copy_Share_Tooltip
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            navigator.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();
@@ -1006,7 +1023,20 @@ class App extends Component {
                     </TouchableHighlight>
 
                     <TouchableHighlight style={styles.bottom_button_container}
-                        onPress={more_section_slide}
+                        onPress={() => {
+                            Navigation.showOverlay({
+                                component: {
+                                    id: 'Overlay_Wrapper_Psalter',
+                                    name: 'Overlay_Wrapper',
+                                    passProps: {
+                                        children: More_Stuff_Section_List_Component
+                                    }
+                                }
+                            });
+                            setTimeout(() => {
+                                more_section_slide();
+                            }, 50);
+                        }}
                         underlayColor={colors.dark_cerulean}>
                         <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')} />
 

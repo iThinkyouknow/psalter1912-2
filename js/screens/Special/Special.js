@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import { Navigation } from 'react-native-navigation';   
 import {
     View
     , Image
@@ -24,7 +25,6 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
-import Tab_Bar from '../../common/Tab-bar';
 
 import {} from '../../utils/alert';
 import {is_present_type} from '../../utils/functions';
@@ -32,12 +32,23 @@ import {is_present_type} from '../../utils/functions';
 const special_categories_key_extractor = (item, index) => `special-cat-${item.title}-${index}`;
 
 
-const navigate_to = (navigator) => (screen_name) => () => {
+const navigate_to = (componentId) => (screen_name) => () => {
     if (is_present_type('string')(screen_name)) {
-        navigator.push({
-            screen: screen_name,
-            navigatorStyle: navigator_style_push,
-            backButtonTitle: 'Special'
+        Navigation.push(componentId, {
+            component: {
+                name: screen_name,
+                options: {
+                    topBar: {
+                        visible: true,
+                        drawBehind: true,
+                        backButton: {
+                            title: 'Special',
+                            showTitle: true
+                        }
+                    }
+        
+                }
+            },
         });
     }
 };
@@ -46,7 +57,7 @@ const link_to = (url) => () => {
     Linking.openURL(url);
 };
 
-const renderer = (width) => (navigate) => ({item, index}) => {
+const renderer = (width, navigate) => ({item, index}) => {
 
     const box_width = width - (sizes.large * 2 * 1.5);
     const dyn_style = {
@@ -139,21 +150,19 @@ class Special extends Component {
             , navigator
             , tab_bar_selected_index
             , psalter_all_sung_dates
+            , componentId
         } = this.props;
 
         const categories_data = get_categories_data(psalter_all_sung_dates);
 
-        const tab_actions = [];
-
-        const Tab_Bar_w_Props = Tab_Bar(dispatch)(navigator)(tab_actions)()(tab_bar_selected_index);
-
         return (
-            <Default_Bg Tab_Bar={Tab_Bar_w_Props}>
+            <Default_Bg>
                 <FlatList
                     data={categories_data}
-                    renderItem={renderer(Dimensions.get('window').width)(navigate_to(navigator))}
+                    renderItem={renderer(Dimensions.get('window').width, navigate_to(componentId))}
                     keyExtractor={special_categories_key_extractor}
                     contentContainerStyle={{alignItems: 'center', padding: sizes.large * 1.5}}
+                    contentInsetAdjustmentBehavior={"never"}
                 />
 
 

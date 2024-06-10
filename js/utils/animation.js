@@ -1,11 +1,7 @@
 import {
     Animated,
     Dimensions,
-    Easing
 } from 'react-native';
-
-import { native_elements } from '../common/common.styles';
-import { main_title_2 } from '../common/Text';
 
 import { is_function, no_op } from '../utils/functions';
 
