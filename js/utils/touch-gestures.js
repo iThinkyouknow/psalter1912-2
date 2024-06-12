@@ -1,4 +1,4 @@
-import {no_op, is_present_type} from './functions'
+import {no_op, is_function} from './functions'
 
 export const long_press_actions = (duration = 500) => {
     let startTime = 0;
@@ -36,10 +36,10 @@ export const scroll_swipe_actions = (scroll_swipe_left) => (scroll_swipe_right) 
 export const swipe_side_action = (swipe_width) => (swipe_right_action = no_op) => (swipe_left_action) => (e, gestureState) => {
     //swipe right
     if (gestureState.dx > swipe_width) return swipe_right_action();
-    if (gestureState.dx < -swipe_width) return is_present_type('function')(swipe_left_action) ? swipe_left_action() : swipe_right_action();
+    if (gestureState.dx < -swipe_width) return is_function(swipe_left_action) ? swipe_left_action() : swipe_right_action();
 };
 
-export const touch_release_actions = (swipe_right_action) => (swipe_left_action) => (other_release_actions = no_op) => (one_third_screen_width) => (e, gestureState) => {
+export const touch_release_actions = (swipe_right_action, swipe_left_action, other_release_actions = no_op, one_third_screen_width) => (e, gestureState) => {
     if (Math.abs(gestureState.dy) < 30) {
         if (gestureState.dx < -(one_third_screen_width)) {
             swipe_left_action();

@@ -13,23 +13,16 @@ import Slider from '@react-native-community/slider';
 
 // import styles from './music-slider.styles';
 import {
-    colors,
     sizes,
-    font_sizes,
-    zIndex,
-    native_elements,
     buttons
 } from './common.styles';
 
 import {
-    Default_Text,
-    Animated_Text
+    Default_Text
 } from './Text';
 
-import Default_bg from './Default-bg';
-
 import music_player from '../utils/music-player'
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const styles = StyleSheet.create({
     music_slider_container: {
@@ -63,11 +56,11 @@ const styles = StyleSheet.create({
 });
 
 const time = (time_seconds) => {
-        const unixTime = moment.unix(time_seconds);
+        const unixTime = dayjs.unix(time_seconds);
         return unixTime.format('mm:ss');
     };
 
-export default music_slider = (dispatch) => (current_music_timer) => (max_music_timer) => (file_name, j) => {
+export default music_slider = ({dispatch, current_music_timer, max_music_timer}) => (file_name, j) => {
 
     const value_change = () => {
         music_player.stopTimer();

@@ -1,6 +1,6 @@
 import {PSALTER_ACTIONS} from '../actions/psalter-actions';
 
-import {is_present_type} from '../../utils/functions';
+import {is_array} from '../../utils/functions';
 
 const default_psalter_obj = {
     psalter_json: {}
@@ -53,12 +53,12 @@ export function psalter(state = default_psalter_obj, action = {}) {
             ...state,
             content: state.psalter_json[next_val] || {},
             index: next_val,
-            current_sung_dates: is_present_type('array')(current_sung_dates) ? current_sung_dates : []
+            current_sung_dates: is_array(current_sung_dates) ? current_sung_dates : []
         };
 
     } else if (action.type === PSALTER_ACTIONS.SET_SUNG_DATE) {
         const key = isNaN(action.psalter_no) ? undefined : `psalter-${action.psalter_no}`;
-        const new_dates = is_present_type('array')(action.sung_dates_array)
+        const new_dates = is_array(action.sung_dates_array)
             ? action.sung_dates_array
             : [];
 

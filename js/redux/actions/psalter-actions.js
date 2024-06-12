@@ -35,7 +35,7 @@ export const get_sung_count = (psalter_no) => {
     };
 };
 
-export const set_sung_date = (psalter_no) => (sung_dates_array) => {
+export const set_sung_date = (psalter_no, sung_dates_array) => {
     return {
         type: PSALTER_ACTIONS.SET_SUNG_DATE,
         psalter_no,

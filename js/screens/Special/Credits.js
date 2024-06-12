@@ -22,7 +22,7 @@ import Default_Bg from '../../common/Default-bg';
 import FontSlider from '../../common/Font-slider';
 
 import { } from '../../utils/alert';
-import { is_present_type, composer, save_font_size } from '../../utils/functions';
+import { is_string, composer, save_font_size } from '../../utils/functions';
 
 import { credits_texts_init } from '../../redux/actions/credits-actions';
 import { set_new_font_size } from '../../redux/actions/state-actions'
@@ -53,7 +53,7 @@ const Thanks_Party_Component = (font_size) => ({ item, index }) => {
     return (
         <View style={{ padding: sizes.large * 1.5 }}>
             <Default_Text text_align={'center'} font_weight={'bold'} font_size={font_size + 4}>{item.title}</Default_Text>
-            {is_present_type('string')(item.source) &&
+            {is_string(item.source) &&
                 <Default_Text font_size={font_size} style={{ marginTop: sizes.default }} text_align={'center'}>
                     Source:&nbsp;
                     <Default_Text font_size={font_size} text_align={'center'} font_weight="bold">

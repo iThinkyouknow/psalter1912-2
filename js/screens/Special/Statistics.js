@@ -13,8 +13,10 @@ import { Navigation } from 'react-native-navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime'
 
+dayjs.extend(relativeTime);
 //import styles from './Statistics.styles';
 import {
     colors
@@ -187,8 +189,8 @@ const change_psalter_num_string_to_int = (psalter_num_str) => parseInt(psalter_n
 const most_sung_obj_formatter = (on_press_wo_dates_psalter_title) => ([key, dates_array]) => {
     return {
         psalter: key.replace('psalter-', 'Psalter ')
-        , last_sung: moment(dates_array[0]).format('D MMM \'YY h:mm A')
-        , ago: moment(dates_array[0]).fromNow()
+        , last_sung: dayjs(dates_array[0]).format('D MMM \'YY h:mm A')
+        , ago: dayjs(dates_array[0]).fromNow()
         , sung_count: dates_array.length
         , on_press: on_press_wo_dates_psalter_title(dates_array, key.replace('psalter-', 'Psalter '))
     }
@@ -285,7 +287,7 @@ const get_least_sung_psalter_array = (all_sung_dates_array) => {
 };
 
 const on_press_action_for_sung_psalters = (dispatch, componentId) => (sung_array, psalter_title) => () => {
-    dispatch(set_sung_psalter_details(sung_array)(psalter_title));
+    dispatch(set_sung_psalter_details(sung_array, psalter_title));
     Navigation.push(componentId, {
         component: {
             name: 'Psalter_Sung_Details',

@@ -30,6 +30,7 @@ import Default_bg, {Default_Bg_w_Tab_Bar} from '../common/Default-bg';
 import {} from '../utils/alert';
 import {
     is_present_type
+    , is_string
     , no_op
 } from '../utils/functions';
 
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 const button_renderer = (selected_tint) => (selected_tab_index) => ({text, on_press}, index) => {
-    const tint = is_present_type('string')(selected_tint)
+    const tint = is_string(selected_tint)
         ? selected_tint
         : colors.blue;
 

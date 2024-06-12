@@ -10,20 +10,17 @@ import {
     , TouchableHighlight
     , Image
     , PanResponder
-    , StatusBar
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// import styles from './creeds-text.styles';
 import {
     colors,
     sizes,
     font_sizes,
     zIndex,
     native_elements,
-    buttons,
-    border_radii
+    buttons
 } from '../../common/common.styles';
 
 import {
@@ -38,11 +35,9 @@ import Default_Bg from '../../common/Default-bg';
 
 import { Rounded_Button } from '../../common/Rounded-Button';
 
-
-import { } from '../../utils/alert';
 import { slide_down_animation, slide_side_animation, slide_down_to } from '../../utils/animation';
 
-import { is_present_type, is_string, no_op, composer, save_font_size } from '../../utils/functions';
+import { is_string, is_number, no_op, composer, save_font_size } from '../../utils/functions';
 import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
 import {
     touch_release_actions
@@ -71,7 +66,7 @@ import { Navigation } from 'react-native-navigation';
 
 let main_view_ref = null;
 
-const Header_Text_Component = (font_size) => (font_family) => (other_style) => (text) => {
+const Header_Text_Component = (font_size, font_family, other_style, text) => {
     return (
         <Animated_Text text_align={'center'}
             font_size={font_size}
@@ -82,12 +77,12 @@ const Header_Text_Component = (font_size) => (font_family) => (other_style) => (
     );
 };
 
-const floating_header_animation = slide_down_to(10)(0)(-250);
+const floating_header_animation = slide_down_to(10, 0, -250);
 const floating_header_animation_position = floating_header_animation.animated_value;
 const floating_header_animation_slide_up = floating_header_animation.slide_up;
 const floating_header_animation_slide_down = floating_header_animation.slide_down;
 
-const _Floating_Header = (title) => (description) => (font_size) => {
+const _Floating_Header = (title, description, font_size) => {
     const transform_style = {
         transform: [{ translateY: floating_header_animation_position }]
     }
@@ -106,21 +101,26 @@ const _Floating_Header = (title) => (description) => (font_size) => {
             , left: 0
             , right: 0
         }, transform_style]}>
-            {Header_Text_Component(text_font_size)('Durwent')()(title)}
-            {(description.length > 0) && Header_Text_Component(desc_font_size)()({ marginTop: sizes.default })(description)}
+            {Header_Text_Component(text_font_size, 'Durwent', undefined, title)}
+            {(description.length > 0) && Header_Text_Component(
+                desc_font_size, 
+                undefined, 
+                { marginTop: sizes.default }, 
+                description
+            )}
         </Animated.View>
     );
 };
 
-const list_header_component = (title) => (description) => (font_size) => {
+const list_header_component = (title, description, font_size) => {
     return (
         <View style={{
             paddingHorizontal: sizes.large * 1.5,
             paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
-            {Header_Text_Component(font_size * 2)('Durwent')()(title)}
-            {(description.length > 0) && Header_Text_Component(font_size * 1.2)()({ marginTop: sizes.default })(description)}
+            {Header_Text_Component(font_size * 2, 'Durwent', undefined, title)}
+            {(description.length > 0) && Header_Text_Component(font_size * 1.2, undefined, { marginTop: sizes.default }, description)}
         </View>
     );
 };
@@ -158,15 +158,15 @@ const flatlist_on_scroll_begin = (props) => (e) => {
     }));
 };
 
-const Bible_Text_Component = (props) => (touch_actions) => (scroll_swipe_actions) => (chapter) => (font_size) => {
+const Bible_Text_Component = (props, touch_actions, scroll_swipe_actions) => {
 
     return (
-        <FlatList data={chapter.content.slice(1)}
+        <FlatList data={props.bible_passage.content.slice(1)}
             scrollEventThrottle={300}
             ref={ref => main_view_ref = ref}
-            ListHeaderComponent={list_header_component(chapter.title)(chapter.description)(font_size)}
+            ListHeaderComponent={list_header_component(props.bible_passage.title, props.bible_passage.description, props.text_font_size)}
             keyExtractor={bible_key_extractor}
-            renderItem={bible_body_component(font_size)}
+            renderItem={bible_body_component(props.text_font_size)}
             scrollEnabled={true}
             onScrollBeginDrag={flatlist_on_scroll_begin(props)}
             onScroll={flatlist_on_scroll(props)}
@@ -178,10 +178,10 @@ const Bible_Text_Component = (props) => (touch_actions) => (scroll_swipe_actions
 };
 
 
-const library_slide_down_animation = slide_down_animation(500)(12);
+const library_slide_down_animation = slide_down_animation(500, 12);
 
 
-const library_container_slide_anim = slide_side_animation(100)(0)(Dimensions.get('window').width);
+const library_container_slide_anim = slide_side_animation(100, 0, Dimensions.get('window').width);
 
 const select_book_action = (dispatch) => (book_index) => () => {
     dispatch(get_bible_chapter_list(book_index));
@@ -189,12 +189,13 @@ const select_book_action = (dispatch) => (book_index) => () => {
 };
 
 
-const book_button = ({ width }) => (selected_index) => (select_book_action) => (book_start_index) => (item, index) => { //work on
+const book_button = (selected_index, select_book_action) => (book_start_index) => (item, index) => {
+    const {width} = Dimensions.get('window');
     const box_width = Math.floor(width / 6);
 
-    const true_index = is_present_type('number')(book_start_index) ? book_start_index + index : index;
+    const true_index = is_number(book_start_index) ? book_start_index + index : index;
 
-    const border_style = (true_index === 18 && is_present_type('string')(item))
+    const border_style = (true_index === 18 && is_string(item))
         ? { borderWidth: 2, borderColor: colors.blue }
         : {};
 
@@ -217,7 +218,7 @@ const book_button = ({ width }) => (selected_index) => (select_book_action) => (
             style={[bible_books_button, bible_books_button_dyn, border_style]}
             key={`bible-book-button-${item}-${index}`}>
             <View>
-                {Header_Text_Component(font_sizes.large)()(text_extra_style)(item)}
+                {Header_Text_Component(font_sizes.large, undefined, text_extra_style, item)}
                 <View style={{
                     marginTop: sizes.default,
                     height: 1,
@@ -237,7 +238,7 @@ const book_buttons_section_header = (book_button_component_loaded) => ({ section
 
     return (
         <View style={{ marginTop: sizes.default * 3 }}>
-            {Header_Text_Component(font_sizes.x_large)()()(title)}
+            {Header_Text_Component(font_sizes.x_large, undefined, undefined, title)}
             <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
                 {buttons_component}
             </View>
@@ -248,7 +249,7 @@ const book_buttons_section_header = (book_button_component_loaded) => ({ section
 const bible_library_key_extractor = (item, index) => `bible-book-button-${item}-${index}`;
 
 
-const bible_library = (book_list) => (book_buttons_section_header_loaded) => {
+const bible_library = (book_list, book_buttons_section_header_loaded) => {
     const ot = book_list.slice(0, 39);
     const nt = book_list.slice(39);
 
@@ -276,9 +277,9 @@ const bible_library = (book_list) => (book_buttons_section_header_loaded) => {
 
 const chapter_key_extractor = (item, index) => `${item}-${index}`;
 
-const chapter_header = (width) => (title) => {
+const chapter_header = (width, title) => {
     return (
-        Header_Text_Component(font_sizes.x_large)()({ marginTop: sizes.default * 3, width })(title)
+        Header_Text_Component(font_sizes.x_large, undefined, { marginTop: sizes.default * 3, width }, title)
     );
 };
 
@@ -287,7 +288,7 @@ const chapter_button = (book_button_loaded) => ({ item, index }) => {
     return book_button_loaded(item, index);
 };
 
-const chapter_library = (chapter_header_loaded) => (book_chapters_array = []) => (ch_button_loaded) => {
+const chapter_library = (chapter_header_loaded, book_chapters_array = [], ch_button_loaded) => {
     const bible_library_style = {
         flexShrink: 0,
         marginTop: sizes.large,
@@ -318,7 +319,11 @@ const close_library_button = ({ width }) => {
         }, 300);
     }
 
-    return Rounded_Button(child_component)(action)(width)
+    return (
+        <Rounded_Button on_press={action} screen_width={width}>
+            {child_component}
+        </Rounded_Button>
+    );
 };
 
 const back_to_books_btn = ({ width }) => {
@@ -332,7 +337,11 @@ const back_to_books_btn = ({ width }) => {
         </View>
     );
 
-    return Rounded_Button(child_component)(library_container_slide_anim.slide)(width)
+    return (
+        <Rounded_Button on_press={library_container_slide_anim.slide} screen_width={width}>
+            {child_component}
+        </Rounded_Button>
+    );
 };
 
 const _library_bottom_buttons_container = (width) => (close_library_button) => (back_to_books_button) => {
@@ -357,7 +366,7 @@ const _library_bottom_buttons_container = (width) => (close_library_button) => (
 const library_bottom_buttons_container = _library_bottom_buttons_container(Dimensions.get('window').width);
 
 const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => () => {
-    dispatch(get_bible_passage(book_index)(chapter_index));
+    dispatch(get_bible_passage(book_index, chapter_index));
     library_container_slide_anim.slide();
     library_slide_down_animation.slide();
     setTimeout(() => {
@@ -392,34 +401,34 @@ const on_psalter_and_score_tab_select = ({dispatch, current_book_index, current_
     }
 };
 
-const swipe_right_action = (dispatch) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => () => {
-    if (ch_index === 0) {
-        if (book_index === 0) {
+const swipe_right_action = ({dispatch, per_book_ch_last_index_array, current_book_index, current_chapter_index}) => () => {
+    if (current_chapter_index === 0) {
+        if (current_book_index === 0) {
             const last_book_index = per_book_ch_last_index_array.length - 1;
-            dispatch(get_bible_passage(last_book_index)(per_book_ch_last_index_array[last_book_index]));
+            dispatch(get_bible_passage(last_book_index, per_book_ch_last_index_array[last_book_index]));
 
-        } else if (book_index > 0) {
-            const prev_book_index = book_index - 1;
-            dispatch(get_bible_passage(prev_book_index)(per_book_ch_last_index_array[prev_book_index]));
+        } else if (current_book_index > 0) {
+            const prev_book_index = current_book_index - 1;
+            dispatch(get_bible_passage(prev_book_index, per_book_ch_last_index_array[prev_book_index]));
         }
-    } else if (ch_index > 0) {
-        dispatch(get_bible_passage(book_index)(ch_index - 1));
+    } else if (current_chapter_index > 0) {
+        dispatch(get_bible_passage(current_book_index, current_chapter_index - 1));
     }
     main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
 
-const swipe_left_action = (dispatch) => (per_book_ch_last_index_array) => (book_index) => (ch_index) => () => {
-    if (ch_index === per_book_ch_last_index_array[book_index]) {
+const swipe_left_action = ({dispatch, per_book_ch_last_index_array, current_book_index, current_chapter_index}) => () => {
+    if (current_chapter_index === per_book_ch_last_index_array[current_book_index]) {
         const last_book_index = per_book_ch_last_index_array.length - 1;
 
-        if (book_index === last_book_index) {
-            dispatch(get_bible_passage(0)(0));
-        } else if (book_index < last_book_index) {
-            const next_book_index = book_index + 1;
-            dispatch(get_bible_passage(next_book_index)(0));
+        if (current_book_index === last_book_index) {
+            dispatch(get_bible_passage(0, 0));
+        } else if (current_book_index < last_book_index) {
+            const next_book_index = current_book_index + 1;
+            dispatch(get_bible_passage(next_book_index, 0));
         }
-    } else if (ch_index < per_book_ch_last_index_array[book_index]) {
-        dispatch(get_bible_passage(book_index)(ch_index + 1));
+    } else if (current_chapter_index < per_book_ch_last_index_array[current_book_index]) {
+        dispatch(get_bible_passage(current_book_index, current_chapter_index + 1));
     }
     main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
@@ -503,7 +512,6 @@ class Bible_Text extends Component {
             , selection_chapter_list = []
             , selection_selected_book_title = ''
             , selection_book_index = NaN
-            , per_book_ch_last_index_array = []
             , bible_should_show_back_to_books_button
             , copy_share_btn_props
             , text_font_size
@@ -532,8 +540,7 @@ class Bible_Text extends Component {
             alignItems: 'center'
         };
 
-        const book_button_component_dimensions = book_button(Dimensions.get('window'));
-        const book_button_component = book_button_component_dimensions(current_book_index)(select_book_action(dispatch));
+        const book_button_component = book_button(current_book_index, select_book_action(dispatch));
 
         const book_buttons_section_header_loaded = book_buttons_section_header(book_button_component);
 
@@ -553,18 +560,18 @@ class Bible_Text extends Component {
             ? current_chapter_index
             : 0;
 
-        const chapter_button_component = chapter_button(book_button_component_dimensions(selection_chapter_index)(select_chapter_action_w_book_index)(0));
+        const chapter_button_component = chapter_button(book_button(selection_chapter_index, select_chapter_action_w_book_index)(0));
 
-        const chapter_lib_header = chapter_header(Dimensions.get('window').width)(selection_selected_book_title);
+        const chapter_lib_header = chapter_header(Dimensions.get('window').width, selection_selected_book_title);
 
         const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
 
-        const [swipe_right_loaded, swipe_left_loaded] = [swipe_right_action, swipe_left_action].map(swipe_action => swipe_action(dispatch)(per_book_ch_last_index_array)(current_book_index)(current_chapter_index));
+        const [swipe_right_loaded, swipe_left_loaded] = [swipe_right_action, swipe_left_action].map(swipe_action => swipe_action(this.props));
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(longPressFns.onPanResponderRelease())(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded, swipe_left_loaded, longPressFns.onPanResponderRelease(), one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
 
@@ -578,7 +585,7 @@ class Bible_Text extends Component {
                     , left: e.nativeEvent.pageX
                     , isHidden: false
                 });
-            })(() => {
+            }, () => {
                 if (!copy_share_btn_props.isHidden) {
                     set_copy_share_btn_props_loaded();
                 }
@@ -593,8 +600,8 @@ class Bible_Text extends Component {
         const LibraryComponent = (
             <Animated.View style={[library_style, library_dynamic_style]}>
                 <Animated.View style={bible_library_container_style}>
-                    {bible_library(book_list)(book_buttons_section_header_loaded)}
-                    {chapter_library(chapter_lib_header)(selection_chapter_list)(chapter_button_component)}
+                    {bible_library(book_list, book_buttons_section_header_loaded)}
+                    {chapter_library(chapter_lib_header, selection_chapter_list, chapter_button_component)}
                 </Animated.View>
 
                 {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
@@ -610,7 +617,7 @@ class Bible_Text extends Component {
                 
 
                 {is_string(bible_passage.title)
-                    ? Bible_Text_Component(this.props)(touch_actions)(scroll_swipe_actions_loaded)(bible_passage)(text_font_size)
+                    ? Bible_Text_Component(this.props, touch_actions, scroll_swipe_actions_loaded)
                     : <View style={{ flex: 1 }} />
                 }
 
@@ -621,27 +628,30 @@ class Bible_Text extends Component {
                     paddingHorizontal: sizes.large,
                     paddingVertical: sizes.default / 2
                 }}>
-                    {
-                        Rounded_Button(
+                        <Rounded_Button 
+                            on_press={() => {
+                                Navigation.showOverlay({
+                                    component: {
+                                        id: 'Overlay_Wrapper_Bible',
+                                        name: 'Overlay_Wrapper',
+                                        passProps: {
+                                            children: LibraryComponent
+                                        }
+                                    }
+                                });
+                                
+                                setTimeout(() => {
+                                    library_slide_down_animation.slide();
+                                }, 50);
+                            }} 
+                            screen_width={Dimensions.get('window').width}
+                        >
                             <Default_Text
-                                text_align={'center'}>
+                                text_align={'center'}
+                            >
                                     Select
                             </Default_Text>
-                        )(() => {
-                            Navigation.showOverlay({
-                                component: {
-                                    id: 'Overlay_Wrapper_Bible',
-                                    name: 'Overlay_Wrapper',
-                                    passProps: {
-                                        children: LibraryComponent
-                                    }
-                                }
-                            });
-                            
-                            setTimeout(() => {
-                                library_slide_down_animation.slide();
-                            }, 50);
-                        })(Dimensions.get('window').width)}
+                        </Rounded_Button>
                 </View>
 
                 {!copy_share_btn_props.isHidden &&
@@ -660,7 +670,7 @@ class Bible_Text extends Component {
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
 
                 {is_string(bible_passage.title) &&
-                    _Floating_Header(bible_passage.title)(bible_passage.description)(text_font_size)
+                    _Floating_Header(bible_passage.title, bible_passage.description, text_font_size)
                 }
             </Default_Bg>
         );

@@ -5,7 +5,7 @@ import {
 
 import { is_function, no_op } from '../utils/functions';
 
-export const slide_down_animation = (duration) => (bounciness = 0) => {
+export const slide_down_animation = (duration, bounciness = 0) => {
     const { height } = Dimensions.get('window');
     const animated_value = new Animated.Value(-height);
     let should_slide_down = true;
@@ -24,7 +24,7 @@ export const slide_down_animation = (duration) => (bounciness = 0) => {
     };
 };
 
-export const slide_down_to = (duration = 0) => (bounciness = 0) => (height = 0) => {
+export const slide_down_to = (duration = 0, bounciness = 0, height = 0) => {
     const animated_value = new Animated.Value(height);
     let should_slide_down = false;
 
@@ -47,7 +47,7 @@ export const slide_down_to = (duration = 0) => (bounciness = 0) => (height = 0) 
     };
 };
 
-export const slide_side_animation = (duration = 100) => (bounciness = 18) => (initial_val = Dimensions.get('window').width * -1.2) => {
+export const slide_side_animation = (duration = 100, bounciness = 18, initial_val = Dimensions.get('window').width * -1.2) => {
     const animated_value = new Animated.Value(initial_val);
     let should_slide = true;
 
@@ -69,13 +69,13 @@ export const slide_side_animation = (duration = 100) => (bounciness = 18) => (in
     }
 };
 
-export const fade_animation = (duration) => (initial_val) => {
-    const fade_opacity = new Animated.Value(0);
+export const fade_animation = (duration, initial_val) => {
+    const fade_opacity = new Animated.Value(initial_val);
 
     const fade_in = () => {
         Animated.sequence([
             Animated.timing(fade_opacity, {
-                toValue: 0
+                toValue: initial_val
                 , duration: 0
                 , useNativeDriver: true
             }),
@@ -104,7 +104,7 @@ export const fade_animation = (duration) => (initial_val) => {
 };
 
 
-export const bounce_animation = (duration = 1000) => (speed = 3) => (bounciness = 25) => (initial_val = -64) => {
+export const bounce_animation = (duration = 1000, speed = 3, bounciness = 25, initial_val = -64) => {
     const animated_value = new Animated.Value(initial_val);
     const bounce = () => {
         animated_value.setValue(initial_val);

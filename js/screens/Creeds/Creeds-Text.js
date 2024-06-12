@@ -11,8 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Navigation } from 'react-native-navigation';
 import {
-    sizes,
-    font_sizes
+    sizes
 } from '../../common/common.styles';
 
 import {
@@ -24,7 +23,7 @@ import Default_Bg from '../../common/Default-bg';
 import FontSlider from '../../common/Font-slider';
 import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
-import { is_present_type, no_op, composer, save_font_size } from '../../utils/functions';
+import { is_object, is_number, no_op, composer, save_font_size } from '../../utils/functions';
 
 import {
     touch_release_actions
@@ -32,7 +31,7 @@ import {
     , long_press_actions
 } from '../../utils/touch-gestures';
 
-import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common'
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
 
 import styles from './Creeds-Text.styles';
 
@@ -47,7 +46,7 @@ let main_view_ref = null;
 
 const key_extractor = (item, i) => `creeds-body-text-${i}`;
 
-const Header_Text_Component = (font_size) => (other_style) => (text) => {
+const Header_Text_Component = (font_size, other_style, text) => {
     return (
         <Animated_Text text_align={'center'}
             font_size={font_size}
@@ -58,13 +57,13 @@ const Header_Text_Component = (font_size) => (other_style) => (text) => {
     );
 };
 
-const Creeds_Body_Component = (section_header) => (font_size) => ({ item, index }) => {
+const Creeds_Body_Component = (section_header, font_size) => ({ item }) => {
     const [title, body, extra] = item.content;
 
     const title_text = title.map(({ text }) => text).join(' ');
 
     const title_component = (section_header !== title_text) ?
-        Header_Text_Component(font_size + 2)({ marginTop: sizes.large })(title_text)
+        Header_Text_Component(font_size + 2, { marginTop: sizes.large }, title_text)
         : null;
 
     const body_para_component = text_formatter(font_size)(body)(`body`);
@@ -82,7 +81,7 @@ const Creeds_Body_Component = (section_header) => (font_size) => ({ item, index 
     const [
         body_component,
         extra_component
-    ] = [body_para_component, extra_para_component].map(component => is_present_type('object')(component) ? component_wrapper(component) : null);
+    ] = [body_para_component, extra_para_component].map(component => is_object(component) ? component_wrapper(component) : null);
 
 
     return (
@@ -95,37 +94,31 @@ const Creeds_Body_Component = (section_header) => (font_size) => ({ item, index 
 };
 
 
-const Creeds_Text_Flatlist = (swipe_action) => (scroll_swipe_actions) => (styles) => (title) => (description) => (body) => (font_size) => {
+const Creeds_Text_Flatlist = (swipe_action, scroll_swipe_actions, styles, {creed_body_title, creed_body_description, creed_body, text_font_size}) => {
 
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
-            {(title !== body.header) && Header_Text_Component(font_size * 1.2)()(title)}
-            {description.length > 0 && Header_Text_Component(font_size * 1.1)()(description)}
-            {Header_Text_Component(font_size * 1.45)({ marginTop: sizes.default })(body.header)}
+            {(creed_body_title !== creed_body.header) && Header_Text_Component(text_font_size * 1.2, undefined, creed_body_title)}
+            {creed_body_description.length > 0 && Header_Text_Component(text_font_size * 1.1, undefined, creed_body_description)}
+            {Header_Text_Component(text_font_size * 1.45, { marginTop: sizes.default }, creed_body.header)}
         </View>
     );
 
     return (
-        <FlatList data={body.content}
+        <FlatList data={creed_body.content}
             ref={ref => main_view_ref = ref}
             ListHeaderComponent={Creeds_Body_Header}
             keyExtractor={key_extractor}
-            renderItem={Creeds_Body_Component(body.header)(font_size)} style={styles.flatlist_padding_horizontal}
+            renderItem={Creeds_Body_Component(creed_body.header, text_font_size)} 
+            style={styles.flatlist_padding_horizontal}
             onScrollEndDrag={scroll_swipe_actions}
             contentInsetAdjustmentBehavior={"never"}
             {...swipe_action.panHandlers} />
     );
 };
 
-const tab_2_actions = (navigator) => () => navigator.popToRoot();
 
-const select_tab = (tab_2_actions) => (tab_index) => () => {
-    if (tab_index === 2) {
-        tab_2_actions();
-    }
-};
-
-const go_to_prev_creed = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => {
+const go_to_prev_creed = (dispatch, library_books_info, library_type_index, selected_creed_index) => {
     const prev_creed_index = selected_creed_index - 1;
     const prev_has_two_levels_deep = (library_books_info[library_type_index][prev_creed_index]['levels_deep'] === 2);
     const prev_creed_last_ch_index = library_books_info[library_type_index][prev_creed_index]['last_ch_index'];
@@ -133,82 +126,82 @@ const go_to_prev_creed = (dispatch) => (library_books_info) => (library_type_ind
     const prev_creed_prev_ch_last_article_index = prev_has_two_levels_deep
         ? library_books_info[library_type_index][prev_creed_index]['last_article_index'].slice(-1)[0]
         : undefined;
-    dispatch(lock_in_creed_body(library_type_index)(prev_creed_index)(prev_creed_last_ch_index)(prev_creed_prev_ch_last_article_index));
+    dispatch(lock_in_creed_body(library_type_index, prev_creed_index, prev_creed_last_ch_index, prev_creed_prev_ch_last_article_index));
 };
 
-const swipe_right = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => (selected_chapter_index) => (selected_article_index) => () => {
+const swipe_right = ({dispatch, creeds_library: library_books_info, library_type_index, selected_creed_index, selected_chapter_index, selected_article_index}) => () => {
 
-    if (is_present_type('number')(selected_article_index)) {
+    if (is_number(selected_article_index)) {
         if (selected_article_index > 0) {
-            dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index - 1));
+            dispatch(lock_in_creed_body(library_type_index, selected_creed_index, selected_chapter_index, selected_article_index - 1));
 
         } else if (selected_article_index === 0) {
             if (selected_chapter_index > 0) {
                 const prev_ch_index = selected_chapter_index - 1;
                 const prev_ch_last_article_index = library_books_info[library_type_index][selected_creed_index]['last_article_index'][prev_ch_index];
-                dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(prev_ch_index)(prev_ch_last_article_index));
+                dispatch(lock_in_creed_body(library_type_index, selected_creed_index, prev_ch_index, prev_ch_last_article_index));
 
             } else if (selected_chapter_index === 0) {
                 if (selected_creed_index > 0) {
-                    go_to_prev_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
+                    go_to_prev_creed(dispatch, library_books_info, library_type_index, selected_creed_index);
                 }
             }
         }
 
-    } else if (!is_present_type('number')(selected_article_index)) {
+    } else if (!is_number(selected_article_index)) {
 
         if (selected_chapter_index > 0) {
-            dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index - 1)());
+            dispatch(lock_in_creed_body(library_type_index, selected_creed_index, selected_chapter_index - 1));
 
         } else if (selected_chapter_index === 0) {
             if (selected_creed_index > 0) {
-                go_to_prev_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
+                go_to_prev_creed(dispatch, library_books_info, library_type_index, selected_creed_index);
             }
         }
     }
     main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 };
 
-const go_to_next_creed = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => {
+const go_to_next_creed = (dispatch, library_books_info, library_type_index, selected_creed_index) => {
     const next_creed_index = selected_creed_index + 1;
     const next_has_two_levels_deep = (library_books_info[library_type_index][next_creed_index]['levels_deep'] === 2);
 
     const next_creed_next_ch_last_article_index = next_has_two_levels_deep
         ? 0
         : undefined;
-    dispatch(lock_in_creed_body(library_type_index)(next_creed_index)(0)(next_creed_next_ch_last_article_index));
+    dispatch(lock_in_creed_body(library_type_index, next_creed_index, 0, next_creed_next_ch_last_article_index));
 };
 
-const swipe_left = (dispatch) => (library_books_info) => (library_type_index) => (selected_creed_index) => (selected_chapter_index) => (selected_article_index) => () => {
+const swipe_left = ({dispatch, creeds_library: library_books_info, library_type_index, selected_creed_index, selected_chapter_index, selected_article_index}) => () => {
 
     const { last_ch_index = NaN, last_article_index = [] } = library_books_info[library_type_index][selected_creed_index];
 
-    if (is_present_type('number')(selected_article_index)) {
+    if (is_number(selected_article_index)) {
         const last_article_index_int = last_article_index[selected_chapter_index];
 
         if (selected_article_index < last_article_index_int) {
-            dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index + 1));
+            dispatch(lock_in_creed_body(library_type_index, selected_creed_index, selected_chapter_index, selected_article_index + 1));
 
         } else if (selected_article_index === last_article_index_int) {
             if (selected_chapter_index < last_ch_index) {
                 const next_ch_index = selected_chapter_index + 1;
-                dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(next_ch_index)(0));
+                dispatch(lock_in_creed_body(library_type_index, selected_creed_index, next_ch_index, 0));
 
             } else if (selected_chapter_index === last_ch_index) {
                 if (selected_creed_index < library_books_info[library_type_index].length - 1) {
-                    go_to_next_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
+                    go_to_next_creed(dispatch, library_books_info, library_type_index, selected_creed_index);
                 }
             }
         }
 
-    } else if (!is_present_type('number')(selected_article_index)) {
+    } else if (!is_number(selected_article_index)) {
 
         if (selected_chapter_index < last_ch_index) {
-            dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index + 1)());
+            dispatch(lock_in_creed_body(library_type_index, selected_creed_index, selected_chapter_index + 1));
 
         } else if (selected_chapter_index === last_ch_index) {
             if (selected_creed_index < library_books_info[library_type_index].length - 1) {
-                go_to_next_creed(dispatch)(library_books_info)(library_type_index)(selected_creed_index);
+                go_to_next_creed(dispatch, library_books_info, library_type_index, selected_creed_index);
             }
         }
     }
@@ -240,30 +233,20 @@ class Creeds_Text extends Component {
 
     render() {
         const {
-            creed_body_title
-            , creed_body_description
-            , creed_body
-            , creeds_library
-            , tab_bar_selected_index
-            , library_type_index
-            , selected_creed_index
-            , selected_chapter_index
-            , selected_article_index
-            , text_font_size
+            text_font_size
             , copy_share_btn_props
-            , navigator
             , dispatch
         } = this.props;
 
         const [swipe_right_loaded, swipe_left_loaded] = [
             swipe_right,
             swipe_left
-        ].map(swipe_action => swipe_action(dispatch)(creeds_library)(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article_index));
+        ].map(swipe_action => swipe_action(this.props));
 
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded)(swipe_left_loaded)(longPressFns.onPanResponderRelease())(one_third_screen_width);
+        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded, swipe_left_loaded, longPressFns.onPanResponderRelease(), one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
 
@@ -291,7 +274,7 @@ class Creeds_Text extends Component {
 
         return (
             <Default_Bg>
-                {Creeds_Text_Flatlist(touch_actions)(scroll_swipe_actions_loaded)(styles)(creed_body_title)(creed_body_description)(creed_body)(text_font_size)}
+                {Creeds_Text_Flatlist(touch_actions, scroll_swipe_actions_loaded, styles, this.props)}
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip

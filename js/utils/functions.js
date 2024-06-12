@@ -11,7 +11,7 @@ export const composer = (array_of_fns) => (initial_value) => {
     return array_of_fns.reduce(apply, initial_value);
 };
 
-export const getty = (obj) => (property_string = '') => (fallback = '') => {
+export const getty = (obj, property_string = '', fallback = '') => {
     const properties = property_string.split('.');
     const value = properties.reduce((acc, property) => {
         if (typeof acc !== 'object') return undefined;
@@ -23,7 +23,7 @@ export const getty = (obj) => (property_string = '') => (fallback = '') => {
 
 export const is_present = (thing) => (thing !== undefined && thing !== null);
 
-export const is_present_type = (type = 'string') => (thing) => {
+const is_present_type = (type = 'string') => (thing) => {
 
     const is_typeof = (typeof thing === type);
 
@@ -62,12 +62,6 @@ export const debounce = (func, wait, immediate) => {
         if (callNow) func.apply(context, args);
     };
 };
-
-export const minus = by => a => a - by;
-export const add = a => b => a + b;
-export const multiply = a => b => a * b;
-export const divide = by => a => a / by;
-export const not = (bool) => !bool;
 
 
 export const save_font_size = (AsyncStorage, font_size = font_sizes.default) => {

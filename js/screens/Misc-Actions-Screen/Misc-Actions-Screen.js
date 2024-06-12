@@ -168,8 +168,12 @@ const MiscActions = (props) => {
             </View>
             
             <View style={[psalter_styles.more_stuff_bottom_buttons_container, styles.bottom_buttons_container_extra]}>
-                {Rounded_Button(<Default_Text text_align={'center'}>Copy</Default_Text>)(copy_to_clipboard(text_for_share_copy))(dimensions.width)}
-                {Rounded_Button(<Default_Text text_align={'center'}>Share</Default_Text>)(share_fn(share_obj))(dimensions.width)}
+                <Rounded_Button on_press={copy_to_clipboard(text_for_share_copy)} screen_width={dimensions.width}>
+                    <Default_Text text_align={'center'}>Copy</Default_Text>
+                </Rounded_Button>
+                <Rounded_Button on_press={share_fn(share_obj)} screen_width={dimensions.width}>
+                    <Default_Text text_align={'center'}>Share</Default_Text>
+                </Rounded_Button>
             </View>
             
         </Default_Bg>

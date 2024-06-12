@@ -9,7 +9,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import { navigator_style_push, hide_tabs_action } from '../../../Navigator-Common'
+import { hide_tabs_action } from '../../../Navigator-Common'
 
 import styles from './Creeds-Categories.styles';
 import {
@@ -36,7 +36,7 @@ import { lock_in_creed_level_2, lock_in_creed_body } from '../../redux/actions/c
 import { creeds_images_array, scenary_images_array, churches_images_array } from '../../utils/images'
 
 
-const header_banner = ({ Dimensions, styles }) => (title) => {
+const header_banner = (title) => {
     const { width, height } = Dimensions.get('window');
 
     const header_banner_sm_style = {
@@ -63,11 +63,11 @@ const header_banner = ({ Dimensions, styles }) => (title) => {
 };
 
 
-const go_to_next_creed_level = ({ dispatch = no_op, componentId = '' }) => (library_type_index) => (selected_creed_index) => (creed_level) => (selected_chapter_index) => (selected_article) => () => {
+const go_to_next_creed_level = ({ dispatch = no_op, componentId = '' }, library_type_index, selected_creed_index, creed_level) => (selected_chapter_index, selected_article) => () => {
 
     if (creed_level === 2) {
         dispatch(change_creeds_chapter_lv(2));
-        dispatch(lock_in_creed_level_2(library_type_index)(selected_creed_index)(selected_chapter_index));
+        dispatch(lock_in_creed_level_2(library_type_index, selected_creed_index, selected_chapter_index));
         Navigation.push(componentId, {
             component: {
                 name: 'Creeds_Categories',
@@ -84,7 +84,7 @@ const go_to_next_creed_level = ({ dispatch = no_op, componentId = '' }) => (libr
         });
 
     } else if (creed_level === undefined || creed_level < 2) {
-        dispatch(lock_in_creed_body(library_type_index)(selected_creed_index)(selected_chapter_index)(selected_article));
+        dispatch(lock_in_creed_body(library_type_index, selected_creed_index, selected_chapter_index, selected_article));
 
         Navigation.push(componentId, {
             component: {
@@ -103,7 +103,7 @@ const go_to_next_creed_level = ({ dispatch = no_op, componentId = '' }) => (libr
     }
 };
 
-const render_creed_categories = ({ styles }) => (creed_level) => (selected_chapter_index) => (go_to_next_creed_level_action) => ({ item, index }) => {
+const render_creed_categories = (creed_level, selected_chapter_index, go_to_next_creed_level_action) => ({ item, index }) => {
     const header_text = (<Default_Text font_size={'large'} font_weight={'bold'}>{item.header}</Default_Text>);
 
     const sub_text_component = (item.content[0] === item.header || item.content[0].length < 1 || creed_level > 1)
@@ -117,8 +117,8 @@ const render_creed_categories = ({ styles }) => (creed_level) => (selected_chapt
         });
 
     const go_to_creeds_text = (selected_chapter_index >= 0)
-        ? go_to_next_creed_level_action(selected_chapter_index)(index)
-        : go_to_next_creed_level_action(index)();
+        ? go_to_next_creed_level_action(selected_chapter_index, index)
+        : go_to_next_creed_level_action(index);
 
     return (
         <TouchableHighlight underlayColor={colors.dark_cerulean}
@@ -134,11 +134,9 @@ const render_creed_categories = ({ styles }) => (creed_level) => (selected_chapt
     );
 };
 
-const creed_categories_list = (header_banner_component) => (content) => (render_creed_categories) => {
+const creed_categories_list = (header_banner_component, content, render_creed_categories) => {
 
     const creeds_cat_key_ext = (item, j) => `categories-${j}`;
-
-    const {height} = Dimensions.get('window');
 
     return (
         <FlatList ListHeaderComponent={header_banner_component}
@@ -156,8 +154,6 @@ class Creeds_Categories extends Component {
         if (this.props.creeds_chapters_curr_level === 2) this.props.dispatch(change_creeds_chapter_lv(1));
     }
 
-
-
     render() {
         const {
             dispatch
@@ -171,7 +167,6 @@ class Creeds_Categories extends Component {
             , creed_articles_title
             , creed_articles_content
             , selected_chapter_index
-            , tab_bar_selected_index
             , componentId
         } = this.props;
 
@@ -184,26 +179,25 @@ class Creeds_Categories extends Component {
                 scenary_images_array,
                 churches_images_array
             },
-            random: Math.random,
             Dimensions,
             componentId,
             dispatch: dispatch
         };
         const header_banner_w_title = (creeds_chapters_curr_level === 2)
-            ? header_banner(component_obj)(creed_articles_title)
-            : header_banner(component_obj)(creed_title);
+            ? header_banner(creed_articles_title)
+            : header_banner(creed_title);
 
         const go_to_next_creed_level_action = (creeds_chapters_curr_level === 2)
-            ? go_to_next_creed_level(component_obj)(library_type_index)(selected_creed_index)(creed_level - 1)
-            : go_to_next_creed_level(component_obj)(library_type_index)(selected_creed_index)(creed_level);
+            ? go_to_next_creed_level(component_obj, library_type_index, selected_creed_index, creed_level - 1)
+            : go_to_next_creed_level(component_obj, library_type_index, selected_creed_index, creed_level);
 
         const render_creed_categories_w_data = (creeds_chapters_curr_level === 2)
-            ? render_creed_categories(component_obj)(creed_level - 1)(selected_chapter_index)(go_to_next_creed_level_action)
-            : render_creed_categories(component_obj)(creed_level)()(go_to_next_creed_level_action);
+            ? render_creed_categories(creed_level - 1, selected_chapter_index, go_to_next_creed_level_action)
+            : render_creed_categories(creed_level, undefined, go_to_next_creed_level_action);
 
         const creed_categories_list_component = (creeds_chapters_curr_level === 2)
-            ? creed_categories_list(header_banner_w_title)(creed_articles_content)(render_creed_categories_w_data)
-            : creed_categories_list(header_banner_w_title)(creed_content)(render_creed_categories_w_data);
+            ? creed_categories_list(header_banner_w_title, creed_articles_content, render_creed_categories_w_data)
+            : creed_categories_list(header_banner_w_title, creed_content, render_creed_categories_w_data);
 
         return (
             <Default_Bg>
@@ -222,10 +216,10 @@ function mapStateToProps(state) {
         , creeds_chapters_curr_level: state.creeds_chapters_curr_level
         , library_type_index: state.creeds.creed.library_type_index
         , selected_creed_index: state.creeds.creed.selected_index
-        , creed_articles_title: getty(state)('creeds.creed_level_2.title')() || ''
-        , creed_articles_content: getty(state)('creeds.creed_level_2.content')() || []
-        , creed_articles_level: getty(state)('creeds.creed_level_2.levels_deep')() || 0
-        , selected_chapter_index: getty(state)('creeds.creed_level_2.selected_chapter_index')() || 0
+        , creed_articles_title: getty(state, 'creeds.creed_level_2.title') || ''
+        , creed_articles_content: getty(state, 'creeds.creed_level_2.content') || []
+        , creed_articles_level: getty(state, 'creeds.creed_level_2.levels_deep') || 0
+        , selected_chapter_index: getty(state, 'creeds.creed_level_2.selected_chapter_index') || 0
         , tab_bar_selected_index: state.tab_bar_selected_index
     };
 }

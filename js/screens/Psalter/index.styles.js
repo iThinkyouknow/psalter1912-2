@@ -40,7 +40,7 @@ export default styles = StyleSheet.create({
     text_input_style: {
         flex: 1,
         padding: sizes.default,
-        ...line_height_fn('default')(font_sizes.default),
+        ...line_height_fn('default', font_sizes.default),
         borderRadius: border_radii.default,
         fontSize: font_sizes.default,
         backgroundColor: colors.white,

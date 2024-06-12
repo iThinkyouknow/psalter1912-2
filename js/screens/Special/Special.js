@@ -10,8 +10,6 @@ import {
     , Linking
 } from 'react-native';
 
-import { navigator_style_push } from '../../../Navigator-Common'
-
 // import styles from './Special.styles';
 import {
     colors,
@@ -27,13 +25,13 @@ import {
 import Default_Bg from '../../common/Default-bg';
 
 import {} from '../../utils/alert';
-import {is_present_type} from '../../utils/functions';
+import {is_string} from '../../utils/functions';
 
 const special_categories_key_extractor = (item, index) => `special-cat-${item.title}-${index}`;
 
 
 const navigate_to = (componentId) => (screen_name) => () => {
-    if (is_present_type('string')(screen_name)) {
+    if (is_string(screen_name)) {
         Navigation.push(componentId, {
             component: {
                 name: screen_name,
@@ -86,7 +84,7 @@ const renderer = (width, navigate) => ({item, index}) => {
         , paddingBottom: 2
     };
 
-    const on_press_action = (is_present_type('string')(item.link))
+    const on_press_action = (is_string(item.link))
         ? link_to(item.link)
         : navigate(item.nav_to);
 

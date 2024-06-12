@@ -3825,10 +3825,10 @@ __metadata:
     "@types/react": "npm:^18.2.6"
     "@types/react-test-renderer": "npm:^18.0.0"
     babel-jest: "npm:^29.6.3"
+    dayjs: "npm:^1.11.11"
     eslint: "npm:^8.19.0"
     ffmpeg: "npm:^0.0.4"
     jest: "npm:^29.6.3"
-    moment: "npm:^2.22.1"
     react: "npm:18.2.0"
     react-native: "npm:0.74.2"
     react-native-blob-util: "npm:^0.19.9"
@@ -4948,7 +4948,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.8.15":
+"dayjs@npm:^1.11.11, dayjs@npm:^1.8.15":
   version: 1.11.11
   resolution: "dayjs@npm:1.11.11"
   checksum: 10c0/0131d10516b9945f05a57e13f4af49a6814de5573a494824e103131a3bbe4cc470b1aefe8e17e51f9a478a22cd116084be1ee5725cedb66ec4c3f9091202dc4b
@@ -8418,13 +8418,6 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 10c0/46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
-  languageName: node
-  linkType: hard
-
-"moment@npm:^2.22.1":
-  version: 2.22.1
-  resolution: "moment@npm:2.22.1"
-  checksum: 10c0/d74ea75f86ca762fc9ba355d63f93275722f07c19c43f45ea0e4b29825ea86069f312b11dfb8f8bf9192242820d6114929cd55627acb01e0fdd8c2ea77de11e8
   languageName: node
   linkType: hard
 
