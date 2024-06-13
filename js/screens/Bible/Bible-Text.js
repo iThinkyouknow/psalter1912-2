@@ -38,7 +38,7 @@ import { Rounded_Button } from '../../common/Rounded-Button';
 import { slide_down_animation, slide_side_animation, slide_down_to } from '../../utils/animation';
 
 import { is_string, is_number, no_op, composer, save_font_size } from '../../utils/functions';
-import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common';
 import {
     touch_release_actions
     , scroll_swipe_actions
@@ -132,7 +132,7 @@ const bible_body_component = (font_size) => ({ item, index }) => {
         <Animated_Text font_size={font_size} text_align={'justify'}
             style={{ marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5 }}>
             <Default_Text text_align={'justify'} font_size={font_size}>{`${index + 1}. `}</Default_Text>
-            {text_formatter(font_size)(item.filter(text => !text.is_footnote))(`bible-text`)}
+            {text_formatter(font_size, item.filter(text => !text.is_footnote), `bible-text`)}
         </Animated_Text>
     );
 
@@ -517,8 +517,6 @@ class Bible_Text extends Component {
             , text_font_size
         } = this.props;
 
-        hide_tabs_action(navigator)();
-
         const statusBarHeight = Navigation.constantsSync().statusBarHeight;
 
         const library_dynamic_style = {
@@ -594,7 +592,7 @@ class Bible_Text extends Component {
         });
 
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
+            ? scroll_swipe_actions(swipe_left_loaded, swipe_right_loaded)
             : no_op;
 
         const LibraryComponent = (
@@ -614,8 +612,6 @@ class Bible_Text extends Component {
 
         return (
             <Default_Bg>
-                
-
                 {is_string(bible_passage.title)
                     ? Bible_Text_Component(this.props, touch_actions, scroll_swipe_actions_loaded)
                     : <View style={{ flex: 1 }} />

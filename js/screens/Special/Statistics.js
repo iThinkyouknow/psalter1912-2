@@ -114,11 +114,13 @@ const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
     );
 };
 
-const get_text_index_of_array = (random) => (array_length) => {
-    return ~~(random() * array_length)
+const get_text_index_of_array = (array_length) => {
+    return ~~(Math.random() * array_length)
 };
 
-const per_sect_key_extractor = (prefix) => (item, index) => `psalter-stat-${prefix}-${index}`;
+const per_sect_key_extractor = (item, index) => {
+    return index;
+}
 
 const Section_Header = (title) => {
     return (
@@ -128,7 +130,7 @@ const Section_Header = (title) => {
     );
 };
 
-const Section_Header_Neglected = (text_array) => (title) => {
+const Section_Header_Neglected = (text_array, title) => {
 
     return (
         <View>
@@ -170,7 +172,9 @@ const select_tab = (dispatch) => (index) => () => {
     dispatch(select_statistics_tab(index));
 };
 
-const Footer = () => <View style={{height: native_elements.tab_bar}}></View>;
+const Footer = (
+    <View style={{height: native_elements.tab_bar}}></View>
+);
 
 const titles = [
     'Most Sung'
@@ -201,7 +205,7 @@ const most_sung_sort = ([a_key, a_dates_array], [b_key, b_dates_array]) => b_dat
 const latest_sort = ([a_key, a_dates_array], [b_key, b_dates_array]) => b_dates_array[0] - a_dates_array[0];
 
 
-const get_psalter_sung_date_details = (most_sung_obj_formatter_w_on_press) => (sung_dates_array) => (selected_tab_index) => {
+const get_psalter_sung_date_details = (most_sung_obj_formatter_w_on_press, sung_dates_array, selected_tab_index) => {
     const sort_fns = [
         most_sung_sort
         , latest_sort
@@ -218,7 +222,8 @@ const flatlist_item_layout = (height) => (data, index) => {
 };
 
 
-const neglected_book_button = ({width}) => (on_press = no_op) => ({item, index}) => { //work on
+const neglected_book_button = (on_press = no_op) => ({item, index}) => { //work on
+    const {width} = Dimensions.get('window');
     const box_width = Math.floor(width / 6);
 
     const button = {
@@ -375,12 +380,10 @@ class Statistics extends Component {
 
         const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(dispatch, componentId);
 
-        const text_index = get_text_index_of_array(Math.random)(this.props.neglected_texts.length);
+        const text_index = get_text_index_of_array(this.props.neglected_texts.length);
         const text_array = this.props.neglected_texts[text_index];
 
         const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch);
-
-        const {height} = Dimensions.get('window');
 
         return (
             <Default_Bg style={{alignItems: 'center'}}>
@@ -389,12 +392,12 @@ class Statistics extends Component {
                 && (
                     <FlatList
                         
-                        data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array))(sung_dates_array)(selected_tab_index)}
+                        data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array), sung_dates_array, selected_tab_index)}
                         renderItem={Psalter_Btn_Component(screen_width)}
                         ListHeaderComponent={Section_Header(title)}
-                        ListFooterComponent={Footer()}
+                        ListFooterComponent={Footer}
                         contentContainerStyle={content_container_style}
-                        keyExtractor={per_sect_key_extractor(title)}
+                        keyExtractor={per_sect_key_extractor}
                         contentInsetAdjustmentBehavior={'never'}
                         ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}/>
                 )
@@ -403,14 +406,20 @@ class Statistics extends Component {
                     (selected_tab_index === 2) && (
                         <FlatList
                             data={neglected_psalters_array}
-                            ListHeaderComponent={Section_Header_Neglected(text_array)(title)}
-                            ListFooterComponent={Footer()}
+                            ListHeaderComponent={Section_Header_Neglected(text_array, title)}
+                            ListFooterComponent={Footer}
                             numColumns={5}
                             contentContainerStyle={[content_container_style]}
-                            keyExtractor={per_sect_key_extractor(title)}
+                            keyExtractor={per_sect_key_extractor}
                             getItemLayout={flatlist_item_layout(Math.floor(screen_width / 6))}
                             contentInsetAdjustmentBehavior={'never'}
-                            renderItem={neglected_book_button(Dimensions.get('window'))(neglected_alert(this.props.neglected_alert_texts)(Math.random)(neglected_on_press_yes_wo_index)())}/>
+                            renderItem={neglected_book_button(
+                                neglected_alert(
+                                    this.props.neglected_alert_texts, 
+                                    neglected_on_press_yes_wo_index, 
+                                    undefined
+                                )
+                            )}/>
                     )
                 }
 
@@ -418,7 +427,7 @@ class Statistics extends Component {
                     position: 'absolute',
                     bottom: sizes.medium
                 }}>
-                    {Segmented_Buttons(seg_buttons_width)(seg_buttons_array)()(selected_tab_index)}
+                    {Segmented_Buttons(seg_buttons_width, seg_buttons_array, undefined, selected_tab_index)}
                 </View>
 
             </Default_Bg>

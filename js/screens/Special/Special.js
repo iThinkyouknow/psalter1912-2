@@ -144,10 +144,7 @@ const get_categories_data = (psalter_all_sung_dates) => {
 class Special extends Component {
     render() {
         const {
-            dispatch
-            , navigator
-            , tab_bar_selected_index
-            , psalter_all_sung_dates
+            psalter_all_sung_dates
             , componentId
         } = this.props;
 
@@ -162,8 +159,6 @@ class Special extends Component {
                     contentContainerStyle={{alignItems: 'center', padding: sizes.large * 1.5}}
                     contentInsetAdjustmentBehavior={"never"}
                 />
-
-
             </Default_Bg>
         );
     }

@@ -286,13 +286,13 @@ const input_text_handler = ({dispatch, psalters_count}) => (value) => {
     } else if (value_int > max_val || value_int < 1) {
         set_text_input_value(dispatch, _value.slice(0, -1));
         dispatch(toggle_text_as_valid(false));
-        wrong_number_error_alert(max_val)(toggle_text_as_valid_fn);
+        wrong_number_error_alert(max_val, toggle_text_as_valid_fn);
 
 
     } else if (value_int < 1) {
         set_text_input_value(dispatch, '');
         dispatch(toggle_text_as_valid(false));
-        wrong_number_error_alert(max_val)(no_op);
+        wrong_number_error_alert(max_val, no_op);
 
     } else if (_value === "") {
         dispatch(toggle_text_as_valid(false));
@@ -921,12 +921,11 @@ class App extends Component {
         const num_input_set_can_search_w_dispatch = num_input_set_can_search(dispatch);
 
         const num_input_on_blur_actions_array = [
-            // hide_tabs_action_loaded
             num_input_set_can_search_w_dispatch(true)
         ];
 
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(on_psalter_change(dispatch, index + 1))(on_psalter_change(dispatch, index - 1))
+            ? scroll_swipe_actions(on_psalter_change(dispatch, index + 1), on_psalter_change(dispatch, index - 1))
             : no_op;
 
         const get_text_input = (text_input_as_search) => {

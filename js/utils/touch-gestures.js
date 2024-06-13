@@ -26,7 +26,7 @@ export const long_press_actions = (duration = 500) => {
     }
 };
 
-export const scroll_swipe_actions = (scroll_swipe_left) => (scroll_swipe_right) => (e) => {
+export const scroll_swipe_actions = (scroll_swipe_left, scroll_swipe_right) => (e) => {
     if (Math.abs(e.nativeEvent.velocity.y) < 7) {
         if (e.nativeEvent.velocity.x > 5) scroll_swipe_right();
         if (e.nativeEvent.velocity.x < -5) scroll_swipe_left();

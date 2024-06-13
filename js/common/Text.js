@@ -118,7 +118,7 @@ const replace_with_superscript = (string) => {
     }
 }
 
-export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_prefix) => {
+export const text_formatter = (font_size, body = [{ text: '' }], key_prefix) => {
     const textElements = body.reduce((texts_array, text_attrib, i) => {
         const { is_bold, is_superscript, is_italics, text } = text_attrib;
         let was_n = /\n/.test((body[0, i - 1] || {}).text);
@@ -132,7 +132,7 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
 
         if (is_superscript) {
             texts_array.push(
-                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                <Animated_Text key={i}
                     font_size={font_size * 1}
                     font_weight={is_bold ? 'bold' : 'normal'}
                     style={text_style}>
@@ -142,7 +142,7 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
         } else {
             texts_array.push(
                 <Animated_Text font_size={font_size}
-                    key={`creed-${key_prefix}-para-${i}`}
+                    key={i}
                     font_weight={is_bold ? 'bold' : 'normal'}
                     style={text_style}>
                     {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
@@ -151,7 +151,6 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
         }
         return texts_array;
     }, []);
-
     return textElements;
 }
 

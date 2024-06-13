@@ -9,8 +9,6 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import { hide_tabs_action } from '../../../Navigator-Common'
-
 import styles from './Creeds-Categories.styles';
 import {
     colors,
@@ -169,8 +167,6 @@ class Creeds_Categories extends Component {
             , selected_chapter_index
             , componentId
         } = this.props;
-
-        hide_tabs_action(navigator)();
 
         const component_obj = {
             styles,

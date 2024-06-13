@@ -19,7 +19,7 @@ const get_bible_passage = (bible_text, book_index, chapter_index) => {
 };
 
 
-const _selection_bible_chapter_list = (cache) => (bible_text) => (book_selected_index) => {
+const _selection_bible_chapter_list = (cache) => (bible_text, book_selected_index) => {
 
 
     if (is_array(cache[book_selected_index])) return cache[book_selected_index];
@@ -82,7 +82,7 @@ export const bible = (state = default_state, action = {}) => {
     } else if (action.type === BIBLE_ACTIONS.GET_BIBLE_CHAPTER_LIST) {
         return {
             ...state,
-            selection_bible_chapter_list: selection_bible_chapter_list(state.bible)(action.book_selected_index)
+            selection_bible_chapter_list: selection_bible_chapter_list(state.bible, action.book_selected_index)
         }
     };
 

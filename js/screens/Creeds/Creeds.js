@@ -14,6 +14,8 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import SegmentedButtons from '../../common/Segmented-Buttons';
+
 import styles from './Creeds.styles';
 import {
     colors,
@@ -253,38 +255,24 @@ const select_tab = (dispatch, index) => () => {
 
 const creeds_or_forms_chooser = ({ dispatch, selected_index }) => {
     const { width } = Dimensions.get('window');
-    const creeds_chooser_style = {
-        width: Math.floor(width * 2 / 3),
-    };
-
-    const button_renderer = (dispatch, _selected_index) => (text, index) => {
-        const is_selected = (index === _selected_index);
-        const bg_color_obj = { backgroundColor: (is_selected) ? colors.blue : 'transparent' };
-        const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
-        const key = `library-chooser-${text}-${index}`;
-
-        return (
-            <TouchableHighlight key={key}
-                style={[{ flex: 1 }, bg_color_obj]}
-                underlayColor={underlay_color}
-                onPress={select_tab(dispatch, index)}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Default_Text text_align={'center'}>
-                        {text}
-                    </Default_Text>
-                </View>
-            </TouchableHighlight>
-        );
-    };
-
     const buttons = [
-        'Confessions',
-        'Forms'
-    ].map(button_renderer(dispatch, selected_index));
+        {text: 'Confessions', on_press: select_tab(dispatch, 0)},
+        {text: 'Forms', on_press: select_tab(dispatch, 1)}
+    ];
 
     return (
-        <View style={[styles.creeds_chooser, creeds_chooser_style]}>
-            {buttons}
+        <View style={{
+            position: 'absolute',
+            bottom: sizes.medium
+        }}>
+            {
+                SegmentedButtons(
+                    Math.floor(width * 2 / 3), 
+                    buttons,
+                    undefined,
+                    selected_index
+                )
+            }
         </View>
     );
 

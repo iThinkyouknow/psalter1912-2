@@ -98,7 +98,7 @@ const on_psalter_text_change = (dispatch, max_value) => (value) => {
 
     } else if (value_int > max_value) {
         dispatch(toggle_psalter_pdf_text_input_valid(false));
-        wrong_number_error_alert(max_value)(set_text_input_true_action);
+        wrong_number_error_alert(max_value, set_text_input_true_action);
         dispatch(psalter_pdf_text_input(value_trimmed.slice(0, -1)));
 
     } else if (is_number(value_int) && value_int <= max_value) {
@@ -173,8 +173,6 @@ class Psalter_PDF extends Component {
             , valid_psalter_pdf_text_input
             , psalter_pdf_file_source
         } = this.props;
-
-        // hide_tabs_action(navigator)();
 
         const on_psalter_selected = on_select_psalter_action(dispatch, valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(dispatch, 413);

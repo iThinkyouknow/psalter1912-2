@@ -66,10 +66,10 @@ const Creeds_Body_Component = (section_header, font_size) => ({ item }) => {
         Header_Text_Component(font_size + 2, { marginTop: sizes.large }, title_text)
         : null;
 
-    const body_para_component = text_formatter(font_size)(body)(`body`);
+    const body_para_component = text_formatter(font_size, body, `body`);
 
     const extra_para_component = (Array.isArray(extra) && extra.length > 0)
-        ? text_formatter(font_size)(extra)(`extra`)
+        ? text_formatter(font_size, extra, `extra`)
         : null;
 
     const component_wrapper = (text_component) => (
@@ -269,7 +269,7 @@ class Creeds_Text extends Component {
         });
 
         const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(swipe_left_loaded)(swipe_right_loaded)
+            ? scroll_swipe_actions(swipe_left_loaded, swipe_right_loaded)
             : no_op;
 
         return (

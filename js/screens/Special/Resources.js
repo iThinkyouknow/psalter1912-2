@@ -10,7 +10,6 @@ import {
     , Dimensions
 } from 'react-native';
 
-//import styles from './Resources.styles';
 import {
     colors
     , sizes
@@ -19,7 +18,6 @@ import {
 
 import {
     Default_Text
-    , Animated_Text
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';

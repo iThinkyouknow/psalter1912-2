@@ -65,10 +65,3 @@ export const show_misc_actions_modal_obj = (type) => {
         }
     }
 };
-
-export const hide_tabs_action = (navigator) => () => {
-    // return navigator.toggleTabs({
-    //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-    //     animated: false // does the toggle have transition animation or does it happen immediately (optional)
-    // });
-};

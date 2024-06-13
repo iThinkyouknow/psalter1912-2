@@ -19,7 +19,7 @@ How about numbers instead?`,
     )
 };
 
-export const wrong_number_error_alert = (max_val) => (on_apology) => {
+export const wrong_number_error_alert = (max_val, on_apology) => {
     Alert.alert(
         `Psalter Not Available`,
         `Come On!
@@ -72,9 +72,9 @@ Apologize Now! 😡`,
     );
 };
 
-export const neglected_alert = (texts) => (random) => (on_yes) => (on_no) => (index) => () => {
+export const neglected_alert = (texts, on_yes, on_no) => (index) => () => {
 
-    const magic_number = Math.floor(random() * texts.length);
+    const magic_number = Math.floor(Math.random() * texts.length);
 
     const text_array = texts[magic_number];
 

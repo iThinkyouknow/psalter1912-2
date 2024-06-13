@@ -7,9 +7,6 @@ import {
     , TouchableHighlight
 } from 'react-native';
 
-import { Navigation } from 'react-native-navigation';
-
-//import styles from './Psalter-Sung-Details.styles';
 import {
     sizes
     , native_elements
@@ -41,7 +38,6 @@ const Date_Details_Component = (screen_width) => ({item}) => {
     };
     const style = {
         backgroundColor: 'rgba(0, 0, 0, 0.2)'
-        // , height: 100
         , borderRadius: border_radii.large
         , overflow: 'hidden'
         , padding: Math.floor(sizes.large * 1.5)
@@ -84,21 +80,18 @@ class Psalter_Sung_Details extends Component {
 
         return (
             <Default_Bg>
-
                 <FlatList data={sung_psalter_date_details_array}
-                          keyExtractor={sung_details_key_extractor}
-                          renderItem={Date_Details_Component(Dimensions.get('window').width)}
-                          contentContainerStyle={content_container_style}
-                          ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}
-                          contentInsetAdjustmentBehavior={'never'}
-                          ListFooterComponent={Footer()}
-                          ListHeaderComponent={Sung_Details_Header(psalter_title)} />
-
+                    keyExtractor={sung_details_key_extractor}
+                    renderItem={Date_Details_Component(Dimensions.get('window').width)}
+                    contentContainerStyle={content_container_style}
+                    ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}
+                    contentInsetAdjustmentBehavior={'never'}
+                    ListFooterComponent={Footer()}
+                    ListHeaderComponent={Sung_Details_Header(psalter_title)} />
             </Default_Bg>
         );
     }
 }
-;
 
 
 function mapStateToProps(state) {
