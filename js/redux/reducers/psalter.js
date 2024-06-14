@@ -11,6 +11,7 @@ const default_psalter_obj = {
     , index: -1
     , current_sung_dates: []
     , all_sung_dates: {}
+    , visible: []
 };
 
 export function psalter(state = default_psalter_obj, action = {}) {
@@ -49,11 +50,15 @@ export function psalter(state = default_psalter_obj, action = {}) {
         const sung_count_key = `psalter-${next_val + 1}`;
         const current_sung_dates = state.all_sung_dates[sung_count_key];
 
+        const content = state.psalter_json[next_val] || {}
+        const visible = (content.content || []).map(() => true);
+
         return {
             ...state,
-            content: state.psalter_json[next_val] || {},
+            content,
             index: next_val,
-            current_sung_dates: is_array(current_sung_dates) ? current_sung_dates : []
+            current_sung_dates: is_array(current_sung_dates) ? current_sung_dates : [],
+            visible
         };
 
     } else if (action.type === PSALTER_ACTIONS.SET_SUNG_DATE) {
@@ -78,6 +83,16 @@ export function psalter(state = default_psalter_obj, action = {}) {
         return {
             ...state,
             all_sung_dates: sung_record_obj
+        };
+    } else if (action.type === PSALTER_ACTIONS.TOGGLE_STANZA_VISIBLE) {
+        const index = action.index;
+        const is_all_pressed = index === 0;
+        const visible = is_all_pressed
+            ? state.visible.map(() => !action.is_all_visible)
+            : state.visible.map((visible, i) => i === index - 1 ? !visible : visible);
+        return {
+            ...state,
+            visible
         };
     }
 

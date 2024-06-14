@@ -5,6 +5,7 @@ export const PSALTER_ACTIONS = {
     SET_SUNG_DATE: 'SET_SUNG_DATE',
     GET_SUNG_COUNT: 'GET_SUNG_COUNT',
     SET_SUNG_COUNT_ALL: 'SET_SUNG_COUNT_ALL',
+    TOGGLE_STANZA_VISIBLE: 'TOGGLE_STANZA_VISIBLE'
 };
 
 export const psalter_init = (psalter_json) => {
@@ -42,3 +43,11 @@ export const set_sung_date = (psalter_no, sung_dates_array) => {
         sung_dates_array
     }
 };
+
+export const toggle_stanza_visible = (index, is_all_visible) => {
+    return {
+        type: PSALTER_ACTIONS.TOGGLE_STANZA_VISIBLE,
+        index,
+        is_all_visible
+    }
+}
