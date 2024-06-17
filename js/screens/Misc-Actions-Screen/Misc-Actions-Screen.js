@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     View
     , TextInput
@@ -20,7 +20,7 @@ import {
 } from '../../redux/actions/state-actions';
 
 import Default_Bg from '../../common/Default-bg';
-import { sizes, colors, font_sizes } from '../../common/common.styles';
+import { font_sizes } from '../../common/common.styles';
 import { Rounded_Button } from '../../common/Rounded-Button';
 import psalter_styles from '../Psalter/index.styles';
 import styles from './Misc-Actions-Screen.styles';
@@ -36,6 +36,8 @@ import {
     , no_op
 } from '../../utils/functions';
 import { Navigation } from 'react-native-navigation';
+
+const url = 'https://psalterapp.weebly.com'
 
 export const MISC_ACTION_TEXT_TYPES = {
     PSALTER: 'PSALTER'
@@ -88,7 +90,8 @@ const add_credits_to_text = (text) => {
     return (
 `${text}
 
-💫 The Psalter App 1912`
+💫 The Psalter App 1912
+${url}`
     );
     
 }
@@ -96,7 +99,6 @@ const add_credits_to_text = (text) => {
 const MiscActions = (props) => {
     const {
         text_font_size
-        , navigator
         , text_to_be_copied
         , type
         , text_input_pointer_events
@@ -125,7 +127,8 @@ const MiscActions = (props) => {
         subject: share_subject,
         title: share_subject,
         dialogTitle: share_subject,
-        message: text_for_share_copy
+        message: text_for_share_copy,
+        url
     };
     
     return (
