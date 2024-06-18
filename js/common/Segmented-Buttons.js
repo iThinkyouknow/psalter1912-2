@@ -1,33 +1,19 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {
     View
-    , FlatList
-    , Animated
-    , Image
     , StyleSheet
     , TouchableHighlight
-    , Platform
 } from 'react-native';
 
 import {
     colors
-    , sizes
-    , font_sizes
-    , zIndex
-    , native_elements
-    , buttons
     , border_radii
 } from '../common/common.styles';
 
 import {
     Default_Text
-    , Animated_Text
 } from '../common/Text';
 
-import Default_bg, {Default_Bg_w_Tab_Bar} from '../common/Default-bg';
-
-import {} from '../utils/alert';
 import {
     is_string
     , no_op

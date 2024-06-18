@@ -810,20 +810,22 @@ const Stanza_Selector_Styles = StyleSheet.create({
             position: 'absolute',
             right: 0,
             bottom: 55,
-            maxHeight: 30,
-            minHeight: 30,
-            height: 30,
+            maxHeight: 40,
+            minHeight: 40,
+            height: 40,
             alignItems: 'flex-end'
         },
         buttons_container: {
-            padding: 4, 
-            justifyContent: 'center', 
+            paddingHorizontal: 4, 
+            justifyContent: 'center',
+            alignItems: 'center',
             backgroundColor: colors.ocean
         },
         button: {
-            borderRadius: 16,
+            borderRadius: 20,
             justifyContent: 'center',
-            paddingHorizontal: 8,
+            paddingVertical: 6,
+            paddingHorizontal: 12,
             backgroundColor: colors.dark_cerulean
         }
     });
@@ -842,17 +844,18 @@ const Stanza_Selector = ({stanzas_data, on_stanza_select}) => {
                 ListHeaderComponent={<View></View>}
                 ListHeaderComponentStyle={{width: windowWidth * 1/ 3}}
                 renderItem={({ item, index }) => {
+                    const radius = 20;
                     const front_style = index === 0
                         ? {
-                            borderTopLeftRadius: 15,
-                            borderBottomLeftRadius: 15,
+                            borderTopLeftRadius: radius,
+                            borderBottomLeftRadius: radius,
                             paddingLeft: 16
                         }
                         : null
                     const end_style = index === stanzas_data.length - 1
                         ? {
-                            borderTopRightRadius: 15,
-                            borderBottomRightRadius: 15,
+                            borderTopRightRadius: radius,
+                            borderBottomRightRadius: radius,
                             paddingRight: 16
                         }
                         : null
@@ -871,7 +874,8 @@ const Stanza_Selector = ({stanzas_data, on_stanza_select}) => {
                                     opacity
                                 }]
                             }}>
-                                <Default_Text 
+                                <Default_Text
+                                    text_align={'center'}
                                     font_size={font_sizes.small} 
                                 >
                                     {item.label}
@@ -1097,7 +1101,7 @@ class App extends Component {
                         ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)}
                         renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity, text_font_size, this.props.visible)}
                         ListFooterComponent={<View></View>}
-                        ListFooterComponentStyle={{height: 30}}
+                        ListFooterComponentStyle={{height: 40}}
                         keyExtractor={psalter_key_extractor}
                         onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
                         ref={ref => main_view_ref = ref}
