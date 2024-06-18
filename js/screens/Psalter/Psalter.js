@@ -3,7 +3,6 @@ import {
     View
     , FlatList
     , SectionList
-    , PanResponder
     , Animated
     , TextInput
     , Dimensions
@@ -17,7 +16,7 @@ import {
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './index.styles';
-import { colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii } from '../../common/common.styles';
+import { colors, sizes, font_sizes, zIndex, native_elements, is_iPhone_X } from '../../common/common.styles';
 
 import { font_size_key } from '../../common/constants';
 
@@ -75,8 +74,7 @@ import {
 import music_player from '../../utils/music-player';
 
 import {
-    is_present_type
-    , is_array
+    is_array
     , is_string
     , is_number
     , no_op
@@ -95,9 +93,7 @@ import {
 } from '../../utils/alert';
 
 import {
-    scroll_swipe_actions
-    , touch_release_actions
-    , long_press_actions
+    long_press_gesture
 } from '../../utils/touch-gestures';
 
 import { set_keyboard_toolbar } from '../../utils/keyboard';
@@ -105,6 +101,10 @@ import { show_misc_actions_modal_obj } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 import { Navigation } from 'react-native-navigation';
+
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { pinch_text_gesture, swipe_gesture } from '../../utils/touch-gestures';
+import { on_pinch_text_size } from '../../utils/functions';
 
 let main_view_ref = null;
 
@@ -698,8 +698,6 @@ const on_action = (actions_array) => () => {
     actions_array.map((action) => action());
 };
 
-const longPressFns = long_press_actions();
-
 
 const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
 
@@ -1020,10 +1018,6 @@ class App extends Component {
             num_input_set_can_search_w_dispatch(true)
         ];
 
-        const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(on_psalter_change(dispatch, index + 1), on_psalter_change(dispatch, index - 1))
-            : no_op;
-
         const get_text_input = (text_input_as_search) => {
             if (Platform.OS === 'ios') {
                 return (text_input_as_search)
@@ -1058,29 +1052,9 @@ class App extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
-
         const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change(dispatch, index + change_by));
-        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action, swipe_next_action, longPressFns.onPanResponderRelease(), one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
-        const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: longPressFns.onPanResponderGrant(),
-            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
-                set_copy_share_btn_props_loaded({
-                    top: e.nativeEvent.pageY
-                    , left: e.nativeEvent.pageX
-                    , isHidden: false
-                });
-            })(() => {
-                if (!copy_share_btn_props.isHidden) {
-                    set_copy_share_btn_props_loaded();
-                }
-            }),
-            onPanResponderRelease: touch_release_actions_loaded
-        });
 
         const Floating_Header = _Floating_Header(this.props);
 
@@ -1104,26 +1078,32 @@ class App extends Component {
         const on_stanza_select = (index) => () => {
             dispatch(toggle_stanza_visible(index, stanzas_data[0]?.visible));
         };
+        
+        const pinch = pinch_text_gesture(on_pinch_text_size(this.props));        
+        const swipe = swipe_gesture(swipe_next_action, swipe_prev_action);
+        const long_press = long_press_gesture(set_copy_share_btn_props_loaded);
+
+        const gestures = Gesture.Race(pinch, swipe, long_press);
 
         return (
             <Default_Bg>
                 <Search_result_view search_results={psalter_search_results}
                     dispatch={dispatch}
                     navigator={navigator} />
-
-                <FlatList data={psalter.content}
-                    scrollEventThrottle={300}
-                    onScroll={flatlist_on_scroll(this.props)}
-                    ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)}
-                    renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity, text_font_size, this.props.visible)}
-                    ListFooterComponent={<View></View>}
-                    ListFooterComponentStyle={{height: 30}}
-                    keyExtractor={psalter_key_extractor}
-                    onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
-                    onScrollEndDrag={scroll_swipe_actions_loaded}
-                    ref={ref => main_view_ref = ref}
-                    contentInsetAdjustmentBehavior={"never"}
-                    {...touch_actions.panHandlers} />
+                <GestureDetector gesture={gestures}>
+                    <FlatList data={psalter.content}
+                        scrollEventThrottle={300}
+                        onScroll={flatlist_on_scroll(this.props)}
+                        ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)}
+                        renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity, text_font_size, this.props.visible)}
+                        ListFooterComponent={<View></View>}
+                        ListFooterComponentStyle={{height: 30}}
+                        keyExtractor={psalter_key_extractor}
+                        onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
+                        ref={ref => main_view_ref = ref}
+                        contentInsetAdjustmentBehavior={"never"}
+                        />
+                </GestureDetector>
 
                 {
                     stanzas_data && (

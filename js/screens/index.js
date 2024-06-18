@@ -3,6 +3,9 @@ import { SafeAreaView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { colors } from '../common/common.styles';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
     const screens = [
@@ -26,9 +29,11 @@ export function registerScreens(store, Provider) {
             return (
                 
 
+<GestureHandlerRootView>
                 <Provider store={store}>
                     <Component {...props}></Component>
                 </Provider>
+</GestureHandlerRootView>
                 
             );
         });

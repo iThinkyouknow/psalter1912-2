@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import {
     View
     , FlatList
-    , Platform
-    , PanResponder
-    , Dimensions
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,13 +20,7 @@ import Default_Bg from '../../common/Default-bg';
 import FontSlider from '../../common/Font-slider';
 import Copy_Share_Tooltip from '../../common/Copy-Share-Tooltip-Btn';
 
-import { is_object, is_number, no_op, composer, save_font_size } from '../../utils/functions';
-
-import {
-    touch_release_actions
-    , scroll_swipe_actions
-    , long_press_actions
-} from '../../utils/touch-gestures';
+import { is_object, is_number, composer, save_font_size } from '../../utils/functions';
 
 import { show_misc_actions_modal_obj } from '../../../Navigator-Common'
 
@@ -41,6 +32,10 @@ import {
     , set_copy_share_btn
 } from '../../redux/actions/state-actions';
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
+
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { pinch_text_gesture, swipe_gesture, long_press_gesture } from '../../utils/touch-gestures';
+import { on_pinch_text_size } from '../../utils/functions';
 
 let main_view_ref = null;
 
@@ -94,7 +89,7 @@ const Creeds_Body_Component = (section_header, font_size) => ({ item }) => {
 };
 
 
-const Creeds_Text_Flatlist = (swipe_action, scroll_swipe_actions, styles, {creed_body_title, creed_body_description, creed_body, text_font_size}) => {
+const Creeds_Text_Flatlist = (styles, {creed_body_title, creed_body_description, creed_body, text_font_size}) => {
 
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
@@ -111,9 +106,7 @@ const Creeds_Text_Flatlist = (swipe_action, scroll_swipe_actions, styles, {creed
             keyExtractor={key_extractor}
             renderItem={Creeds_Body_Component(creed_body.header, text_font_size)} 
             style={styles.flatlist_padding_horizontal}
-            onScrollEndDrag={scroll_swipe_actions}
-            contentInsetAdjustmentBehavior={"never"}
-            {...swipe_action.panHandlers} />
+            contentInsetAdjustmentBehavior={"never"} />
     );
 };
 
@@ -223,8 +216,6 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
     ])(props);
 };
 
-const longPressFns = long_press_actions();
-
 class Creeds_Text extends Component {
 
     componentDidMount() {
@@ -243,38 +234,23 @@ class Creeds_Text extends Component {
             swipe_left
         ].map(swipe_action => swipe_action(this.props));
 
-        const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3);
         const set_font_size_wo_font_size = set_font_size(dispatch);
-
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded, swipe_left_loaded, longPressFns.onPanResponderRelease(), one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
 
-        const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: longPressFns.onPanResponderGrant(),
-            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
-                set_copy_share_btn_props_loaded({
-                    top: e.nativeEvent.pageY
-                    , left: e.nativeEvent.pageX
-                    , isHidden: false
-                });
-            })(() => {
-                if (!copy_share_btn_props.isHidden) {
-                    set_copy_share_btn_props_loaded();
-                }
-            }),
-            onPanResponderRelease: touch_release_actions_loaded
-        });
 
-        const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(swipe_left_loaded, swipe_right_loaded)
-            : no_op;
+        const pinch = pinch_text_gesture(on_pinch_text_size(this.props));
+        const swipe = swipe_gesture(swipe_left_loaded, swipe_right_loaded);
+        const long_press = long_press_gesture(set_copy_share_btn_props_loaded);
+
+        const gestures = Gesture.Race(pinch, swipe, long_press);
+        
 
         return (
             <Default_Bg>
-                {Creeds_Text_Flatlist(touch_actions, scroll_swipe_actions_loaded, styles, this.props)}
+                <GestureDetector gesture={gestures}>
+                    {Creeds_Text_Flatlist(styles, this.props)}
+                </GestureDetector>
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip

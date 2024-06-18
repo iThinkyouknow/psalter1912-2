@@ -26,6 +26,10 @@ import { is_string, composer, save_font_size } from '../../utils/functions';
 
 import { credits_texts_init } from '../../redux/actions/credits-actions';
 import { set_new_font_size } from '../../redux/actions/state-actions'
+import { GestureDetector } from 'react-native-gesture-handler';
+import { pinch_text_gesture } from '../../utils/touch-gestures';
+import { on_pinch_text_size } from '../../utils/functions';
+
 
 const Intro_Component = (font_size) => () => {
     const style = {
@@ -93,13 +97,17 @@ class Credits extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
+        const pinch = pinch_text_gesture(on_pinch_text_size(this.props));
+
         return (
             <Default_Bg>
-                <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
-                    data={this.props.credits_text || []}
-                    keyExtractor={key_extractor}
-                    contentInsetAdjustmentBehavior={'never'}
-                    renderItem={Thanks_Party_Component(text_font_size)} />
+                <GestureDetector gesture={pinch}>
+                    <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
+                        data={this.props.credits_text || []}
+                        keyExtractor={key_extractor}
+                        contentInsetAdjustmentBehavior={'never'}
+                        renderItem={Thanks_Party_Component(text_font_size)} />
+                </GestureDetector>
 
                 <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
             </Default_Bg>

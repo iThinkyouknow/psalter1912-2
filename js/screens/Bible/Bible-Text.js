@@ -9,10 +9,11 @@ import {
     , SectionList
     , TouchableHighlight
     , Image
-    , PanResponder
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+
 
 import {
     colors,
@@ -39,11 +40,6 @@ import { slide_down_animation, slide_side_animation, slide_down_to } from '../..
 
 import { is_string, is_number, no_op, composer, save_font_size } from '../../utils/functions';
 import { show_misc_actions_modal_obj } from '../../../Navigator-Common';
-import {
-    touch_release_actions
-    , scroll_swipe_actions
-    , long_press_actions
-} from '../../utils/touch-gestures';
 
 import {
     bible_toggle_back_to_book_buttons
@@ -63,6 +59,8 @@ import {
 } from '../Psalter/Psalter'
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 import { Navigation } from 'react-native-navigation';
+import { on_pinch_text_size } from '../../utils/functions';
+import { pinch_text_gesture, swipe_gesture, long_press_gesture } from '../../utils/touch-gestures';
 
 let main_view_ref = null;
 
@@ -158,9 +156,8 @@ const flatlist_on_scroll_begin = (props) => (e) => {
     }));
 };
 
-const Bible_Text_Component = (props, touch_actions, scroll_swipe_actions) => {
-
-    return (
+const Bible_Text_Component = (props) => {
+    return (    
         <FlatList data={props.bible_passage.content.slice(1)}
             scrollEventThrottle={300}
             ref={ref => main_view_ref = ref}
@@ -170,10 +167,8 @@ const Bible_Text_Component = (props, touch_actions, scroll_swipe_actions) => {
             scrollEnabled={true}
             onScrollBeginDrag={flatlist_on_scroll_begin(props)}
             onScroll={flatlist_on_scroll(props)}
-            onScrollEndDrag={scroll_swipe_actions}
             contentInsetAdjustmentBehavior={"never"}
-            {...touch_actions.panHandlers}
-        />
+            />
     );
 };
 
@@ -448,7 +443,6 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
     ])(props);
 };
 
-const longPressFns = long_press_actions();
 let libraryBackButtonId;
 let bottomTabEventListener;
 class Bible_Text extends Component {
@@ -503,8 +497,7 @@ class Bible_Text extends Component {
 
     render() {
         const {
-            navigator
-            , dispatch
+            dispatch
             , book_list
             , bible_passage = {}
             , current_book_index = NaN
@@ -569,31 +562,8 @@ class Bible_Text extends Component {
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
         const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
-        const touch_release_actions_loaded = touch_release_actions(swipe_right_loaded, swipe_left_loaded, longPressFns.onPanResponderRelease(), one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
-
-        const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: longPressFns.onPanResponderGrant(),
-            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
-                set_copy_share_btn_props_loaded({
-                    top: e.nativeEvent.pageY
-                    , left: e.nativeEvent.pageX
-                    , isHidden: false
-                });
-            }, () => {
-                if (!copy_share_btn_props.isHidden) {
-                    set_copy_share_btn_props_loaded();
-                }
-            }),
-            onPanResponderRelease: touch_release_actions_loaded
-        });
-
-        const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(swipe_left_loaded, swipe_right_loaded)
-            : no_op;
 
         const LibraryComponent = (
             <Animated.View style={[library_style, library_dynamic_style]}>
@@ -610,10 +580,20 @@ class Bible_Text extends Component {
             children: LibraryComponent
         })
 
+        const pinch = pinch_text_gesture(on_pinch_text_size(this.props));
+        const swipe = swipe_gesture(swipe_left_loaded, swipe_right_loaded);
+        const long_press = long_press_gesture(set_copy_share_btn_props_loaded);
+
+        const gestures = Gesture.Race(pinch, swipe, long_press);
+
         return (
             <Default_Bg>
                 {is_string(bible_passage.title)
-                    ? Bible_Text_Component(this.props, touch_actions, scroll_swipe_actions_loaded)
+                    ? (
+                        <GestureDetector gesture={gestures}>
+                            {Bible_Text_Component(this.props)}
+                        </GestureDetector>
+                    )
                     : <View style={{ flex: 1 }} />
                 }
 
