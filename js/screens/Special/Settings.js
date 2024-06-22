@@ -4,6 +4,7 @@ import {
     , SectionList
     , Pressable
     , ImageBackground
+    , Platform
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Slider from '@react-native-community/slider';
@@ -107,15 +108,27 @@ const on_color_picker_select = (user_settings, title, default_color, current_col
     })
 };
 
+
+const process_uri = (uri) => {
+    if (Platform.OS === 'android') return uri;
+    const iosSlice = uri.indexOf('/Documents');
+    const index = ~iosSlice
+        ? iosSlice
+        : uri.indexOf('/tmp');
+    const processed = '~' + uri.slice(index);
+    return processed;
+
+}
+
 const on_image_picker_select = (set_background_image) => async () => {
     const resp = await launchImageLibrary();
     if (!resp.assets || resp.assets.length === 0) return;
-    set_background_image(resp.assets[0].uri);
+    set_background_image(process_uri(resp.assets[0].uri));
 };
 const on_camera_picker_select = (set_background_image) => async () => {
     const resp = await launchCamera({saveToPhotos: true});
     if (!resp.assets || resp.assets.length === 0) return;
-    set_background_image(resp.assets[0].uri);
+    set_background_image(process_uri(resp.assets[0].uri));
 };
 
 const save_and_apply_user_settings = ({dispatch, componentId}, settings) => () => {

@@ -19,6 +19,10 @@ import {
 } from '../../common/Text';
 
 import Default_Bg from '../../common/Default-bg';
+import { on_psalter_change } from '../Psalter/Psalter';
+import { Navigation } from 'react-native-navigation';
+import { select_tab_index } from '../../redux/actions/tab-bar-actions';
+import { switch_to_psalter_tab_alert } from '../../utils/alert';
 
 
 const Sung_Details_Header = (title, user_settings) => () => {
@@ -33,7 +37,17 @@ const Sung_Details_Header = (title, user_settings) => () => {
     );
 };
 
-const Date_Details_Component = (screen_width, user_settings) => ({item}) => {
+const switch_to_psalter_tab = (dispatch, psalter_index) => () => {
+    on_psalter_change(dispatch, psalter_index)();
+    Navigation.mergeOptions('BOTTOM_TABS',{
+        bottomTabs: {
+            currentTabIndex: 0
+        }
+    });
+    dispatch(select_tab_index(0));
+}
+
+const Date_Details_Component = (screen_width, on_press, user_settings) => ({item}) => {
     const dyn_style = {
         width: screen_width - sizes.large * 2
     };
@@ -53,7 +67,7 @@ const Date_Details_Component = (screen_width, user_settings) => ({item}) => {
     const color_style = user_font_color(user_settings);
 
     return (
-        <TouchableHighlight style={[style, dyn_style]} onPress={item.on_press} underlayColor={'transparent'}>
+        <TouchableHighlight style={[style, dyn_style]} onPress={on_press} underlayColor={'transparent'}>
             <View style={[text_container_style]}>
                 <Default_Text style={color_style}>{item.date_time}</Default_Text>
                 <Default_Text style={color_style}>{item.ago}</Default_Text>
@@ -80,12 +94,14 @@ class Psalter_Sung_Details extends Component {
             sung_psalter_date_details_array
             , psalter_title
         } = this.props;
-
+        
+        const psalter_index = +(psalter_title.replace('Psalter ', '')) - 1;
+        const on_sung_detail_pressed = switch_to_psalter_tab_alert(psalter_title, switch_to_psalter_tab(this.props.dispatch, psalter_index));
         return (
             <Default_Bg user_settings={this.props.user_settings}>
                 <FlatList data={sung_psalter_date_details_array}
                     keyExtractor={sung_details_key_extractor}
-                    renderItem={Date_Details_Component(Dimensions.get('window').width, this.props.user_settings)}
+                    renderItem={Date_Details_Component(Dimensions.get('window').width, on_sung_detail_pressed, this.props.user_settings)}
                     contentContainerStyle={content_container_style}
                     ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}
                     contentInsetAdjustmentBehavior={'never'}

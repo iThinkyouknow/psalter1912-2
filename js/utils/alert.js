@@ -87,13 +87,30 @@ export const neglected_alert = (texts, on_yes, on_no) => (index) => () => {
                 , onPress: on_no
             }
             , {
-                text: 'Right Away!'
+                text: 'Go Forth!'
                 , onPress: on_yes(index)
             }
         ]
         , { cancelable: true }
     );
 };
+
+export const switch_to_psalter_tab_alert = (psalter_title, on_yes) => () => {
+    Alert.alert(
+        `Jumping to ${psalter_title}...`
+        , `Ready? Here we go in 3, 2, 1`
+        , [
+            {
+                text: 'Not Yet...'
+            }
+            , {
+                text: 'Go Forth!'
+                , onPress: on_yes
+            }
+        ]
+        , { cancelable: true }
+    );
+}
 
 export const new_over_the_air_update_alert = (on_yes) => {
     Alert.alert(

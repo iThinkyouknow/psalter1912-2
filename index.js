@@ -38,8 +38,8 @@ const tabChildren = [
     , {
         label: 'Score',
         screen: 'Psalter_PDF', // this is a registered name for a screen
-        icon_default: require('./images/icons/icon-music-score.png'),
-        icon_selected: require('./images/icons/icon-music-score-fill.png'),
+        icon_default: require('./images/icons/icon-music-score-fill.png'),
+        icon_selected: require('./images/icons/icon-music-score.png'),
         // icon: require(' '),
         //selectedIcon: require('./img/one_selected.png'), // iOS only
         title: 'Score',
