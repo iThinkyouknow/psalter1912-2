@@ -20,7 +20,7 @@ import {
 } from '../../redux/actions/state-actions';
 
 import Default_Bg from '../../common/Default-bg';
-import { font_sizes, user_font_color, user_tint_color } from '../../common/common.styles';
+import { font_sizes, padding_top_style_android, user_font_color, user_tint_color } from '../../common/common.styles';
 import { Rounded_Button } from '../../common/Rounded-Button';
 import psalter_styles from '../Psalter/index.styles';
 import styles from './Misc-Actions-Screen.styles';
@@ -134,9 +134,10 @@ const MiscActions = (props) => {
 
     const color_style = user_font_color(user_settings);
     const color_tint_style = {color: user_tint_color(user_settings)};
+
     return (
         <Default_Bg style={{paddingBottom: 0}} user_settings={props.user_settings}>
-            <ScrollView scrollEnabled={text_input_pointer_events === 'none'} style={{flex: 1}}>
+            <ScrollView scrollEnabled={text_input_pointer_events === 'none'} style={{flex: 1, paddingTop: padding_top_style_android}}>
                 <TouchableOpacity 
                     activeOpacity={1} 
                     onPress={() => {

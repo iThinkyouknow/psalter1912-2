@@ -89,7 +89,8 @@ const tabChildren = [
                 bottomTab: {
                     icon: icon_default,
                     selectedIcon: icon_selected,
-                    text: label
+                    text: label,
+                    popToRoot: true
                 }
             }
         }
@@ -158,6 +159,7 @@ export const set_navigation_colors = (componentId, user_settings) => {
             selectedIconColor: user_settings.tint_color,
             textColor: user_settings.font_color,
             selectedTextColor: user_settings.font_color,
+            popToRoot: true
         }
     });
 }

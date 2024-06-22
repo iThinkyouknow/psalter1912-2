@@ -1,7 +1,7 @@
 import { View, FlatList, Pressable } from 'react-native'
 import { useEffect } from 'react';
 import { Navigation } from 'react-native-navigation';
-import { border_radii, colors, sizes, user_font_color } from '../../common/common.styles';
+import { border_radii, colors, padding_top_style_android, sizes, user_font_color } from '../../common/common.styles';
 import { Default_Text } from '../../common/Text';
 import Default_Bg from '../../common/Default-bg';
 const color_data = [
@@ -211,7 +211,7 @@ export default Color_Picker = (props) => {
     return (
         <Default_Bg style={{paddingBottom: 0}} user_settings={props.user_settings}>
             <FlatList
-                style={{padding: sizes.large}}
+                style={{padding: sizes.large, paddingTop: padding_top_style_android}}
                 numColumns={7}
                 horizontal={false}
                 data={color_data}

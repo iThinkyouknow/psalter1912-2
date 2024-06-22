@@ -169,3 +169,7 @@ export const user_font_color = ({font_color}) => {
 export const user_tint_color = ({tint_color}) => {
     return tint_color || colors.blue;
 }
+
+export const padding_top_style_android = Platform.OS === 'android'
+    ? 5 * sizes.large + native_elements.status_bar
+    : 0;

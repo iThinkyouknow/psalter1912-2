@@ -1,5 +1,4 @@
 import { colors, user_font_color, user_tint_color } from './js/common/common.styles';
-
 export const default_navigator_style = {
     navBarNoBorder: true,
     navBarTransparent: true,
