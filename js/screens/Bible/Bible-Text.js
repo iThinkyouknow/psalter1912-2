@@ -189,6 +189,7 @@ const library_container_slide_anim = slide_side_animation(100, 0, Dimensions.get
 
 const select_book_action = (dispatch) => (book_index) => () => {
     dispatch(get_bible_chapter_list(book_index));
+    dispatch(bible_toggle_back_to_book_buttons(true))
     library_container_slide_anim.slide();
 };
 
@@ -332,7 +333,7 @@ const close_library_button = ({ width }, {user_settings}) => {
     );
 };
 
-const back_to_books_btn = ({ width }, {user_settings}) => {
+const back_to_books_btn = ({ width }, {user_settings, dispatch}) => {
     const child_component = (
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Image style={{ width: buttons.small, height: buttons.small }}
@@ -344,7 +345,10 @@ const back_to_books_btn = ({ width }, {user_settings}) => {
     );
 
     return (
-        <Rounded_Button user_settings={user_settings} on_press={library_container_slide_anim.slide} screen_width={width}>
+        <Rounded_Button user_settings={user_settings} on_press={() => {
+            dispatch(bible_toggle_back_to_book_buttons(false));
+            library_container_slide_anim.slide();
+        }} screen_width={width}>
             {child_component}
         </Rounded_Button>
     );
@@ -373,6 +377,7 @@ const library_bottom_buttons_container = _library_bottom_buttons_container(Dimen
 
 const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => () => {
     dispatch(get_bible_passage(book_index, chapter_index));
+    dispatch(bible_toggle_back_to_book_buttons(false));
     library_container_slide_anim.slide();
     library_slide_down_animation.slide();
     setTimeout(() => {
@@ -381,24 +386,6 @@ const select_chapter_action = (dispatch) => (book_index) => (chapter_index) => (
     main_view_ref && main_view_ref.scrollToOffset({ offset: 0 });
 
 };
-
-const _show_back_to_books_button = () => {
-    let should_show = true;
-
-    return (width, dispatch) => ({ value }) => {
-        if (should_show && value < width - 20) {
-            should_show = false;
-            return dispatch(bible_toggle_back_to_book_buttons(true));
-            
-        } else if (!should_show && value > width - 20) {
-            should_show = true;
-            return dispatch(bible_toggle_back_to_book_buttons(false));
-        }
-    };
-};
-
-const show_back_to_books_button = _show_back_to_books_button();
-
 
 const on_psalter_and_score_tab_select = ({dispatch, current_book_index, current_chapter_index, psalter_psalm, first_psalter_index_of_each_psalm_obj}) => {
     const current_psalm = current_chapter_index + 1;
@@ -454,17 +441,14 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
     ])(props);
 };
 
-let libraryBackButtonId;
 let bottomTabEventListener;
 let is_component_mounted = false;
 class Bible_Text extends Component {
 
     constructor(props) {
         super(props);
-        libraryBackButtonId = library_container_slide_anim.animated_value.addListener(show_back_to_books_button(Dimensions.get('window').width, props.dispatch));
-
     }
-
+    
     componentDidMount() {
         is_component_mounted = true;
         setTimeout(() => {
@@ -504,7 +488,6 @@ class Bible_Text extends Component {
     }
 
     componentWillUnmount() {
-        library_container_slide_anim.animated_value.removeListener(libraryBackButtonId);
         bottomTabEventListener && bottomTabEventListener.remove();
     }
 
