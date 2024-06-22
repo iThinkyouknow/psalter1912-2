@@ -13,7 +13,8 @@ import {
 import {
     colors
     , sizes
-    , border_radii
+    , border_radii,
+    user_font_color
 } from '../../common/common.styles';
 
 import {
@@ -74,7 +75,7 @@ const resources_key_ext = (item, index) => `resources-${item.title}-${index}`;
 
 const open_link = (link) => () => Linking.openURL(link);
 
-const resources_renderer = ({item}) => {
+const resources_renderer = (props) => ({item}) => {
 
     const container_style = {
         marginTop: sizes.large
@@ -92,30 +93,30 @@ const resources_renderer = ({item}) => {
         }
         , justifyContent: 'space-between'
     };
-
+    const color_style = user_font_color(props.user_settings);
     return (
         <TouchableHighlight underlayColor={'transparent'} onPress={open_link(item.link)}>
             <View style={container_style}>
                 <Image style={{position: 'absolute'}} source={require('../../../images/website.jpg')} resizeMode={'contain'}/>
                 <View style={{position: 'absolute', flex: 1, height: 500, width: 500, backgroundColor: 'rgba(0, 0 , 0, 0.4)'}} />
                 <View>
-                    <Default_Text font_size={'large'} font_weight="bold">{item.title}</Default_Text>
+                    <Default_Text style={color_style} font_size={'large'} font_weight="bold">{item.title}</Default_Text>
                 </View>
                 <View style={{marginTop: sizes.large, alignItems: 'flex-end'}}>
-                    <Default_Text text_align={'right'} style={{paddingTop: sizes.small}}>{item.author}</Default_Text>
-                    <Default_Text style={{fontStyle: 'italic'}}>{item.publication}</Default_Text>
+                    <Default_Text text_align={'right'} style={{paddingTop: sizes.small, ...color_style}}>{item.author}</Default_Text>
+                    <Default_Text style={{fontStyle: 'italic', ...color_style}}>{item.publication}</Default_Text>
                 </View>
             </View>
         </TouchableHighlight>
     );
 };
 
-const header_component = () => {
+const Header = ({user_settings, children}) => {
     const {
         statusBarHeight,
     } = Navigation.constantsSync();
     
-    return <Default_Text style={{marginTop: statusBarHeight}} text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>Resources</Default_Text>
+    return <Default_Text style={{marginTop: statusBarHeight, ...user_font_color(user_settings)}} text_align={'center'}  font_weight={'bold'} font_size={'xx_large'}>{children}</Default_Text>
 };
 
 class Resources extends Component {
@@ -123,12 +124,12 @@ class Resources extends Component {
         const {height} = Dimensions.get('window');
 
         return (
-            <Default_Bg>
+            <Default_Bg user_settings={this.props.user_settings}>
                 <FlatList data={data}
                         keyExtractor={resources_key_ext}
-                        renderItem={resources_renderer}
+                        renderItem={resources_renderer(this.props)}
                         contentInsetAdjustmentBehavior={'never'}
-                        ListHeaderComponent={header_component}/>
+                        ListHeaderComponent={(<Header {...this.props} >Resources</Header>)}/>
             </Default_Bg>
         );
     }
@@ -140,6 +141,7 @@ function mapStateToProps(state) {
     return {
         // tab_bar_reducer
         tab_bar_selected_index: state.tab_bar_selected_index
+        , user_settings: state.user_settings
     };
 }
 

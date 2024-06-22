@@ -16,16 +16,12 @@ import {
 
 export default styles = StyleSheet.create({
     floating_header: {
-        backgroundColor: colors.dark_cerulean
-        , alignSelf: 'stretch'
+        alignSelf: 'stretch'
         , position: 'absolute'
         , top: 0
         , left: 0
         , right: 0
 
-    },
-    header_background: {
-        backgroundColor: colors.dark_cerulean
     },
     standard_margin_horizontal: {
         marginHorizontal: sizes.x_large
@@ -47,8 +43,7 @@ export default styles = StyleSheet.create({
         color: colors.black
     },
     slide_down_view_style: {
-        backgroundColor: colors.black,
-        opacity: 0.8,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
         position: 'absolute',
         left: 0,
         zIndex: zIndex.max

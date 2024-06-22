@@ -118,13 +118,14 @@ const replace_with_superscript = (string) => {
     }
 }
 
-export const text_formatter = (font_size, body = [{ text: '' }], key_prefix) => {
+export const text_formatter = (font_size, body = [{ text: '' }], key_prefix, user_settings) => {
     const textElements = body.reduce((texts_array, text_attrib, i) => {
         const { is_bold, is_superscript, is_italics, text } = text_attrib;
         let was_n = /\n/.test((body[0, i - 1] || {}).text);
         const text_style = {
             fontStyle: is_italics ? 'italic' : 'normal',
-            textAlignVertical: is_superscript ? 'top' : 'center'
+            textAlignVertical: is_superscript ? 'top' : 'center',
+            color: user_settings?.font_color || colors.white
         };
 
         const punctuation_regex = /^(?:\.|\;|\,|\?|\:| |\!)/i;

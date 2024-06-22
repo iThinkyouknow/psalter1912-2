@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {
     View
     , StyleSheet
-    , TouchableHighlight
+    , TouchableOpacity
 } from 'react-native';
 
 import {
-    colors
-    , border_radii
+    border_radii
+    , user_font_color
+    , user_tint_color
 } from '../common/common.styles';
 
 import {
@@ -15,8 +16,7 @@ import {
 } from '../common/Text';
 
 import {
-    is_string
-    , no_op
+    no_op
 } from '../utils/functions';
 
 const styles = StyleSheet.create({
@@ -24,21 +24,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 32,
         borderRadius: border_radii.default,
-        borderColor: colors.blue,
         borderWidth: 1,
         alignItems: 'center',
         overflow: 'hidden'
     },
     border_left_style: {
-        borderColor: colors.blue,
         borderLeftWidth: 1
     }
 });
 
-const button_renderer = (selected_tint, selected_tab_index) => ({text, on_press}, index) => {
-    const tint = is_string(selected_tint)
-        ? selected_tint
-        : colors.blue;
+const button_renderer = (user_settings, selected_tab_index) => ({text, on_press}, index) => {
+    const tint = user_tint_color(user_settings)
 
     const is_selected = (selected_tab_index === index);
 
@@ -49,31 +45,28 @@ const button_renderer = (selected_tint, selected_tab_index) => ({text, on_press}
     const border_left_style = index === 0
         ? null
         : styles.border_left_style;
-
-    const underlay_color = (is_selected) ? colors.dark_cerulean : 'transparent';
     const key = `segment-buttons-${text}-${index}`;
-
+    
     return (
-        <TouchableHighlight key={key}
-                            style={[{flex: 1}, border_left_style, bg_color_obj]}
-                            underlayColor={underlay_color}
+        <TouchableOpacity key={key}
+                            style={[{flex: 1}, border_left_style, {borderColor: tint}, bg_color_obj]}
                             onPress={on_press}>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Default_Text text_align={'center'}>
+                <Default_Text style={user_font_color(user_settings)} text_align={'center'}>
                     {text}
                 </Default_Text>
             </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
     );
 };
 
 
-export default Segmented_Buttons = (width, buttons_array = [{ text: '', on_press: no_op}], selected_tint = '', selected_tab_index) => {
+export default Segmented_Buttons = (width, buttons_array = [{ text: '', on_press: no_op}], user_settings, selected_tab_index) => {
 
-    const buttons = buttons_array.map(button_renderer(selected_tint, selected_tab_index));
+    const buttons = buttons_array.map(button_renderer(user_settings, selected_tab_index));
 
     return (
-        <View style={[styles.container, {width}]}>
+        <View style={[styles.container, {width, borderColor: user_settings.tint_color}]}>
             {buttons}
         </View>
     );

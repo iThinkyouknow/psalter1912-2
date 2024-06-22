@@ -52,7 +52,6 @@ const _music_player_fn = () => {
             seek(dispatch, 0);
             Platform.OS === 'ios' && Player.setNumberOfLoops(-1);
             Player.getInfo().then((info) => {
-                console.log({info});
                 if (info) {
                     dispatch(set_max_music_timer(info.duration));
                 }

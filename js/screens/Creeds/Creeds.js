@@ -22,7 +22,9 @@ import {
     sizes,
     font_sizes,
     is_iPhone_X,
-    native_elements
+    native_elements,
+    user_font_color,
+    user_tint_color
 } from '../../common/common.styles';
 
 import {
@@ -61,11 +63,13 @@ import {
 
 import { no_op, is_number } from '../../utils/functions';
 import { CREEDS_COUNT } from '../../common/constants';
+import { user_settings } from '../../redux/reducers/state';
+import { set_navigation_colors } from '../../..';
 
 let search_result_flatlist_ref;
 let text_input_ref;
 
-const list_header_component_wo_animated_val = (book_animated_value) => ({ images, selected_index }) => {
+const list_header_component_wo_animated_val = (book_animated_value) => ({ images, selected_index, user_settings }) => {
 
     const { height, width } = Dimensions.get('window');
     const {
@@ -88,7 +92,7 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({ images
         height: height / 3.2,
 
     };
-
+    const color_style = user_font_color(user_settings);
     if (selected_index === 0) {
 
         const image = creeds_images_array[Math.floor(Math.random() * creeds_images_array.length)];
@@ -103,14 +107,16 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({ images
             maxWidth: width * (2 / 3) - sizes.x_large
         };
 
+        
+
         return (
             <View style={[styles.header_container, container_style]}>
                 <Image source={image} style={[styles.header_image, image_style]} resizeMode={'cover'} />
                 <View style={[styles.header_img_mask, img_mask_style]} />
                 <View style={[styles.header_title_container, header_title_container_x_style]}>
-                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
-                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
-                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xx_large}>CONFESSIONS</Default_Text>
+                    <Default_Text style={color_style} font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
+                    <Default_Text style={color_style} font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
+                    <Default_Text style={color_style} font_family={'Durwent'} font_size={font_sizes.xx_large}>CONFESSIONS</Default_Text>
                 </View>
                 <Animated.View style={[styles.header_book_container]}>
                     <Animated.Image source={confessions_book_cover} style={[styles.book, creeds_book_style]} />
@@ -136,9 +142,9 @@ const list_header_component_wo_animated_val = (book_animated_value) => ({ images
                 </View>
 
                 <View style={styles.header_forms_title_container}>
-                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
-                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
-                    <Default_Text font_family={'Durwent'} font_size={font_sizes.xxx_large}>FORMS</Default_Text>
+                    <Default_Text style={color_style} font_family={'Durwent'} font_size={font_sizes.xxxxxx_large}>THE</Default_Text>
+                    <Default_Text style={color_style} font_family={'Durwent'} font_size={font_sizes.xxxx_large}>REFORMED</Default_Text>
+                    <Default_Text style={color_style} font_family={'Durwent'} font_size={font_sizes.xxx_large}>FORMS</Default_Text>
                 </View>
             </View>
         );
@@ -150,7 +156,7 @@ const book_img_animated_value = book_image_bounce_animation.animated_value;
 const list_header_component = list_header_component_wo_animated_val(book_img_animated_value);
 
 
-const select_book = (componentId, dispatch, library_type_index, selected_index, levels_deep) => () => {
+const select_book = ({componentId, dispatch, selected_index: library_type_index, user_settings}, selected_index, levels_deep) => () => {
     //select book index
     dispatch(lock_in_creed(library_type_index, selected_index, levels_deep));
     Navigation.push(componentId, {
@@ -162,7 +168,8 @@ const select_book = (componentId, dispatch, library_type_index, selected_index, 
                     drawBehind: true,
                     backButton: {
                         title: (library_type_index === 0) ? 'Creeds' : 'Forms',
-                        showTitle: true
+                        showTitle: true,
+                        color: user_tint_color(user_settings)
                     }
                 }
     
@@ -171,7 +178,8 @@ const select_book = (componentId, dispatch, library_type_index, selected_index, 
     });
 };
 
-const creeds_menu_renderer = ({ componentId, dispatch, images, selected_index: library_type_index  }) => ({ item, index }) => {
+const creeds_menu_renderer = (props) => ({ item, index }) => {
+    const { componentId, dispatch, images, selected_index: library_type_index, user_settings  } = props;
     const { width } = Dimensions.get('window');
     const should_margin_left = (index % 2 > 0);
 
@@ -208,14 +216,14 @@ const creeds_menu_renderer = ({ componentId, dispatch, images, selected_index: l
     return (
         <TouchableHighlight underlayColor={'transparent'}
             style={[styles.library_selection, library_selection_style]}
-            onPress={select_book(componentId, dispatch, library_type_index, index, item.levels_deep)}>
+            onPress={select_book(props, index, item.levels_deep)}>
             <View>
                 {
                     image && <Image source={image} style={[styles.library_selection_image, library_selection_image_style]} />
                 }
                 <View style={[styles.library_selection_image, styles.library_selection_mask, library_selection_image_style]} />
                 <View style={[styles.library_text_container, text_container_style]}>
-                    <Default_Text text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
+                    <Default_Text style={user_font_color(props.user_settings)} text_align={'center'} font_size={'x_large'}>{item.title}</Default_Text>
                 </View>
             </View>
         </TouchableHighlight>
@@ -253,8 +261,9 @@ const select_tab = (dispatch, index) => () => {
     }, 0)
 };
 
-const creeds_or_forms_chooser = ({ dispatch, selected_index }) => {
+const creeds_or_forms_chooser = ({ dispatch, selected_index, user_settings }) => {
     const { width } = Dimensions.get('window');
+    const tab_bar_height = Navigation.constantsSync().bottomTabsHeight;
     const buttons = [
         {text: 'Confessions', on_press: select_tab(dispatch, 0)},
         {text: 'Forms', on_press: select_tab(dispatch, 1)}
@@ -263,13 +272,13 @@ const creeds_or_forms_chooser = ({ dispatch, selected_index }) => {
     return (
         <View style={{
             position: 'absolute',
-            bottom: sizes.medium
+            bottom: tab_bar_height + sizes.medium
         }}>
             {
                 SegmentedButtons(
                     Math.floor(width * 2 / 3), 
                     buttons,
-                    undefined,
+                    user_settings,
                     selected_index
                 )
             }
@@ -288,14 +297,16 @@ const search_button_action = () => {
     search_results_animation.slide()
 };
 
-const search_button = (action = no_op) => {
+const search_button = (action = no_op, {user_settings}) => {
+    const bottom = Navigation.constantsSync().bottomTabsHeight + sizes.medium;
     return (
         <TouchableHighlight
-            style={[styles.bottom_button_container]}
+            style={[styles.bottom_button_container, {bottom}]}
             onPress={action}
             underlayColor={'transparent'}
         >
             <Image style={styles.button_std}
+                tintColor={user_settings.tint_color}
                 source={require('../../../images/icons/icon-search.png')} />
         </TouchableHighlight>
     )
@@ -313,7 +324,7 @@ const on_press_creed_search = (props, item) => () => {
         ? item.index - CREEDS_COUNT
         : item.index;
 
-    const { dispatch } = props;
+    const { dispatch, user_settings } = props;
 
     let levels_deep = 1;
     if (is_number(item.subIndex)) {
@@ -332,7 +343,8 @@ const on_press_creed_search = (props, item) => () => {
                     drawBehind: true,
                     backButton: {
                         title: 'Chapters',
-                        showTitle: true
+                        showTitle: true,
+                        color: user_tint_color(user_settings)
                     }
                 }
             }
@@ -383,7 +395,7 @@ const search_results = (props) => {
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
             const color = (style === 'bold')
                 ? {
-                    color: colors.blue
+                    color: props.user_settings.tint_color|| colors.blue
                 }
                 : undefined;
 
@@ -411,7 +423,7 @@ const search_results = (props) => {
 
     const search_results_key_extractor = (item, index) => `${item.index}${item.chIndex}${item.subIndex}${index}`;
     const search_results_separator = (width) => () => (
-        <View style={[styles.search_results_separator, { width: Math.floor(width * 0.5) }]} />
+        <View style={[styles.search_results_separator, {backgroundColor: props.user_settings.tint_color || colors.dark_cerulean, width: Math.floor(width * 0.5) }]} />
     );
 
     return (
@@ -430,8 +442,10 @@ const search_results = (props) => {
 
 
 const text_input = (action = no_op) => {
+    const bottom = Navigation.constantsSync().bottomTabsHeight + sizes.medium
     return (
         <Animated.View style={[styles.text_input_container, {
+            bottom,
             transform: [
                 {
                     translateX: slide_right_pos
@@ -464,6 +478,7 @@ const onTextInputAction = (props) => (e) => {
     }
 }
 let bottomTabEventListener;
+let is_component_mounted = false;
 class Creeds extends Component {
 
     componentDidAppear() {
@@ -472,6 +487,7 @@ class Creeds extends Component {
     }
 
     componentDidMount() {
+        is_component_mounted = true;
         AsyncStorage.removeItem('Formula-of-Subscription-(PRCA)');
         AsyncStorage.multiGet(this.props.title_order).then(stringArray /* [[key, string]] */ => {
             const creedsForms = {
@@ -538,6 +554,8 @@ class Creeds extends Component {
             , componentId
         } = this.props;
 
+        is_component_mounted && set_navigation_colors(this.props.componentId, this.props.user_settings);
+
         const component_obj = {
             images: {
                 creeds_images_array,
@@ -546,18 +564,19 @@ class Creeds extends Component {
             },
             componentId: componentId,
             dispatch: dispatch,
-            selected_index: library_type_index
+            selected_index: library_type_index,
+            user_settings: this.props.user_settings
         };
 
         const creeds_menu_renderer_loaded = creeds_menu_renderer(component_obj);
 
         return (
-            <Default_Bg style={styles.default_bg} >
+            <Default_Bg style={styles.default_bg} user_settings={this.props.user_settings} >
 
                 {list_header_component(component_obj)}
                 {creeds_library && creeds_menu_flatlist(creeds_menu_renderer_loaded, this.props)}
                 {creeds_or_forms_chooser(component_obj)}
-                {search_button(search_button_action)}
+                {search_button(search_button_action, this.props)}
                 {search_results(this.props)}
                 {text_input(onTextInputAction(this.props))}
             </Default_Bg>
@@ -574,7 +593,7 @@ function mapStateToProps(state) {
         , creeds_library: state.creeds.creeds_library
         , tab_bar_selected_index: state.tab_bar_selected_index
         , creeds_search_results: state.creeds_search_results.search_results
-
+        , user_settings: state.user_settings
     };
 }
 

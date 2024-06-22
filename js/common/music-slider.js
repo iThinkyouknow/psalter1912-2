@@ -60,7 +60,7 @@ const time = (time_seconds) => {
         return unixTime.format('mm:ss');
     };
 
-export default music_slider = ({dispatch, current_music_timer, max_music_timer}) => (file_name, j) => {
+export default music_slider = ({dispatch, current_music_timer, max_music_timer, user_settings}) => (file_name, j) => {
 
     const value_change = () => {
         music_player.stopTimer();
@@ -76,6 +76,7 @@ export default music_slider = ({dispatch, current_music_timer, max_music_timer})
                 <Slider style={styles.music_slider}
                         key={`${file_name}-${j}`}
                         step={Math.floor(max_music_timer / 1000)}
+                        minimumTrackTintColor={user_settings.tint_color}
                         maximumValue={max_music_timer}
                         value={current_music_timer}
                         onValueChange={value_change}
@@ -89,12 +90,14 @@ export default music_slider = ({dispatch, current_music_timer, max_music_timer})
                 <TouchableHighlight style={styles.play_button_container}
                                     onPress={music_player.play(dispatch, file_name)}>
                     <Image style={styles.play_button}
+                            tintColor={user_settings.tint_color}
                            source={require('../../images/icons/icon-play.png')}/>
                 </TouchableHighlight>
                 <TouchableHighlight style={styles.pause_button_container}
                                     onPress={music_player.pause_or_stop(dispatch)}>
                     <Image style={styles.button_std}
-                           source={require('../../images/icons/icons-pause.png')}/>
+                            tintColor={user_settings.tint_color}
+                            source={require('../../images/icons/icons-pause.png')}/>
                 </TouchableHighlight>
             </View>
         )

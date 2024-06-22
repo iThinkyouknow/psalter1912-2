@@ -7,8 +7,9 @@ import {
     , Platform
     , Dimensions
     , SectionList
-    , TouchableHighlight
+    , TouchableOpacity
     , Image
+    , ImageBackground
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,7 +22,9 @@ import {
     font_sizes,
     zIndex,
     native_elements,
-    buttons
+    buttons,
+    user_font_color,
+    user_tint_color
 } from '../../common/common.styles';
 
 import {
@@ -61,6 +64,7 @@ import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Scre
 import { Navigation } from 'react-native-navigation';
 import { on_pinch_text_size } from '../../utils/functions';
 import { pinch_text_gesture, swipe_gesture, long_press_gesture } from '../../utils/touch-gestures';
+import { set_navigation_colors } from '../../..';
 
 let main_view_ref = null;
 
@@ -75,12 +79,13 @@ const Header_Text_Component = (font_size, font_family, other_style, text) => {
     );
 };
 
-const floating_header_animation = slide_down_to(10, 0, -250);
+const floating_header_animation = slide_down_to(10, 0, -500);
 const floating_header_animation_position = floating_header_animation.animated_value;
 const floating_header_animation_slide_up = floating_header_animation.slide_up;
 const floating_header_animation_slide_down = floating_header_animation.slide_down;
 
-const _Floating_Header = (title, description, font_size) => {
+const _Floating_Header = ({bible_passage, text_font_size: font_size, user_settings}) => {
+    const {title, description} = bible_passage;
     const transform_style = {
         transform: [{ translateY: floating_header_animation_position }]
     }
@@ -89,48 +94,52 @@ const _Floating_Header = (title, description, font_size) => {
 
     return (
         <Animated.View style={[{
-            paddingHorizontal: sizes.large * 1.5
-            , paddingTop: 3 * sizes.default + native_elements.status_bar
-            , marginBottom: 0
+            marginBottom: 0
             , alignSelf: 'stretch'
-            , backgroundColor: colors.dark_cerulean
             , position: 'absolute'
             , top: 0
             , left: 0
             , right: 0
         }, transform_style]}>
-            {Header_Text_Component(text_font_size, 'Durwent', undefined, title)}
-            {(description.length > 0) && Header_Text_Component(
-                desc_font_size, 
-                undefined, 
-                { marginTop: sizes.default }, 
-                description
-            )}
+            <ImageBackground style={[{backgroundColor: user_settings.background_color || colors.dark_cerulean}]} src={user_settings.background_image}>
+                <View style={[{paddingTop: 3 * sizes.default + native_elements.status_bar, paddingHorizontal: sizes.large * 1.5,  backgroundColor: `rgba(0, 0, 0, ${user_settings.background_opacity})`}]}>
+                    {Header_Text_Component(text_font_size, 'Durwent', user_font_color(user_settings), title)}
+                    {(description.length > 0) && Header_Text_Component(
+                        desc_font_size, 
+                        undefined, 
+                        { marginTop: sizes.default }, 
+                        description
+                    )}
+                </View>
+            </ImageBackground>
+            
         </Animated.View>
     );
 };
 
-const list_header_component = (title, description, font_size) => {
+const list_header_component = ({bible_passage, text_font_size, user_settings}) => {
+    const {title, description} = bible_passage;
+    const color_style = user_font_color(user_settings)
     return (
         <View style={{
             paddingHorizontal: sizes.large * 1.5,
             paddingTop: 3 * sizes.default + native_elements.status_bar,
             marginBottom: 0
         }}>
-            {Header_Text_Component(font_size * 2, 'Durwent', undefined, title)}
-            {(description.length > 0) && Header_Text_Component(font_size * 1.2, undefined, { marginTop: sizes.default }, description)}
+            {Header_Text_Component(text_font_size * 2, 'Durwent', color_style, title)}
+            {(description.length > 0) && Header_Text_Component(text_font_size * 1.2, undefined, { marginTop: sizes.default, ...color_style }, description)}
         </View>
     );
 };
 
 const bible_key_extractor = (item, index) => `${item.title}-${index}`;
 
-const bible_body_component = (font_size) => ({ item, index }) => {
+const bible_body_component = ({text_font_size, user_settings}) => ({ item, index }) => {
     const text_component = (
-        <Animated_Text font_size={font_size} text_align={'justify'}
-            style={{ marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5 }}>
-            <Default_Text text_align={'justify'} font_size={font_size}>{`${index + 1}. `}</Default_Text>
-            {text_formatter(font_size, item.filter(text => !text.is_footnote), `bible-text`)}
+        <Animated_Text font_size={text_font_size} text_align={'justify'}
+            style={{ marginTop: sizes.large, paddingHorizontal: sizes.large * 1.5, ...user_font_color(user_settings) }}>
+            <Default_Text style={user_font_color(user_settings)} text_align={'justify'} font_size={text_font_size}>{`${index + 1}. `}</Default_Text>
+            {text_formatter(text_font_size, item.filter(text => !text.is_footnote), `bible-text`, user_settings)}
         </Animated_Text>
     );
 
@@ -161,9 +170,9 @@ const Bible_Text_Component = (props) => {
         <FlatList data={props.bible_passage.content.slice(1)}
             scrollEventThrottle={300}
             ref={ref => main_view_ref = ref}
-            ListHeaderComponent={list_header_component(props.bible_passage.title, props.bible_passage.description, props.text_font_size)}
+            ListHeaderComponent={list_header_component(props)}
             keyExtractor={bible_key_extractor}
-            renderItem={bible_body_component(props.text_font_size)}
+            renderItem={bible_body_component(props)}
             scrollEnabled={true}
             onScrollBeginDrag={flatlist_on_scroll_begin(props)}
             onScroll={flatlist_on_scroll(props)}
@@ -184,14 +193,16 @@ const select_book_action = (dispatch) => (book_index) => () => {
 };
 
 
-const book_button = (selected_index, select_book_action) => (book_start_index) => (item, index) => {
+const book_button = (selected_index, select_book_action, {user_settings}) => (book_start_index) => (item, index) => {
     const {width} = Dimensions.get('window');
     const box_width = Math.floor(width / 6);
 
     const true_index = is_number(book_start_index) ? book_start_index + index : index;
 
+    const tint_color = user_tint_color(user_settings);
+
     const border_style = (true_index === 18 && is_string(item))
-        ? { borderWidth: 2, borderColor: colors.blue }
+        ? { borderWidth: 2, borderColor: tint_color }
         : {};
 
     const bible_books_button = {
@@ -205,11 +216,11 @@ const book_button = (selected_index, select_book_action) => (book_start_index) =
     };
 
     const text_extra_style = {
-        color: (true_index === selected_index) ? colors.blue : colors.white
+        color: (true_index === selected_index) ? (tint_color) : colors.white
     };
 
     return (
-        <TouchableHighlight onPress={select_book_action(true_index)}
+        <TouchableOpacity onPress={select_book_action(true_index)}
             style={[bible_books_button, bible_books_button_dyn, border_style]}
             key={`bible-book-button-${item}-${index}`}>
             <View>
@@ -218,11 +229,11 @@ const book_button = (selected_index, select_book_action) => (book_start_index) =
                     marginTop: sizes.default,
                     height: 1,
                     width: Math.floor(width / 8),
-                    backgroundColor: colors.dark_cerulean
+                    backgroundColor: tint_color
                 }} />
             </View>
 
-        </TouchableHighlight>
+        </TouchableOpacity>
     );
 };
 
@@ -300,7 +311,7 @@ const chapter_library = (chapter_header_loaded, book_chapters_array = [], ch_but
     );
 };
 
-const close_library_button = ({ width }) => {
+const close_library_button = ({ width }, {user_settings}) => {
     const child_component = (
         <Default_Text text_align={'center'}>
             Cancel
@@ -315,13 +326,13 @@ const close_library_button = ({ width }) => {
     }
 
     return (
-        <Rounded_Button on_press={action} screen_width={width}>
+        <Rounded_Button user_settings={user_settings} on_press={action} screen_width={width}>
             {child_component}
         </Rounded_Button>
     );
 };
 
-const back_to_books_btn = ({ width }) => {
+const back_to_books_btn = ({ width }, {user_settings}) => {
     const child_component = (
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Image style={{ width: buttons.small, height: buttons.small }}
@@ -333,7 +344,7 @@ const back_to_books_btn = ({ width }) => {
     );
 
     return (
-        <Rounded_Button on_press={library_container_slide_anim.slide} screen_width={width}>
+        <Rounded_Button user_settings={user_settings} on_press={library_container_slide_anim.slide} screen_width={width}>
             {child_component}
         </Rounded_Button>
     );
@@ -445,6 +456,7 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
 
 let libraryBackButtonId;
 let bottomTabEventListener;
+let is_component_mounted = false;
 class Bible_Text extends Component {
 
     constructor(props) {
@@ -454,6 +466,7 @@ class Bible_Text extends Component {
     }
 
     componentDidMount() {
+        is_component_mounted = true;
         setTimeout(() => {
             const bible_storage_key = 'Bible-KJV';
             const divisions = 4;
@@ -510,6 +523,8 @@ class Bible_Text extends Component {
             , text_font_size
         } = this.props;
 
+        is_component_mounted && set_navigation_colors(this.props.componentId, this.props.user_settings);
+
         const statusBarHeight = Navigation.constantsSync().statusBarHeight;
 
         const library_dynamic_style = {
@@ -525,13 +540,12 @@ class Bible_Text extends Component {
         const library_style = {
             position: 'absolute',
             left: 0,
-            backgroundColor: colors.black,
-            opacity: 0.8,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
             zIndex: zIndex.small,
             alignItems: 'center'
         };
 
-        const book_button_component = book_button(current_book_index, select_book_action(dispatch));
+        const book_button_component = book_button(current_book_index, select_book_action(dispatch), this.props);
 
         const book_buttons_section_header_loaded = book_buttons_section_header(book_button_component);
 
@@ -551,17 +565,15 @@ class Bible_Text extends Component {
             ? current_chapter_index
             : 0;
 
-        const chapter_button_component = chapter_button(book_button(selection_chapter_index, select_chapter_action_w_book_index)(0));
+        const chapter_button_component = chapter_button(book_button(selection_chapter_index, select_chapter_action_w_book_index, this.props)(0));
 
         const chapter_lib_header = chapter_header(Dimensions.get('window').width, selection_selected_book_title);
 
-        const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window')) : undefined;
+        const back_to_books_btn_present = bible_should_show_back_to_books_button ? back_to_books_btn(Dimensions.get('window'), this.props) : undefined;
 
         const [swipe_right_loaded, swipe_left_loaded] = [swipe_right_action, swipe_left_action].map(swipe_action => swipe_action(this.props));
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
-
-        const one_third_screen_width = Math.floor(Dimensions.get('window').width / 3)
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
 
@@ -572,7 +584,7 @@ class Bible_Text extends Component {
                     {chapter_library(chapter_lib_header, selection_chapter_list, chapter_button_component)}
                 </Animated.View>
 
-                {library_bottom_buttons_container(close_library_button(Dimensions.get('window')))(back_to_books_btn_present)}
+                {library_bottom_buttons_container(close_library_button(Dimensions.get('window'), this.props))(back_to_books_btn_present)}
             </Animated.View>
         );
 
@@ -587,7 +599,7 @@ class Bible_Text extends Component {
         const gestures = Gesture.Race(pinch, swipe, long_press);
 
         return (
-            <Default_Bg>
+            <Default_Bg user_settings={this.props.user_settings}>
                 {is_string(bible_passage.title)
                     ? (
                         <GestureDetector gesture={gestures}>
@@ -604,7 +616,8 @@ class Bible_Text extends Component {
                     paddingHorizontal: sizes.large,
                     paddingVertical: sizes.default / 2
                 }}>
-                        <Rounded_Button 
+                        <Rounded_Button
+                            user_settings={this.props.user_settings}
                             on_press={() => {
                                 Navigation.showOverlay({
                                     component: {
@@ -623,6 +636,7 @@ class Bible_Text extends Component {
                             screen_width={Dimensions.get('window').width}
                         >
                             <Default_Text
+                                style={{color: user_tint_color(this.props.user_settings)}}
                                 text_align={'center'}
                             >
                                     Select
@@ -632,9 +646,10 @@ class Bible_Text extends Component {
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
+                        user_settings={this.props.user_settings}
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.BIBLE));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.BIBLE, this.props.user_settings));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();
@@ -643,10 +658,10 @@ class Bible_Text extends Component {
                         left={copy_share_btn_props.left - 50} />)
                 }
 
-                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} user_settings={this.props.user_settings} />
 
                 {is_string(bible_passage.title) &&
-                    _Floating_Header(bible_passage.title, bible_passage.description, text_font_size)
+                    _Floating_Header(this.props)
                 }
             </Default_Bg>
         );
@@ -671,6 +686,7 @@ function mapStateToProps(state) {
         // state reducer
         , bible_should_show_back_to_books_button: state.bible_should_show_back_to_books_button
         , text_font_size: state.text_font_size
+        , user_settings: state.user_settings
         , copy_share_btn_props: state.copy_share_btn_props
         , scroll_details: state.bible_scroll_details
     };

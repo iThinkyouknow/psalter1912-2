@@ -20,20 +20,20 @@ export function registerScreens(store, Provider) {
         ['Credits', require('./Special/Credits').default],
         ['Resources', require('./Special/Resources').default],
         ['Statistics', require('./Special/Statistics').default],
+        ['Settings', require('./Special/Settings').default],
         ['Psalter_Sung_Details', require('./Special/Psalter-Sung-Details').default],
         ['MiscActions', require('./Misc-Actions-Screen/Misc-Actions-Screen').default],
+        ['Color_Picker', require('./Color-Picker/Color-Picker').default],
     ];
 
     for (const [name, Component] of screens) {
         Navigation.registerComponent(name, () => (props) => {
             return (
-                
-
-<GestureHandlerRootView>
-                <Provider store={store}>
-                    <Component {...props}></Component>
-                </Provider>
-</GestureHandlerRootView>
+                <GestureHandlerRootView>
+                    <Provider store={store}>
+                        <Component {...props}></Component>
+                    </Provider>
+                </GestureHandlerRootView>
                 
             );
         });

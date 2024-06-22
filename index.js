@@ -87,13 +87,9 @@ const tabChildren = [
             ],
             options: {
                 bottomTab: {
-                    popToRoot: true,
                     icon: icon_default,
                     selectedIcon: icon_selected,
-                    text: label,
-                    selectedIconColor: colors.blue,
-                    textColor: default_navigator_style.navBarTextColor,
-                    selectedTextColor: default_navigator_style.navBarTextColor
+                    text: label
                 }
             }
         }
@@ -131,9 +127,15 @@ Navigation.setDefaultOptions({
         elevation: 0
 
     },
+    bottomTab: {
+        popToRoot: true,
+        textColor: default_navigator_style.navBarTextColor,
+        selectedTextColor: default_navigator_style.navBarTextColor
+    },
     bottomTabs: {
-        backgroundColor: default_navigator_style.tabBarBackgroundColor,
+        backgroundColor: 'transparent',
         hideShadow: true,
+        drawBehind: true
         
     },
 });
@@ -149,4 +151,13 @@ Navigation.events().registerAppLaunchedListener(() => {
     });
 });
 
-//AppRegistry.registerComponent('The_Psalter_1912_2', () => App);
+export const set_navigation_colors = (componentId, user_settings) => {
+    Navigation.mergeOptions(componentId, {
+        bottomTab: {
+            iconColor: user_settings.tint_color,
+            selectedIconColor: user_settings.tint_color,
+            textColor: user_settings.font_color,
+            selectedTextColor: user_settings.font_color,
+        }
+    });
+}

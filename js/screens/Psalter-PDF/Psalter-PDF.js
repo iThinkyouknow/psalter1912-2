@@ -40,6 +40,8 @@ import {
     , set_temp_psalter_pdf_page_no
     , reset_temp_psalter_pdf_page_no
 } from '../../redux/actions/state-actions';
+import { user_settings } from '../../redux/reducers/state';
+import { set_navigation_colors } from '../../..';
 
 const _Number_input = (os) => (end_text_action, change_text_action, text_is_valid, value, style, props) => {
     const keyboard_type = (os === 'ios') ? 'number-pad' : 'numeric';
@@ -140,9 +142,11 @@ const on_scale = (scale) => {
     scale;
 };
 let bottomTabEventListener;
+let is_component_mounted = false;
 class Psalter_PDF extends Component {
 
     componentDidMount() {
+        is_component_mounted = true;
         Pdf = require('react-native-pdf').default;
         setTimeout(() => this.props.dispatch(set_file_source_init()), 1000);
         bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
@@ -174,6 +178,8 @@ class Psalter_PDF extends Component {
             , psalter_pdf_file_source
         } = this.props;
 
+        is_component_mounted && set_navigation_colors(this.props.componentId, this.props.user_settings)
+
         const on_psalter_selected = on_select_psalter_action(dispatch, valid_psalter_pdf_text_input);
         const on_psalter_input_change = on_psalter_text_change(dispatch, 413);
 
@@ -184,7 +190,7 @@ class Psalter_PDF extends Component {
             ? 1
             : 1.5;
         return (
-            <Default_Bg>
+            <Default_Bg user_settings={this.props.user_settings}>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     {can_load_pdf &&
                         <Pdf source={psalter_pdf_file_source}
@@ -219,6 +225,7 @@ function mapStateToProps(state) {
         , psalter_pdf_input: state.psalter_pdf_input
         , valid_psalter_pdf_text_input: state.valid_psalter_pdf_text_input
         , temp_psalter_pdf_page_number_for_pdf: state.temp_psalter_pdf_page_number_for_pdf
+        , user_settings: state.user_settings
         // tab reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
     };

@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-    TouchableHighlight
+    TouchableOpacity
     , View
     , StyleSheet
 } from 'react-native';
 
 import {
     colors
-    , border_radii
+    , border_radii,
+    user_tint_color
 } from './common.styles';
 
 const styles = StyleSheet.create({
@@ -24,17 +25,17 @@ const styles = StyleSheet.create({
 export const Rounded_Button = (props) => {
 
     const close_library_button_dyn_style = {
-        width: Math.floor(props.screen_width * 1 / 3)
+        width: Math.floor(props.screen_width * 1 / 3),
+        borderColor: user_tint_color(props.user_settings)
     };
 
     return (
-        <TouchableHighlight onPress={props.on_press}
-                            underlayColor={colors.blue}
-                            style={[styles.close_library_button_style, close_library_button_dyn_style]}>
+        <TouchableOpacity onPress={props.on_press}
+            style={[styles.close_library_button_style, close_library_button_dyn_style]}>
             <View style={{flex: 1}}>
                 {props.children}
             </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
     );
 };
 

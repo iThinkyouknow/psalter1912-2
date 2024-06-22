@@ -9,6 +9,7 @@ export const STATE_ACTIONS = {
     , SET_INPUT_AS_SEARCH: 'SET_INPUT_AS_SEARCH'
     , PSALTER_SET_CAN_SEARCH: 'PSALTER_SET_CAN_SEARCH'
     , SET_NEW_FONT_SIZE: 'SET_NEW_FONT_SIZE'
+    , SET_USER_SETTINGS: 'SET_USER_SETTINGS'
     , SELECT_LIBRARY_TYPE: 'SELECT_LIBRARY_TYPE'
     , CHANGE_CREEDS_CHAPTER_LV: 'CHANGE_CREEDS_CHAPTER_LV'
     , BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS: 'BIBLE_TOGGLE_BACK_TO_BOOK_BUTTONS'
@@ -89,6 +90,12 @@ export const set_new_font_size = (new_font_size) => {
     return {
         type: STATE_ACTIONS.SET_NEW_FONT_SIZE
         , new_font_size
+    }
+};
+export const set_new_user_settings = (settings = {}) => {
+    return {
+        type: STATE_ACTIONS.SET_USER_SETTINGS
+        , settings
     }
 };
 

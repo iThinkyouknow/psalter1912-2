@@ -23,6 +23,8 @@ import {
     , sizes
     , native_elements
     , border_radii
+    , user_font_color,
+    user_tint_color
 } from '../../common/common.styles';
 
 import {
@@ -51,7 +53,7 @@ import {
 import {neglected_alert} from '../../utils/alert';
 import {no_op} from '../../utils/functions';
 
-const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
+const Psalter_Btn_Component = (screen_width, user_settings) => ({item, index}) => {
     const dyn_style = {
         width: screen_width - sizes.large * 2
     };
@@ -84,9 +86,11 @@ const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
         // , backgroundColor: 'orange'
     };
 
+    const color_style = user_font_color(user_settings)
+
     const Psalter_Stats_Details = (text) => {
         return (
-            <Default_Text font_size={'small'} style={{paddingVertical: 2}}>
+            <Default_Text font_size={'small'} style={{paddingVertical: 2, ...color_style}}>
                 {text}
             </Default_Text>
         );
@@ -98,7 +102,7 @@ const Psalter_Btn_Component = (screen_width) => ({item, index}) => {
         <TouchableHighlight style={[style, dyn_style]} onPress={item.on_press} underlayColor={'transparent'}>
             <View style={row_container}>
                 <View style={text_container}>
-                    <Default_Text font_size={'x_large'}>
+                    <Default_Text style={color_style} font_size={'x_large'}>
                         {item.psalter}
                     </Default_Text>
                 </View>
@@ -122,19 +126,20 @@ const per_sect_key_extractor = (item, index) => {
     return index;
 }
 
-const Section_Header = (title) => {
+const Section_Header = (title, user_settings) => {
     return (
-        <Default_Text style={{paddingBottom: sizes.large}}
+        <Default_Text style={{paddingBottom: sizes.large, ...user_font_color(user_settings)}}
                       font_weight={'bold'} text_align={'center'}
                       font_size={'xx_large'}>{title}</Default_Text>
     );
 };
 
-const Section_Header_Neglected = (text_array, title) => {
-
+const Section_Header_Neglected = (text_array, title, user_settings) => {
+    const color_style = user_font_color(user_settings);
     return (
         <View>
             <Default_Text
+                style={color_style}
                 font_weight={'bold'} text_align={'center'}
                 font_size={'xx_large'}>
                 {title}
@@ -143,24 +148,28 @@ const Section_Header_Neglected = (text_array, title) => {
             <Default_Text text_align={'center'}
                           font_size={'x_large'}
                           font_weight={'thin'}
-                          style={{paddingTop: sizes.default}}>
+                          style={{paddingTop: sizes.default, ...color_style}}>
                 {text_array[0]}
             </Default_Text>
-            <Default_Text text_align={'center'}
-                          font_size={'x_large'}
-                          font_weight={'thin'}>
+            <Default_Text
+                style={color_style}
+                text_align={'center'}
+                font_size={'x_large'}
+                font_weight={'thin'}>
                 {text_array[1]}
             </Default_Text>
-            <Default_Text text_align={'center'}
-                          font_size={'x_large'}
-                          font_weight={'thin'}>
+            <Default_Text 
+                style={color_style}
+                text_align={'center'}
+                font_size={'x_large'}
+                font_weight={'thin'}>
                 {text_array[2]}
 
             </Default_Text>
             <Default_Text text_align={'center'}
                           font_size={'xx_large'}
                           font_weight={'thin'}
-                          style={{paddingBottom: sizes.large}}>
+                          style={{paddingBottom: sizes.large, ...color_style}}>
                 {text_array[3]}
             </Default_Text>
         </View>
@@ -222,7 +231,7 @@ const flatlist_item_layout = (height) => (data, index) => {
 };
 
 
-const neglected_book_button = (on_press = no_op) => ({item, index}) => { //work on
+const neglected_book_button = (user_settings, on_press = no_op) => ({item, index}) => { //work on
     const {width} = Dimensions.get('window');
     const box_width = Math.floor(width / 6);
 
@@ -240,12 +249,12 @@ const neglected_book_button = (on_press = no_op) => ({item, index}) => { //work 
         <TouchableHighlight underlayColor={'transparent'} onPress={on_press(item - 1)} style={[button, button_dyn]}
                             key={`neglected-psalter-${item}-${index}`}>
             <View>
-                <Default_Text font_size={'x_large'} text_align={'center'}>{item}</Default_Text>
+                <Default_Text style={user_font_color(user_settings)} font_size={'x_large'} text_align={'center'}>{item}</Default_Text>
                 <View style={{
                     marginTop: sizes.default,
                     height: 1,
                     width: Math.floor(width / 8),
-                    backgroundColor: colors.blue
+                    backgroundColor: user_tint_color(user_settings)
                 }}/>
             </View>
         </TouchableHighlight>
@@ -291,7 +300,7 @@ const get_least_sung_psalter_array = (all_sung_dates_array) => {
     return sung_dates_num_count_sorted_array;
 };
 
-const on_press_action_for_sung_psalters = (dispatch, componentId) => (sung_array, psalter_title) => () => {
+const on_press_action_for_sung_psalters = ({dispatch, componentId, user_settings}) => (sung_array, psalter_title) => () => {
     dispatch(set_sung_psalter_details(sung_array, psalter_title));
     Navigation.push(componentId, {
         component: {
@@ -302,7 +311,8 @@ const on_press_action_for_sung_psalters = (dispatch, componentId) => (sung_array
                     drawBehind: true,
                     backButton: {
                         title: 'All',
-                        showTitle: true
+                        showTitle: true,
+                        color: user_settings.tint_color
                     }
                 }
     
@@ -346,7 +356,6 @@ class Statistics extends Component {
             dispatch
             , all_sung_dates_obj
             , selected_tab_index
-            , componentId
         } = this.props;
 
         const screen_width = Dimensions.get('window').width;
@@ -378,7 +387,7 @@ class Statistics extends Component {
             ? unsung_psalters_array
             : get_least_sung_psalter_array(sung_dates_array);
 
-        const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(dispatch, componentId);
+        const on_press_action_for_sung_psalters_wo_sung_array = on_press_action_for_sung_psalters(this.props);
 
         const text_index = get_text_index_of_array(this.props.neglected_texts.length);
         const text_array = this.props.neglected_texts[text_index];
@@ -386,15 +395,15 @@ class Statistics extends Component {
         const neglected_on_press_yes_wo_index = neglected_on_press_yes(dispatch);
 
         return (
-            <Default_Bg style={{alignItems: 'center'}}>
+            <Default_Bg style={{alignItems: 'center'}} user_settings={this.props.user_settings}>
 
                 {(selected_tab_index === 0 || selected_tab_index === 1)
                 && (
                     <FlatList
                         
                         data={get_psalter_sung_date_details(most_sung_obj_formatter(on_press_action_for_sung_psalters_wo_sung_array), sung_dates_array, selected_tab_index)}
-                        renderItem={Psalter_Btn_Component(screen_width)}
-                        ListHeaderComponent={Section_Header(title)}
+                        renderItem={Psalter_Btn_Component(screen_width, this.props.user_settings)}
+                        ListHeaderComponent={Section_Header(title, this.props.user_settings)}
                         ListFooterComponent={Footer}
                         contentContainerStyle={content_container_style}
                         keyExtractor={per_sect_key_extractor}
@@ -406,7 +415,7 @@ class Statistics extends Component {
                     (selected_tab_index === 2) && (
                         <FlatList
                             data={neglected_psalters_array}
-                            ListHeaderComponent={Section_Header_Neglected(text_array, title)}
+                            ListHeaderComponent={Section_Header_Neglected(text_array, title, this.props.user_settings)}
                             ListFooterComponent={Footer}
                             numColumns={5}
                             contentContainerStyle={[content_container_style]}
@@ -414,6 +423,7 @@ class Statistics extends Component {
                             getItemLayout={flatlist_item_layout(Math.floor(screen_width / 6))}
                             contentInsetAdjustmentBehavior={'never'}
                             renderItem={neglected_book_button(
+                                this.props.user_settings,
                                 neglected_alert(
                                     this.props.neglected_alert_texts, 
                                     neglected_on_press_yes_wo_index, 
@@ -425,9 +435,9 @@ class Statistics extends Component {
 
                 <View style={{
                     position: 'absolute',
-                    bottom: sizes.medium
+                    bottom: Navigation.constantsSync().bottomTabsHeight + sizes.medium
                 }}>
-                    {Segmented_Buttons(seg_buttons_width, seg_buttons_array, undefined, selected_tab_index)}
+                    {Segmented_Buttons(seg_buttons_width, seg_buttons_array, this.props.user_settings, selected_tab_index)}
                 </View>
 
             </Default_Bg>
@@ -442,6 +452,7 @@ function mapStateToProps(state) {
         all_sung_dates_obj: state.psalter.all_sung_dates
         //state reducer
         , selected_tab_index: state.statistics_selected_tab_index
+        , user_settings: state.user_settings
         // tab_bar_reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
         , neglected_texts: state.neglected_texts.neglected_texts || []

@@ -11,6 +11,7 @@ import {
     sizes
     , native_elements
     , border_radii
+    , user_font_color
 } from '../../common/common.styles';
 
 import {
@@ -20,11 +21,11 @@ import {
 import Default_Bg from '../../common/Default-bg';
 
 
-const Sung_Details_Header = (title) => () => {
+const Sung_Details_Header = (title, user_settings) => () => {
 
     return (
         <Default_Text font_size={'xx_large'}
-                      style={{paddingBottom: sizes.large}}
+                      style={{paddingBottom: sizes.large, ...user_font_color(user_settings)}}
                       font_weight={'bold'}
                       text_align={'center'}>
             {title}
@@ -32,7 +33,7 @@ const Sung_Details_Header = (title) => () => {
     );
 };
 
-const Date_Details_Component = (screen_width) => ({item}) => {
+const Date_Details_Component = (screen_width, user_settings) => ({item}) => {
     const dyn_style = {
         width: screen_width - sizes.large * 2
     };
@@ -49,11 +50,13 @@ const Date_Details_Component = (screen_width) => ({item}) => {
         , alignItems: 'center'
     };
 
+    const color_style = user_font_color(user_settings);
+
     return (
         <TouchableHighlight style={[style, dyn_style]} onPress={item.on_press} underlayColor={'transparent'}>
             <View style={[text_container_style]}>
-                <Default_Text>{item.date_time}</Default_Text>
-                <Default_Text>{item.ago}</Default_Text>
+                <Default_Text style={color_style}>{item.date_time}</Default_Text>
+                <Default_Text style={color_style}>{item.ago}</Default_Text>
 
             </View>
         </TouchableHighlight>
@@ -79,15 +82,15 @@ class Psalter_Sung_Details extends Component {
         } = this.props;
 
         return (
-            <Default_Bg>
+            <Default_Bg user_settings={this.props.user_settings}>
                 <FlatList data={sung_psalter_date_details_array}
                     keyExtractor={sung_details_key_extractor}
-                    renderItem={Date_Details_Component(Dimensions.get('window').width)}
+                    renderItem={Date_Details_Component(Dimensions.get('window').width, this.props.user_settings)}
                     contentContainerStyle={content_container_style}
                     ItemSeparatorComponent={() => <View style={{height: sizes.default}}/>}
                     contentInsetAdjustmentBehavior={'never'}
                     ListFooterComponent={Footer()}
-                    ListHeaderComponent={Sung_Details_Header(psalter_title)} />
+                    ListHeaderComponent={Sung_Details_Header(psalter_title, this.props.user_settings)} />
             </Default_Bg>
         );
     }
@@ -101,6 +104,7 @@ function mapStateToProps(state) {
         , sung_psalter_date_details_array: state.statistics_sung_psalter_date_details.dates_array
         // tab_bar_reducer
         , tab_bar_selected_index: state.tab_bar_selected_index
+        , user_settings: state.user_settings
     };
 }
 

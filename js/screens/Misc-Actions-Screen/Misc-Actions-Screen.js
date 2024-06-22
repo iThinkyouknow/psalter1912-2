@@ -20,7 +20,7 @@ import {
 } from '../../redux/actions/state-actions';
 
 import Default_Bg from '../../common/Default-bg';
-import { font_sizes } from '../../common/common.styles';
+import { font_sizes, user_font_color, user_tint_color } from '../../common/common.styles';
 import { Rounded_Button } from '../../common/Rounded-Button';
 import psalter_styles from '../Psalter/index.styles';
 import styles from './Misc-Actions-Screen.styles';
@@ -103,6 +103,7 @@ const MiscActions = (props) => {
         , type
         , text_input_pointer_events
         , dispatch
+        , user_settings
     } = props;
 
     const formatter = formatters[type] || no_op;
@@ -130,9 +131,11 @@ const MiscActions = (props) => {
         message: text_for_share_copy,
         url
     };
-    
+
+    const color_style = user_font_color(user_settings);
+    const color_tint_style = {color: user_tint_color(user_settings)};
     return (
-        <Default_Bg>
+        <Default_Bg style={{paddingBottom: 0}} user_settings={props.user_settings}>
             <ScrollView scrollEnabled={text_input_pointer_events === 'none'} style={{flex: 1}}>
                 <TouchableOpacity 
                     activeOpacity={1} 
@@ -141,7 +144,7 @@ const MiscActions = (props) => {
                         text_input_ref.focus();
                     }}>
 
-                    <TextInput style={[styles.text_input, { fontSize: text_font_size}]}
+                    <TextInput style={[styles.text_input, color_style, { fontSize: text_font_size}]}
                         ref={ref => text_input_ref = ref}
                         pointerEvents={text_input_pointer_events}
                         underlineColorAndroid={'transparent'}
@@ -165,17 +168,17 @@ const MiscActions = (props) => {
             
             
             <View style={styles.pro_tip_container}>
-                <Default_Text font_size={font_sizes.small} text_align='center'>
+                <Default_Text style={color_style} font_size={font_sizes.small} text_align='center'>
                     {`Pro Tip: You may also edit, share, etc. directly by selecting the text above`}
                 </Default_Text>
             </View>
             
             <View style={[psalter_styles.more_stuff_bottom_buttons_container, styles.bottom_buttons_container_extra]}>
-                <Rounded_Button on_press={copy_to_clipboard(text_for_share_copy)} screen_width={dimensions.width}>
-                    <Default_Text text_align={'center'}>Copy</Default_Text>
+                <Rounded_Button user_settings={user_settings} on_press={copy_to_clipboard(text_for_share_copy)} screen_width={dimensions.width}>
+                    <Default_Text style={color_tint_style} text_align={'center'}>Copy</Default_Text>
                 </Rounded_Button>
-                <Rounded_Button on_press={share_fn(share_obj)} screen_width={dimensions.width}>
-                    <Default_Text text_align={'center'}>Share</Default_Text>
+                <Rounded_Button user_settings={user_settings} on_press={share_fn(share_obj)} screen_width={dimensions.width}>
+                    <Default_Text style={color_tint_style} text_align={'center'}>Share</Default_Text>
                 </Rounded_Button>
             </View>
             
@@ -189,6 +192,7 @@ function mapStateToProps(state) {
     return {
         psalter: state.psalter.content
         , text_font_size: state.text_font_size
+        , user_settings: state.user_settings
         , text_to_be_copied: state.text_to_be_copied
         , creed_body_title: creed_body.title || ''
         , creed_body_description: creed_body.description || ''

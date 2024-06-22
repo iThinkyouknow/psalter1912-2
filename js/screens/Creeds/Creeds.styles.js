@@ -112,7 +112,6 @@ export default styles = StyleSheet.create({
     bottom_button_container: {
         position: 'absolute',
         right: sizes.large,
-        bottom: sizes.default,
         width: buttons.default,
         height: buttons.default,
         justifyContent: 'flex-start',
@@ -130,7 +129,7 @@ export default styles = StyleSheet.create({
         bottom: sizes.default,
     },
     text_input_style: {
-        height: 42,
+        height: 40,
         padding: sizes.default,
         ...line_height_fn('default', font_sizes.default),
         borderRadius: border_radii.default,

@@ -159,3 +159,13 @@ export const buttons = {
     xxx_large: 48,
     xxxx_large: 52
 };
+
+export const user_font_color = ({font_color}) => {
+    return {
+        color: font_color || colors.white
+    }
+};
+
+export const user_tint_color = ({tint_color}) => {
+    return tint_color || colors.blue;
+}

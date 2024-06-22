@@ -8,7 +8,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Navigation } from 'react-native-navigation';
 import {
-    sizes
+    sizes,
+    user_font_color
 } from '../../common/common.styles';
 
 import {
@@ -36,6 +37,7 @@ import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Scre
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { pinch_text_gesture, swipe_gesture, long_press_gesture } from '../../utils/touch-gestures';
 import { on_pinch_text_size } from '../../utils/functions';
+import { user_settings } from '../../redux/reducers/state';
 
 let main_view_ref = null;
 
@@ -52,23 +54,23 @@ const Header_Text_Component = (font_size, other_style, text) => {
     );
 };
 
-const Creeds_Body_Component = (section_header, font_size) => ({ item }) => {
+const Creeds_Body_Component = (section_header, text_font_size, user_settings) => ({ item }) => {
     const [title, body, extra] = item.content;
 
     const title_text = title.map(({ text }) => text).join(' ');
 
     const title_component = (section_header !== title_text) ?
-        Header_Text_Component(font_size + 2, { marginTop: sizes.large }, title_text)
+        Header_Text_Component(text_font_size + 2, { marginTop: sizes.large, ...user_font_color(user_settings) }, title_text)
         : null;
 
-    const body_para_component = text_formatter(font_size, body, `body`);
+    const body_para_component = text_formatter(text_font_size, body, `body`, user_settings);
 
     const extra_para_component = (Array.isArray(extra) && extra.length > 0)
-        ? text_formatter(font_size, extra, `extra`)
+        ? text_formatter(text_font_size, extra, `extra`, user_settings)
         : null;
 
     const component_wrapper = (text_component) => (
-        <Animated_Text font_size={font_size} text_align={'justify'} style={{ paddingVertical: sizes.default }}>
+        <Animated_Text font_size={text_font_size} text_align={'justify'} style={{ paddingVertical: sizes.default }}>
             {text_component}
         </Animated_Text>
     );
@@ -89,13 +91,13 @@ const Creeds_Body_Component = (section_header, font_size) => ({ item }) => {
 };
 
 
-const Creeds_Text_Flatlist = (styles, {creed_body_title, creed_body_description, creed_body, text_font_size}) => {
-
+const Creeds_Text_Flatlist = (styles, {creed_body_title, creed_body_description, creed_body, text_font_size, user_settings}) => {
+    const color_style = user_font_color(user_settings);
     const Creeds_Body_Header = (
         <View style={styles.creeds_body_header}>
-            {(creed_body_title !== creed_body.header) && Header_Text_Component(text_font_size * 1.2, undefined, creed_body_title)}
-            {creed_body_description.length > 0 && Header_Text_Component(text_font_size * 1.1, undefined, creed_body_description)}
-            {Header_Text_Component(text_font_size * 1.45, { marginTop: sizes.default }, creed_body.header)}
+            {(creed_body_title !== creed_body.header) && Header_Text_Component(text_font_size * 1.2, color_style, creed_body_title)}
+            {creed_body_description.length > 0 && Header_Text_Component(text_font_size * 1.1, color_style, creed_body_description)}
+            {Header_Text_Component(text_font_size * 1.45, { marginTop: sizes.default, ...color_style }, creed_body.header)}
         </View>
     );
 
@@ -104,7 +106,7 @@ const Creeds_Text_Flatlist = (styles, {creed_body_title, creed_body_description,
             ref={ref => main_view_ref = ref}
             ListHeaderComponent={Creeds_Body_Header}
             keyExtractor={key_extractor}
-            renderItem={Creeds_Body_Component(creed_body.header, text_font_size)} 
+            renderItem={Creeds_Body_Component(creed_body.header, text_font_size, user_settings)} 
             style={styles.flatlist_padding_horizontal}
             contentInsetAdjustmentBehavior={"never"} />
     );
@@ -247,16 +249,17 @@ class Creeds_Text extends Component {
         
 
         return (
-            <Default_Bg>
+            <Default_Bg user_settings={this.props.user_settings}>
                 <GestureDetector gesture={gestures}>
                     {Creeds_Text_Flatlist(styles, this.props)}
                 </GestureDetector>
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
+                        user_settings={this.props.user_settings}
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.CREEDS));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.CREEDS, this.props.user_settings));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();
@@ -265,7 +268,7 @@ class Creeds_Text extends Component {
                         left={copy_share_btn_props.left - 50} />)
                 }
 
-                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} user_settings={this.props.user_settings} />
             </Default_Bg>
         );
     }
@@ -288,6 +291,7 @@ function mapStateToProps(state) {
         // state reducer
         , text_font_size: state.text_font_size
         , copy_share_btn_props: state.copy_share_btn_props
+        , user_settings: state.user_settings
     };
 }
 

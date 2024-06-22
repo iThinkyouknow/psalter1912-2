@@ -7,18 +7,19 @@ import {
     , TextInput
     , Dimensions
     , Platform
-    , TouchableHighlight
     , Image
     , Pressable,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
+    , ImageBackground
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './index.styles';
-import { colors, sizes, font_sizes, zIndex, native_elements, is_iPhone_X } from '../../common/common.styles';
+import { colors, sizes, font_sizes, zIndex, native_elements, is_iPhone_X, user_tint_color } from '../../common/common.styles';
 
-import { font_size_key } from '../../common/constants';
+import { font_size_key, user_settings_key } from '../../common/constants';
 
 import {
     Default_Text
@@ -48,7 +49,8 @@ import {
     , set_can_search
     , set_new_font_size
     , set_copy_share_btn
-    , set_psalter_header_scroll_details
+    , set_psalter_header_scroll_details,
+    set_new_user_settings
 } from '../../redux/actions/state-actions';
 
 import {
@@ -105,6 +107,7 @@ import { Navigation } from 'react-native-navigation';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { pinch_text_gesture, swipe_gesture } from '../../utils/touch-gestures';
 import { on_pinch_text_size } from '../../utils/functions';
+import { set_navigation_colors } from '../../..';
 
 let main_view_ref = null;
 
@@ -120,7 +123,7 @@ const floating_header_animation_slide_up = floating_header_animation.slide_up;
 const floating_header_animation_slide_down = floating_header_animation.slide_down;
 
 const _Floating_Header = (props) => {
-    const { psalter, index, text_font_size } = props;
+    const { psalter, index, text_font_size, user_settings } = props;
 
     const { no } = psalter;
 
@@ -131,8 +134,12 @@ const _Floating_Header = (props) => {
     const font_size = Math.min(text_font_size * 2, 60);
 
     return (((index >= 0) &&
-        <Animated.View style={[styles.floating_header, styles.standard_margin_horizontal, styles.main_text_padding_top, transform_style]}>
-            {is_number(no) && main_title(`Psalter ${no}`, font_size)}
+        <Animated.View style={[styles.floating_header, transform_style]}>
+            <ImageBackground style={[{backgroundColor: user_settings.background_color || colors.dark_cerulean}]} src={user_settings.background_image}>
+                <View style={[styles.main_text_padding_top, {backgroundColor: `rgba(0, 0, 0, ${user_settings.background_opacity})`}]}>
+                    {is_number(no) && main_title(`Psalter ${no}`, font_size)}
+                </View>
+            </ImageBackground>
             
         </Animated.View>
     ));
@@ -159,20 +166,23 @@ const flatlist_on_scroll_begin = (props) => (e) => {
     }));
 }
 
-const header = (props) => (fade_anim) => {
+const header = (props, fade_anim) => {
     const {psalter, index, text_font_size} = props;
-    const { no, title, content, meter, psalm } = psalter;
+    const { no, title, meter, psalm } = psalter;
 
     const fade_in_style = {
         opacity: fade_anim
     };
 
+    const color_style = {color: props.user_settings.font_color};
+
     return (((index >= 0) &&
-        <Animated.View style={[styles.standard_margin_horizontal, styles.header_background, styles.main_text_padding_top, fade_in_style]}>
+        <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
             {is_number(no) && main_title(`Psalter ${no}`, text_font_size * 2)}
             {
                 is_string(title) && (
                     <Default_Text
+                        style={color_style}
                         text_align={'center'}
                         font_weight={'bold'}
                         font_size={text_font_size * 1.1}
@@ -184,6 +194,7 @@ const header = (props) => (fade_anim) => {
             {
                 is_number(psalm) && (
                     <Default_Text
+                        style={color_style}
                         text_align={'center'}
                         font_weight={'bold'}
                         font_size={text_font_size * 1.1}
@@ -195,6 +206,7 @@ const header = (props) => (fade_anim) => {
 
             {is_string(meter) && (
                 <Default_Text
+                    style={color_style}
                     text_align={'center'}
                     font_size={text_font_size * 0.8}
                 >
@@ -207,16 +219,17 @@ const header = (props) => (fade_anim) => {
 
 const psalter_key_extractor = (item, i) => i;
 
-const render_psalter_text = (fade_anim, font_size, visible) => ({ item, index }) => {
+const render_psalter_text = (fade_anim, {text_font_size, visible, user_settings}) => ({ item, index }) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
 
         return (
-            <Default_Text 
+            <Default_Text
+                style={{color: user_settings.font_color}}
                 text_align={'center'}
                 font_weight={'normal'}
                 line_height={1.3}
-                font_size={font_size}
+                font_size={text_font_size}
                 key={i}
             >
                 {line_to_render}
@@ -363,7 +376,7 @@ const Bottom_Buttons = (props) => {
 
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
-            <Rounded_Button on_press={action} screen_width={props.width}>
+            <Rounded_Button on_press={action} screen_width={props.width} user_settings={props.user_settings}>
                 <Default_Text text_align={'center'}>
                     I'm Done
                 </Default_Text>
@@ -377,13 +390,13 @@ const more_info_section_key_extractor = (item, index) => `more-info-section-${it
 
 const ref_text_comp = (psalm) => ({ v, refs }, i) => {
     return (
-        <TouchableHighlight key={`ref-line-${i}`}>
+        <View key={`ref-line-${i}`}>
             <View>
                 <Default_Text >
                     {`${i + 1}. ${psalm}:${v} - ${refs}`}
                 </Default_Text>
             </View>
-        </TouchableHighlight>
+        </View>
     );
 };
 
@@ -438,7 +451,7 @@ const count_section = ({ item }) => {
     );
 };
 
-const music_section = (music_slider) => ({ item, index }) => {
+const music_section = (music_slider, user_settings) => ({ item, index }) => {
     if (!Array.isArray(item.sources)) return null;
     if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
 
@@ -462,7 +475,7 @@ const music_section = (music_slider) => ({ item, index }) => {
         : null;
 };
 
-const More_Stuff_Section_List = (props, {dispatch, psalter, sung_dates}) => {
+const More_Stuff_Section_List = (props) => {
     const psalter_music_source = (props.psalter_no)
         ? `psalter_${props.psalter_no}.mp3`
         : ``;
@@ -475,7 +488,7 @@ const More_Stuff_Section_List = (props, {dispatch, psalter, sung_dates}) => {
                     sources: [psalter_music_source],
                 }
             ],
-            renderItem: music_section(props.music_slider),
+            renderItem: music_section(props.music_slider, props.user_settings),
             keyExtractor: more_info_section_key_extractor
         }
         , {
@@ -517,7 +530,7 @@ const More_Stuff_Section_List = (props, {dispatch, psalter, sung_dates}) => {
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
             <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]}
                 sections={sections} />
-            <Bottom_Buttons width={width} />
+            <Bottom_Buttons width={width} user_settings={props.user_settings} />
         </Animated.View>
     );
 };
@@ -646,13 +659,13 @@ const Search_result_view = (props) => {
         );
     };
 
-    const search_result = (dispatch) => ({ item, index }) => {
+    const search_result = ({dispatch, user_settings}) => ({ item, index }) => {
         const text = item.search_result.map(({ text, style }, i) => {
             const key = `search-result-${index}-${i}`;
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
             const color = (style === 'bold')
                 ? {
-                    color: colors.blue
+                    color: user_tint_color(user_settings)
                 }
                 : undefined;
 
@@ -660,7 +673,7 @@ const Search_result_view = (props) => {
         });
 
         return (
-            <TouchableHighlight style={{ marginVertical: sizes.large, marginHorizontal: sizes.large }}
+            <TouchableOpacity style={{ marginVertical: sizes.large, marginHorizontal: sizes.large }}
                 onPress={get_psalter_for_search(dispatch, item.index)}>
                 <View >
                     <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
@@ -668,18 +681,18 @@ const Search_result_view = (props) => {
                         {text}
                     </Default_Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     };
 
     const search_results_key_extractor = (item, index) => `search-results-${index}`;
     const search_results_separator = (width) => ({ highlighter }) => <View
-        style={[styles.search_results_separator, { width: Math.floor(width * 0.5) }]} />;
+        style={[styles.search_results_separator, { backgroundColor: props.user_settings.tint_color || colors.dark_cerulean, width: Math.floor(width * 0.5) }]} />;
 
     return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
         <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results} />}
             data={props.search_results}
-            renderItem={search_result(props.dispatch)}
+            renderItem={search_result(props)}
             keyExtractor={search_results_key_extractor}
             ItemSeparatorComponent={search_results_separator(width)} />
 
@@ -809,7 +822,6 @@ const Stanza_Selector_Styles = StyleSheet.create({
         container: {
             position: 'absolute',
             right: 0,
-            bottom: 55,
             maxHeight: 40,
             minHeight: 40,
             height: 40,
@@ -819,7 +831,7 @@ const Stanza_Selector_Styles = StyleSheet.create({
             paddingHorizontal: 4, 
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: colors.ocean
+            backgroundColor: 'rgba(255, 255, 255, .3)',
         },
         button: {
             borderRadius: 20,
@@ -830,11 +842,18 @@ const Stanza_Selector_Styles = StyleSheet.create({
         }
     });
 
-const Stanza_Selector = ({stanzas_data, on_stanza_select}) => {
+const Stanza_Selector = ({stanzas_data, on_stanza_select, user_settings}) => {
     const windowWidth = Dimensions.get('window').width
+    const tab_bar_height = Navigation.constantsSync().bottomTabsHeight;
     return (
         <View
-            style={[Stanza_Selector_Styles.container, {width: Dimensions.get('window').width}]}
+            style={[
+                Stanza_Selector_Styles.container,
+                {
+                    bottom: 55 + tab_bar_height,
+                    width: Dimensions.get('window').width
+                }
+            ]}
         >
                     
             <FlatList 
@@ -871,10 +890,12 @@ const Stanza_Selector = ({stanzas_data, on_stanza_select}) => {
                                     opacity = 0.8
                                 }
                                 return [Stanza_Selector_Styles.button, {
-                                    opacity
+                                    opacity,
+                                    backgroundColor: user_settings.background_color
                                 }]
                             }}>
                                 <Default_Text
+                                    style={{color: user_settings.font_color}}
                                     text_align={'center'}
                                     font_size={font_sizes.small} 
                                 >
@@ -907,13 +928,35 @@ const make_stanza_data = ({visible}) => {
  * **/
 let shakeSubscription;
 let bottomTabEventListener;
+let is_component_mounted = false;
 class App extends Component {
     constructor(props) {
         super(props);
+
+        AsyncStorage.getItem(font_size_key)
+            .then(font_size => {
+                composer([
+                    parseFloat,
+                    set_new_font_size
+                    , props.dispatch
+                ])(font_size);
+            })
+
+        AsyncStorage.getItem(user_settings_key)
+            .then(settings => {
+                if (!settings) return;
+                try {
+                    const settings_obj = JSON.parse(settings);
+                    
+                    props.dispatch(set_new_user_settings(settings_obj))
+                } catch (error) {
+                    console.error(error);
+                }
+            })
     }
     
     componentDidMount() {
-        
+        is_component_mounted = true;
         bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
             if (unselectedTabIndex === 0) {
                 if (selectedTabIndex === 1) {
@@ -929,15 +972,6 @@ class App extends Component {
         });
 
 // Unsubscribe
-
-        AsyncStorage.getItem(font_size_key)
-            .then(font_size => {
-                composer([
-                    parseFloat,
-                    set_new_font_size
-                    , this.props.dispatch
-                ])(font_size);
-            })
 
         const RNShake = require('react-native-shake').default;
         const storage_psalter_key = 'PsalterJSON';
@@ -1010,7 +1044,10 @@ class App extends Component {
             , psalter_search_results
             , text_font_size
             , copy_share_btn_props
+            , user_settings
         } = this.props;
+
+        is_component_mounted && set_navigation_colors(this.props.componentId, this.props.user_settings)
 
         add_count(this.props, Date);
 
@@ -1064,6 +1101,7 @@ class App extends Component {
 
         const More_Stuff_Section_List_Component = (
             <More_Stuff_Section_List
+                    user_settings={this.props.user_settings}
                     dispatch={dispatch}
                     more_section_slide_position={more_section_slide_animation.animated_value}
                     psalter_refs={psalter.ref}
@@ -1090,16 +1128,17 @@ class App extends Component {
         const gestures = Gesture.Race(pinch, swipe, long_press);
 
         return (
-            <Default_Bg>
+            <Default_Bg user_settings={user_settings}>
                 <Search_result_view search_results={psalter_search_results}
+                    user_settings={user_settings}
                     dispatch={dispatch}
                     navigator={navigator} />
                 <GestureDetector gesture={gestures}>
                     <FlatList data={psalter.content}
                         scrollEventThrottle={300}
                         onScroll={flatlist_on_scroll(this.props)}
-                        ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)}
-                        renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity, text_font_size, this.props.visible)}
+                        ListHeaderComponent={header(this.props, psalter_text_fade_anim.fade_opacity)}
+                        renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity, this.props)}
                         ListFooterComponent={<View></View>}
                         ListFooterComponentStyle={{height: 40}}
                         keyExtractor={psalter_key_extractor}
@@ -1112,6 +1151,7 @@ class App extends Component {
                 {
                     stanzas_data && (
                         <Stanza_Selector
+                            user_settings={this.props.user_settings}
                            stanzas_data={stanzas_data}
                            on_stanza_select={on_stanza_select} />
                     )
@@ -1119,13 +1159,18 @@ class App extends Component {
 
                 {Floating_Header}
 
-                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+                <FontSlider 
+                    value={text_font_size} 
+                    onSlidingComplete={set_font_size_wo_font_size}
+                    user_settings={this.props.user_settings}
+                />
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
+                        user_settings={this.props.user_settings}
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER, this.props.user_settings));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();
@@ -1146,20 +1191,20 @@ class App extends Component {
 
                     {get_text_input(text_input_as_search)}
 
-                    <TouchableHighlight style={styles.bottom_button_container}
+                    <TouchableOpacity style={styles.bottom_button_container}
                         onPress={on_search_button_press(dispatch, text_input_as_search)}
-                        underlayColor={colors.dark_cerulean}
                         disabled={!can_search}>
                         {(can_search)
                             ? <Image style={styles.button_std}
+                                tintColor={this.props.user_settings.tint_color}
                                 source={require('../../../images/icons/icon-search.png')} />
 
                             : <Image style={styles.button_std}
                                 source={require('../../../images/icons/icon-search-grey.png')} />
                         }
-                    </TouchableHighlight>
+                    </TouchableOpacity>
 
-                    <TouchableHighlight style={styles.bottom_button_container}
+                    <TouchableOpacity style={styles.bottom_button_container}
                         onPress={() => {
                             Navigation.showOverlay({
                                 component: {
@@ -1174,10 +1219,10 @@ class App extends Component {
                                 more_section_slide();
                             }, 50);
                         }}
-                        underlayColor={colors.dark_cerulean}>
-                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')} />
+                        >
+                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')} tintColor={this.props.user_settings.tint_color} />
 
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </Default_Bg>
         );
@@ -1201,6 +1246,7 @@ function mapStateToProps(state) {
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
         , text_font_size: state.text_font_size
+        , user_settings: state.user_settings
         , copy_share_btn_props: state.copy_share_btn_props
         , scroll_details: state.psalter_scroll_details
         //search reducer
