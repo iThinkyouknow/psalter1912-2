@@ -50,6 +50,8 @@ export const is_function = is_present_type('function');
 export const is_object = is_present_type('object');
 export const is_boolean = is_present_type('boolean');
 
+export const not = (bool) => !bool;
+
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
