@@ -3,6 +3,9 @@ import { SafeAreaView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { colors } from '../common/common.styles';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
     const screens = [
@@ -17,18 +20,20 @@ export function registerScreens(store, Provider) {
         ['Credits', require('./Special/Credits').default],
         ['Resources', require('./Special/Resources').default],
         ['Statistics', require('./Special/Statistics').default],
+        ['Settings', require('./Special/Settings').default],
         ['Psalter_Sung_Details', require('./Special/Psalter-Sung-Details').default],
         ['MiscActions', require('./Misc-Actions-Screen/Misc-Actions-Screen').default],
+        ['Color_Picker', require('./Color-Picker/Color-Picker').default],
     ];
 
     for (const [name, Component] of screens) {
         Navigation.registerComponent(name, () => (props) => {
             return (
-                
-
-                <Provider store={store}>
-                    <Component {...props}></Component>
-                </Provider>
+                <GestureHandlerRootView>
+                    <Provider store={store}>
+                        <Component {...props}></Component>
+                    </Provider>
+                </GestureHandlerRootView>
                 
             );
         });

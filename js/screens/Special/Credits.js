@@ -18,28 +18,35 @@ import {
     , text_formatter
 } from '../../common/Text';
 
+import { user_font_color } from '../../common/common.styles';
+
 import Default_Bg from '../../common/Default-bg';
 import FontSlider from '../../common/Font-slider';
 
 import { } from '../../utils/alert';
-import { is_present_type, composer, save_font_size } from '../../utils/functions';
+import { is_string, composer, save_font_size } from '../../utils/functions';
 
 import { credits_texts_init } from '../../redux/actions/credits-actions';
 import { set_new_font_size } from '../../redux/actions/state-actions'
+import { GestureDetector } from 'react-native-gesture-handler';
+import { pinch_text_gesture } from '../../utils/touch-gestures';
+import { on_pinch_text_size } from '../../utils/functions';
 
-const Intro_Component = (font_size) => () => {
+
+const Intro_Component = ({text_font_size, user_settings}) => () => {
     const style = {
         alignItems: 'center'
         , paddingTop: native_elements.nav_bar_std + native_elements.status_bar
     };
+    const color_style = user_font_color(user_settings)
     return (
         <View style={style}>
-            <Default_Text text_align={'center'} font_size={font_size + 4}>We would like to give our heartfelt</Default_Text>
-            <Default_Text text_align={'center'} font_weight={'bold'}
-                font_size={font_size + 12}>
+            <Default_Text style={color_style} text_align={'center'} font_size={text_font_size + 4}>We would like to give our heartfelt</Default_Text>
+            <Default_Text style={color_style} text_align={'center'} font_weight={'bold'}
+                font_size={text_font_size + 12}>
                 GRATITUDE
             </Default_Text>
-            <Default_Text text_align={'center'} font_size={font_size + 4}>for the following:</Default_Text>
+            <Default_Text style={color_style} text_align={'center'} font_size={text_font_size + 4}>for the following:</Default_Text>
         </View>
     );
 };
@@ -47,21 +54,21 @@ const Intro_Component = (font_size) => () => {
 const key_extractor = (item, index) => `thanks-${item.title}-${index}`;
 
 
-const Thanks_Party_Component = (font_size) => ({ item, index }) => {
-    const desc = text_formatter(font_size)(item.description)(`thanks-body`);
-
+const Thanks_Party_Component = ({text_font_size, user_settings}) => ({ item, index }) => {
+    const desc = text_formatter(text_font_size, item.description, `thanks-body`, user_settings);
+    const color_style = user_font_color(user_settings);
     return (
         <View style={{ padding: sizes.large * 1.5 }}>
-            <Default_Text text_align={'center'} font_weight={'bold'} font_size={font_size + 4}>{item.title}</Default_Text>
-            {is_present_type('string')(item.source) &&
-                <Default_Text font_size={font_size} style={{ marginTop: sizes.default }} text_align={'center'}>
+            <Default_Text style={color_style} text_align={'center'} font_weight={'bold'} font_size={text_font_size + 4}>{item.title}</Default_Text>
+            {is_string(item.source) &&
+                <Default_Text font_size={text_font_size} style={{ marginTop: sizes.default, ...color_style }} text_align={'center'}>
                     Source:&nbsp;
-                    <Default_Text font_size={font_size} text_align={'center'} font_weight="bold">
+                    <Default_Text style={color_style} font_size={text_font_size} text_align={'center'} font_weight="bold">
                         {item.source}
                     </Default_Text>
                 </Default_Text>
             }
-            <Default_Text font_size={font_size} style={{ marginTop: sizes.default }} text_align={'center'}>{desc}</Default_Text>
+            <Default_Text font_size={text_font_size} style={{ marginTop: sizes.default, ...color_style }} text_align={'center'}>{desc}</Default_Text>
         </View>
     );
 };
@@ -93,14 +100,19 @@ class Credits extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        return (
-            <Default_Bg>
-                <FlatList ListHeaderComponent={Intro_Component(text_font_size)}
-                    data={this.props.credits_text || []}
-                    keyExtractor={key_extractor}
-                    renderItem={Thanks_Party_Component(text_font_size)} />
+        const pinch = pinch_text_gesture(on_pinch_text_size(this.props));
 
-                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+        return (
+            <Default_Bg user_settings={this.props.user_settings}>
+                <GestureDetector gesture={pinch}>
+                    <FlatList ListHeaderComponent={Intro_Component(this.props)}
+                        data={this.props.credits_text || []}
+                        keyExtractor={key_extractor}
+                        contentInsetAdjustmentBehavior={'never'}
+                        renderItem={Thanks_Party_Component(this.props)} />
+                </GestureDetector>
+
+                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} user_settings={this.props.user_settings} />
             </Default_Bg>
         );
     }
@@ -114,6 +126,7 @@ function mapStateToProps(state) {
         , tab_bar_selected_index: state.tab_bar_selected_index
         // state reducer
         , text_font_size: state.text_font_size
+        , user_settings: state.user_settings
     };
 }
 

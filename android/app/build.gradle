@@ -105,8 +105,8 @@ android {
         applicationId "com.the_psalter_1912_2"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3145746
-        versionName "2.8.0"
+        versionCode 3145747
+        versionName "2.9.0"
     }
     signingConfigs {
         release {

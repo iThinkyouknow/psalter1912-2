@@ -1,5 +1,5 @@
 import { STATE_ACTIONS } from '../actions/state-actions';
-import { font_sizes } from '../../common/common.styles';
+import { colors, font_sizes } from '../../common/common.styles';
 import { is_number } from '../../utils/functions';
 
 export function psalter_text_input(state = "", action = {}) {
@@ -83,6 +83,25 @@ export function psalter_can_search(state = true, action) {
 export function text_font_size(state = font_sizes.default, action = {}) {
     if (action.type === STATE_ACTIONS.SET_NEW_FONT_SIZE) {
         return is_number(action.new_font_size) ? action.new_font_size : state;
+    }
+
+    return state;
+};
+
+const default_user_settings = {
+    background_color: colors.dark_cerulean,
+    background_image: '',
+    background_opacity: 0,
+    font_color: colors.white,
+    tint_color: colors.blue,
+};
+
+export function user_settings(state = default_user_settings, action = {}) {
+    if (action.type === STATE_ACTIONS.SET_USER_SETTINGS) {
+        return {
+            ...state,
+            ...(action.settings)
+        };
     }
 
     return state;

@@ -1,5 +1,4 @@
-import { colors } from './js/common/common.styles';
-
+import { colors, user_font_color, user_tint_color } from './js/common/common.styles';
 export const default_navigator_style = {
     navBarNoBorder: true,
     navBarTransparent: true,
@@ -32,7 +31,7 @@ export const navigator_style_modal = {
     tabBarHidden: true
 };
 
-export const show_misc_actions_modal_obj = (type) => {
+export const show_misc_actions_modal_obj = (type, user_settings) => {
     
     return {
         stack: {
@@ -45,18 +44,17 @@ export const show_misc_actions_modal_obj = (type) => {
                         },
                         options: {
                             topBar: {
-                                drawBehind: false,
-                                background: {
-                                    color:  colors.dark_cerulean,
-                                },
+                                drawBehind: true,
                                 visible: true,
                                 title: {
-                                    text: 'Copy & Share'
+                                    text: 'Copy & Share',
+                                    ...user_font_color(user_settings)
                                 },
                                 leftButtons: [{
                                     text: 'Close',
                                     id: 'close'
-                                }]
+                                }],
+                                leftButtonColor: user_tint_color(user_settings)
                             }
                         }
                     }
@@ -64,11 +62,4 @@ export const show_misc_actions_modal_obj = (type) => {
             ]
         }
     }
-};
-
-export const hide_tabs_action = (navigator) => () => {
-    // return navigator.toggleTabs({
-    //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-    //     animated: false // does the toggle have transition animation or does it happen immediately (optional)
-    // });
 };

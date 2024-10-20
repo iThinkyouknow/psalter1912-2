@@ -14,7 +14,7 @@ import {
     , zIndex
     , sizes
     , border_radii
-    , colors
+    , user_font_color
 } from '../common/common.styles'
 
 
@@ -30,9 +30,8 @@ const tooltip_style = StyleSheet.create({
         position: 'absolute'
         , justifyContent: 'center'
         , padding: sizes.medium
-        , opacity: 0.8
         , borderRadius: border_radii.default
-        , backgroundColor: colors.black
+        , backgroundColor: 'rgba(0, 0, 0, 0.8)'
     }
 });
 export default Copy_Share_Tooltip = (props) => {
@@ -42,8 +41,9 @@ export default Copy_Share_Tooltip = (props) => {
         , style
         , top
         , left
+        , user_settings
     } = props;
-    
+    const color_style = user_font_color(user_settings)
     return (
         <TouchableOpacity onPress={onCancel}
             activeOpacity={0}
@@ -54,7 +54,7 @@ export default Copy_Share_Tooltip = (props) => {
             }, style]}
 
                 onPress={onPress}>
-                <Default_Text font_size={font_sizes.small} text_align={'center'}>Copy / Share</Default_Text>
+                <Default_Text style={color_style}  font_size={font_sizes.small} text_align={'center'}>Copy / Share</Default_Text>
             </TouchableOpacity>
         </TouchableOpacity>
     )

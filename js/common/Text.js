@@ -2,9 +2,7 @@ import React from 'react';
 import {
     Text,
     StyleSheet,
-    Animated,
-    Platform,
-    View
+    Animated
 } from 'react-native';
 
 import {
@@ -18,9 +16,9 @@ import {
 } from './common.styles';
 
 import Superscript_chars from '../../data/Superscript-Chars.json';
-import { is_string
+import { 
+    is_string
     , is_array
-    , is_function
     , getty
  } from '../utils/functions';
 
@@ -39,13 +37,13 @@ const extra_styles_fn = (props) => {
         font_size_fn(font_size),
         text_align_fn(text_align),
         font_weight_fn(font_weight),
-        line_height_fn(line_height)(font_size),
+        line_height_fn(line_height, font_size),
         {fontFamily: font_family},
         {opacity},
         style
     ].reduce((acc, item) => {
         const value = (typeof item === 'object') ? Object.values(item)[0] : undefined;
-        if (value !== null && value !== undefined) return {...acc, ...item};
+        if (value !== null && value !== undefined) return Object.assign(acc, item);
         return acc;
     }, {});
 
@@ -77,29 +75,18 @@ export function Animated_Text(props = {}) {
     );
 };
 
-const composable_default_text = (text_align) => (font_weight) => (font_family) => (line_height) => (font_size) => (key) => (style) => (children) => {
-
+export const main_title = (title, font_size) => {
     return (
-        <Default_Text text_align={text_align}
-                       font_weight={font_weight}
-                       font_size={font_size}
-                       line_height={line_height}
-                       font_family={font_family}
-                       key={key}
-                       style={style}>
-            {children}
+        <Default_Text
+            text_align={'center'}
+            font_size={font_size}
+            style={{color: colors.gold}}
+            font_family={'Durwent'}
+        >
+            {title}
         </Default_Text>
-    );
-};
-
-// export const centered_text = composable_anim_text('center');
-export const centered_text = composable_default_text('center');
-export const bold_centered_text = centered_text('bold');
-export const main_title = centered_text()('Durwent')();
-export const main_title_2 = bold_centered_text()()('x_large')()();
-export const sub_title = bold_centered_text()();
-export const meter_text = centered_text()()();
-export const normal_text = centered_text('normal')()(1.3);
+    )
+}
 
 
 const styles = StyleSheet.create({
@@ -108,7 +95,7 @@ const styles = StyleSheet.create({
         opacity: 1,
         ...font_size_fn('default'),
         ...font_weight_fn('normal'),
-        ...line_height_fn(line_heights.default)(font_sizes['default'])
+        ...line_height_fn(line_heights.default, font_sizes['default'])
     }
 });
 
@@ -131,13 +118,14 @@ const replace_with_superscript = (string) => {
     }
 }
 
-export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_prefix) => {
+export const text_formatter = (font_size, body = [{ text: '' }], key_prefix, user_settings) => {
     const textElements = body.reduce((texts_array, text_attrib, i) => {
         const { is_bold, is_superscript, is_italics, text } = text_attrib;
         let was_n = /\n/.test((body[0, i - 1] || {}).text);
         const text_style = {
             fontStyle: is_italics ? 'italic' : 'normal',
-            textAlignVertical: is_superscript ? 'top' : 'center'
+            textAlignVertical: is_superscript ? 'top' : 'center',
+            color: user_settings?.font_color || colors.white
         };
 
         const punctuation_regex = /^(?:\.|\;|\,|\?|\:| |\!)/i;
@@ -145,7 +133,7 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
 
         if (is_superscript) {
             texts_array.push(
-                <Animated_Text key={`creed-${key_prefix}-para-${i}`}
+                <Animated_Text key={i}
                     font_size={font_size * 1}
                     font_weight={is_bold ? 'bold' : 'normal'}
                     style={text_style}>
@@ -155,7 +143,7 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
         } else {
             texts_array.push(
                 <Animated_Text font_size={font_size}
-                    key={`creed-${key_prefix}-para-${i}`}
+                    key={i}
                     font_weight={is_bold ? 'bold' : 'normal'}
                     style={text_style}>
                     {(i === 0 || was_n || is_start_w_punctuation) ? text : ` ${text}`}
@@ -164,7 +152,6 @@ export const text_formatter = (font_size) => (body = [{ text: '' }]) => (key_pre
         }
         return texts_array;
     }, []);
-
     return textElements;
 }
 
@@ -203,7 +190,7 @@ export const format_creeds_text = ({
     const { header, content } = creed_body;
 
     const content_text = content.map(({ content }) => {
-        let to_format_content = getty(content)('0.0.text')('') === header
+        let to_format_content = getty(content, '0.0.text', '') === header
             ? content.slice(1)
             : content;
 

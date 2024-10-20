@@ -1,5 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { font_sizes } from '../common/common.styles';
 import { font_size_key } from '../common/constants';
+
+import { set_new_font_size } from '../redux/actions/state-actions';
 
 export const no_op = () => { };
 
@@ -11,7 +14,7 @@ export const composer = (array_of_fns) => (initial_value) => {
     return array_of_fns.reduce(apply, initial_value);
 };
 
-export const getty = (obj) => (property_string = '') => (fallback = '') => {
+export const getty = (obj, property_string = '', fallback = '') => {
     const properties = property_string.split('.');
     const value = properties.reduce((acc, property) => {
         if (typeof acc !== 'object') return undefined;
@@ -23,7 +26,7 @@ export const getty = (obj) => (property_string = '') => (fallback = '') => {
 
 export const is_present = (thing) => (thing !== undefined && thing !== null);
 
-export const is_present_type = (type = 'string') => (thing) => {
+const is_present_type = (type = 'string') => (thing) => {
 
     const is_typeof = (typeof thing === type);
 
@@ -63,13 +66,28 @@ export const debounce = (func, wait, immediate) => {
     };
 };
 
-export const minus = by => a => a - by;
-export const add = a => b => a + b;
-export const multiply = a => b => a * b;
-export const divide = by => a => a / by;
-export const not = (bool) => !bool;
-
 
 export const save_font_size = (AsyncStorage, font_size = font_sizes.default) => {
     AsyncStorage.setItem(font_size_key, `${font_size}`);
+}
+
+export const on_pinch_text_size = ({dispatch, text_font_size}) => (e) => {
+    const scale = e.scale > 1
+        ? 1 + ((e.scale - 1) * .1)
+        : ((1 - e.scale) * .9) + e.scale;
+
+    const new_font_size = Math.max(
+        0.5 * font_sizes.default, 
+        Math.min(
+            5 * font_sizes.default, 
+            scale * text_font_size
+        )
+    );
+
+    composer([
+        set_new_font_size,
+        dispatch
+    ])(new_font_size);
+
+    save_font_size(AsyncStorage, new_font_size);
 }

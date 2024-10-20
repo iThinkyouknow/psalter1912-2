@@ -3,31 +3,27 @@ import {
     View
     , FlatList
     , SectionList
-    , PanResponder
     , Animated
     , TextInput
     , Dimensions
     , Platform
-    , TouchableHighlight
     , Image
-    , StatusBar
-    , SafeAreaView
+    , Pressable,
+    StyleSheet,
+    TouchableOpacity
+    , ImageBackground
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './index.styles';
-import { colors, sizes, font_sizes, zIndex, native_elements, buttons, is_iPhone_X, border_radii } from '../../common/common.styles';
+import { colors, sizes, font_sizes, zIndex, native_elements, is_iPhone_X, user_tint_color } from '../../common/common.styles';
 
-import { font_size_key } from '../../common/constants';
+import { font_size_key, user_settings_key } from '../../common/constants';
 
 import {
     Default_Text
     , main_title
-    , main_title_2
-    , sub_title
-    , meter_text
-    , normal_text
 } from '../../common/Text';
 
 import FontSlider from '../../common/Font-slider';
@@ -43,6 +39,7 @@ import {
     , lock_in
     , set_sung_count_all
     , set_sung_date
+    , toggle_stanza_visible
 } from '../../redux/actions/psalter-actions';
 
 import {
@@ -52,7 +49,8 @@ import {
     , set_can_search
     , set_new_font_size
     , set_copy_share_btn
-    , set_psalter_header_scroll_details
+    , set_psalter_header_scroll_details,
+    set_new_user_settings
 } from '../../redux/actions/state-actions';
 
 import {
@@ -78,7 +76,9 @@ import {
 import music_player from '../../utils/music-player';
 
 import {
-    is_present_type
+    is_array
+    , is_string
+    , is_number
     , no_op
     , composer
     , not
@@ -89,52 +89,58 @@ import { slide_down_animation, fade_animation, slide_side_animation, slide_down_
 import {
     string_input_error_alert
     , wrong_number_error_alert
-    , not_enough_characters_search_alert
     , perhaps_change_to_psalter_input_alert
     , new_over_the_air_update_alert
     , new_data_present_alert
 } from '../../utils/alert';
 
 import {
-    scroll_swipe_actions
-    , touch_release_actions
-    , long_press_actions
+    long_press_gesture
 } from '../../utils/touch-gestures';
 
 import { set_keyboard_toolbar } from '../../utils/keyboard';
-import { show_misc_actions_modal_obj, hide_tabs_action } from '../../../Navigator-Common';
+import { show_misc_actions_modal_obj } from '../../../Navigator-Common';
 
 import { MISC_ACTION_TEXT_TYPES } from '../Misc-Actions-Screen/Misc-Actions-Screen';
 import { Navigation } from 'react-native-navigation';
 
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { pinch_text_gesture, swipe_gesture } from '../../utils/touch-gestures';
+import { on_pinch_text_size } from '../../utils/functions';
+import { set_navigation_colors } from '../../..';
+
 let main_view_ref = null;
 
-const psalter_text_fade_anim = fade_animation(100)(0);
+const psalter_text_fade_anim = fade_animation(100, 0);
 
-const more_section_slide_animation = slide_down_animation(500)(12);
-const more_section_slide_position = more_section_slide_animation.animated_value;
+const more_section_slide_animation = slide_down_animation(500, 12);
+
 const more_section_slide = more_section_slide_animation.slide;
 
 
-const floating_header_animation = slide_down_to(10)(0)(-150);
-const floating_header_animation_position = floating_header_animation.animated_value;
+const floating_header_animation = slide_down_to(10, 0, -150);
 const floating_header_animation_slide_up = floating_header_animation.slide_up;
 const floating_header_animation_slide_down = floating_header_animation.slide_down;
 
 const _Floating_Header = (props) => {
-    const { psalter, index, text_font_size } = props;
+    const { psalter, index, text_font_size, user_settings } = props;
 
     const { no } = psalter;
 
     const transform_style = {
-        transform: [{ translateY: floating_header_animation_position }]
+        transform: [{ translateY: floating_header_animation.animated_value }]
     }
 
     const font_size = Math.min(text_font_size * 2, 60);
 
     return (((index >= 0) &&
-        <Animated.View style={[styles.floating_header, styles.standard_margin_horizontal, styles.main_text_padding_top, transform_style]}>
-            {is_present_type('number')(no) && main_title(font_size)()({ color: colors.gold })(`Psalter ${no}`)}
+        <Animated.View style={[styles.floating_header, transform_style]}>
+            <ImageBackground style={[{backgroundColor: user_settings.background_color || colors.dark_cerulean}]} src={user_settings.background_image}>
+                <View style={[styles.main_text_padding_top, {backgroundColor: `rgba(0, 0, 0, ${user_settings.background_opacity})`}]}>
+                    {is_number(no) && main_title(`Psalter ${no}`, font_size)}
+                </View>
+            </ImageBackground>
+            
         </Animated.View>
     ));
 
@@ -160,41 +166,88 @@ const flatlist_on_scroll_begin = (props) => (e) => {
     }));
 }
 
-const header = (props) => (fade_anim) => (psalter) => (index) => (font_size) => {
-
-    const { no, title, content, meter, psalm } = psalter;
+const header = (props, fade_anim) => {
+    const {psalter, index, text_font_size} = props;
+    const { no, title, meter, psalm } = psalter;
 
     const fade_in_style = {
         opacity: fade_anim
     };
 
+    const color_style = {color: props.user_settings.font_color};
+
     return (((index >= 0) &&
-        <Animated.View style={[styles.standard_margin_horizontal, styles.header_background, styles.main_text_padding_top, fade_in_style]}>
-            {is_present_type('number')(no) && main_title(font_size * 2)()({ color: colors.gold })(`Psalter ${no}`)}
-            {is_present_type('string')(title) && sub_title(font_size * 1.1)()()(title)}
-            {is_present_type('number')(psalm) && sub_title(font_size * 1.1)()()(`Psalm ${psalm}`)}
-            {is_present_type('string')(meter) && meter_text(font_size * 0.8)()()(`Meter: ${meter}`)}
+        <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_padding_top, fade_in_style]}>
+            {is_number(no) && main_title(`Psalter ${no}`, text_font_size * 2)}
+            {
+                is_string(title) && (
+                    <Default_Text
+                        style={color_style}
+                        text_align={'center'}
+                        font_weight={'bold'}
+                        font_size={text_font_size * 1.1}
+                    >
+                        {title}
+                    </Default_Text>
+                )
+            }
+            {
+                is_number(psalm) && (
+                    <Default_Text
+                        style={color_style}
+                        text_align={'center'}
+                        font_weight={'bold'}
+                        font_size={text_font_size * 1.1}
+                    >
+                        Psalm {psalm}
+                    </Default_Text>
+                )
+            }
+
+            {is_string(meter) && (
+                <Default_Text
+                    style={color_style}
+                    text_align={'center'}
+                    font_size={text_font_size * 0.8}
+                >
+                    Meter: {meter}
+                </Default_Text>
+            )}
         </Animated.View>
     ));
 };
 
-const psalter_key_extractor = (item, i) => `psalter-text-${i}`;
+const psalter_key_extractor = (item, i) => i;
 
-const render_psalter_text = (fade_anim) => (font_size) => ({ item, index }) => {
+const render_psalter_text = (fade_anim, {text_font_size, visible, user_settings}) => ({ item, index }) => {
     const texts = (Array.isArray(item)) ? item.map((line, i) => {
         const line_to_render = (i === 0) ? `${index + 1}. ${line}` : line;
-        return normal_text(font_size)(`line-${i}`)()(line_to_render);
+
+        return (
+            <Default_Text
+                style={{color: user_settings.font_color}}
+                text_align={'center'}
+                font_weight={'normal'}
+                line_height={1.3}
+                font_size={text_font_size}
+                key={i}
+            >
+                {line_to_render}
+            </Default_Text>
+        )
     }) : item;
 
     const fade_in_style = {
         opacity: fade_anim
     };
 
-    return (
-        <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_margin_top, fade_in_style]}>
-            {texts}
-        </Animated.View>
-    )
+    return visible[index] 
+        ? (
+            <Animated.View style={[styles.standard_margin_horizontal, styles.main_text_margin_top, fade_in_style]}>
+                {texts}
+            </Animated.View>
+        ) 
+        : null
 };
 
 export const on_psalter_change = (dispatch, next_val) => () => {
@@ -229,12 +282,13 @@ const set_copy_share_btn_props = (dispatch) => (props) => {
     ])(props);
 }
 
-const set_text_input_value = (dispatch) => (value) => {
+const set_text_input_value = (dispatch, value) => {
     dispatch(psalter_text_input(value));
 };
 
 
-const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => {
+const input_text_handler = ({dispatch, psalters_count}) => (value) => {
+    const max_val = psalters_count;
     const _value = value.trim();
 
     const value_int = parseInt(_value);
@@ -243,28 +297,28 @@ const input_text_handler = (dispatch) => (is_search) => (max_val) => (value) => 
     const toggle_text_as_valid_fn = () => dispatch(toggle_text_as_valid(true));
 
     if (_value !== "" && isNaN(last_char_int)) {
-        set_text_input_value(dispatch)(_value.slice(0, -1));
+        set_text_input_value(dispatch, _value.slice(0, -1));
         dispatch(toggle_text_as_valid(false));
         string_input_error_alert(toggle_text_as_valid_fn);
 
     } else if (value_int > max_val || value_int < 1) {
-        set_text_input_value(dispatch)(_value.slice(0, -1));
+        set_text_input_value(dispatch, _value.slice(0, -1));
         dispatch(toggle_text_as_valid(false));
-        wrong_number_error_alert(max_val)(toggle_text_as_valid_fn);
+        wrong_number_error_alert(max_val, toggle_text_as_valid_fn);
 
 
     } else if (value_int < 1) {
-        set_text_input_value(dispatch)('');
+        set_text_input_value(dispatch, '');
         dispatch(toggle_text_as_valid(false));
-        wrong_number_error_alert(max_val)(no_op);
+        wrong_number_error_alert(max_val, no_op);
 
     } else if (_value === "") {
         dispatch(toggle_text_as_valid(false));
-        set_text_input_value(dispatch)(_value);
+        set_text_input_value(dispatch, _value);
 
     } else {
         dispatch(toggle_text_as_valid(true));
-        set_text_input_value(dispatch)(_value);
+        set_text_input_value(dispatch, _value);
     }
 };
 
@@ -274,7 +328,7 @@ const end_text_input = (dispatch) => (text_is_valid) => (event) => {
     if (text_is_valid) {
         const input_int = parseInt(event.nativeEvent.text) - 1;
         on_psalter_change(dispatch, input_int)();
-        set_text_input_value(dispatch)('');
+        set_text_input_value(dispatch, '');
     }
 };
 
@@ -293,7 +347,7 @@ const Number_input = (props) => {
             placeholderTextColor={colors.grey}
             onEndEditing={end_text_input(dispatch)(valid_text_input)}
             maxLength={`${psalters_count}`.length}
-            onChangeText={input_text_handler(dispatch)(false)(psalters_count)}
+            onChangeText={input_text_handler(props)}
             value={value}
             autoCorrect={false}
             underlineColorAndroid={'transparent'}
@@ -322,10 +376,11 @@ const Bottom_Buttons = (props) => {
 
     return (
         <View style={styles.more_stuff_bottom_buttons_container}>
-            {Rounded_Button(
+            <Rounded_Button on_press={action} screen_width={props.width} user_settings={props.user_settings}>
                 <Default_Text text_align={'center'}>
                     I'm Done
-                </Default_Text>)(action)(props.width)}
+                </Default_Text>
+            </Rounded_Button>
         </View>
 
     );
@@ -335,13 +390,13 @@ const more_info_section_key_extractor = (item, index) => `more-info-section-${it
 
 const ref_text_comp = (psalm) => ({ v, refs }, i) => {
     return (
-        <TouchableHighlight key={`ref-line-${i}`}>
+        <View key={`ref-line-${i}`}>
             <View>
                 <Default_Text >
                     {`${i + 1}. ${psalm}:${v} - ${refs}`}
                 </Default_Text>
             </View>
-        </TouchableHighlight>
+        </View>
     );
 };
 
@@ -351,11 +406,27 @@ const psalter_refs_section = ({ item, index }) => {
 
     const texts = Array.isArray(item.text_array)
         ? item.text_array.map(ref_text_comp(psalm))
-        : normal_text('default')(`ref-line-${index}`)()(`${psalm} - ${item.text_array}`);
+        : (
+            <Default_Text
+                text_align={'center'}
+                font_weight={'normal'}
+                line_height={1.3}
+                font_size={'default'}
+                key={`ref-line-${index}`}
+            >
+                {psalm} - {item.text_array}
+            </Default_Text>
+        );
 
     return (
         <View style={styles.more_info_section_container}>
-            {main_title_2(title)}
+            <Default_Text 
+                text_align={'center'}
+                font_weight={'bold'}
+                font_size={'x_large'}
+            >
+                {title}
+            </Default_Text>
             <View style={styles.ref_text_container}>
                 {texts}
             </View>
@@ -366,15 +437,21 @@ const psalter_refs_section = ({ item, index }) => {
 const count_section = ({ item }) => {
     const { title } = item;
 
-    if (!is_present_type('string')(title)) return null;
+    if (!is_string(title)) return null;
     return (
         <View style={styles.more_info_section_container}>
-            {main_title_2(item.title)}
+            <Default_Text 
+                text_align={'center'}
+                font_weight={'bold'}
+                font_size={'x_large'}
+            >
+                {item.title}
+            </Default_Text>
         </View>
     );
 };
 
-const music_section = (music_slider) => ({ item, index }) => {
+const music_section = (music_slider, user_settings) => ({ item, index }) => {
     if (!Array.isArray(item.sources)) return null;
     if ((typeof item.sources[0] !== 'string') || item.sources[0].length < 1) return null;
 
@@ -385,7 +462,13 @@ const music_section = (music_slider) => ({ item, index }) => {
     return (music_slider_array.length > 0)
         ? (
             <View >
-                {main_title_2(item.title)}
+                <Default_Text 
+                    text_align={'center'}
+                    font_weight={'bold'}
+                    font_size={'x_large'}
+                >
+                    {item.title}
+                </Default_Text>
                 {music_slider_array}
             </View>
         )
@@ -405,13 +488,13 @@ const More_Stuff_Section_List = (props) => {
                     sources: [psalter_music_source],
                 }
             ],
-            renderItem: music_section(props.music_slider),
+            renderItem: music_section(props.music_slider, props.user_settings),
             keyExtractor: more_info_section_key_extractor
         }
         , {
             data: [
                 {
-                    title: is_present_type('number')(props.sung_count) ? `Count: ${props.sung_count}` : ''
+                    title: is_number(props.sung_count) ? `Count: ${props.sung_count}` : ''
                 }
             ],
             renderItem: count_section,
@@ -435,8 +518,7 @@ const More_Stuff_Section_List = (props) => {
     const slide_down_view_dynamic_style = {
         width,
         height: height + statusBarHeight,
-        bottom: -statusBarHeight,
-        
+        bottom: Platform.OS === 'android' ? -statusBarHeight : 0,
         transform: [
             {
                 translateY: props.more_section_slide_position
@@ -448,7 +530,7 @@ const More_Stuff_Section_List = (props) => {
         <Animated.View style={[styles.slide_down_view_style, slide_down_view_dynamic_style]}>
             <SectionList ListHeaderComponent={more_stuff_list_header} style={[styles.more_section_list]}
                 sections={sections} />
-            <Bottom_Buttons width={width} />
+            <Bottom_Buttons width={width} user_settings={props.user_settings} />
         </Animated.View>
     );
 };
@@ -458,20 +540,17 @@ const count_fn = () => {
     let current_no = 0;
     let timeout;
 
-    const add_count = (dispatch) => (Date) => (psalter_no) => (psalter_sung_dates) => {
-
+    const add_count = ({dispatch, psalter, sung_dates}, Date) => {
+        const psalter_no = psalter.no;
         if (psalter_no !== null && psalter_no !== undefined && psalter_no !== current_no) {
-            if (is_present_type('number')(timeout)) clearTimeout(timeout);
+            if (is_number(timeout)) clearTimeout(timeout);
             current_no = psalter_no;
             timeout = setTimeout(() => {
-                // add count and set count
-                /**
-                 * []**/
-                const sung_dates_array = [Date.now(), ...psalter_sung_dates];
+                const sung_dates_array = [Date.now(), ...sung_dates];
 
                 AsyncStorage.setItem(`psalter-${psalter_no}`, JSON.stringify(sung_dates_array)).then((err) => {
                     if (!err) {
-                        dispatch(set_sung_date(psalter_no)(sung_dates_array));
+                        dispatch(set_sung_date(psalter_no, sung_dates_array));
                     }
                 });
 
@@ -495,36 +574,35 @@ const counter = count_fn();
 const add_count = counter.add_count;
 
 
-const search_results_animation = slide_side_animation(100)(18)(Dimensions.get('window').width * -1.2);
+const search_results_animation = slide_side_animation(100, 18, Dimensions.get('window').width * -1.2);
 const slide_right_pos = search_results_animation.animated_value;
 
-const set_text_input_as_search = (dispatch) => (text_input_as_search) => () => {
+const set_text_input_as_search = (dispatch, text_input_as_search) => () => {
     if (typeof text_input_as_search !== "boolean") return;
     return dispatch(set_input_as_search(!text_input_as_search));
 };
 
-const on_search_button_press = (dispatch) => (text_input_as_search) => (slide_right_pos) => () => {
-    // search_results_animation.slide();
-    set_text_input_as_search(dispatch)(text_input_as_search)();
+const on_search_button_press = (dispatch, text_input_as_search) => () => {
+    set_text_input_as_search(dispatch, text_input_as_search)();
     setTimeout(search_results_animation.slide, 100);
     set_keyboard_toolbar(text_input_as_search);
 };
 
-const get_psalter_for_search = (dispatch) => (input_int) => () => {
-    on_search_button_press(dispatch)(true)(slide_right_pos)();
+const get_psalter_for_search = (dispatch, input_int) => () => {
+    on_search_button_press(dispatch, true)();
     on_psalter_change(dispatch, input_int)();
 };
 
 const used_the_wrong_text_input_regex = /^\d{1,3}$/;
 
-const search_fn = (dispatch) => (search_action) => (event) => {
+const search_fn = (dispatch) => (event) => {
     const text = event.nativeEvent.text.trim();
 
     if (used_the_wrong_text_input_regex.test(text)) {
         perhaps_change_to_psalter_input_alert(text)
     }
 
-    dispatch(search_action(text));
+    dispatch(search_psalter(text));
 };
 
 
@@ -532,7 +610,7 @@ const Text_input_search = (props) => {
     const should_autofocus = !(Array.isArray(props.search_results) && props.search_results.length > 0);
     return (
         <TextInput placeholder={`SEARCH`}
-            onEndEditing={search_fn(props.dispatch)(search_psalter)}
+            onEndEditing={search_fn(props.dispatch)}
             onChangeText={() => {
             }}
             placeholderTextColor={colors.grey}
@@ -570,18 +648,24 @@ const Search_result_view = (props) => {
 
         return (
             <View style={{ marginTop: sizes.medium }}>
-                {main_title_2(`${search_results_count} Search Results`)}
+                <Default_Text 
+                    text_align={'center'}
+                    font_weight={'bold'}
+                    font_size={'x_large'}
+                >
+                    {search_results_count} Search Results
+                </Default_Text>
             </View>
         );
     };
 
-    const search_result = (dispatch) => (navigator) => ({ item, index }) => {
+    const search_result = ({dispatch, user_settings}) => ({ item, index }) => {
         const text = item.search_result.map(({ text, style }, i) => {
             const key = `search-result-${index}-${i}`;
             const font_weight = (style === 'bold') ? 'bold' : 'normal';
             const color = (style === 'bold')
                 ? {
-                    color: colors.blue
+                    color: user_tint_color(user_settings)
                 }
                 : undefined;
 
@@ -589,34 +673,34 @@ const Search_result_view = (props) => {
         });
 
         return (
-            <TouchableHighlight style={{ marginVertical: sizes.large, marginHorizontal: sizes.large }}
-                onPress={get_psalter_for_search(dispatch)(item.index)}>
+            <TouchableOpacity style={{ marginVertical: sizes.large, marginHorizontal: sizes.large }}
+                onPress={get_psalter_for_search(dispatch, item.index)}>
                 <View >
                     <Default_Text font_size={font_sizes.large} text_align={'center'}>{item.title}</Default_Text>
                     <Default_Text>
                         {text}
                     </Default_Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     };
 
     const search_results_key_extractor = (item, index) => `search-results-${index}`;
     const search_results_separator = (width) => ({ highlighter }) => <View
-        style={[styles.search_results_separator, { width: Math.floor(width * 0.5) }]} />;
+        style={[styles.search_results_separator, { backgroundColor: props.user_settings.tint_color || colors.dark_cerulean, width: Math.floor(width * 0.5) }]} />;
 
     return (<Animated.View style={[styles.search_results_view, search_results_view_dynamic_style]}>
         <FlatList ListHeaderComponent={<Search_r_view_header search_results={props.search_results} />}
             data={props.search_results}
-            renderItem={search_result(props.dispatch)(props.navigator)}
+            renderItem={search_result(props)}
             keyExtractor={search_results_key_extractor}
             ItemSeparatorComponent={search_results_separator(width)} />
 
     </Animated.View>)
 };
 
-const on_bible_tab_select = (dispatch) => (psalm) => () => {
-    dispatch(get_bible_passage(18)(psalm - 1));
+const on_bible_tab_select = ({dispatch, psalter}) => {
+    dispatch(get_bible_passage(18, psalter.psalm - 1));
 };
 
 const on_pdf_tab_select = () => {
@@ -627,11 +711,6 @@ const on_action = (actions_array) => () => {
     actions_array.map((action) => action());
 };
 
-const longPressFns = long_press_actions();
-
-// const heartbeat = (navigator) => {
-//     // setInterval(hide_tabs_action(navigator), 3000)
-// };
 
 const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
 
@@ -672,7 +751,7 @@ const repopulateDataFiles = (instance) => (keyJsonStringsMapped) => {
 
 const key_is_bible = key => key === 'Bible-KJV';
 
-const get_bible_storage_keys_content = (key) => (bible_string) => {
+const get_bible_storage_keys_content = (key, bible_string) => {
     const divisions = 4;
     const segment_length = ~~(bible_string.length / divisions);
     const slice_index = Array.from({ length: divisions }, (_, i) => i * segment_length);
@@ -707,7 +786,7 @@ const get_online_version_compare_and_update_data = (local_version) => (online_ve
 
                         const bible_key_index = update_keys.findIndex(key_is_bible);
                         if (~bible_key_index) {
-                            const bible_storage_keys_content = get_bible_storage_keys_content(update_keys[bible_key_index])(responses[bible_key_index]);
+                            const bible_storage_keys_content = get_bible_storage_keys_content(update_keys[bible_key_index], responses[bible_key_index]);
                             key_responses_to_save = key_responses_to_save.concat(bible_storage_keys_content);
                         }
 
@@ -739,11 +818,108 @@ const get_version_file_compare_and_save_updated = () => {
         .catch(console.error)
 };
 
-const save_informed_of_connection = () => {
-    return AsyncStorage.setItem('informed_connection', '1')
+const Stanza_Selector_Styles = StyleSheet.create({
+        container: {
+            position: 'absolute',
+            right: 0,
+            maxHeight: 40,
+            minHeight: 40,
+            height: 40,
+            alignItems: 'flex-end'
+        },
+        buttons_container: {
+            paddingHorizontal: 4, 
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(255, 255, 255, .3)',
+        },
+        button: {
+            borderRadius: 20,
+            justifyContent: 'center',
+            paddingVertical: 6,
+            paddingHorizontal: 12,
+            backgroundColor: colors.dark_cerulean
+        }
+    });
+
+const Stanza_Selector = ({stanzas_data, on_stanza_select, user_settings}) => {
+    const windowWidth = Dimensions.get('window').width
+    const tab_bar_height = Navigation.constantsSync().bottomTabsHeight;
+    return (
+        <View
+            style={[
+                Stanza_Selector_Styles.container,
+                {
+                    bottom: 55 + tab_bar_height,
+                    width: Dimensions.get('window').width
+                }
+            ]}
+        >
+                    
+            <FlatList 
+                data={stanzas_data}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                ListHeaderComponent={<View></View>}
+                ListHeaderComponentStyle={{width: windowWidth * 1/ 3}}
+                renderItem={({ item, index }) => {
+                    const radius = 20;
+                    const front_style = index === 0
+                        ? {
+                            borderTopLeftRadius: radius,
+                            borderBottomLeftRadius: radius,
+                            paddingLeft: 16
+                        }
+                        : null
+                    const end_style = index === stanzas_data.length - 1
+                        ? {
+                            borderTopRightRadius: radius,
+                            borderBottomRightRadius: radius,
+                            paddingRight: 16
+                        }
+                        : null
+                    return (
+                        <View style={[Stanza_Selector_Styles.buttons_container, front_style, end_style]}>
+                            <Pressable onPress={on_stanza_select(index)} style={({pressed}) => {
+                                let opacity = 1
+                                if (!item.visible) {
+                                    opacity = 0.5
+                                }
+
+                                if (pressed) {
+                                    opacity = 0.8
+                                }
+                                return [Stanza_Selector_Styles.button, {
+                                    opacity,
+                                    backgroundColor: user_settings.background_color
+                                }]
+                            }}>
+                                <Default_Text
+                                    style={{color: user_settings.font_color}}
+                                    text_align={'center'}
+                                    font_size={font_sizes.small} 
+                                >
+                                    {item.label}
+                                </Default_Text>
+                            </Pressable>
+                        </View>
+                    )
+                }}
+            />
+        </View>
+    );
 };
-// AsyncStorage.removeItem('informed_connection'); // remove when over
-const get_informed_of_connection = () => AsyncStorage.getItem('informed_connection');
+
+const make_stanza_data = ({visible}) => {
+    if (!visible || !visible.length) return;
+    let stanzas_data = Array(visible.length + 1);
+    stanzas_data[0] = {label: 'All', visible: visible.every((x) => x)};
+    for (let i = 0; i < visible.length; i++) {
+        stanzas_data[i + 1] = {label: `${i + 1}`, visible: visible[i]};
+    }
+
+    return stanzas_data;
+}
 
 /**
  *
@@ -752,22 +928,43 @@ const get_informed_of_connection = () => AsyncStorage.getItem('informed_connecti
  * **/
 let shakeSubscription;
 let bottomTabEventListener;
+let is_component_mounted = false;
 class App extends Component {
     constructor(props) {
         super(props);
-        set_keyboard_toolbar(true);
+
+        AsyncStorage.getItem(font_size_key)
+            .then(font_size => {
+                composer([
+                    parseFloat,
+                    set_new_font_size
+                    , props.dispatch
+                ])(font_size);
+            })
+
+        AsyncStorage.getItem(user_settings_key)
+            .then(settings => {
+                if (!settings) return;
+                try {
+                    const settings_obj = JSON.parse(settings);
+                    
+                    props.dispatch(set_new_user_settings(settings_obj))
+                } catch (error) {
+                    console.error(error);
+                }
+            })
     }
     
     componentDidMount() {
+        is_component_mounted = true;
         bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener(({ selectedTabIndex, unselectedTabIndex }) => {
             if (unselectedTabIndex === 0) {
                 if (selectedTabIndex === 1) {
                     on_pdf_tab_select()
                 } else if (selectedTabIndex === 3) {
-                    const on_bible_tab_select_loaded = is_present_type('number')(this.props.psalter.psalm)
-                        ? on_bible_tab_select(this.props.dispatch)(this.props.psalter.psalm)
-                        : no_op;
-                    on_bible_tab_select_loaded();
+                    if (is_number(this.props.psalter.psalm)) {
+                        on_bible_tab_select(this.props)
+                    }
                 } else if (selectedTabIndex !== 0) {
                     counter.clear_timeout();
                 }
@@ -775,15 +972,6 @@ class App extends Component {
         });
 
 // Unsubscribe
-
-        AsyncStorage.getItem(font_size_key)
-            .then(font_size => {
-                composer([
-                    parseFloat,
-                    set_new_font_size
-                    , this.props.dispatch
-                ])(font_size);
-            })
 
         const RNShake = require('react-native-shake').default;
         const storage_psalter_key = 'PsalterJSON';
@@ -801,7 +989,7 @@ class App extends Component {
 
                 AsyncStorage.multiGet(count_all_keys_array).then((arr) => {
                     const arr_w_value = arr
-                        .filter(([key, value]) => is_present_type('string')(value))
+                        .filter(([key, value]) => is_string(value))
                         .map(([key, value]) => [key, JSON.parse(value)]);
 
                     this.props.dispatch(set_sung_count_all(arr_w_value || []));
@@ -822,16 +1010,17 @@ class App extends Component {
 
         // heartbeat(this.props.navigator);
 
-        get_informed_of_connection().then((informed) => {
+        AsyncStorage.getItem('informed_connection').then((informed) => {
             if (!informed) {
                 new_over_the_air_update_alert(() => {
-                    save_informed_of_connection();
+                    AsyncStorage.setItem('informed_connection', '1')
                     get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
                 })
             } else {
                 get_version_file_compare_and_save_updated().then(repopulateDataFiles(this));
             }
         });
+        set_keyboard_toolbar(true);
     }
 
 
@@ -839,12 +1028,6 @@ class App extends Component {
         shakeSubscription && shakeSubscription.remove()
         bottomTabEventListener && bottomTabEventListener.remove();
     }
-
-    // Keyboard.addListener('keyboardDidShow', keyboard_did_show);
-    // Keyboard.addListener('keyboardDidHide', keyboard_did_hide);
-
-    //<KeyboardAvoidingView behavior={'position'}
-    //keyboardVerticalOffset={64} >
 
     render() {
         const {
@@ -857,32 +1040,24 @@ class App extends Component {
             , psalter_text_input
             , valid_text_input
             , sung_dates
-            , current_music_timer
-            , max_music_timer
             , text_input_as_search
             , psalter_search_results
-            , tab_bar_selected_index
             , text_font_size
             , copy_share_btn_props
+            , user_settings
         } = this.props;
 
-        // const hide_tabs_action_loaded = hide_tabs_action(navigator);
-        // hide_tabs_action_loaded();
+        is_component_mounted && set_navigation_colors(this.props.componentId, this.props.user_settings)
 
-        add_count(dispatch)(Date)(psalter.no)(sung_dates);
+        add_count(this.props, Date);
 
-        const music_slider_w_data = music_slider(dispatch)(current_music_timer)(max_music_timer);
+        const music_slider_w_data = music_slider(this.props);
 
         const num_input_set_can_search_w_dispatch = num_input_set_can_search(dispatch);
 
         const num_input_on_blur_actions_array = [
-            // hide_tabs_action_loaded
             num_input_set_can_search_w_dispatch(true)
         ];
-
-        const scroll_swipe_actions_loaded = Platform.OS === 'android'
-            ? scroll_swipe_actions(on_psalter_change(dispatch, index + 1))(on_psalter_change(dispatch, index - 1))
-            : no_op;
 
         const get_text_input = (text_input_as_search) => {
             if (Platform.OS === 'ios') {
@@ -918,41 +1093,21 @@ class App extends Component {
 
         const set_font_size_wo_font_size = set_font_size(dispatch);
 
-        const one_third_screen_width = Math.round(Dimensions.get('window').width / 3);
-
         const [swipe_prev_action, swipe_next_action] = [-1, 1].map((change_by) => on_psalter_change(dispatch, index + change_by));
-        const touch_release_actions_loaded = touch_release_actions(swipe_prev_action)(swipe_next_action)(longPressFns.onPanResponderRelease())(one_third_screen_width);
 
         const set_copy_share_btn_props_loaded = set_copy_share_btn_props(dispatch);
-        const touch_actions = PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderGrant: longPressFns.onPanResponderGrant(),
-            onPanResponderMove: longPressFns.onPanResponderMove((e) => {
-                set_copy_share_btn_props_loaded({
-                    top: e.nativeEvent.pageY
-                    , left: e.nativeEvent.pageX
-                    , isHidden: false
-                });
-            })(() => {
-                if (!copy_share_btn_props.isHidden) {
-                    set_copy_share_btn_props_loaded();
-                }
-            }),
-            onPanResponderRelease: touch_release_actions_loaded
-        });
 
         const Floating_Header = _Floating_Header(this.props);
 
         const More_Stuff_Section_List_Component = (
             <More_Stuff_Section_List
+                    user_settings={this.props.user_settings}
                     dispatch={dispatch}
-                    navigator={navigator}
-                    more_section_slide_position={more_section_slide_position}
+                    more_section_slide_position={more_section_slide_animation.animated_value}
                     psalter_refs={psalter.ref}
                     psalm={psalter.psalm}
                     psalter_no={psalter.no}
-                    sung_count={is_present_type('array')(sung_dates) ? sung_dates.length : NaN}
+                    sung_count={is_array(sung_dates) ? sung_dates.length : NaN}
                     music_slider={music_slider_w_data} />
             );
 
@@ -960,35 +1115,62 @@ class App extends Component {
             children: More_Stuff_Section_List_Component
         });
 
-        return (
-            <Default_Bg>
-                {/* {More_Stuff_Section_List_Component} */}
+        const stanzas_data = make_stanza_data(this.props);
 
+        const on_stanza_select = (index) => () => {
+            dispatch(toggle_stanza_visible(index, stanzas_data[0]?.visible));
+        };
+        
+        const pinch = pinch_text_gesture(on_pinch_text_size(this.props));        
+        const swipe = swipe_gesture(swipe_next_action, swipe_prev_action);
+        const long_press = long_press_gesture(set_copy_share_btn_props_loaded);
+
+        const gestures = Gesture.Race(pinch, swipe, long_press);
+
+        return (
+            <Default_Bg user_settings={user_settings}>
                 <Search_result_view search_results={psalter_search_results}
+                    user_settings={user_settings}
                     dispatch={dispatch}
                     navigator={navigator} />
+                <GestureDetector gesture={gestures}>
+                    <FlatList data={psalter.content}
+                        scrollEventThrottle={300}
+                        onScroll={flatlist_on_scroll(this.props)}
+                        ListHeaderComponent={header(this.props, psalter_text_fade_anim.fade_opacity)}
+                        renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity, this.props)}
+                        ListFooterComponent={<View></View>}
+                        ListFooterComponentStyle={{height: 40}}
+                        keyExtractor={psalter_key_extractor}
+                        onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
+                        ref={ref => main_view_ref = ref}
+                        contentInsetAdjustmentBehavior={"never"}
+                        />
+                </GestureDetector>
 
-                <FlatList data={psalter.content}
-                    scrollEventThrottle={300}
-                    onScroll={flatlist_on_scroll(this.props)}
-                    ListHeaderComponent={header(this.props)(psalter_text_fade_anim.fade_opacity)(psalter)(index)(text_font_size)}
-                    renderItem={render_psalter_text(psalter_text_fade_anim.fade_opacity)(text_font_size)}
-                    keyExtractor={psalter_key_extractor}
-                    onScrollBeginDrag={flatlist_on_scroll_begin(this.props)}
-                    onScrollEndDrag={scroll_swipe_actions_loaded}
-                    ref={ref => main_view_ref = ref}
-                    contentInsetAdjustmentBehavior={"never"}
-                    {...touch_actions.panHandlers} />
+                {
+                    stanzas_data && (
+                        <Stanza_Selector
+                            user_settings={this.props.user_settings}
+                           stanzas_data={stanzas_data}
+                           on_stanza_select={on_stanza_select} />
+                    )
+                }
 
                 {Floating_Header}
 
-                <FontSlider value={text_font_size} onSlidingComplete={set_font_size_wo_font_size} />
+                <FontSlider 
+                    value={text_font_size} 
+                    onSlidingComplete={set_font_size_wo_font_size}
+                    user_settings={this.props.user_settings}
+                />
 
                 {!copy_share_btn_props.isHidden &&
                     (<Copy_Share_Tooltip
+                        user_settings={this.props.user_settings}
                         onPress={() => {
                             set_copy_share_btn_props_loaded();
-                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER));
+                            Navigation.showModal(show_misc_actions_modal_obj(MISC_ACTION_TEXT_TYPES.PSALTER, this.props.user_settings));
                         }}
                         onCancel={() => {
                             set_copy_share_btn_props_loaded();
@@ -1009,20 +1191,20 @@ class App extends Component {
 
                     {get_text_input(text_input_as_search)}
 
-                    <TouchableHighlight style={styles.bottom_button_container}
-                        onPress={on_search_button_press(dispatch)(text_input_as_search)(slide_right_pos)}
-                        underlayColor={colors.dark_cerulean}
+                    <TouchableOpacity style={styles.bottom_button_container}
+                        onPress={on_search_button_press(dispatch, text_input_as_search)}
                         disabled={!can_search}>
                         {(can_search)
                             ? <Image style={styles.button_std}
+                                tintColor={this.props.user_settings.tint_color}
                                 source={require('../../../images/icons/icon-search.png')} />
 
                             : <Image style={styles.button_std}
                                 source={require('../../../images/icons/icon-search-grey.png')} />
                         }
-                    </TouchableHighlight>
+                    </TouchableOpacity>
 
-                    <TouchableHighlight style={styles.bottom_button_container}
+                    <TouchableOpacity style={styles.bottom_button_container}
                         onPress={() => {
                             Navigation.showOverlay({
                                 component: {
@@ -1037,10 +1219,10 @@ class App extends Component {
                                 more_section_slide();
                             }, 50);
                         }}
-                        underlayColor={colors.dark_cerulean}>
-                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')} />
+                        >
+                        <Image style={styles.button_std} source={require('../../../images/icons/icon-info.png')} tintColor={this.props.user_settings.tint_color} />
 
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </Default_Bg>
         );
@@ -1053,6 +1235,7 @@ function mapStateToProps(state) {
         psalter: state.psalter.content
         , index: state.psalter.index
         , psalters_count: state.psalter.psalters_count
+        , visible: state.psalter.visible
         // state reducer
         , can_search: state.psalter_can_search
         , psalter_text_input: state.psalter_text_input
@@ -1063,6 +1246,7 @@ function mapStateToProps(state) {
         , max_music_timer: state.music_timer.max
         , text_input_as_search: state.text_input_as_search
         , text_font_size: state.text_font_size
+        , user_settings: state.user_settings
         , copy_share_btn_props: state.copy_share_btn_props
         , scroll_details: state.psalter_scroll_details
         //search reducer

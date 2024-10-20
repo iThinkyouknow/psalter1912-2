@@ -61,18 +61,18 @@ export const font_weights = {
     ultralight: '100'
 };
 
-export const font_weight_fn = (weight) => {
-    const font_weight = (_font_weights) => (_weight) => {
-        if (_font_weights[_weight] !== undefined && _font_weights[_weight] !== null) {
-            return _font_weights[_weight];
+const font_weight = (_font_weights, _weight) => {
+    if (_font_weights[_weight] !== undefined && _font_weights[_weight] !== null) {
+        return _font_weights[_weight];
 
-        } else if (!isNaN(_weight)) {
-            return _weight;
-        }
-    };
+    } else if (!isNaN(_weight)) {
+        return _weight;
+    }
+};
+export const font_weight_fn = (weight) => {
 
     return {
-        fontWeight: font_weight(font_weights)(weight)
+        fontWeight: font_weight(font_weights, weight)
     }
 };
 
@@ -91,37 +91,29 @@ export const font_sizes = {
 };
 
 export const font_size_fn = (size) => {
-
-    const font_size = (_font_sizes) => (_size) => {
-        if (_font_sizes[_size] !== undefined && _font_sizes[_size] !== null) {
-            return _font_sizes[_size];
-        } else if (!isNaN(_size)) {
-            return _size;
-        }
-    };
-
-    return {
-        fontSize: font_size(font_sizes)(size)
-    };
+    if (font_sizes[size] !== undefined && font_sizes[size] !== null) {
+        return {fontSize: font_sizes[size]};
+    } else if (!isNaN(size)) {
+        return {fontSize: size};
+    }
 };
 
 export const line_heights = {
     default: 1.3
 };
 
-export const line_height_fn = (line_height) => (font_size) => {
+const get_value = (presets, val) => {
+    if (!isNaN(val)) return val;
+    if (typeof val === 'string') {
+        return presets[val];
+    }
 
-    const get_value = (presets) => (val) => {
-        if (!isNaN(val)) return val;
-        if (typeof val === 'string') {
-            return presets[val];
-        }
+    return presets['default'];
+};
 
-        return presets['default'];
-    };
-
-    const _line_height = get_value(line_heights)(line_height);
-    const _f_size      = get_value(font_sizes)(font_size);
+export const line_height_fn = (line_height, font_size) => {
+    const _line_height = get_value(line_heights, line_height);
+    const _f_size      = get_value(font_sizes, font_size);
 
     return (_line_height !== undefined && _f_size !== undefined) ? {lineHeight: Math.round(_line_height * _f_size)} : undefined;
 };
@@ -167,3 +159,17 @@ export const buttons = {
     xxx_large: 48,
     xxxx_large: 52
 };
+
+export const user_font_color = ({font_color}) => {
+    return {
+        color: font_color || colors.white
+    }
+};
+
+export const user_tint_color = ({tint_color}) => {
+    return tint_color || colors.blue;
+}
+
+export const padding_top_style_android = Platform.OS === 'android'
+    ? 5 * sizes.large + native_elements.status_bar
+    : 0;
